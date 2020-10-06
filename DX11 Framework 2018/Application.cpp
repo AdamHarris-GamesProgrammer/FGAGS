@@ -60,6 +60,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_WindowWidth = rc.right - rc.left;
 	_WindowHeight = rc.bottom - rc.top;
 
+	
+
 	//if failed to init the window return a fail
 	if (FAILED(InitDevice()))
 	{
@@ -68,8 +70,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 	}
 
-	// Initialize the world matrix
-	XMStoreFloat4x4(&_world, XMMatrixIdentity());
 
 	// Initialize the view matrix
 	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
@@ -80,6 +80,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	// Initialize the projection matrix
 	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
+	
+	
 
 	return S_OK;
 }
@@ -151,76 +153,11 @@ HRESULT Application::InitShadersAndInputLayout()
 
 HRESULT Application::InitVertexBuffer()
 {
-
-	// Create vertex buffer
-	SimpleVertex vertices[] =
-	{
-		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT4(1.0f,0.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT4(0.0f,0.0f,0.0f,1.0f)	}
-	};
-
-	HRESULT hr;
-
-	//Sets up the buffer description
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(vertices);
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = vertices;
-
-	hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pVertexBuffer);
-
-	if (FAILED(hr))
-		return hr;
-
 	return S_OK;
 }
 
 HRESULT Application::InitIndexBuffer()
 {
-	HRESULT hr;
-
-	// Create index buffer
-	WORD indices[] =
-	{
-		0,2,1, 2,3,1,
-		1,3,5, 3,7,5,
-		2,6,3, 3,6,7,
-		4,5,7, 4,7,6,
-		0,4,2, 2,4,6,
-		0,1,4, 1,5,4
-	};
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(indices);
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = indices;
-	hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pIndexBuffer);
-
-
-	if (FAILED(hr))
-		return hr;
-
 	return S_OK;
 }
 
@@ -346,6 +283,8 @@ HRESULT Application::InitDevice()
 	if (FAILED(hr))
 		return hr;
 
+	cube = new Cube(_pd3dDevice, _pVertexBuffer, _pIndexBuffer);
+
 	// Create a render target view
 	ID3D11Texture2D* pBackBuffer = nullptr;
 	hr = _pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
@@ -373,14 +312,16 @@ HRESULT Application::InitDevice()
 
 	InitShadersAndInputLayout();
 
-	InitVertexBuffer();
+	//InitVertexBuffer();
+	cube->SetupVertices();
 
 	// Set vertex buffer
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
 	_pImmediateContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &stride, &offset);
 
-	InitIndexBuffer();
+	//InitIndexBuffer();
+	cube->SetupIndices();
 
 	// Set index buffer
 	_pImmediateContext->IASetIndexBuffer(_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
@@ -439,8 +380,10 @@ void Application::Update()
 		t = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
 
-	XMStoreFloat4x4(&_world, XMMatrixScaling(.3f, .3f, .3f) * XMMatrixRotationX(t) * XMMatrixRotationZ(t));
-	XMStoreFloat4x4(&_world2, XMMatrixScaling(.3f, .3f, .3f) * XMMatrixRotationY(t) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f));
+	//TODO: Set transformation matrices for cubes
+	cube->SetMatrix(XMMatrixRotationY(t));
+	cube->Update();
+
 }
 
 void Application::Draw()
@@ -450,12 +393,11 @@ void Application::Draw()
 	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
 
 
-	XMMATRIX world = XMLoadFloat4x4(&_world);
+	XMMATRIX world = XMLoadFloat4x4(&cube->GetPosition());
 	XMMATRIX view = XMLoadFloat4x4(&_view);
 	XMMATRIX projection = XMLoadFloat4x4(&_projection);
-	//
+
 	// Update variables
-	//
 	ConstantBuffer cb;
 	cb.mWorld = XMMatrixTranspose(world);
 	cb.mView = XMMatrixTranspose(view);
@@ -463,24 +405,23 @@ void Application::Draw()
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-	//
-	// Renders a triangle
-	//
+	// Renders a cube
 	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
-
-	world = XMLoadFloat4x4(&_world2);
-	cb.mWorld = XMMatrixTranspose(world);
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
 
 	_pImmediateContext->DrawIndexed(36, 0, 0);
 
-	//
+
+	//world = XMLoadFloat4x4(&cube->GetPosition());
+	//cb.mWorld = XMMatrixTranspose(world);
+	//_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+
+
+	//_pImmediateContext->DrawIndexed(36, 0, 0);
+
 	// Present our back buffer to our front buffer
-	//
 	_pSwapChain->Present(0, 0);
 }

@@ -383,7 +383,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Cube.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="Structs.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
   <ItemGroup>
