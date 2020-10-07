@@ -40,6 +40,9 @@ private:
 	ID3D11Buffer*           _pIndexBuffer;
 	ID3D11Buffer*           _pConstantBuffer;
 
+	ID3D11RasterizerState* _wireFrame;
+	ID3D11RasterizerState* _solid;
+
 	ID3D11DepthStencilView* _depthStencilView;
 	ID3D11Texture2D* _depthStencilBuffer;
 

@@ -362,6 +362,18 @@ HRESULT Application::InitDevice()
 	_pd3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &_depthStencilBuffer);
 	_pd3dDevice->CreateDepthStencilView(_depthStencilBuffer, nullptr, &_depthStencilView);
 
+	D3D11_RASTERIZER_DESC wfdesc;
+	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
+	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
+	wfdesc.CullMode = D3D11_CULL_NONE;
+	hr = _pd3dDevice->CreateRasterizerState(&wfdesc, &_wireFrame);
+
+	D3D11_RASTERIZER_DESC sodesc;
+	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
+	sodesc.FillMode = D3D11_FILL_SOLID;
+	sodesc.CullMode = D3D11_CULL_BACK;
+	hr = _pd3dDevice->CreateRasterizerState(&sodesc, &_solid);
+
 	// Create a render target view
 	ID3D11Texture2D* pBackBuffer = nullptr;
 	hr = _pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
@@ -438,6 +450,8 @@ void Application::Cleanup()
 	if (_pd3dDevice) _pd3dDevice->Release();
 	if (_depthStencilView) _depthStencilView->Release();
 	if (_depthStencilBuffer) _depthStencilBuffer->Release();
+	if (_wireFrame) _wireFrame->Release();
+	if (_solid) _solid->Release();
 }
 
 void Application::Update()
@@ -464,21 +478,21 @@ void Application::Update()
 	XMStoreFloat4x4(&_world, XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(t) * XMMatrixTranslation(0.0f,0.0f,0.0f));
 	
 	//Planet 1
-	XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f,0.1f,0.1f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
-	XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f,0.1f,0.1f) * XMMatrixRotationY(t * 4.0f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(t * 7.0f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t));
 
 
 	//Planet 2
-	XMStoreFloat4x4(&_world3, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixTranslation(2.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
-	//							Scales moon size						Translates to near the planet		rotates around sun			moves it into orbit					rotates around the planet
-	XMStoreFloat4x4(&_world5, XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixTranslation(2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t) * XMMatrixTranslation(3.3f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world3, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(t * 2.0f) * XMMatrixTranslation(2.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	//							Scales moon size					Rotates moon					Translates to near the planet		rotates around sun			moves it into orbit					rotates around the planet
+	XMStoreFloat4x4(&_world5, XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t) * XMMatrixTranslation(3.3f, 0.0f, 0.0f) * XMMatrixRotationY(t));
 
 }
 
 void Application::Draw()
 {
 	// Clear the back buffer, sets the background colour 
-	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red,green,blue,alpha
+	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red,green,blue,alpha
 	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
 
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -486,9 +500,8 @@ void Application::Draw()
 	XMMATRIX world = XMLoadFloat4x4(&_world);
 	XMMATRIX view = XMLoadFloat4x4(&_view);
 	XMMATRIX projection = XMLoadFloat4x4(&_projection);
-	//
+	
 	// Update variables
-	//
 	ConstantBuffer cb;
 	cb.mWorld = XMMatrixTranspose(world);
 	cb.mView = XMMatrixTranspose(view);
@@ -496,14 +509,19 @@ void Application::Draw()
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-	//
-	// Renders a triangle
-	//
+
+
+	// Renders the "sun"
+	_pImmediateContext->RSSetState(_solid);
+
 	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
 	_pImmediateContext->DrawIndexed(36, 0, 0);
+
+	_pImmediateContext->RSSetState(_wireFrame);
+
 
 	world = XMLoadFloat4x4(&_world2);
 	cb.mWorld = XMMatrixTranspose(world);
@@ -525,8 +543,6 @@ void Application::Draw()
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 	_pImmediateContext->DrawIndexed(36, 0, 0);
 
-	//
 	// Present our back buffer to our front buffer
-	//
 	_pSwapChain->Present(0, 0);
 }
