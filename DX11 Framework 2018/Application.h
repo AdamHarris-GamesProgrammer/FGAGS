@@ -40,7 +40,11 @@ private:
 	ID3D11Buffer*           _pIndexBuffer;
 	ID3D11Buffer*           _pConstantBuffer;
 
-	XMFLOAT4X4              _world, _world2;
+	ID3D11DepthStencilView* _depthStencilView;
+	ID3D11Texture2D* _depthStencilBuffer;
+
+	//_world 1: sun, _world2: first planet, _world3 second planet, _world4 first planet moon, _world5 second planet moon
+	XMFLOAT4X4              _world, _world2, _world3, _world4, _world5;
 	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
 
