@@ -72,7 +72,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	XMStoreFloat4x4(&_world, XMMatrixIdentity());
 
 	// Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
+	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
@@ -246,7 +246,7 @@ HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
 	// Create window
 	_hInst = hInstance;
 	//sets window size
-	RECT rc = { 0, 0, 1024, 720 };
+	RECT rc = { 0, 0, 1280, 720 };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	_hWnd = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
@@ -460,8 +460,19 @@ void Application::Update()
 		t = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
 
-	XMStoreFloat4x4(&_world, XMMatrixRotationX(t) * XMMatrixRotationZ(t));
-	XMStoreFloat4x4(&_world2, XMMatrixRotationY(t) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f));
+	//SUN
+	XMStoreFloat4x4(&_world, XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(t) * XMMatrixTranslation(0.0f,0.0f,0.0f));
+	
+	//Planet 1
+	XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f,0.1f,0.1f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+
+
+	//Planet 2
+	XMStoreFloat4x4(&_world3, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixTranslation(2.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	//							Scales moon size						Translates to near the planet		rotates around sun			moves it into orbit					rotates around the planet
+	XMStoreFloat4x4(&_world5, XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixTranslation(2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t) * XMMatrixTranslation(3.3f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+
 }
 
 void Application::Draw()
@@ -470,6 +481,7 @@ void Application::Draw()
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red,green,blue,alpha
 	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
 
+	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	XMMATRIX world = XMLoadFloat4x4(&_world);
 	XMMATRIX view = XMLoadFloat4x4(&_view);
@@ -496,8 +508,21 @@ void Application::Draw()
 	world = XMLoadFloat4x4(&_world2);
 	cb.mWorld = XMMatrixTranspose(world);
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	_pImmediateContext->DrawIndexed(36, 0, 0);
 
-	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	world = XMLoadFloat4x4(&_world3);
+	cb.mWorld = XMMatrixTranspose(world);
+	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	_pImmediateContext->DrawIndexed(36, 0, 0);
+	
+	world = XMLoadFloat4x4(&_world4);
+	cb.mWorld = XMMatrixTranspose(world);
+	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	_pImmediateContext->DrawIndexed(36, 0, 0);
+
+	world = XMLoadFloat4x4(&_world5);
+	cb.mWorld = XMMatrixTranspose(world);
+	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 	_pImmediateContext->DrawIndexed(36, 0, 0);
 
 	//
