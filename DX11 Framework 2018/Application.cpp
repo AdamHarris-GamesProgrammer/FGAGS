@@ -420,29 +420,29 @@ HRESULT Application::InitDevice()
 {
 	HRESULT hr = S_OK;
 
-	hr = InitSwapChain();
-	CheckResult(hr);
+	if (!( CheckResult(InitSwapChain())
+		&& CheckResult(InitDepthBuffer())
+		&& CheckResult(InitRenderTarget())
+		&& CheckResult(InitShadersAndInputLayout())
+		)) {
+		MessageBox(_hWnd, L"Initialization of device failed", L"Error", MB_ICONERROR);
+		return S_FALSE;
+	}
 
+	if (!(CheckResult(InitWireframeView())
+		&& CheckResult(InitSolidView()))) {
+		MessageBox(_hWnd, L"Initialization of rasterizer failed", L"Error", MB_ICONERROR);
+		return S_FALSE;
+	}
 
-	hr = InitWireframeView();
-	hr = InitSolidView();
-
-	InitDepthBuffer();
-
-	InitRenderTarget();
-
+	if (!(CheckResult(InitVertexBuffer())
+		&& CheckResult(InitIndexBuffer())
+		&& CheckResult(InitConstantBuffer())
+		)) {
+		MessageBox(_hWnd, L"Initialization of buffers failed", L"Error", MB_ICONERROR);
+	}
 
 	InitViewport();
-
-
-	InitShadersAndInputLayout();
-
-	InitVertexBuffer();
-	InitIndexBuffer();
-
-
-
-	InitConstantBuffer();
 
 	return S_OK;
 }
