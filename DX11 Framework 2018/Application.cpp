@@ -190,6 +190,11 @@ HRESULT Application::InitVertexBuffer()
 	if (FAILED(hr))
 		return hr;
 
+	// Set vertex buffer
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
+	_pImmediateContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &stride, &offset);
+
 	return S_OK;
 }
 
@@ -225,7 +230,120 @@ HRESULT Application::InitIndexBuffer()
 	if (FAILED(hr))
 		return hr;
 
+	// Set index buffer
+	_pImmediateContext->IASetIndexBuffer(_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+
 	return S_OK;
+}
+
+HRESULT Application::InitDepthBuffer()
+{
+	D3D11_TEXTURE2D_DESC depthStencilDesc;
+	depthStencilDesc.Width = _WindowWidth;
+	depthStencilDesc.Height = _WindowHeight;
+	depthStencilDesc.MipLevels = 1;
+	depthStencilDesc.ArraySize = 1;
+	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilDesc.SampleDesc.Count = 1;
+	depthStencilDesc.SampleDesc.Quality = 0;
+	depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthStencilDesc.CPUAccessFlags = 0;
+	depthStencilDesc.MiscFlags = 0;
+
+	_pd3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &_depthStencilBuffer);
+	return _pd3dDevice->CreateDepthStencilView(_depthStencilBuffer, nullptr, &_depthStencilView);
+}
+
+HRESULT Application::InitSwapChain()
+{
+	HRESULT hr;
+
+	UINT createDeviceFlags = 0;
+
+#ifdef _DEBUG
+	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	D3D_DRIVER_TYPE driverTypes[] =
+	{
+		D3D_DRIVER_TYPE_HARDWARE,
+		D3D_DRIVER_TYPE_WARP,
+		D3D_DRIVER_TYPE_REFERENCE,
+	};
+
+	UINT numDriverTypes = ARRAYSIZE(driverTypes);
+
+	D3D_FEATURE_LEVEL featureLevels[] =
+	{
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+	};
+
+	UINT numFeatureLevels = ARRAYSIZE(featureLevels);
+
+	DXGI_SWAP_CHAIN_DESC sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.BufferCount = 1;
+	sd.BufferDesc.Width = _WindowWidth;
+	sd.BufferDesc.Height = _WindowHeight;
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.RefreshRate.Numerator = 60;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.OutputWindow = _hWnd;
+	sd.SampleDesc.Count = 1;
+	sd.SampleDesc.Quality = 0;
+	sd.Windowed = TRUE;
+
+	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
+	{
+		_driverType = driverTypes[driverTypeIndex];
+		hr = D3D11CreateDeviceAndSwapChain(nullptr, _driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
+			D3D11_SDK_VERSION, &sd, &_pSwapChain, &_pd3dDevice, &_featureLevel, &_pImmediateContext);
+		if (SUCCEEDED(hr))
+			break;
+	}
+
+	if (FAILED(hr))
+		return hr;
+}
+
+HRESULT Application::InitWireframeView()
+{
+	D3D11_RASTERIZER_DESC wfdesc;
+	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
+	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
+	wfdesc.CullMode = D3D11_CULL_NONE;
+	return _pd3dDevice->CreateRasterizerState(&wfdesc, &_wireFrame);
+}
+
+HRESULT Application::InitSolidView()
+{
+	D3D11_RASTERIZER_DESC sodesc;
+	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
+	sodesc.FillMode = D3D11_FILL_SOLID;
+	sodesc.CullMode = D3D11_CULL_BACK;
+	return _pd3dDevice->CreateRasterizerState(&sodesc, &_solid);
+}
+
+HRESULT Application::InitConstantBuffer()
+{
+	// Create the constant buffer
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(ConstantBuffer);
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;
+	return _pd3dDevice->CreateBuffer(&bd, nullptr, &_pConstantBuffer);
+}
+
+bool Application::CheckResult(int in)
+{
+	if (in < 0) { return false; }
+	return true;
 }
 
 HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
@@ -302,83 +420,36 @@ HRESULT Application::InitDevice()
 {
 	HRESULT hr = S_OK;
 
-	UINT createDeviceFlags = 0;
+	hr = InitSwapChain();
+	CheckResult(hr);
 
-#ifdef _DEBUG
-	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
 
-	D3D_DRIVER_TYPE driverTypes[] =
-	{
-		D3D_DRIVER_TYPE_HARDWARE,
-		D3D_DRIVER_TYPE_WARP,
-		D3D_DRIVER_TYPE_REFERENCE,
-	};
+	hr = InitWireframeView();
+	hr = InitSolidView();
 
-	UINT numDriverTypes = ARRAYSIZE(driverTypes);
+	InitDepthBuffer();
 
-	D3D_FEATURE_LEVEL featureLevels[] =
-	{
-		D3D_FEATURE_LEVEL_11_0,
-		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_10_0,
-	};
+	InitRenderTarget();
 
-	UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
-	DXGI_SWAP_CHAIN_DESC sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.BufferCount = 1;
-	sd.BufferDesc.Width = _WindowWidth;
-	sd.BufferDesc.Height = _WindowHeight;
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	sd.BufferDesc.RefreshRate.Numerator = 60;
-	sd.BufferDesc.RefreshRate.Denominator = 1;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.OutputWindow = _hWnd;
-	sd.SampleDesc.Count = 1;
-	sd.SampleDesc.Quality = 0;
-	sd.Windowed = TRUE;
+	InitViewport();
 
-	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
-	{
-		_driverType = driverTypes[driverTypeIndex];
-		hr = D3D11CreateDeviceAndSwapChain(nullptr, _driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, &sd, &_pSwapChain, &_pd3dDevice, &_featureLevel, &_pImmediateContext);
-		if (SUCCEEDED(hr))
-			break;
-	}
 
-	if (FAILED(hr))
-		return hr;
+	InitShadersAndInputLayout();
 
-	D3D11_TEXTURE2D_DESC depthStencilDesc;
-	depthStencilDesc.Width = _WindowWidth;
-	depthStencilDesc.Height = _WindowHeight;
-	depthStencilDesc.MipLevels = 1;
-	depthStencilDesc.ArraySize = 1;
-	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depthStencilDesc.SampleDesc.Count = 1;
-	depthStencilDesc.SampleDesc.Quality = 0;
-	depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	depthStencilDesc.CPUAccessFlags = 0;
-	depthStencilDesc.MiscFlags = 0;
+	InitVertexBuffer();
+	InitIndexBuffer();
 
-	_pd3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &_depthStencilBuffer);
-	_pd3dDevice->CreateDepthStencilView(_depthStencilBuffer, nullptr, &_depthStencilView);
 
-	D3D11_RASTERIZER_DESC wfdesc;
-	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
-	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
-	wfdesc.CullMode = D3D11_CULL_NONE;
-	hr = _pd3dDevice->CreateRasterizerState(&wfdesc, &_wireFrame);
 
-	D3D11_RASTERIZER_DESC sodesc;
-	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
-	sodesc.FillMode = D3D11_FILL_SOLID;
-	sodesc.CullMode = D3D11_CULL_BACK;
-	hr = _pd3dDevice->CreateRasterizerState(&sodesc, &_solid);
+	InitConstantBuffer();
+
+	return S_OK;
+}
+
+HRESULT Application::InitRenderTarget()
+{
+	HRESULT hr;
 
 	// Create a render target view
 	ID3D11Texture2D* pBackBuffer = nullptr;
@@ -395,6 +466,12 @@ HRESULT Application::InitDevice()
 
 	_pImmediateContext->OMSetRenderTargets(1, &_pRenderTargetView, _depthStencilView);
 
+	// Set primitive topology
+	_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+}
+
+void Application::InitViewport()
+{
 	// Setup the viewport
 	D3D11_VIEWPORT vp;
 	vp.Width = (FLOAT)_WindowWidth;
@@ -404,46 +481,11 @@ HRESULT Application::InitDevice()
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	_pImmediateContext->RSSetViewports(1, &vp);
-
-	InitShadersAndInputLayout();
-
-	InitVertexBuffer();
-
-	// Set vertex buffer
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &stride, &offset);
-
-	InitIndexBuffer();
-
-	// Set index buffer
-	_pImmediateContext->IASetIndexBuffer(_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-
-	// Set primitive topology
-	_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	// Create the constant buffer
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(ConstantBuffer);
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;
-	hr = _pd3dDevice->CreateBuffer(&bd, nullptr, &_pConstantBuffer);
-
-
-
-
-	if (FAILED(hr))
-		return hr;
-
-	return S_OK;
 }
 
 void Application::Cleanup()
 {
 	if (_pImmediateContext) _pImmediateContext->ClearState();
-
 	if (_pConstantBuffer) _pConstantBuffer->Release();
 	if (_pVertexBuffer) _pVertexBuffer->Release();
 	if (_pIndexBuffer) _pIndexBuffer->Release();
@@ -483,8 +525,6 @@ void Application::Update()
 
 		rotation = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
-
-	//std::cout << t << std::endl;
 
 	timeSinceSpacePressed += time.DeltaTime();
 	if (GetAsyncKeyState(VK_SPACE)) {

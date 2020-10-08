@@ -64,11 +64,24 @@ private:
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
+
+	HRESULT InitRenderTarget();
+
+
 	void Cleanup();
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
 	HRESULT InitVertexBuffer();
 	HRESULT InitIndexBuffer();
+	HRESULT InitDepthBuffer();
+	HRESULT InitSwapChain();
+	HRESULT InitWireframeView();
+	HRESULT InitSolidView();
+	HRESULT InitConstantBuffer();
+	void InitViewport();
+
+
+	bool CheckResult(int in);
 
 	UINT _WindowHeight;
 	UINT _WindowWidth;
