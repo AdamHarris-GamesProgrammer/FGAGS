@@ -7,6 +7,8 @@
 #include <directxcolors.h>
 #include "resource.h"
 
+#include "Time.h"
+
 using namespace DirectX;
 
 struct SimpleVertex
@@ -50,6 +52,12 @@ private:
 	XMFLOAT4X4              _world, _world2, _world3, _world4, _world5;
 	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
+
+	bool wireframeOn = false;
+	float timeSinceSpacePressed = 0.0f;
+	float spaceTimer = 0.1f;
+
+	Time time;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);

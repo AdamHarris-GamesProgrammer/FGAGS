@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <iostream>
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -80,6 +81,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	// Initialize the projection matrix
 	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
+
+	//Initialise the time class
+	time = Time();
 
 	return S_OK;
 }
@@ -256,6 +260,8 @@ HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
 
 	//display the window on the screen
 	ShowWindow(_hWnd, nCmdShow);
+
+	
 
 	return S_OK;
 }
@@ -456,12 +462,16 @@ void Application::Cleanup()
 
 void Application::Update()
 {
-	// Update our time
-	static float t = 0.0f;
+	time.Tick();
+
+	static float currentTime = GetTickCount();
+
+	// Update our rotation values
+	static float rotation = 0.0f;
 
 	if (_driverType == D3D_DRIVER_TYPE_REFERENCE)
 	{
-		t += (float)XM_PI * 0.0125f;
+		rotation += (float)XM_PI * 0.0125f;
 	}
 	else
 	{
@@ -471,21 +481,32 @@ void Application::Update()
 		if (dwTimeStart == 0)
 			dwTimeStart = dwTimeCur;
 
-		t = (dwTimeCur - dwTimeStart) / 1000.0f;
+		rotation = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
 
+	//std::cout << t << std::endl;
+
+	timeSinceSpacePressed += time.DeltaTime();
+	if (GetAsyncKeyState(VK_SPACE)) {
+		if (timeSinceSpacePressed > spaceTimer) {
+			wireframeOn = !wireframeOn;
+			timeSinceSpacePressed = 0.0f;
+		}
+	}
+
+
 	//SUN
-	XMStoreFloat4x4(&_world, XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(t) * XMMatrixTranslation(0.0f,0.0f,0.0f));
+	XMStoreFloat4x4(&_world, XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(rotation) * XMMatrixTranslation(0.0f,0.0f,0.0f));
 	
 	//Planet 1
-	XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f,0.1f,0.1f) * XMMatrixRotationY(t * 4.0f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
-	XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(t * 7.0f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f,0.1f,0.1f) * XMMatrixRotationY(rotation * 4.0f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
+	XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(rotation * 7.0f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(rotation * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
 
 
 	//Planet 2
-	XMStoreFloat4x4(&_world3, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(t * 2.0f) * XMMatrixTranslation(2.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world3, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(rotation * 2.0f) * XMMatrixTranslation(2.5f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
 	//							Scales moon size					Rotates moon					Translates to near the planet		rotates around sun			moves it into orbit					rotates around the planet
-	XMStoreFloat4x4(&_world5, XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t) * XMMatrixTranslation(3.3f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	XMStoreFloat4x4(&_world5, XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(rotation * 3.0f) * XMMatrixTranslation(2.0f, 0.0f, 0.0f) * XMMatrixRotationY(rotation) * XMMatrixTranslation(3.3f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
 
 }
 
@@ -509,18 +530,21 @@ void Application::Draw()
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-
+	if (wireframeOn) {
+		_pImmediateContext->RSSetState(_wireFrame);
+	}
+	else
+	{
+		_pImmediateContext->RSSetState(_solid);
+	}
 
 	// Renders the "sun"
-	_pImmediateContext->RSSetState(_solid);
-
 	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
 	_pImmediateContext->DrawIndexed(36, 0, 0);
 
-	_pImmediateContext->RSSetState(_wireFrame);
 
 
 	world = XMLoadFloat4x4(&_world2);
