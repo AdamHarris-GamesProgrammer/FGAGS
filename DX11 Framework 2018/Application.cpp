@@ -494,6 +494,14 @@ void Application::Update()
 		}
 	}
 
+	if (GetAsyncKeyState('P')) {
+		time.Stop();
+	}
+	if (GetAsyncKeyState('O')) {
+		time.Start();
+	}
+
+
 
 	//SUN
 	XMStoreFloat4x4(&_world, XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(rotation) * XMMatrixTranslation(0.0f,0.0f,0.0f));

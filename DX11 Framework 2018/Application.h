@@ -57,6 +57,8 @@ private:
 	float timeSinceSpacePressed = 0.0f;
 	float spaceTimer = 0.1f;
 
+	float rotationSpeed = 150.0f;
+
 	Time time;
 
 private:

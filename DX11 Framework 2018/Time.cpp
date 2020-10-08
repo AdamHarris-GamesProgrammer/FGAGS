@@ -12,7 +12,16 @@ Time::Time()
 
 float Time::GameTime() const
 {
-	return 0.0f;
+	if (isStopped) {
+		//Gets the total time from when we paused
+		return (float)(((mStopTime - mPausedTime) - mBaseTime) * mSecondsPerCount);
+	}
+	else
+	{
+		//Gets the total time minus the amount of time we have spent paused
+		return (float)(((mCurrentTime - mPausedTime) - mBaseTime) * mSecondsPerCount);
+	}
+
 }
 
 float Time::DeltaTime() const
@@ -22,18 +31,47 @@ float Time::DeltaTime() const
 
 void Time::Reset()
 {
-	return;
+	__int64 currentTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
+
+	mBaseTime = currentTime;
+	mPreviousTime = currentTime;
+	mStopTime = 0.0;
+	isStopped = false;
 }
 
 void Time::Start()
 {
-	return;
+	__int64 startTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
+
+	if (isStopped) {
+		//Accumulate the time elapsed between stop and start function calls
+		mPausedTime += (startTime - mStopTime);
+
+		//Sets the previous time to the new time 
+		mPreviousTime = startTime;
+
+		//resets stop time
+		mStopTime = 0;
+		isStopped = false;
+	}
 }
 
 void Time::Stop()
 {
-	return;
+	//if the timer is stopped then dont do anything
+	if (isStopped) return;
+
+	__int64 currentTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
+
+	//Save the time we stopped at
+	mStopTime = currentTime;
+
+	isStopped = true;
 }
+
 
 void Time::Tick()
 {
