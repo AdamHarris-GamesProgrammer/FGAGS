@@ -577,51 +577,29 @@ void Application::Draw()
 
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	XMMATRIX world = XMLoadFloat4x4(&cubes[0]);
-	XMMATRIX view = XMLoadFloat4x4(&_view);
-	XMMATRIX projection = XMLoadFloat4x4(&_projection);
-	
-	// Update variables
+	// Sets constant buffer variables
 	ConstantBuffer cb;
-	cb.mWorld = XMMatrixTranspose(world);
-	cb.mView = XMMatrixTranspose(view);
-	cb.mProjection = XMMatrixTranspose(projection);
-
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
+	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
 
 
 	ID3D11RasterizerState* renderState;
 	wireframeOn ? renderState = _wireFrame : renderState = _solid;
 	_pImmediateContext->RSSetState(renderState);
 
-	// Renders the "sun"
+	//Sets the vertex/pixel shader and the constant buffer
 	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
 
+	for (auto& object : cubes)
+	{
+		cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&object));
+		_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+		_pImmediateContext->DrawIndexed(36, 0, 0);
+	}
 
-
-	//world = XMLoadFloat4x4(&_world2);
-	//cb.mWorld = XMMatrixTranspose(world);
-	//_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	//_pImmediateContext->DrawIndexed(36, 0, 0);
-
-	world = XMLoadFloat4x4(&cubes[1]);
-	cb.mWorld = XMMatrixTranspose(world);
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
-	
-	//world = XMLoadFloat4x4(&_world4);
-	//cb.mWorld = XMMatrixTranspose(world);
-	//_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	//_pImmediateContext->DrawIndexed(36, 0, 0);
-
-	world = XMLoadFloat4x4(&cubes[2]);
-	cb.mWorld = XMMatrixTranspose(world);
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
 
 	// Present our back buffer to our front buffer
 	_pSwapChain->Present(0, 0);
