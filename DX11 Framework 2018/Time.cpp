@@ -10,6 +10,7 @@ Time::Time()
 	mSecondsPerCount = 1.0 / (double)countsPerSecond;
 }
 
+
 float Time::GameTime() const
 {
 	if (isStopped) {
@@ -38,6 +39,17 @@ void Time::Reset()
 	mPreviousTime = currentTime;
 	mStopTime = 0.0;
 	isStopped = false;
+}
+
+void Time::SetTimeScale(float value)
+{
+	if (value < 0.0f) value = 0.0f;
+	timeScale = value;
+}
+
+float Time::GetTimeScale()
+{
+	return timeScale;
 }
 
 void Time::Start()
@@ -97,4 +109,6 @@ void Time::Tick()
 	if (mDeltaTime < 0.0) {
 		mDeltaTime = 0.0;
 	}
+
+	mDeltaTime *= timeScale;
 }

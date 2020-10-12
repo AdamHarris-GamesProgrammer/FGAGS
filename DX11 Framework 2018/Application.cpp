@@ -535,17 +535,9 @@ void Application::Update()
 		}
 	}
 
-	if (GetAsyncKeyState('P')) {
-		time.Stop();
-	}
-	if (GetAsyncKeyState('O')) {
-		time.Start();
-	}
-
-
 	cubes.resize(5);
 
-	//SUN
+	//Sun
 	XMMATRIX sun = XMMatrixIdentity();
 	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(0, t, 0));
 	XMStoreFloat4x4(&cubes[0], sun);
