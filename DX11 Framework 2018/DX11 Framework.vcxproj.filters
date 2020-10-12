@@ -13,11 +13,13 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Graphics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Graphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

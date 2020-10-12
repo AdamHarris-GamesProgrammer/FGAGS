@@ -2,28 +2,28 @@
 #include <iostream>
 #include <DirectXMath.h>
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	PAINTSTRUCT ps;
-	HDC hdc;
-
-	switch (message)
-	{
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
-		break;
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-
-	return 0;
-}
+//LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//	PAINTSTRUCT ps;
+//	HDC hdc;
+//
+//	switch (message)
+//	{
+//	case WM_PAINT:
+//		hdc = BeginPaint(hWnd, &ps);
+//		EndPaint(hWnd, &ps);
+//		break;
+//
+//	case WM_DESTROY:
+//		PostQuitMessage(0);
+//		break;
+//
+//	default:
+//		return DefWindowProc(hWnd, message, wParam, lParam);
+//	}
+//
+//	return 0;
+//}
 
 Application::Application()
 {
@@ -50,41 +50,8 @@ Application::~Application()
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
-	//returns a failure error if something goes wrong
-	if (FAILED(InitWindow(hInstance, nCmdShow)))
-	{
-		return E_FAIL;
-	}
-
-	//defines the window size
-	RECT rc;
-	GetClientRect(_hWnd, &rc);
-	_WindowWidth = rc.right - rc.left;
-	_WindowHeight = rc.bottom - rc.top;
-
-	//if failed to init the window return a fail
-	if (FAILED(InitDevice()))
-	{
-		Cleanup();
-
-		return E_FAIL;
-	}
-
-	// Initialize the world matrix
-	XMStoreFloat4x4(&_world, XMMatrixIdentity());
-
-	// Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -15.0f, 0.0f);
-	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
-	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(Eye, At, Up));
-
-	// Initialize the projection matrix
-	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
-
-	//Initialise the time class
-	time = Time();
+	graphics = new Graphics();
+	graphics->Initialise(hInstance, nCmdShow);
 
 	return S_OK;
 }
@@ -157,44 +124,44 @@ HRESULT Application::InitShadersAndInputLayout()
 HRESULT Application::InitVertexBuffer()
 {
 
-	// Create vertex buffer
-	SimpleVertex vertices[] =
-	{
-		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT4(1.0f,0.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT4(0.0f,0.0f,0.0f,1.0f)	}
-	};
+	//// Create vertex buffer
+	//SimpleVertex vertices[] =
+	//{
+	//	{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
+	//	{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT4(1.0f,0.0f,0.0f,1.0f)	},
+	//	{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
+	//	{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT4(0.0f,0.0f,0.0f,1.0f)	}
+	//};
 
-	HRESULT hr;
+	//HRESULT hr;
 
-	//Sets up the buffer description
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(vertices);
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	////Sets up the buffer description
+	//D3D11_BUFFER_DESC bd;
+	//ZeroMemory(&bd, sizeof(bd));
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(vertices);
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
 
 
 
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = vertices;
+	//D3D11_SUBRESOURCE_DATA InitData;
+	//ZeroMemory(&InitData, sizeof(InitData));
+	//InitData.pSysMem = vertices;
 
-	hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pVertexBuffer);
+	//hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pVertexBuffer);
 
-	if (FAILED(hr))
-		return hr;
+	//if (FAILED(hr))
+	//	return hr;
 
-	// Set vertex buffer
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &stride, &offset);
+	//// Set vertex buffer
+	//UINT stride = sizeof(SimpleVertex);
+	//UINT offset = 0;
+	//_pImmediateContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &stride, &offset);
 
 	return S_OK;
 }
@@ -349,36 +316,36 @@ bool Application::CheckResult(int in)
 
 HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
-	// Register class
-	WNDCLASSEX wcex;
-	wcex.cbSize = sizeof(WNDCLASSEX);
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc = WndProc;
-	wcex.cbClsExtra = 0;
-	wcex.cbWndExtra = 0;
-	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_TUTORIAL1);
-	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = nullptr;
-	wcex.lpszClassName = L"TutorialWindowClass";
-	wcex.hIconSm = LoadIcon(wcex.hInstance, (LPCTSTR)IDI_TUTORIAL1);
-	if (!RegisterClassEx(&wcex))
-		return E_FAIL;
+	//// Register class
+	//WNDCLASSEX wcex;
+	//wcex.cbSize = sizeof(WNDCLASSEX);
+	//wcex.style = CS_HREDRAW | CS_VREDRAW;
+	//wcex.lpfnWndProc = WndProc;
+	//wcex.cbClsExtra = 0;
+	//wcex.cbWndExtra = 0;
+	//wcex.hInstance = hInstance;
+	//wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_TUTORIAL1);
+	//wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	//wcex.lpszMenuName = nullptr;
+	//wcex.lpszClassName = L"TutorialWindowClass";
+	//wcex.hIconSm = LoadIcon(wcex.hInstance, (LPCTSTR)IDI_TUTORIAL1);
+	//if (!RegisterClassEx(&wcex))
+	//	return E_FAIL;
 
-	// Create window
-	_hInst = hInstance;
-	//sets window size
-	RECT rc = { 0, 0, 1280, 720 };
-	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-	_hWnd = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
-		nullptr);
-	if (!_hWnd)
-		return E_FAIL;
+	//// Create window
+	//_hInst = hInstance;
+	////sets window size
+	//RECT rc = { 0, 0, 1280, 720 };
+	//AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+	//_hWnd = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
+	//	CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
+	//	nullptr);
+	//if (!_hWnd)
+	//	return E_FAIL;
 
-	//display the window on the screen
-	ShowWindow(_hWnd, nCmdShow);
+	////display the window on the screen
+	//ShowWindow(_hWnd, nCmdShow);
 
 	
 
@@ -563,36 +530,34 @@ void Application::Update()
 
 void Application::Draw()
 {
-	// Clear the back buffer, sets the background colour 
-	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red,green,blue,alpha
-	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
+	//// Clear the back buffer, sets the background colour 
+	//float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red,green,blue,alpha
+	//_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
 
-	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	//_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	// Sets constant buffer variables
-	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
-	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
-
-
-	ID3D11RasterizerState* renderState;
-	wireframeOn ? renderState = _wireFrame : renderState = _solid;
-	_pImmediateContext->RSSetState(renderState);
-
-	//Sets the vertex/pixel shader and the constant buffer
-	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
-	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-
-	for (auto& object : cubes)
-	{
-		cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&object));
-		_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-		_pImmediateContext->DrawIndexed(36, 0, 0);
-	}
+	//// Sets constant buffer variables
+	//ConstantBuffer cb;
+	//cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
+	//cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
 
 
-	// Present our back buffer to our front buffer
-	_pSwapChain->Present(0, 0);
+	//ID3D11RasterizerState* renderState;
+	//wireframeOn ? renderState = _wireFrame : renderState = _solid;
+	//_pImmediateContext->RSSetState(renderState);
+
+	////Sets the vertex/pixel shader and the constant buffer
+	//_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
+	//_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	//_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	//_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
+
+	//for (auto& object : cubes)
+	//{
+	//	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&object));
+	//	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	//	_pImmediateContext->DrawIndexed(36, 0, 0);
+	//}
+
+	graphics->Draw(36);
 }

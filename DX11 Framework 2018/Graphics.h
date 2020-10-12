@@ -7,37 +7,48 @@
 #include <directxcolors.h>
 #include "resource.h"
 
-#include "Graphics.h"
-#include <vector>
-
-#include "Time.h"
+#include <string>
 
 using namespace DirectX;
 
-
-
-
-
-class Application
+struct SimpleVertex
 {
+	XMFLOAT3 Pos;
+	XMFLOAT4 Color;
+};
+
+struct ConstantBuffer
+{
+	XMMATRIX mWorld;
+	XMMATRIX mView;
+	XMMATRIX mProjection;
+};
+
+class Graphics
+{
+public:
+	Graphics();
+	~Graphics();
+
+	void Draw(unsigned int indexCount);
+	
+	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
+
 private:
-	Graphics* graphics;
-
-
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
 	D3D_DRIVER_TYPE         _driverType;
 	D3D_FEATURE_LEVEL       _featureLevel;
-	ID3D11Device*           _pd3dDevice;
-	ID3D11DeviceContext*    _pImmediateContext;
-	IDXGISwapChain*         _pSwapChain;
+	ID3D11Device* _pd3dDevice;
+	ID3D11DeviceContext* _pImmediateContext;
+	IDXGISwapChain* _pSwapChain;
 	ID3D11RenderTargetView* _pRenderTargetView;
-	ID3D11VertexShader*     _pVertexShader;
-	ID3D11PixelShader*      _pPixelShader;
-	ID3D11InputLayout*      _pVertexLayout;
-	ID3D11Buffer*           _pVertexBuffer;
-	ID3D11Buffer*           _pIndexBuffer;
-	ID3D11Buffer*           _pConstantBuffer;
+	ID3D11VertexShader* _pVertexShader;
+	ID3D11PixelShader* _pPixelShader;
+	ID3D11InputLayout* _pVertexLayout;
+	ID3D11Buffer* _pVertexBuffer;
+	ID3D11Buffer* _pIndexBuffer;
+	ID3D11Buffer* _pConstantBuffer;
 
 	ID3D11RasterizerState* _wireFrame;
 	ID3D11RasterizerState* _solid;
@@ -48,17 +59,6 @@ private:
 	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
 
-	std::vector<XMFLOAT4X4> cubes;
-
-	bool wireframeOn = false;
-	float timeSinceSpacePressed = 0.0f;
-	float spaceTimer = 0.1f;
-
-	float rotationSpeed = 150.0f;
-
-	Time time;
-
-private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
 
@@ -83,13 +83,5 @@ private:
 	UINT _WindowHeight;
 	UINT _WindowWidth;
 
-public:
-	Application();
-	~Application();
-
-	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
-
-	void Update();
-	void Draw();
 };
 
