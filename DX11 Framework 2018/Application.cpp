@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <iostream>
+#include <DirectXMath.h>
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -73,7 +74,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	XMStoreFloat4x4(&_world, XMMatrixIdentity());
 
 	// Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
+	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -15.0f, 0.0f);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
@@ -509,11 +510,11 @@ void Application::Update()
 	static float currentTime = GetTickCount();
 
 	// Update our rotation values
-	static float rotation = 0.0f;
+	static float t = 0.0f;
 
 	if (_driverType == D3D_DRIVER_TYPE_REFERENCE)
 	{
-		rotation += (float)XM_PI * 0.0125f;
+		t += (float)XM_PI * 0.0125f;
 	}
 	else
 	{
@@ -523,7 +524,7 @@ void Application::Update()
 		if (dwTimeStart == 0)
 			dwTimeStart = dwTimeCur;
 
-		rotation = (dwTimeCur - dwTimeStart) / 1000.0f;
+		t = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
 
 	timeSinceSpacePressed += time.DeltaTime();
@@ -542,20 +543,30 @@ void Application::Update()
 	}
 
 
+	cubes.resize(5);
 
 	//SUN
-	XMStoreFloat4x4(&_world, XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(rotation) * XMMatrixTranslation(0.0f,0.0f,0.0f));
-	
+	XMMATRIX sun = XMMatrixIdentity();
+	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(0, t, 0));
+	XMStoreFloat4x4(&cubes[0], sun);
+
+	//Earth
+	XMMATRIX earth = XMMatrixIdentity();
+	earth = XMMatrixMultiply(earth, XMMatrixRotationRollPitchYaw(0,t * 2,0) * XMMatrixScaling(.25,.25,.25) *
+	XMMatrixTranslation(9,0,0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
+	XMStoreFloat4x4(&cubes[1], earth);
+
+
+	//Earth moon
+	XMMATRIX earthMoon = XMMatrixIdentity();
+	earthMoon = XMMatrixMultiply(earthMoon, XMMatrixScaling(.125, .125, .125) * XMMatrixTranslation(3, 0, 0) *
+		XMMatrixRotationRollPitchYaw(0, t * 1,0) * XMMatrixTranslation(9, 0, 0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
+	XMStoreFloat4x4(&cubes[2], earthMoon);
+
+
 	//Planet 1
-	XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f,0.1f,0.1f) * XMMatrixRotationY(rotation * 4.0f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
-	XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(rotation * 7.0f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(rotation * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
-
-
-	//Planet 2
-	XMStoreFloat4x4(&_world3, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(rotation * 2.0f) * XMMatrixTranslation(2.5f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
-	//							Scales moon size					Rotates moon					Translates to near the planet		rotates around sun			moves it into orbit					rotates around the planet
-	XMStoreFloat4x4(&_world5, XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(rotation * 3.0f) * XMMatrixTranslation(2.0f, 0.0f, 0.0f) * XMMatrixRotationY(rotation) * XMMatrixTranslation(3.3f, 0.0f, 0.0f) * XMMatrixRotationY(rotation));
-
+	//XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(t * 4.0f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
+	//XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(t * 7.0f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t));
 }
 
 void Application::Draw()
@@ -566,7 +577,7 @@ void Application::Draw()
 
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	XMMATRIX world = XMLoadFloat4x4(&_world);
+	XMMATRIX world = XMLoadFloat4x4(&cubes[0]);
 	XMMATRIX view = XMLoadFloat4x4(&_view);
 	XMMATRIX projection = XMLoadFloat4x4(&_projection);
 	
@@ -578,13 +589,10 @@ void Application::Draw()
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-	if (wireframeOn) {
-		_pImmediateContext->RSSetState(_wireFrame);
-	}
-	else
-	{
-		_pImmediateContext->RSSetState(_solid);
-	}
+
+	ID3D11RasterizerState* renderState;
+	wireframeOn ? renderState = _wireFrame : renderState = _solid;
+	_pImmediateContext->RSSetState(renderState);
 
 	// Renders the "sun"
 	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
@@ -595,22 +603,22 @@ void Application::Draw()
 
 
 
-	world = XMLoadFloat4x4(&_world2);
-	cb.mWorld = XMMatrixTranspose(world);
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
+	//world = XMLoadFloat4x4(&_world2);
+	//cb.mWorld = XMMatrixTranspose(world);
+	//_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	//_pImmediateContext->DrawIndexed(36, 0, 0);
 
-	world = XMLoadFloat4x4(&_world3);
+	world = XMLoadFloat4x4(&cubes[1]);
 	cb.mWorld = XMMatrixTranspose(world);
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 	_pImmediateContext->DrawIndexed(36, 0, 0);
 	
-	world = XMLoadFloat4x4(&_world4);
-	cb.mWorld = XMMatrixTranspose(world);
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
+	//world = XMLoadFloat4x4(&_world4);
+	//cb.mWorld = XMMatrixTranspose(world);
+	//_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	//_pImmediateContext->DrawIndexed(36, 0, 0);
 
-	world = XMLoadFloat4x4(&_world5);
+	world = XMLoadFloat4x4(&cubes[2]);
 	cb.mWorld = XMMatrixTranspose(world);
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 	_pImmediateContext->DrawIndexed(36, 0, 0);

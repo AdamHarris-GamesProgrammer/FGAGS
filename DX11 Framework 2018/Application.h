@@ -7,6 +7,8 @@
 #include <directxcolors.h>
 #include "resource.h"
 
+#include <vector>
+
 #include "Time.h"
 
 using namespace DirectX;
@@ -52,6 +54,8 @@ private:
 	XMFLOAT4X4              _world, _world2, _world3, _world4, _world5;
 	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
+
+	std::vector<XMFLOAT4X4> cubes;
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
