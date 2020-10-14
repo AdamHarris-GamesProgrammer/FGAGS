@@ -86,7 +86,7 @@ void Application::Draw()
 	graphics->SetShaders();
 	for (auto& object : cubes)
 	{
-		graphics->Draw(36, &object);
+		graphics->Draw(18, &object);
 	}
 	graphics->Present();
 }
