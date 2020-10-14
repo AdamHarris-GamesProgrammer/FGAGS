@@ -294,44 +294,55 @@ HRESULT Graphics::InitShadersAndInputLayout()
 
 HRESULT Graphics::InitVertexBuffer()
 {
-	// Create vertex buffer
-	SimpleVertex cubeVertices[] =
-	{
-		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT4(1.0f,0.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT4(0.0f,0.0f,0.0f,1.0f)	}
-	};
+	//// Create vertex buffer
+	//SimpleVertex cubeVertices[] =
+	//{
+	//	{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
+	//	{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT4(1.0f,0.0f,0.0f,1.0f)	},
+	//	{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
+	//	{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
+	//	{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT4(0.0f,0.0f,0.0f,1.0f)	}
+	//};
 
-	HRESULT hr;
+	//HRESULT hr;
 
-	//Sets up the buffer description
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(cubeVertices);
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	////Sets up the buffer description
+	//D3D11_BUFFER_DESC bd;
+	//ZeroMemory(&bd, sizeof(bd));
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(cubeVertices);
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
 
 
 
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = cubeVertices;
+	//D3D11_SUBRESOURCE_DATA InitData;
+	//ZeroMemory(&InitData, sizeof(InitData));
+	//InitData.pSysMem = cubeVertices;
 
-	hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pCubeVertexBuffer);
+	//hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pCubeVertexBuffer);
 
-	if (FAILED(hr))
-		return hr;
+	//if (FAILED(hr))
+	//	return hr;
 
 	// Set vertex buffer
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
 	//_pImmediateContext->IASetVertexBuffers(0, 1, &_pCubeVertexBuffer, &stride, &offset);
+
+	pVertexTest = new VertexBuffer(this);
+	pVertexTest->AddElement({ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f) });
+	pVertexTest->AddElement({ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f) });
+	pVertexTest->AddElement({ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,0.0f,1.0f,1.0f) });
+	pVertexTest->AddElement({ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(1.0f,1.0f,0.0f,1.0f) });
+	pVertexTest->AddElement({ XMFLOAT3(0.0f,1.0f,0.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f) });
+
+	pVertexTest->Finalise();
+	pVertexTest->SetBuffer();
+	
 
 	SimpleVertex pyramidVertices[] =
 	{
@@ -341,25 +352,18 @@ HRESULT Graphics::InitVertexBuffer()
 		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
 		{ XMFLOAT3(0.0f,1.0f,0.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
 	};
-
 	D3D11_BUFFER_DESC pbd;
 	ZeroMemory(&pbd, sizeof(pbd));
 	pbd.Usage = D3D11_USAGE_DEFAULT;
 	pbd.ByteWidth = sizeof(pyramidVertices);
 	pbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	pbd.CPUAccessFlags = 0;
-
-
-
 	D3D11_SUBRESOURCE_DATA pInitData;
 	ZeroMemory(&pInitData, sizeof(pInitData));
 	pInitData.pSysMem = pyramidVertices;
-
-	hr = _pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidVertexBuffer);
-
-	if (FAILED(hr))
-		return hr;
-
+	_pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidVertexBuffer);
+	//if (FAILED(hr))
+	//	return hr;
 	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPyramidVertexBuffer, &stride, &offset);
 
 	return S_OK;
