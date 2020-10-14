@@ -30,11 +30,19 @@ public:
 	Graphics();
 	~Graphics();
 
+	void ClearBuffers();
 	void Draw(unsigned int indexCount);
+	void Present();
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
+
+	void UpdateConstantBuffer(XMFLOAT4X4* position);
+	void SetShaders();
 private:
+	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+
+
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
 	D3D_DRIVER_TYPE         _driverType;
