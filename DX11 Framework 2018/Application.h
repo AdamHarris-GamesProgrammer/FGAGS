@@ -32,9 +32,9 @@ private:
 
 	std::vector<XMFLOAT4X4> cubes;
 
-	//bool wireframeOn = false;
-	//float timeSinceSpacePressed = 0.0f;
-	//float spaceTimer = 0.1f;
+	bool wireframeOn = false;
+	float timeSinceSpacePressed = 0.0f;
+	float spaceTimer = 0.1f;
 
 	float rotationSpeed = 150.0f;
 

@@ -31,13 +31,14 @@ public:
 	~Graphics();
 
 	void ClearBuffers();
-	void Draw(unsigned int indexCount);
+	void Draw(unsigned int indexCount, XMFLOAT4X4* position);
 	void Present();
+
+	void EnableWireframe(bool enabled);
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
 
-	void UpdateConstantBuffer(XMFLOAT4X4* position);
 	void SetShaders();
 private:
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };

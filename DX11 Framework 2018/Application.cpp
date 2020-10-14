@@ -42,13 +42,17 @@ void Application::Update()
 		t = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
 
-	//timeSinceSpacePressed += time.DeltaTime();
-	//if (GetAsyncKeyState(VK_SPACE)) {
-	//	if (timeSinceSpacePressed > spaceTimer) {
-	//		wireframeOn = !wireframeOn;
-	//		timeSinceSpacePressed = 0.0f;
-	//	}
-	//}
+	bool changed = false;
+	timeSinceSpacePressed += time.DeltaTime();
+	if (GetAsyncKeyState(VK_SPACE)) {
+		if (timeSinceSpacePressed > spaceTimer) {
+			wireframeOn = !wireframeOn;
+			changed = true;
+			timeSinceSpacePressed = 0.0f;
+		}
+	}
+
+	if (changed) graphics->EnableWireframe(wireframeOn);
 
 	cubes.resize(5);
 
@@ -82,8 +86,7 @@ void Application::Draw()
 	graphics->SetShaders();
 	for (auto& object : cubes)
 	{
-		graphics->UpdateConstantBuffer(&object);
-		graphics->Draw(36);
+		graphics->Draw(36, &object);
 	}
 	graphics->Present();
 }

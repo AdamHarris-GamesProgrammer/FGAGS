@@ -508,26 +508,20 @@ void Graphics::ClearBuffers()
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void Graphics::Draw(unsigned int indexCount)
+void Graphics::Draw(unsigned int indexCount, XMFLOAT4X4* position)
 {
 	//ID3D11RasterizerState* renderState;
 	//wireframeOn ? renderState = _wireFrame : renderState = _solid;
 	//_pImmediateContext->RSSetState(renderState);
 
-	//Sets the vertex/pixel shader and the constant buffer
-
-
-	//for (auto& object : cubes)
-	//{
-	//	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&object));
-	//	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-	//	_pImmediateContext->DrawIndexed(36, 0, 0);
-	//}
-
+	// Sets constant buffer variables
+	ConstantBuffer cb;
+	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
+	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
+	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(position));
+	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
 	_pImmediateContext->DrawIndexed(indexCount, 0, 0);
-
-
 }
 
 void Graphics::Present()
@@ -536,14 +530,11 @@ void Graphics::Present()
 	_pSwapChain->Present(0, 0);
 }
 
-void Graphics::UpdateConstantBuffer(XMFLOAT4X4* position)
+void Graphics::EnableWireframe(bool enabled)
 {
-	// Sets constant buffer variables
-	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
-	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
-	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(position));
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	ID3D11RasterizerState* renderState;
+	enabled ? renderState = _wireFrame : renderState = _solid;
+	_pImmediateContext->RSSetState(renderState);
 }
 
 void Graphics::SetShaders()
