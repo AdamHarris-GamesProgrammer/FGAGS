@@ -7,6 +7,7 @@
 #include <directxcolors.h>
 #include "resource.h"
 #include <wrl.h>
+
 #include "Structs.h"
 #include "VertexBuffer.h"
 
@@ -14,10 +15,11 @@
 
 using namespace DirectX;
 
-
+using namespace Microsoft::WRL;
 
 class Graphics
 {
+	friend class GfxResources;
 public:
 	Graphics();
 	~Graphics();
@@ -30,26 +32,17 @@ public:
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
-	ID3D11Device* GetDevice() {
-		return _pd3dDevice.Get();
-	}
-
-	ID3D11DeviceContext* GetContext() {
-		return _pImmediateContext.Get();
-	}
-
 	void SetShaders();
 private:
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
-
 
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
 	D3D_DRIVER_TYPE         _driverType;
 	D3D_FEATURE_LEVEL       _featureLevel;
 
-	Microsoft::WRL::ComPtr<ID3D11Device> _pd3dDevice;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> _pImmediateContext;
+	ComPtr<ID3D11Device> _pd3dDevice;
+	ComPtr<ID3D11DeviceContext> _pImmediateContext;
 	IDXGISwapChain* _pSwapChain;
 	ID3D11RenderTargetView* _pRenderTargetView;
 	ID3D11VertexShader* _pVertexShader;

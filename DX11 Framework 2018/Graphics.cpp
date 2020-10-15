@@ -333,15 +333,15 @@ HRESULT Graphics::InitVertexBuffer()
 	UINT offset = 0;
 	//_pImmediateContext->IASetVertexBuffers(0, 1, &_pCubeVertexBuffer, &stride, &offset);
 
-	pVertexTest = new VertexBuffer(this);
+	pVertexTest = new VertexBuffer(_pd3dDevice.Get(), _pImmediateContext.Get());
 	pVertexTest->AddElement({ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f) });
 	pVertexTest->AddElement({ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f) });
 	pVertexTest->AddElement({ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,0.0f,1.0f,1.0f) });
 	pVertexTest->AddElement({ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(1.0f,1.0f,0.0f,1.0f) });
 	pVertexTest->AddElement({ XMFLOAT3(0.0f,1.0f,0.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f) });
 
-	pVertexTest->Finalise();
-	pVertexTest->SetBuffer();
+	pVertexTest->Finalise(this);
+	pVertexTest->SetBuffer(this);
 	
 
 	SimpleVertex pyramidVertices[] =
@@ -364,7 +364,7 @@ HRESULT Graphics::InitVertexBuffer()
 	_pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidVertexBuffer);
 	//if (FAILED(hr))
 	//	return hr;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPyramidVertexBuffer, &stride, &offset);
+	//_pImmediateContext->IASetVertexBuffers(0, 1, &_pPyramidVertexBuffer, &stride, &offset);
 
 	return S_OK;
 }
