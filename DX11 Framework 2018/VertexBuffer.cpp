@@ -1,11 +1,9 @@
 #include "VertexBuffer.h"
-#include "GfxResources.cpp"
-#include "GfxResources.h"
 
-VertexBuffer::VertexBuffer(ID3D11Device* device, ID3D11DeviceContext* context)
+VertexBuffer::VertexBuffer(Graphics* gfxIn) : gfx(gfxIn)
 {
-	pDevice = device;
-	pDeviceContext = context;
+	//pDevice = device;
+	//pDeviceContext = deviceContext;
 	vertexBuffer = new std::vector<SimpleVertex>();
 	pVertexBuffer = nullptr;
 
@@ -33,14 +31,14 @@ ID3D11Buffer* VertexBuffer::GetBuffer() const
 	return pVertexBuffer;
 }
 
-void VertexBuffer::SetBuffer(Graphics& gfx)
+void VertexBuffer::SetBuffer()
 {
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
-	GetContext(gfx)->IASetVertexBuffers(0, 1, &pVertexBuffer, &stride, &offset);
+	gfx->GetContext()->IASetVertexBuffers(0, 1, &pVertexBuffer, &stride, &offset);
 }
 
-void VertexBuffer::Finalise(Graphics& gfx)
+void VertexBuffer::Finalise()
 {
 	SimpleVertex* vertices =  new SimpleVertex[vertexBuffer->size()];
 
@@ -61,6 +59,7 @@ void VertexBuffer::Finalise(Graphics& gfx)
 	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = vertices;
-	GetDevice(gfx)->CreateBuffer(&bd, &InitData, &pVertexBuffer);
+
+	gfx->GetDevice()->CreateBuffer(&bd, &InitData, &pVertexBuffer);
 
 }
