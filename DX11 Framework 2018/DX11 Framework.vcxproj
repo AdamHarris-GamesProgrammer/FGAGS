@@ -379,7 +379,6 @@
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Time.cpp" />
-    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DX11 Framework.fx" />
@@ -388,9 +387,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Graphics.h" />
     <CLInclude Include="resource.h" />
-    <ClInclude Include="Structs.h" />
     <ClInclude Include="Time.h" />
-    <ClInclude Include="VertexBuffer.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
   <ItemGroup>

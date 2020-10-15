@@ -84,12 +84,9 @@ void Application::Draw()
 {
 	graphics->ClearBuffers();
 	graphics->SetShaders();
-	/*for (auto& object : cubes)
+	for (auto& object : cubes)
 	{
 		graphics->Draw(18, &object);
-	}*/
-
-	graphics->Draw(18, &cubes[0]);
-
+	}
 	graphics->Present();
 }
