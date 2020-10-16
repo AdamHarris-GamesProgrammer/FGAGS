@@ -15,6 +15,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	graphics = new Graphics();
 	graphics->Initialise(hInstance, nCmdShow);
 
+	//graphics->MakeTrianglePlane(5, 5);
+
 	return S_OK;
 }
 
@@ -52,7 +54,11 @@ void Application::Update()
 		}
 	}
 
+	rotationValue = t;
+
 	if (changed) graphics->EnableWireframe(wireframeOn);
+
+
 
 	cubes.resize(5);
 
@@ -86,7 +92,8 @@ void Application::Draw()
 	graphics->SetShaders();
 	for (auto& object : cubes)
 	{
-		graphics->Draw(18, &object);
+		graphics->UpdateBuffers(object, 0);
+		graphics->Draw(96);
 	}
 	graphics->Present();
 }

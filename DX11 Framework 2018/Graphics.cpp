@@ -85,6 +85,8 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	return S_OK;
 }
 
+
+
 HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class
@@ -360,7 +362,41 @@ HRESULT Graphics::InitVertexBuffer()
 	if (FAILED(hr))
 		return hr;
 
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPyramidVertexBuffer, &stride, &offset);
+	//_pImmediateContext->IASetVertexBuffers(0, 1, &_pPyramidVertexBuffer, &stride, &offset);
+
+	std::vector<SimpleVertex> planeVerts;
+
+	float currentX = 0.0f;
+	float currentY = 0.0f;
+	for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 5; i++) {
+			planeVerts.push_back({ XMFLOAT3(currentX,0,currentY), XMFLOAT4(0.0f,0.0f,1.0f,1.0f) });
+			currentX += 0.25f;
+		}
+		currentX = 0.0f;
+		currentY += 0.25f;
+	}
+
+	D3D11_BUFFER_DESC plbd;
+	ZeroMemory(&plbd, sizeof(plbd));
+	plbd.Usage = D3D11_USAGE_DEFAULT;
+	plbd.ByteWidth = sizeof(planeVerts);
+	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	plbd.CPUAccessFlags = 0;
+
+	SimpleVertex* plane = new SimpleVertex[planeVerts.size()];
+
+	for (int i = 0; i < planeVerts.size(); i++) {
+		plane[i] = planeVerts.at(i);
+	}
+
+	D3D11_SUBRESOURCE_DATA plInitData;
+	ZeroMemory(&pInitData, sizeof(plInitData));
+	plInitData.pSysMem = plane;
+
+	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneVertexBuffer);
+
+	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPlaneVertexBuffer, &stride, &offset);
 
 	return S_OK;
 }
@@ -400,34 +436,71 @@ HRESULT Graphics::InitIndexBuffer()
 	// Set index buffer
 	//_pImmediateContext->IASetIndexBuffer(_pCubeIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
-	WORD pyramidIndices[] = {
-		0,1,4,
-		1,2,4,
-		2,3,4,
-		3,0,4,
-		0,1,3,
-		1,4,3
-	};
+	//WORD pyramidIndices[] = {
+	//	0,1,4,
+	//	1,2,4,
+	//	2,3,4,
+	//	3,0,4,
+	//	0,3,1,
+	//	1,3,2
+	//};
 
-	D3D11_BUFFER_DESC pbd;
-	ZeroMemory(&pbd, sizeof(pbd));
+	//D3D11_BUFFER_DESC pbd;
+	//ZeroMemory(&pbd, sizeof(pbd));
 
-	pbd.Usage = D3D11_USAGE_DEFAULT;
-	pbd.ByteWidth = sizeof(pyramidIndices);
-	pbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	pbd.CPUAccessFlags = 0;
+	//pbd.Usage = D3D11_USAGE_DEFAULT;
+	//pbd.ByteWidth = sizeof(pyramidIndices);
+	//pbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	//pbd.CPUAccessFlags = 0;
 
-	D3D11_SUBRESOURCE_DATA pInitData;
-	ZeroMemory(&pInitData, sizeof(pInitData));
-	pInitData.pSysMem = pyramidIndices;
-	hr = _pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidIndexBuffer);
+	//D3D11_SUBRESOURCE_DATA pInitData;
+	//ZeroMemory(&pInitData, sizeof(pInitData));
+	//pInitData.pSysMem = pyramidIndices;
+	//hr = _pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidIndexBuffer);
 
+	std::vector<WORD> planeIndices;
+
+	int i = 0;
+
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 4; x++) {
+			
+			planeIndices.push_back(i + 5);
+			planeIndices.push_back(i);
+			planeIndices.push_back(i + 1);
+			planeIndices.push_back(i + 1);
+			planeIndices.push_back(i + 6);
+			planeIndices.push_back(i + 5);
+			i++;
+		}
+		i++;
+
+	}
+
+	WORD* plIndices = new WORD[planeIndices.size()];
+
+	for (int i = 0; i < planeIndices.size(); i++) {
+		plIndices[i] = planeIndices.at(i);
+	}
+
+	D3D11_BUFFER_DESC plbd;
+	ZeroMemory(&plbd, sizeof(plbd));
+
+	plbd.Usage = D3D11_USAGE_DEFAULT;
+	plbd.ByteWidth = sizeof(plIndices);
+	plbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	plbd.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA plInitData;
+	ZeroMemory(&plInitData, sizeof(plInitData));
+	plInitData.pSysMem = plIndices;
+	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneIndexBuffer);
 	
 
 	if (FAILED(hr))
 		return hr;
 
-	_pImmediateContext->IASetIndexBuffer(_pPyramidIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+	_pImmediateContext->IASetIndexBuffer(_pPlaneIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
 	return S_OK;
 }
@@ -562,15 +635,8 @@ void Graphics::ClearBuffers()
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void Graphics::Draw(unsigned int indexCount, XMFLOAT4X4* position)
+void Graphics::Draw(unsigned int indexCount)
 {
-	// Sets constant buffer variables
-	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
-	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
-	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(position));
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-
 	//Draws object to swap chain buffer
 	_pImmediateContext->DrawIndexed(indexCount, 0, 0);
 }
@@ -595,3 +661,14 @@ void Graphics::SetShaders()
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
 }
+
+void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
+{
+	ConstantBuffer cb;
+	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
+	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
+	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
+	cb.time = t;
+	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+}
+

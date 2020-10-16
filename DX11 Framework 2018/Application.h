@@ -39,6 +39,7 @@ private:
 	float rotationSpeed = 150.0f;
 
 	Time time;
+	float rotationValue;
 
 private:
 

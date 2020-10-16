@@ -8,6 +8,7 @@
 #include "resource.h"
 
 #include <string>
+#include <vector>
 
 using namespace DirectX;
 
@@ -22,6 +23,7 @@ struct ConstantBuffer
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
+	float time;
 };
 
 class Graphics
@@ -31,15 +33,17 @@ public:
 	~Graphics();
 
 	void ClearBuffers();
-	void Draw(unsigned int indexCount, XMFLOAT4X4* position);
+	void Draw(unsigned int indexCount);
 	void Present();
 
 	void EnableWireframe(bool enabled);
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
+	void UpdateBuffers(XMFLOAT4X4& position, float t);
 
 	void SetShaders();
+
 private:
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 
@@ -58,9 +62,14 @@ private:
 
 	ID3D11Buffer* _pPyramidVertexBuffer;
 	ID3D11Buffer* _pPyramidIndexBuffer;
+	
+	ID3D11Buffer* _pPlaneIndexBuffer;
+	ID3D11Buffer* _pPlaneVertexBuffer;
 
 	ID3D11Buffer* _pCubeVertexBuffer;
 	ID3D11Buffer* _pCubeIndexBuffer;
+
+
 	ID3D11Buffer* _pConstantBuffer;
 
 	ID3D11RasterizerState* _wireFrame;
