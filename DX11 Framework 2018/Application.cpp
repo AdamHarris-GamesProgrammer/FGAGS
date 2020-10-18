@@ -90,10 +90,14 @@ void Application::Draw()
 {
 	graphics->ClearBuffers();
 	graphics->SetShaders();
-	for (auto& object : cubes)
+	/*for (auto& object : cubes)
 	{
 		graphics->UpdateBuffers(object, 0);
 		graphics->Draw(96);
-	}
+	}*/
+
+	graphics->UpdateBuffers(cubes[0], 1);
+	graphics->Draw(96);
+
 	graphics->Present();
 }

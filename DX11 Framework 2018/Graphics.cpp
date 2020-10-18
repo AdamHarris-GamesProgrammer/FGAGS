@@ -377,18 +377,20 @@ HRESULT Graphics::InitVertexBuffer()
 		currentY += 0.25f;
 	}
 
-	D3D11_BUFFER_DESC plbd;
-	ZeroMemory(&plbd, sizeof(plbd));
-	plbd.Usage = D3D11_USAGE_DEFAULT;
-	plbd.ByteWidth = sizeof(planeVerts);
-	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	plbd.CPUAccessFlags = 0;
-
 	SimpleVertex* plane = new SimpleVertex[planeVerts.size()];
 
 	for (int i = 0; i < planeVerts.size(); i++) {
 		plane[i] = planeVerts.at(i);
 	}
+
+	D3D11_BUFFER_DESC plbd;
+	ZeroMemory(&plbd, sizeof(plbd));
+	plbd.Usage = D3D11_USAGE_DEFAULT;
+	plbd.ByteWidth = sizeof(plane) * planeVerts.size();
+	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	plbd.CPUAccessFlags = 0;
+
+
 
 	D3D11_SUBRESOURCE_DATA plInitData;
 	ZeroMemory(&pInitData, sizeof(plInitData));
@@ -435,7 +437,6 @@ HRESULT Graphics::InitIndexBuffer()
 
 	// Set index buffer
 	//_pImmediateContext->IASetIndexBuffer(_pCubeIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-
 	//WORD pyramidIndices[] = {
 	//	0,1,4,
 	//	1,2,4,
@@ -444,15 +445,12 @@ HRESULT Graphics::InitIndexBuffer()
 	//	0,3,1,
 	//	1,3,2
 	//};
-
 	//D3D11_BUFFER_DESC pbd;
 	//ZeroMemory(&pbd, sizeof(pbd));
-
 	//pbd.Usage = D3D11_USAGE_DEFAULT;
 	//pbd.ByteWidth = sizeof(pyramidIndices);
 	//pbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	//pbd.CPUAccessFlags = 0;
-
 	//D3D11_SUBRESOURCE_DATA pInitData;
 	//ZeroMemory(&pInitData, sizeof(pInitData));
 	//pInitData.pSysMem = pyramidIndices;
@@ -464,34 +462,37 @@ HRESULT Graphics::InitIndexBuffer()
 
 	for (int y = 0; y < 4; y++) {
 		for (int x = 0; x < 4; x++) {
-			
 			planeIndices.push_back(i + 5);
 			planeIndices.push_back(i);
 			planeIndices.push_back(i + 1);
-			planeIndices.push_back(i + 1);
 			planeIndices.push_back(i + 6);
 			planeIndices.push_back(i + 5);
+			planeIndices.push_back(i + 1);
 			i++;
 		}
 		i++;
-
 	}
 
 	WORD* plIndices = new WORD[planeIndices.size()];
 
-	for (int i = 0; i < planeIndices.size(); i++) {
-		plIndices[i] = planeIndices.at(i);
-	}
+	std::copy(planeIndices.begin(), planeIndices.end(), plIndices);
+
+	//for (int i = 0; i < planeIndices.size(); i++) {
+	//	plIndices[i] = planeIndices.at(i);
+	//}
+
+
 
 	D3D11_BUFFER_DESC plbd;
 	ZeroMemory(&plbd, sizeof(plbd));
 
 	plbd.Usage = D3D11_USAGE_DEFAULT;
-	plbd.ByteWidth = sizeof(plIndices);
+	plbd.ByteWidth = sizeof(plIndices) * planeIndices.size();
 	plbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	plbd.CPUAccessFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA plInitData;
+
 	ZeroMemory(&plInitData, sizeof(plInitData));
 	plInitData.pSysMem = plIndices;
 	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneIndexBuffer);
