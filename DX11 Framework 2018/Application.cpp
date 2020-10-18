@@ -64,7 +64,7 @@ void Application::Update()
 
 	//Sun
 	XMMATRIX sun = XMMatrixIdentity();
-	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(0, t, 0));
+	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(90, 0, 0));
 	XMStoreFloat4x4(&cubes[0], sun);
 
 	//Earth
@@ -96,7 +96,7 @@ void Application::Draw()
 		graphics->Draw(96);
 	}*/
 
-	graphics->UpdateBuffers(cubes[0], 1);
+	graphics->UpdateBuffers(cubes[0], 0);
 	graphics->Draw(96);
 
 	graphics->Present();

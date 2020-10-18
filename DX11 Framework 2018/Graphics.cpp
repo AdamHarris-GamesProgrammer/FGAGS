@@ -70,7 +70,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	// Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -15.0f, 0.0f);
+	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
@@ -377,16 +377,12 @@ HRESULT Graphics::InitVertexBuffer()
 		currentY += 0.25f;
 	}
 
-	SimpleVertex* plane = new SimpleVertex[planeVerts.size()];
-
-	for (int i = 0; i < planeVerts.size(); i++) {
-		plane[i] = planeVerts.at(i);
-	}
+	//SimpleVertex* plane = planeVerts.data();
 
 	D3D11_BUFFER_DESC plbd;
 	ZeroMemory(&plbd, sizeof(plbd));
 	plbd.Usage = D3D11_USAGE_DEFAULT;
-	plbd.ByteWidth = sizeof(plane) * planeVerts.size();
+	plbd.ByteWidth = sizeof(planeVerts) * planeVerts.size();
 	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	plbd.CPUAccessFlags = 0;
 
@@ -394,7 +390,7 @@ HRESULT Graphics::InitVertexBuffer()
 
 	D3D11_SUBRESOURCE_DATA plInitData;
 	ZeroMemory(&pInitData, sizeof(plInitData));
-	plInitData.pSysMem = plane;
+	plInitData.pSysMem = &planeVerts[0];
 
 	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneVertexBuffer);
 
@@ -473,10 +469,8 @@ HRESULT Graphics::InitIndexBuffer()
 		i++;
 	}
 
-	WORD* plIndices = new WORD[planeIndices.size()];
-
-	std::copy(planeIndices.begin(), planeIndices.end(), plIndices);
-
+	//WORD* plIndices = planeIndices.data();
+	//std::copy(planeIndices.begin(), planeIndices.end(), plIndices);
 	//for (int i = 0; i < planeIndices.size(); i++) {
 	//	plIndices[i] = planeIndices.at(i);
 	//}
@@ -487,14 +481,14 @@ HRESULT Graphics::InitIndexBuffer()
 	ZeroMemory(&plbd, sizeof(plbd));
 
 	plbd.Usage = D3D11_USAGE_DEFAULT;
-	plbd.ByteWidth = sizeof(plIndices) * planeIndices.size();
+	plbd.ByteWidth = sizeof(planeIndices) * planeIndices.size();
 	plbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	plbd.CPUAccessFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA plInitData;
 
 	ZeroMemory(&plInitData, sizeof(plInitData));
-	plInitData.pSysMem = plIndices;
+	plInitData.pSysMem = &planeIndices[0];
 	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneIndexBuffer);
 	
 
