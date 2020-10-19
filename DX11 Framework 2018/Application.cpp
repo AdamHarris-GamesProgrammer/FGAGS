@@ -64,7 +64,7 @@ void Application::Update()
 
 	//Sun
 	XMMATRIX sun = XMMatrixIdentity();
-	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(90, 0, 0));
+	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(rotationValue, 0, 0));
 	XMStoreFloat4x4(&cubes[0], sun);
 
 	//Earth

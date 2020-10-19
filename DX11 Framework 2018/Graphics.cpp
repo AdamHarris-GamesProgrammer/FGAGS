@@ -367,14 +367,14 @@ HRESULT Graphics::InitVertexBuffer()
 	std::vector<SimpleVertex> planeVerts;
 
 	float currentX = 0.0f;
-	float currentY = 0.0f;
+	float currentZ = 0.0f;
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
-			planeVerts.push_back({ XMFLOAT3(currentX,0,currentY), XMFLOAT4(0.0f,0.0f,1.0f,1.0f) });
+			planeVerts.push_back({ XMFLOAT3(currentX,0,currentZ), XMFLOAT4(currentX,0.0f,currentZ,1.0f) });
 			currentX += 0.25f;
 		}
 		currentX = 0.0f;
-		currentY += 0.25f;
+		currentZ += 0.25f;
 	}
 
 	//SimpleVertex* plane = planeVerts.data();
@@ -458,24 +458,16 @@ HRESULT Graphics::InitIndexBuffer()
 
 	for (int y = 0; y < 4; y++) {
 		for (int x = 0; x < 4; x++) {
-			planeIndices.push_back(i + 5);
 			planeIndices.push_back(i);
+			planeIndices.push_back(i + 1);
+			planeIndices.push_back(i + 5);
 			planeIndices.push_back(i + 1);
 			planeIndices.push_back(i + 6);
 			planeIndices.push_back(i + 5);
-			planeIndices.push_back(i + 1);
 			i++;
 		}
 		i++;
 	}
-
-	//WORD* plIndices = planeIndices.data();
-	//std::copy(planeIndices.begin(), planeIndices.end(), plIndices);
-	//for (int i = 0; i < planeIndices.size(); i++) {
-	//	plIndices[i] = planeIndices.at(i);
-	//}
-
-
 
 	D3D11_BUFFER_DESC plbd;
 	ZeroMemory(&plbd, sizeof(plbd));
