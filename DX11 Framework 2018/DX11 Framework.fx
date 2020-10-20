@@ -29,9 +29,9 @@ VS_OUTPUT VS( float4 Pos : POSITION, float4 Color : COLOR)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    Pos.xy += 0.5f * sin(Pos.x) * sin(3.0f * time);
+    //Pos.xy += 0.5f * sin(Pos.x) * sin(3.0f * time);
     
-    Pos.z *= 0.6f + 0.4f * sin(2.0f * time);
+    //Pos.z *= 0.6f + 0.4f * sin(2.0f * time);
     
     //converts from model to world space
     output.Pos = mul( Pos, World );

@@ -305,6 +305,9 @@ HRESULT Graphics::InitVertexBuffer()
 
 	float currentX = 0.0f;
 	float currentZ = 0.0f;
+
+	int index = 0;
+
 	for (int j = 0; j < 5; j++) {
 		for (int i = 0; i < 5; i++) {
 			planeVerts.push_back({ XMFLOAT3(currentX,0,currentZ), XMFLOAT4(currentX,1.0f,currentZ,1.0f) });
@@ -316,10 +319,16 @@ HRESULT Graphics::InitVertexBuffer()
 
 	//__debugbreak();
 
+
+	
+	size_t size = planeVerts.size();
+	int size2 = planeVerts.size();
+
+
 	D3D11_BUFFER_DESC plbd;
 	ZeroMemory(&plbd, sizeof(plbd));
 	plbd.Usage = D3D11_USAGE_DEFAULT;
-	plbd.ByteWidth = sizeof(planeVerts) * planeVerts.size();
+	plbd.ByteWidth = sizeof(planeVerts) * 44;
 	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	plbd.CPUAccessFlags = 0;
 
