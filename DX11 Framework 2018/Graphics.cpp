@@ -85,8 +85,6 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	return S_OK;
 }
 
-
-
 HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class
@@ -299,7 +297,7 @@ HRESULT Graphics::InitVertexBuffer()
 	InitCubeVertexBuffer();
 	InitPyramidVertexBuffer();
 
-	GeneratePlane(4, 3);
+	GeneratePlane(4, 4);
 
 	return S_OK;
 }
@@ -324,7 +322,7 @@ void Graphics::InitCubeVertexBuffer()
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(cubeVertices);
+	bd.ByteWidth = sizeof(cubeVertices) * 36;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 
@@ -390,7 +388,7 @@ ID3D11Buffer* Graphics::GeneratePlaneVertices(int width, int height)
 		currentZ += zIncrement;
 	}
 
-	__debugbreak();
+	//__debugbreak();
 
 	D3D11_BUFFER_DESC plbd;
 	ZeroMemory(&plbd, sizeof(plbd));
@@ -450,11 +448,6 @@ void Graphics::GeneratePlane(int width, int height)
 {
 	_pPlaneVertexBuffer = GeneratePlaneVertices(width, height);
 	_pPlaneIndexBuffer = GeneratePlaneIndices(width, height);
-
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPlaneVertexBuffer, &stride, &offset);
-	_pImmediateContext->IASetIndexBuffer(_pPlaneIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 }
 
 HRESULT Graphics::InitIndexBuffer()
@@ -462,9 +455,6 @@ HRESULT Graphics::InitIndexBuffer()
 
 	InitCubeIndexBuffer();
 	InitPyramidIndexBuffer();
-
-
-
 
 	return S_OK;
 }
@@ -516,6 +506,36 @@ void Graphics::InitPyramidIndexBuffer()
 	ZeroMemory(&pInitData, sizeof(pInitData));
 	pInitData.pSysMem = pyramidIndices;
 	_pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidIndexBuffer);
+}
+
+void Graphics::SwitchVertexBuffer(ID3D11Buffer* buffer)
+{
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
+	_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+}
+
+void Graphics::SwitchIndexBuffer(ID3D11Buffer* buffer)
+{
+	_pImmediateContext->IASetIndexBuffer(buffer, DXGI_FORMAT_R16_UINT, 0);
+}
+
+void Graphics::SetPyramidBuffer()
+{
+	SwitchVertexBuffer(_pPyramidVertexBuffer);
+	SwitchIndexBuffer(_pPyramidIndexBuffer);
+}
+
+void Graphics::SetCubeBuffer()
+{
+	SwitchVertexBuffer(_pCubeVertexBuffer);
+	SwitchVertexBuffer(_pCubeIndexBuffer);
+}
+
+void Graphics::SetPlaneBuffer()
+{
+	SwitchVertexBuffer(_pPlaneVertexBuffer);
+	SwitchIndexBuffer(_pPlaneIndexBuffer);
 }
 
 HRESULT Graphics::InitDepthBuffer()

@@ -36,6 +36,10 @@ public:
 	void Draw(unsigned int indexCount);
 	void Present();
 
+	void SetPyramidBuffer();
+	void SetCubeBuffer();
+	void SetPlaneBuffer();
+
 	void EnableWireframe(bool enabled);
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
@@ -96,6 +100,7 @@ private:
 	void InitCubeVertexBuffer();
 	void InitPyramidVertexBuffer();
 	
+	//Generate Plane methods
 	ID3D11Buffer* GeneratePlaneVertices(int width, int height);
 	ID3D11Buffer* GeneratePlaneIndices(int width, int height);
 	void GeneratePlane(int width, int height);
@@ -105,6 +110,10 @@ private:
 	void InitCubeIndexBuffer();
 	void InitPyramidIndexBuffer();
 	
+	//Switching shapes 
+	void SwitchVertexBuffer(ID3D11Buffer* buffer);
+	void SwitchIndexBuffer(ID3D11Buffer* buffer);
+
 
 	HRESULT InitDepthBuffer();
 	HRESULT InitSwapChain();

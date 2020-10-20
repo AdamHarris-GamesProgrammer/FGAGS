@@ -63,21 +63,21 @@ void Application::Update()
 	cubes.resize(5);
 
 	//Sun
-	XMMATRIX sun = XMMatrixIdentity();
-	sun = XMMatrixMultiply(sun, XMMatrixScaling(2, 2, 2) * XMMatrixTranslation(0, 0, 0) * XMMatrixRotationRollPitchYaw(90, 0, 0));
-	XMStoreFloat4x4(&cubes[0], sun);
+	XMMATRIX plane = XMMatrixIdentity();
+	plane = XMMatrixMultiply(plane, XMMatrixScaling(1, 1, 1) * XMMatrixTranslation(-0.2,-0.2,0) * XMMatrixRotationRollPitchYaw(90, 0, 0));
+	XMStoreFloat4x4(&cubes[0], plane);
 
 	//Earth
 	XMMATRIX earth = XMMatrixIdentity();
 	earth = XMMatrixMultiply(earth, XMMatrixRotationRollPitchYaw(0,t * 2,0) * XMMatrixScaling(.25,.25,.25) *
-	XMMatrixTranslation(9,0,0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
+	XMMatrixTranslation(6,0,0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
 	XMStoreFloat4x4(&cubes[1], earth);
 
 
 	//Earth moon
 	XMMATRIX earthMoon = XMMatrixIdentity();
-	earthMoon = XMMatrixMultiply(earthMoon, XMMatrixScaling(.125, .125, .125) * XMMatrixTranslation(3, 0, 0) *
-		XMMatrixRotationRollPitchYaw(0, t * 1,0) * XMMatrixTranslation(9, 0, 0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
+	earthMoon = XMMatrixMultiply(earthMoon, XMMatrixScaling(.1, .1, .1) * XMMatrixTranslation(3, 0, 0) *
+		XMMatrixRotationRollPitchYaw(0, t * 1,0) * XMMatrixTranslation(6, 0, 0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
 	XMStoreFloat4x4(&cubes[2], earthMoon);
 
 
@@ -96,8 +96,19 @@ void Application::Draw()
 		graphics->Draw(96);
 	}*/
 
+	graphics->SetPlaneBuffer();
 	graphics->UpdateBuffers(cubes[0], 0);
 	graphics->Draw(96);
+
+	graphics->SetCubeBuffer();
+	graphics->UpdateBuffers(cubes[1], 0);
+	graphics->Draw(36);
+
+	graphics->SetPyramidBuffer();
+	graphics->UpdateBuffers(cubes[2], 0);
+	graphics->Draw(18);
+
+	
 
 	graphics->Present();
 }
