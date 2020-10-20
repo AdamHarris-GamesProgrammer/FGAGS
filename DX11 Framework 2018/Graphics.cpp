@@ -297,7 +297,7 @@ HRESULT Graphics::InitVertexBuffer()
 	InitCubeVertexBuffer();
 	InitPyramidVertexBuffer();
 
-	GeneratePlane(4, 4);
+	GeneratePlane(3.0f, 3.0f, 6, 4);
 
 	return S_OK;
 }
@@ -362,30 +362,33 @@ void Graphics::InitPyramidVertexBuffer()
 	_pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidVertexBuffer);
 }
 
-ID3D11Buffer* Graphics::GeneratePlaneVertices(int width, int height)
+ID3D11Buffer* Graphics::GeneratePlaneVertices(float width, float depth, int rows, int columns)
 {
 	std::vector<SimpleVertex> planeVerts;
 	ID3D11Buffer* buffer;
 
-	float currentX = 0.0f;
-	float currentZ = 0.0f;
-
-	int loopX = width + 1;
-	int loopY = height + 1;
-
-	float xIncrement = 1.0f / width;
-	float zIncrement = 1.0f / height;
-
-	int index = 0;
-	planeVerts.resize(loopX * loopY);
-	for (int j = 0; j < loopX; j++) {
-		for (int i = 0; i < loopY; i++) {
-			planeVerts[index] = { XMFLOAT3(currentX,0,currentZ), XMFLOAT4(currentX,1.0f,currentZ,1.0f) };
-			currentX += xIncrement;
-			index++;
+	UINT vertexCount = rows * columns;
+	UINT faceCount = (rows - 1) * (columns - 1) * 2;
+	//
+	// Create the vertices.
+	//
+	float halfWidth = 0.5f * width;
+	float halfDepth = 0.5f * depth;
+	float dx = width / (columns - 1);
+	float dz = depth / (rows - 1);
+	float du = 1.0f / (columns - 1);
+	float dv = 1.0f / (rows - 1);
+	planeVerts.resize(vertexCount);
+	for (UINT i = 0; i < rows; ++i)
+	{
+		float z = halfDepth - i * dz;
+		for (UINT j = 0; j < columns; ++j)
+		{
+			float x = -halfWidth + j * dx;
+			planeVerts[i * columns + j].Pos = XMFLOAT3(x, 0.0f, z);
+			planeVerts[i * columns + j].Color = XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f);
 		}
-		currentX = 0.0f;
-		currentZ += zIncrement;
+
 	}
 
 	//__debugbreak();
@@ -406,24 +409,27 @@ ID3D11Buffer* Graphics::GeneratePlaneVertices(int width, int height)
 	return buffer;
 }
 
-ID3D11Buffer* Graphics::GeneratePlaneIndices(int width, int height)
+ID3D11Buffer* Graphics::GeneratePlaneIndices(int height, int width)
 {
 	std::vector<WORD> planeIndices;
 	ID3D11Buffer* buffer;
 
-	int i = 0;
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			planeIndices.push_back(i);
-			planeIndices.push_back(i + 1);
-			planeIndices.push_back(i + 5);
-			planeIndices.push_back(i + 5);
-			planeIndices.push_back(i + 1);
-			planeIndices.push_back(i + 6);
-			i++;
+	planeIndices.resize(((height * width) * 2) * 3);
+	UINT k = 0;
+	for (UINT i = 0; i < height - 1; ++i)
+	{
+		for (UINT j = 0; j < width - 1; ++j)
+		{
+			planeIndices[k] = i * width + j;
+			planeIndices[k + 1] = i * width + j + 1;
+			planeIndices[k + 2] = (i + 1) * width + j;
+			planeIndices[k + 3] = (i + 1) * width + j;
+			planeIndices[k + 4] = i * width + j + 1;
+			planeIndices[k + 5] = (i + 1) * width + j + 1;
+			k += 6; // next quad
 		}
-		i++;
 	}
+
 
 	//__debugbreak();
 
@@ -444,10 +450,10 @@ ID3D11Buffer* Graphics::GeneratePlaneIndices(int width, int height)
 	return buffer;
 }
 
-void Graphics::GeneratePlane(int width, int height)
+void Graphics::GeneratePlane(float width, float depth, int rows, int columns)
 {
-	_pPlaneVertexBuffer = GeneratePlaneVertices(width, height);
-	_pPlaneIndexBuffer = GeneratePlaneIndices(width, height);
+	_pPlaneVertexBuffer = GeneratePlaneVertices(width, depth, rows, columns);
+	_pPlaneIndexBuffer = GeneratePlaneIndices(rows, columns);
 }
 
 HRESULT Graphics::InitIndexBuffer()

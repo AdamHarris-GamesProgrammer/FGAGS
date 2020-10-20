@@ -101,9 +101,9 @@ private:
 	void InitPyramidVertexBuffer();
 	
 	//Generate Plane methods
-	ID3D11Buffer* GeneratePlaneVertices(int width, int height);
-	ID3D11Buffer* GeneratePlaneIndices(int width, int height);
-	void GeneratePlane(int width, int height);
+	ID3D11Buffer* GeneratePlaneVertices(float width, float depth, int rows, int columns);
+	ID3D11Buffer* GeneratePlaneIndices(int height, int width);
+	void GeneratePlane(float width, float depth, int rows, int columns);
 
 	//Index Buffer Methods
 	HRESULT InitIndexBuffer();
