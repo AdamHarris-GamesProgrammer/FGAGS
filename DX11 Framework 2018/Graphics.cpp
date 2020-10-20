@@ -296,52 +296,10 @@ HRESULT Graphics::InitShadersAndInputLayout()
 
 HRESULT Graphics::InitVertexBuffer()
 {
-	HRESULT hr;
-
 	InitCubeVertexBuffer();
 	InitPyramidVertexBuffer();
 
-	std::vector<SimpleVertex> planeVerts;
-
-	float currentX = 0.0f;
-	float currentZ = 0.0f;
-
-	int index = 0;
-
-	for (int j = 0; j < 5; j++) {
-		for (int i = 0; i < 5; i++) {
-			planeVerts.push_back({ XMFLOAT3(currentX,0,currentZ), XMFLOAT4(currentX,1.0f,currentZ,1.0f) });
-			currentX += 0.25f;
-		}
-		currentX = 0.0f;
-		currentZ += 0.25f;
-	}
-
-	//__debugbreak();
-
-
-	
-	size_t size = planeVerts.size();
-	int size2 = planeVerts.size();
-
-
-	D3D11_BUFFER_DESC plbd;
-	ZeroMemory(&plbd, sizeof(plbd));
-	plbd.Usage = D3D11_USAGE_DEFAULT;
-	plbd.ByteWidth = sizeof(planeVerts) * 44;
-	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	plbd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA plInitData;
-	ZeroMemory(&plInitData, sizeof(plInitData));
-	plInitData.pSysMem = &planeVerts[0];
-
-	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneVertexBuffer);
-
-
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPlaneVertexBuffer, &stride, &offset);
+	GeneratePlane(4, 3);
 
 	return S_OK;
 }
@@ -406,18 +364,58 @@ void Graphics::InitPyramidVertexBuffer()
 	_pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidVertexBuffer);
 }
 
-HRESULT Graphics::InitIndexBuffer()
+ID3D11Buffer* Graphics::GeneratePlaneVertices(int width, int height)
 {
-	HRESULT hr;
+	std::vector<SimpleVertex> planeVerts;
+	ID3D11Buffer* buffer;
 
-	InitCubeIndexBuffer();
-	InitPyramidIndexBuffer();
+	float currentX = 0.0f;
+	float currentZ = 0.0f;
 
+	int loopX = width + 1;
+	int loopY = height + 1;
+
+	float xIncrement = 1.0f / width;
+	float zIncrement = 1.0f / height;
+
+	int index = 0;
+	planeVerts.resize(loopX * loopY);
+	for (int j = 0; j < loopX; j++) {
+		for (int i = 0; i < loopY; i++) {
+			planeVerts[index] = { XMFLOAT3(currentX,0,currentZ), XMFLOAT4(currentX,1.0f,currentZ,1.0f) };
+			currentX += xIncrement;
+			index++;
+		}
+		currentX = 0.0f;
+		currentZ += zIncrement;
+	}
+
+	__debugbreak();
+
+	D3D11_BUFFER_DESC plbd;
+	ZeroMemory(&plbd, sizeof(plbd));
+	plbd.Usage = D3D11_USAGE_DEFAULT;
+	plbd.ByteWidth = sizeof(planeVerts) * (planeVerts.size() * 2);
+	plbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	plbd.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA plInitData;
+	ZeroMemory(&plInitData, sizeof(plInitData));
+	plInitData.pSysMem = &planeVerts[0];
+
+	_pd3dDevice->CreateBuffer(&plbd, &plInitData, &buffer);
+
+	return buffer;
+}
+
+ID3D11Buffer* Graphics::GeneratePlaneIndices(int width, int height)
+{
 	std::vector<WORD> planeIndices;
+	ID3D11Buffer* buffer;
 
 	int i = 0;
-	for (int y = 0; y < 4; y++) {
-		for (int x = 0; x < 4; x++) {
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
 			planeIndices.push_back(i);
 			planeIndices.push_back(i + 1);
 			planeIndices.push_back(i + 5);
@@ -443,13 +441,30 @@ HRESULT Graphics::InitIndexBuffer()
 
 	ZeroMemory(&plInitData, sizeof(plInitData));
 	plInitData.pSysMem = &planeIndices[0];
-	hr = _pd3dDevice->CreateBuffer(&plbd, &plInitData, &_pPlaneIndexBuffer);
+	_pd3dDevice->CreateBuffer(&plbd, &plInitData, &buffer);
 
+	return buffer;
+}
 
-	if (FAILED(hr))
-		return hr;
+void Graphics::GeneratePlane(int width, int height)
+{
+	_pPlaneVertexBuffer = GeneratePlaneVertices(width, height);
+	_pPlaneIndexBuffer = GeneratePlaneIndices(width, height);
 
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
+	_pImmediateContext->IASetVertexBuffers(0, 1, &_pPlaneVertexBuffer, &stride, &offset);
 	_pImmediateContext->IASetIndexBuffer(_pPlaneIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+}
+
+HRESULT Graphics::InitIndexBuffer()
+{
+
+	InitCubeIndexBuffer();
+	InitPyramidIndexBuffer();
+
+
+
 
 	return S_OK;
 }
@@ -669,4 +684,3 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.time = t;
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }
-

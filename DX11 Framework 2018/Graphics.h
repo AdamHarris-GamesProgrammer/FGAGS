@@ -95,7 +95,10 @@ private:
 	HRESULT InitVertexBuffer();
 	void InitCubeVertexBuffer();
 	void InitPyramidVertexBuffer();
-
+	
+	ID3D11Buffer* GeneratePlaneVertices(int width, int height);
+	ID3D11Buffer* GeneratePlaneIndices(int width, int height);
+	void GeneratePlane(int width, int height);
 
 	//Index Buffer Methods
 	HRESULT InitIndexBuffer();
