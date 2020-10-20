@@ -70,7 +70,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	// Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
+	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
@@ -452,7 +452,6 @@ void Graphics::GeneratePlane(int width, int height)
 
 HRESULT Graphics::InitIndexBuffer()
 {
-
 	InitCubeIndexBuffer();
 	InitPyramidIndexBuffer();
 
@@ -529,7 +528,7 @@ void Graphics::SetPyramidBuffer()
 void Graphics::SetCubeBuffer()
 {
 	SwitchVertexBuffer(_pCubeVertexBuffer);
-	SwitchVertexBuffer(_pCubeIndexBuffer);
+	SwitchIndexBuffer(_pCubeIndexBuffer);
 }
 
 void Graphics::SetPlaneBuffer()
