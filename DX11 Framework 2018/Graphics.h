@@ -90,8 +90,19 @@ private:
 	void Cleanup();
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
+
+	//Vertex Buffer Methods
 	HRESULT InitVertexBuffer();
+	void InitCubeVertexBuffer();
+	void InitPyramidVertexBuffer();
+
+
+	//Index Buffer Methods
 	HRESULT InitIndexBuffer();
+	void InitCubeIndexBuffer();
+	void InitPyramidIndexBuffer();
+	
+
 	HRESULT InitDepthBuffer();
 	HRESULT InitSwapChain();
 	HRESULT InitWireframeView();
