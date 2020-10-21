@@ -71,10 +71,13 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	// Initialize the view matrix
 	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
+
+
+	XMVECTOR mEye = XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(Eye, At, Up));
+	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(mEye, At, Up));
 
 	// Initialize the projection matrix
 	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
@@ -85,11 +88,14 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	lightDirection = XMFLOAT3(0.25f, 0.5f, -1.0f);
 
 	diffuseMaterial = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
-
 	diffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	ambientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f);
 	ambientMaterial = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	specularLight = XMFLOAT4(0.5f,0.5f,0.5f, 1.0f);
+	specularMaterial = XMFLOAT4(0.8f,0.8f,0.8f, 1.0f);
+	specularPower = 1.0f;
 
 	return S_OK;
 }
@@ -715,12 +721,18 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
 	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
+	
 	cb.DiffuseMtrl = diffuseMaterial;
 	cb.DiffuseLight = diffuseLight;
 	cb.LightVec3 = lightDirection;
+	
 	cb.AmbientLight = ambientLight;
 	cb.AmbientMtrl = ambientMaterial;
 
+	cb.SpecularLight = specularLight;
+	cb.SpecularMtrl = specularMaterial;
+	cb.specularPower = specularPower;
+	cb.EyePosW = XMFLOAT3(mEye.m128_f32[0], mEye.m128_f32[1], mEye.m128_f32[2]);
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }
