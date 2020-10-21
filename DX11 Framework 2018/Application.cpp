@@ -64,7 +64,7 @@ void Application::Update()
 
 	//Sun
 	XMMATRIX plane = XMMatrixIdentity();
-	plane = XMMatrixMultiply(plane, XMMatrixScaling(1, 1, 1) * XMMatrixTranslation(-0.2,-0.2,0) * XMMatrixRotationRollPitchYaw(90, 0, 0));
+	plane = XMMatrixMultiply(plane, XMMatrixScaling(1, 1, 1) * XMMatrixTranslation(-0.2,-0.2,0) * XMMatrixRotationRollPitchYaw(rotationValue, 0, 0));
 	XMStoreFloat4x4(&cubes[0], plane);
 
 	//Earth
@@ -96,17 +96,16 @@ void Application::Draw()
 		graphics->Draw(96);
 	}*/
 
-	graphics->SetPlaneBuffer();
-	graphics->UpdateBuffers(cubes[0], 0);
-	graphics->Draw(96);
-
 	graphics->SetCubeBuffer();
+	graphics->UpdateBuffers(cubes[0], 0);
+	graphics->Draw(36);
+
+
 	graphics->UpdateBuffers(cubes[1], 0);
 	graphics->Draw(36);
 
-	graphics->SetPyramidBuffer();
 	graphics->UpdateBuffers(cubes[2], 0);
-	graphics->Draw(18);
+	graphics->Draw(36);
 
 	
 

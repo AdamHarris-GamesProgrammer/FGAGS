@@ -82,6 +82,12 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Initialise the time class
 	//time = Time();
 
+	lightDirection = XMFLOAT3(0.25f, 0.5f, -1.0f);
+
+	diffuseMaterial = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
+
+	diffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+
 	return S_OK;
 }
 
@@ -273,7 +279,7 @@ HRESULT Graphics::InitShadersAndInputLayout()
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
 	UINT numElements = ARRAYSIZE(layout);
@@ -307,14 +313,14 @@ void Graphics::InitCubeVertexBuffer()
 	// Create vertex buffer
 	SimpleVertex cubeVertices[] =
 	{
-		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT4(0.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT4(1.0f,0.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT4(0.0f,0.0f,0.0f,1.0f)	}
+		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT3(1.0f,-1.0f,-1.0f)	}, //Bottom Back Left
+		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT3(-1.0f,-1.0f,-1.0f)}, //Bottom Back Right
+		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT3(1.0f,1.0f,-1.0f)	}, //Top Back Left
+		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT3(-1.0f,1.0f,-1.0f)	}, //Top Back Right
+		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT3(1.0f,-1.0f,1.0f)	}, //Bottom Front Left
+		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT3(-1.0f,-1.0f,1.0f)	}, //Bottom Front Right
+		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT3(1.0f,1.0f,1.0f)	}, //Top Front Left
+		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT3(-1.0f,1.0f,1.0f)	}  //Top Front Right
 	};
 
 
@@ -339,11 +345,11 @@ void Graphics::InitPyramidVertexBuffer()
 {
 	SimpleVertex pyramidVertices[] =
 	{
-		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT4(0.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT4(0.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT4(1.0f,0.0f,1.0f,1.0f)	},
-		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT4(1.0f,1.0f,0.0f,1.0f)	},
-		{ XMFLOAT3(0.0f,1.0f,0.0f)		,XMFLOAT4(1.0f,1.0f,1.0f,1.0f)	},
+		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT3(0.0f,0.0f,1.0f)	},
+		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT3(0.0f,1.0f,0.0f)	},
+		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT3(1.0f,0.0f,1.0f)	},
+		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT3(1.0f,1.0f,0.0f)	},
+		{ XMFLOAT3(0.0f,1.0f,0.0f)		,XMFLOAT3(1.0f,1.0f,1.0f)	},
 	};
 
 	D3D11_BUFFER_DESC pbd;
@@ -386,7 +392,7 @@ ID3D11Buffer* Graphics::GeneratePlaneVertices(float width, float depth, int rows
 		{
 			float x = -halfWidth + j * dx;
 			planeVerts[i * columns + j].Pos = XMFLOAT3(x, 0.0f, z);
-			planeVerts[i * columns + j].Color = XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f);
+			planeVerts[i * columns + j].Normal = XMFLOAT3(0.0f, 0.0f, 1.0f);
 		}
 
 	}
@@ -706,6 +712,10 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
 	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
-	cb.time = t;
+	cb.DiffuseMtrl = diffuseMaterial;
+	cb.DiffuseLight = diffuseLight;
+	cb.LightVec3 = lightDirection;
+
+
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

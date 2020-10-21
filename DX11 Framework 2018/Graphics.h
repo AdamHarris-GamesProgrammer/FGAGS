@@ -15,7 +15,7 @@ using namespace DirectX;
 struct SimpleVertex
 {
 	XMFLOAT3 Pos;
-	XMFLOAT4 Color;
+	XMFLOAT3 Normal;
 };
 
 struct ConstantBuffer
@@ -23,7 +23,10 @@ struct ConstantBuffer
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
-	float time;
+	
+	XMFLOAT4 DiffuseMtrl;
+	XMFLOAT4 DiffuseLight;
+	XMFLOAT3 LightVec3;
 };
 
 class Graphics
@@ -50,6 +53,10 @@ public:
 
 private:
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+
+	XMFLOAT3 lightDirection;
+	XMFLOAT4 diffuseMaterial;
+	XMFLOAT4 diffuseLight;
 
 
 	HINSTANCE               _hInst;
