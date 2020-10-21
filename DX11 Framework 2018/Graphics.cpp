@@ -88,6 +88,9 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	diffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
+	ambientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f);
+	ambientMaterial = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+
 	return S_OK;
 }
 
@@ -715,6 +718,8 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.DiffuseMtrl = diffuseMaterial;
 	cb.DiffuseLight = diffuseLight;
 	cb.LightVec3 = lightDirection;
+	cb.AmbientLight = ambientLight;
+	cb.AmbientMtrl = ambientMaterial;
 
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);

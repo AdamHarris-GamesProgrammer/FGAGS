@@ -15,6 +15,8 @@ cbuffer ConstantBuffer : register( b0 )
     
     float4 DiffuseMtrl;
     float4 DiffuseLight;
+    float4 AmbientMtrl;
+    float4 AmbientLight;
     float3 LightVecW;
 }
 
@@ -51,10 +53,13 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL)
     //calculates the diffuse amount from the max value of either the light vector or the normal 
     float diffuseAmount = max(dot(LightVecW, normalW), 0.0f);
     //sets the output colour based of the material and lighting colour 
-    output.Color.rgb = diffuseAmount * (DiffuseMtrl * DiffuseLight).rgb;
+    float3 diffuse = diffuseAmount * (DiffuseMtrl * DiffuseLight).rgb;
     //sets the alpha value to that of the material
     output.Color.a = DiffuseMtrl.a;
     
+    float3 ambient = AmbientMtrl * AmbientLight;
+    output.Color.rgb = diffuse + ambient;
+    output.Color.a = DiffuseMtrl.a;
     
     return output;
 }

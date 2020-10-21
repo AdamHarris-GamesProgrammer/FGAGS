@@ -26,6 +26,8 @@ struct ConstantBuffer
 	
 	XMFLOAT4 DiffuseMtrl;
 	XMFLOAT4 DiffuseLight;
+	XMFLOAT4 AmbientMtrl;
+	XMFLOAT4 AmbientLight;
 	XMFLOAT3 LightVec3;
 };
 
@@ -57,6 +59,8 @@ private:
 	XMFLOAT3 lightDirection;
 	XMFLOAT4 diffuseMaterial;
 	XMFLOAT4 diffuseLight;
+	XMFLOAT4 ambientMaterial;
+	XMFLOAT4 ambientLight;
 
 
 	HINSTANCE               _hInst;
