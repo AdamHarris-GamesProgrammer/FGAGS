@@ -89,7 +89,12 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	diffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	ambientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f);
-	ambientMaterial = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	ambientMaterial = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+
+	specularMtrl = { 0.8f,0.8f,0.8f,1.0f };
+	specularLight = { 0.5f,0.5f,0.5f, 1.0f };
+	specularPower = 1.0f;
+	eyePos = Eye;
 
 	return S_OK;
 }
@@ -720,7 +725,10 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.LightVec3 = lightDirection;
 	cb.AmbientLight = ambientLight;
 	cb.AmbientMtrl = ambientMaterial;
-
+	cb.SpecularMtrl = specularMtrl;
+	cb.SpecularPower = specularPower;
+	cb.SpecularLight = specularLight;
+	cb.EyePosW = { eyePos.m128_f32[0], eyePos.m128_f32[1], eyePos.m128_f32[2] };
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

@@ -29,6 +29,12 @@ struct ConstantBuffer
 	XMFLOAT4 AmbientMtrl;
 	XMFLOAT4 AmbientLight;
 	XMFLOAT3 LightVec3;
+	float padding;
+	XMFLOAT4 SpecularMtrl;
+	XMFLOAT4 SpecularLight;
+	float SpecularPower;
+	XMFLOAT3 padding2;
+	XMFLOAT3 EyePosW;
 };
 
 class Graphics
@@ -36,7 +42,7 @@ class Graphics
 public:
 	Graphics();
 	~Graphics();
-
+	
 	void ClearBuffers();
 	void Draw(unsigned int indexCount);
 	void Present();
@@ -57,11 +63,17 @@ private:
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 
 	XMFLOAT3 lightDirection;
+
 	XMFLOAT4 diffuseMaterial;
 	XMFLOAT4 diffuseLight;
+
 	XMFLOAT4 ambientMaterial;
 	XMFLOAT4 ambientLight;
 
+	XMFLOAT4 specularMtrl;
+	XMFLOAT4 specularLight;
+	XMVECTOR eyePos;
+	float specularPower;
 
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
