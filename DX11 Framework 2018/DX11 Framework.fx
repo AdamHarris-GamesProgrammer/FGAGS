@@ -69,18 +69,18 @@ VS_OUTPUT VS(float4 Pos : POSITION, float3 Normal : NORMAL)
 float4 PS(VS_OUTPUT input) : SV_Target
 {
     // fragment to light vector data
-    const float3 vToL = LightVecW - input.Pos;
+    const float3 vToL = LightVecW - input.Pos.xyz;
     const float distToL = length(vToL);
     const float3 dirToL = vToL / distToL;
 	
     // diffuse intensity
     const float3 diffuse = DiffuseMtrl * 1.0f * max(0.0f, dot(dirToL, input.Norm));
 	// reflected light vector
-    const float3 w = input.Norm * dot(LightVecW, input.Norm);
-    const float3 r = w * 2.0f - LightVecW;
+    const float3 w = input.Norm * dot(vToL, input.Norm);
+    const float3 r = w * 2.0f - vToL;
 	
     // calculate specular intensity based on angle between viewing vector and reflection vector, narrow with power function
-    const float3 specular = (DiffuseMtrl * 1.0f) * SpecularPower * pow(max(0.0f, dot(normalize(-r), normalize(input.Pos))), SpecularPower);
+    const float3 specular = (DiffuseMtrl * 1.0f) * SpecularPower * pow(max(0.0f, dot(normalize(-r), normalize(input.Pos.xyz))), SpecularPower);
 	// final color
     
     float3 ambient = AmbientMtrl * AmbientLight;
