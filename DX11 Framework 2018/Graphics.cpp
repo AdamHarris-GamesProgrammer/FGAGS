@@ -91,9 +91,9 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	ambientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f);
 	ambientMaterial = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 
-	specularMtrl = { 0.8f,0.8f,0.8f,1.0f };
-	specularLight = { 0.5f,0.5f,0.5f, 1.0f };
-	specularPower = 1.0f;
+	specularMtrl = { 0.0f,0.8f,0.0f,1.0f };
+	specularLight = {0.5f,0.5f,0.5f, 1.0f };
+	specularPower = 10.0f;
 	eyePos = Eye;
 
 	return S_OK;
@@ -321,16 +321,15 @@ void Graphics::InitCubeVertexBuffer()
 	// Create vertex buffer
 	SimpleVertex cubeVertices[] =
 	{
-		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT3(1.0f,-1.0f,-1.0f)	}, //Bottom Back Left
-		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT3(-1.0f,-1.0f,-1.0f)}, //Bottom Back Right
-		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT3(1.0f,1.0f,-1.0f)	}, //Top Back Left
-		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT3(-1.0f,1.0f,-1.0f)	}, //Top Back Right
-		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT3(1.0f,-1.0f,1.0f)	}, //Bottom Front Left
-		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT3(-1.0f,-1.0f,1.0f)	}, //Bottom Front Right
-		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT3(1.0f,1.0f,1.0f)	}, //Top Front Left
-		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT3(-1.0f,1.0f,1.0f)	}  //Top Front Right
+		{ XMFLOAT3(-1.0f,-1.0f,-1.0f)	,XMFLOAT3(-1.0f,-1.0f,-1.0f)	}, //Bottom Back Left
+		{ XMFLOAT3(1.0f,-1.0f,-1.0f)	,XMFLOAT3(1.0f,-1.0f,-1.0f)	}, //Bottom Back Right
+		{ XMFLOAT3(-1.0f,1.0f,-1.0f)	,XMFLOAT3(-1.0f,1.0f,-1.0f)	}, //Top Back Left
+		{ XMFLOAT3(1.0f,1.0f,-1.0f)		,XMFLOAT3(1.0f,1.0f,-1.0f)	}, //Top Back Right
+		{ XMFLOAT3(-1.0f,-1.0f,1.0f)	,XMFLOAT3(-1.0f,-1.0f,1.0f)	}, //Bottom Front Left
+		{ XMFLOAT3(1.0f,-1.0f,1.0f)		,XMFLOAT3(1.0f,-1.0f,1.0f)	}, //Bottom Front Right
+		{ XMFLOAT3(-1.0f,1.0f,1.0f)		,XMFLOAT3(-1.0f,1.0f,1.0f)	}, //Top Front Left
+		{ XMFLOAT3(1.0f,1.0f,1.0f)		,XMFLOAT3(1.0f,1.0f,1.0f)	}  //Top Front Right
 	};
-
 
 	//Sets up the buffer description
 	D3D11_BUFFER_DESC bd;

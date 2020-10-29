@@ -68,35 +68,26 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL)
 // Pixel Shader
 //--------------------------------------------------------------------------------------
 float4 PS( VS_OUTPUT input ) : SV_Target
-{
-    //input.normalW = normalize(input.normalW);
+{   
+    input.normalW = normalize(input.normalW);
     
+    //compute reflection vector
     float r = reflect(-LightVecW, input.normalW);
-    
-    
-    //calculates the diffuse amount from the max value of either the dot product of light and normals or 0 
+    // Compute Colour using Diffuse lighting only
     float diffuseAmount = max(dot(LightVecW, input.normalW), 0.0f);
-    
-    
+    // Determine how much (if any) specular light makes it into the eye.
     float specularAmount = pow(max(dot(r, input.eye), 0), SpecularPower);
-    
-   
-    
+
+    //specular calc
     float3 specular = specularAmount * (SpecularMtrl * SpecularLight).rgb;
-    
+    //ambient calc
     float3 ambient = AmbientMtrl * AmbientLight;
-    
-    //sets the output colour based of the material and lighting colour 
+    //diffuse calc
     float3 diffuse = diffuseAmount * (DiffuseMtrl * DiffuseLight).rgb;
-    
-    
-    //sets the alpha value to that of the material
+
     float4 finalColor;
     finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
     finalColor.a = DiffuseMtrl.a;
-    
-    
-    
-    //returns the input colour from the passed in input which is the output of the vertex shader
+
     return finalColor;
 }
