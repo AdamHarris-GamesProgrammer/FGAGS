@@ -6,6 +6,7 @@
 #include <directxmath.h>
 #include <directxcolors.h>
 #include "resource.h"
+#include "DDSTextureLoader.h"
 
 #include <string>
 #include <vector>
@@ -97,6 +98,8 @@ private:
 	ID3D11Buffer* _pCubeVertexBuffer;
 	ID3D11Buffer* _pCubeIndexBuffer;
 
+	ID3D11ShaderResourceView* _pTextureRV = nullptr;
+	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
 	ID3D11Buffer* _pConstantBuffer;
 

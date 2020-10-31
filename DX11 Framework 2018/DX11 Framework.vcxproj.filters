@@ -14,12 +14,14 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="DDSTextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="DDSTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -35,5 +37,8 @@
     <ResourceCompile Include="DX11 Framework.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\DX11 Framework 2018\texture.dds" />
   </ItemGroup>
 </Project>

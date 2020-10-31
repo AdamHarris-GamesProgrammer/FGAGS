@@ -98,5 +98,5 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
     finalColor.a = DiffuseMtrl.a;
 
-    return finalColor;
+    return textureColour;
 }

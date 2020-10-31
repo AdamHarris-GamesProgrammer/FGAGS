@@ -164,6 +164,29 @@ HRESULT Graphics::InitDevice()
 
 	InitViewport();
 
+	hr = CreateDDSTextureFromFile(_pd3dDevice, L"texture.dds",nullptr, &_pTextureRV);
+
+	if (FAILED(hr)) {
+		__debugbreak();
+	}
+
+	//CreateDDSTextureFromFile(_pd3dDevice, L"texture.dds", nullptr, &_pTextureRV);
+
+	D3D11_SAMPLER_DESC sampDesc;
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	_pd3dDevice->CreateSamplerState(&sampDesc, &_pSamplerLinear);
+
+
+
+
 	return S_OK;
 }
 
@@ -194,8 +217,16 @@ void Graphics::Cleanup()
 {
 	if (_pImmediateContext) _pImmediateContext->ClearState();
 	if (_pConstantBuffer) _pConstantBuffer->Release();
+
 	if (_pCubeVertexBuffer) _pCubeVertexBuffer->Release();
 	if (_pCubeIndexBuffer) _pCubeIndexBuffer->Release();
+
+	if (_pPyramidIndexBuffer) _pPyramidIndexBuffer->Release();
+	if (_pPyramidVertexBuffer) _pPyramidVertexBuffer->Release();
+
+	if (_pSamplerLinear) _pSamplerLinear->Release();
+	if (_pTextureRV) _pTextureRV->Release();
+
 	if (_pVertexLayout) _pVertexLayout->Release();
 	if (_pVertexShader) _pVertexShader->Release();
 	if (_pPixelShader) _pPixelShader->Release();
@@ -363,7 +394,7 @@ void Graphics::InitCubeVertexBuffer()
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(cubeVertices) * 36;
+	bd.ByteWidth = sizeof(cubeVertices);
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 
@@ -739,6 +770,8 @@ void Graphics::SetShaders()
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
+	_pImmediateContext->PSSetShaderResources(0, 1, &_pTextureRV);
+	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 
 void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)

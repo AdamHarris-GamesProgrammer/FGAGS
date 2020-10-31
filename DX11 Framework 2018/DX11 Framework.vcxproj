@@ -373,9 +373,9 @@
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup />
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -385,12 +385,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Graphics.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Time.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\DX11 Framework 2018\texture.dds" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
