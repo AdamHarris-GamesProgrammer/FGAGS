@@ -7,6 +7,9 @@
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
+Texture2D txDiffuse : register(t0);
+SamplerState samLinear : register(s0);
+
 cbuffer ConstantBuffer : register( b0 )
 {
 	matrix World;
@@ -33,12 +36,14 @@ struct VS_OUTPUT
     float4 Pos : SV_POSITION;
     float3 normalW : NORMAL;
     float3 eye : POSITION;
+    float2 Tex : TEXCOORD0;
 };
+
 
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
-VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL)
+VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOORD)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
@@ -59,6 +64,7 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL)
     //returns a value between 0 and 1
     output.normalW = normalize(normalW);
 
+    output.Tex = Tex;
     
     return output;
 }
@@ -69,6 +75,9 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL)
 //--------------------------------------------------------------------------------------
 float4 PS( VS_OUTPUT input ) : SV_Target
 {   
+    float4 textureColour = txDiffuse.Sample(samLinear, input.Tex);
+    
+    //Get each pixels normal
     input.normalW = normalize(input.normalW);
     
     //compute reflection vector
@@ -83,7 +92,7 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     //ambient calc
     float3 ambient = AmbientMtrl * AmbientLight;
     //diffuse calc
-    float3 diffuse = diffuseAmount * (DiffuseMtrl * DiffuseLight).rgb;
+    float3 diffuse = diffuseAmount * (textureColour * DiffuseMtrl * DiffuseLight).rgb;
 
     float4 finalColor;
     finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
