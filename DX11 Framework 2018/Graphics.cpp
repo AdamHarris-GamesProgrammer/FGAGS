@@ -164,7 +164,7 @@ HRESULT Graphics::InitDevice()
 
 	InitViewport();
 
-	hr = CreateDDSTextureFromFile(_pd3dDevice, L"texture.dds",nullptr, &_pTextureRV);
+	hr = CreateDDSTextureFromFile(_pd3dDevice, L"Crate_COLOR.dds",nullptr, &_pTextureRV);
 
 	if (FAILED(hr)) {
 		__debugbreak();
