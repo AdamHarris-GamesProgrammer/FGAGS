@@ -123,6 +123,10 @@ private:
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
 
+	//Texture Methods
+	HRESULT CreateTextue(wchar_t* filepath, ID3D11ShaderResourceView** texture);
+
+
 	//Vertex Buffer Methods
 	HRESULT InitVertexBuffer();
 	void InitCubeVertexBuffer();

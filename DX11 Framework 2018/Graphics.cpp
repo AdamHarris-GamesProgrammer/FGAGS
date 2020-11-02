@@ -164,20 +164,23 @@ HRESULT Graphics::InitDevice()
 
 	InitViewport();
 
-	hr = CreateDDSTextureFromFile(_pd3dDevice, L"Assets/Textures/Crate_SPEC.dds", nullptr, &_pSpecularTexture);
-
+	hr = CreateTextue(L"Assets/Textures/Crate_SPEC.dds", &_pSpecularTexture);
 	if (FAILED(hr)) {
-		__debugbreak();
+		MessageBox(_hWnd, L"Initialization of specular texture failed", L"Error", MB_ICONERROR);
 	}
 
-	hr = CreateDDSTextureFromFile(_pd3dDevice, L"Assets/Textures/Crate_Color.dds",nullptr, &_pDiffuseTexture);
-
+	hr = CreateTextue(L"Assets/Textures/Crate_COLOR.dds", &_pDiffuseTexture);
 	if (FAILED(hr)) {
-		__debugbreak();
+		MessageBox(_hWnd, L"Initialization of diffuse texture failed", L"Error", MB_ICONERROR);
 	}
 
-	//CreateDDSTextureFromFile(_pd3dDevice, L"texture.dds", nullptr, &_pTextureRV);
+	InitializeSampler();
 
+	return S_OK;
+}
+
+void Graphics::InitializeSampler()
+{
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory(&sampDesc, sizeof(sampDesc));
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -189,11 +192,6 @@ HRESULT Graphics::InitDevice()
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	_pd3dDevice->CreateSamplerState(&sampDesc, &_pSamplerLinear);
-
-
-
-
-	return S_OK;
 }
 
 HRESULT Graphics::InitRenderTarget()
@@ -342,6 +340,11 @@ HRESULT Graphics::InitShadersAndInputLayout()
 	_pImmediateContext->IASetInputLayout(_pVertexLayout);
 
 	return hr;
+}
+
+HRESULT Graphics::CreateTextue(wchar_t* filepath, ID3D11ShaderResourceView** texture)
+{
+	return CreateDDSTextureFromFile(_pd3dDevice, filepath, nullptr, texture);
 }
 
 HRESULT Graphics::InitVertexBuffer()
