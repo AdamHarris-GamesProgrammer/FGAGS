@@ -98,7 +98,8 @@ private:
 	ID3D11Buffer* _pCubeVertexBuffer;
 	ID3D11Buffer* _pCubeIndexBuffer;
 
-	ID3D11ShaderResourceView* _pTextureRV = nullptr;
+	ID3D11ShaderResourceView* _pDiffuseTexture = nullptr;
+	ID3D11ShaderResourceView* _pSpecularTexture = nullptr;
 	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
 	ID3D11Buffer* _pConstantBuffer;

@@ -91,7 +91,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	ambientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f);
 	ambientMaterial = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 
-	specularMtrl = { 0.0f,0.8f,0.0f,1.0f };
+	specularMtrl = { 1.0f,1.0f,1.0f,1.0f };
 	specularLight = { 0.5f,0.5f,0.5f, 1.0f };
 	specularPower = 10.0f;
 	eyePos = Eye;
@@ -164,7 +164,13 @@ HRESULT Graphics::InitDevice()
 
 	InitViewport();
 
-	hr = CreateDDSTextureFromFile(_pd3dDevice, L"Crate_COLOR.dds",nullptr, &_pTextureRV);
+	hr = CreateDDSTextureFromFile(_pd3dDevice, L"Assets/Textures/Crate_SPEC.dds", nullptr, &_pSpecularTexture);
+
+	if (FAILED(hr)) {
+		__debugbreak();
+	}
+
+	hr = CreateDDSTextureFromFile(_pd3dDevice, L"Assets/Textures/Crate_Color.dds",nullptr, &_pDiffuseTexture);
 
 	if (FAILED(hr)) {
 		__debugbreak();
@@ -225,7 +231,7 @@ void Graphics::Cleanup()
 	if (_pPyramidVertexBuffer) _pPyramidVertexBuffer->Release();
 
 	if (_pSamplerLinear) _pSamplerLinear->Release();
-	if (_pTextureRV) _pTextureRV->Release();
+	if (_pDiffuseTexture) _pDiffuseTexture->Release();
 
 	if (_pVertexLayout) _pVertexLayout->Release();
 	if (_pVertexShader) _pVertexShader->Release();
@@ -770,7 +776,8 @@ void Graphics::SetShaders()
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->PSSetShaderResources(0, 1, &_pTextureRV);
+	_pImmediateContext->PSSetShaderResources(0, 1, &_pDiffuseTexture);
+	_pImmediateContext->PSSetShaderResources(1, 1, &_pSpecularTexture);
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 

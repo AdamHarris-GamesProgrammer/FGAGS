@@ -8,6 +8,7 @@
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
 Texture2D txDiffuse : register(t0);
+Texture2D txSpecular : register(t1);
 SamplerState samLinear : register(s0);
 
 cbuffer ConstantBuffer : register( b0 )
@@ -76,6 +77,10 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOO
 float4 PS( VS_OUTPUT input ) : SV_Target
 {   
     float4 textureColour = txDiffuse.Sample(samLinear, input.Tex);
+    float4 specularColour = txSpecular.Sample(samLinear, input.Tex);
+    
+    float3 specularVal = specularColour.xyz;
+    float specularPower = specularColour.w;
     
     //Get each pixels normal
     input.normalW = normalize(input.normalW);
@@ -85,10 +90,10 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     // Compute Colour using Diffuse lighting only
     float diffuseAmount = max(dot(LightVecW, input.normalW), 0.0f);
     // Determine how much (if any) specular light makes it into the eye.
-    float specularAmount = pow(max(dot(r, input.eye), 0), SpecularPower);
+    float specularAmount = pow(max(dot(r, input.eye), 0), specularPower);
 
     //specular calc
-    float3 specular = specularAmount * (SpecularMtrl * SpecularLight).rgb;
+    float3 specular = specularAmount * (specularVal * SpecularMtrl * SpecularLight).rgb;
     //ambient calc
     float3 ambient = AmbientMtrl * AmbientLight;
     //diffuse calc
@@ -98,5 +103,5 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
     finalColor.a = DiffuseMtrl.a;
 
-    return textureColour;
+    return finalColor;
 }
