@@ -389,6 +389,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="LightingStructs.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Time.h" />
     <ResourceCompile Include="DX11 Framework.rc" />

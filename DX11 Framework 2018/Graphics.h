@@ -7,6 +7,8 @@
 #include <directxcolors.h>
 #include "resource.h"
 #include "DDSTextureLoader.h"
+
+#include "LightingStructs.h"
 #include "Camera.h"
 
 #include <string>
@@ -19,27 +21,6 @@ struct SimpleVertex
 	XMFLOAT3 Pos;
 	XMFLOAT3 Normal;
 	XMFLOAT2 TexC;
-};
-
-struct BasicLight
-{
-	BasicLight() {}
-	BasicLight(XMFLOAT4 mat, XMFLOAT4 lig) {
-		material = mat;
-		light = lig;
-	}
-
-	XMFLOAT4 material;
-	XMFLOAT4 light;
-};
-
-struct LightWithIntensity : BasicLight {
-	LightWithIntensity() {}
-	LightWithIntensity(XMFLOAT4 mat, XMFLOAT4 lig, float power) : BasicLight(mat,lig) {
-		intensity = power;
-	}
-
-	float intensity;
 };
 
 struct ConstantBuffer

@@ -15,8 +15,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	graphics = new Graphics();
 	graphics->Initialise(hInstance, nCmdShow);
 
-	//graphics->MakeTrianglePlane(5, 5);
-
 	return S_OK;
 }
 
@@ -60,7 +58,7 @@ void Application::Update()
 
 
 
-	cubes.resize(5);
+	cubes.resize(3);
 
 	//Sun
 	XMMATRIX plane = XMMatrixIdentity();
@@ -79,35 +77,18 @@ void Application::Update()
 	earthMoon = XMMatrixMultiply(earthMoon, XMMatrixScaling(.1, .1, .1) * XMMatrixTranslation(3, 0, 0) *
 		XMMatrixRotationRollPitchYaw(0, t * 1,0) * XMMatrixTranslation(6, 0, 0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
 	XMStoreFloat4x4(&cubes[2], earthMoon);
-
-
-	//Planet 1
-	//XMStoreFloat4x4(&_world2, XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(t * 4.0f) * XMMatrixTranslation(-1.5f, 0.0f, 0.0f) * XMMatrixRotationY(t));
-	//XMStoreFloat4x4(&_world4, XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(t * 7.0f) * XMMatrixTranslation(-1.0f, 0.0f, 0.0f) * XMMatrixRotationY(t * 3.0f) * XMMatrixTranslation(-2.0f, 0.0f, 0.0f) * XMMatrixRotationY(t));
 }
 
 void Application::Draw()
 {
 	graphics->ClearBuffers();
 	graphics->SetShaders();
-	/*for (auto& object : cubes)
-	{
-		graphics->UpdateBuffers(object, 0);
-		graphics->Draw(96);
-	}*/
 
 	graphics->SetCubeBuffer();
-	graphics->UpdateBuffers(cubes[0], 0);
-	graphics->Draw(36);
-
-
-	graphics->UpdateBuffers(cubes[1], 0);
-	graphics->Draw(36);
-
-	graphics->UpdateBuffers(cubes[2], 0);
-	graphics->Draw(36);
-
-	
+	for (auto& cube : cubes) {
+		graphics->UpdateBuffers(cube, 0);
+		graphics->Draw(36);
+	}
 
 	graphics->Present();
 }

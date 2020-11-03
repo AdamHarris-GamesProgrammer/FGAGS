@@ -16,6 +16,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="LightingStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

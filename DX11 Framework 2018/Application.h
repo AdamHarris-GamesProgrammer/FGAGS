@@ -15,20 +15,12 @@
 using namespace DirectX;
 
 
-
-
-
 class Application
 {
 private:
 	Graphics* graphics;
 
-
 	D3D_DRIVER_TYPE         _driverType;
-
-
-	XMFLOAT4X4              _view;
-	XMFLOAT4X4              _projection;
 
 	std::vector<XMFLOAT4X4> cubes;
 
