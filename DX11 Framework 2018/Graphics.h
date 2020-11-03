@@ -7,6 +7,7 @@
 #include <directxcolors.h>
 #include "resource.h"
 #include "DDSTextureLoader.h"
+#include "Camera.h"
 
 #include <string>
 #include <vector>
@@ -74,7 +75,6 @@ private:
 
 	XMFLOAT4 specularMtrl;
 	XMFLOAT4 specularLight;
-	XMVECTOR eyePos;
 	float specularPower;
 
 	HINSTANCE               _hInst;
@@ -110,11 +110,14 @@ private:
 	ID3D11DepthStencilView* _depthStencilView;
 	ID3D11Texture2D* _depthStencilBuffer;
 
-	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
+
+	Camera mCamera;
 
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
+
+	void InitializeSampler();
 
 	HRESULT InitRenderTarget();
 

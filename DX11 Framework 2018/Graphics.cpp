@@ -69,18 +69,15 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 
-	// Initialize the view matrix
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
-	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
-	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(Eye, At, Up));
+	// Initialize the Camera
+	mCamera = Camera();
+	mCamera.SetEye(XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f));
+	mCamera.SetAt(XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f));
+	mCamera.SetUp(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 
 	// Initialize the projection matrix
 	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
 
-	//Initialise the time class
-	//time = Time();
 
 	lightDirection = XMFLOAT3(0.25f, 0.5f, -1.0f);
 
@@ -94,7 +91,6 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	specularMtrl = { 1.0f,1.0f,1.0f,1.0f };
 	specularLight = { 0.5f,0.5f,0.5f, 1.0f };
 	specularPower = 10.0f;
-	eyePos = Eye;
 
 	return S_OK;
 }
@@ -787,7 +783,7 @@ void Graphics::SetShaders()
 void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 {
 	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&_view));
+	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetMatrix()));
 	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 	cb.DiffuseMtrl = diffuseMaterial;
@@ -798,6 +794,7 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.SpecularMtrl = specularMtrl;
 	cb.SpecularPower = specularPower;
 	cb.SpecularLight = specularLight;
+	XMVECTOR eyePos = mCamera.GetEye();
 	cb.EyePosW = { eyePos.m128_f32[0], eyePos.m128_f32[1], eyePos.m128_f32[2] };
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
