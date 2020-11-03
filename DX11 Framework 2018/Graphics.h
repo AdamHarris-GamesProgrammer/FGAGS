@@ -52,9 +52,7 @@ public:
 	void Draw(unsigned int indexCount);
 	void Present();
 
-	void SetPyramidBuffer();
 	void SetCubeBuffer();
-	void SetPlaneBuffer();
 
 	void EnableWireframe(bool enabled);
 	
@@ -85,12 +83,6 @@ private:
 	ID3D11VertexShader* _pVertexShader;
 	ID3D11PixelShader* _pPixelShader;
 	ID3D11InputLayout* _pVertexLayout;
-
-	ID3D11Buffer* _pPyramidVertexBuffer;
-	ID3D11Buffer* _pPyramidIndexBuffer;
-	
-	ID3D11Buffer* _pPlaneIndexBuffer;
-	ID3D11Buffer* _pPlaneVertexBuffer;
 
 	ID3D11Buffer* _pCubeVertexBuffer;
 	ID3D11Buffer* _pCubeIndexBuffer;
@@ -130,19 +122,13 @@ private:
 	//Vertex Buffer Methods
 	HRESULT InitVertexBuffer();
 	void InitCubeVertexBuffer();
-	void InitPyramidVertexBuffer();
 	void CreateBuffer(SimpleVertex* vertices, int size, ID3D11Buffer** selectedBuffer);
 
 
-	//Generate Plane methods
-	ID3D11Buffer* GeneratePlaneVertices(float width, float depth, int rows, int columns);
-	ID3D11Buffer* GeneratePlaneIndices(int height, int width);
-	void GeneratePlane(float width, float depth, int rows, int columns);
 
 	//Index Buffer Methods
 	HRESULT InitIndexBuffer();
 	void InitCubeIndexBuffer();
-	void InitPyramidIndexBuffer();
 	
 	//Switching shapes 
 	void SwitchVertexBuffer(ID3D11Buffer* buffer);
