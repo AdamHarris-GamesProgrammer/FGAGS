@@ -131,7 +131,9 @@ private:
 	HRESULT InitVertexBuffer();
 	void InitCubeVertexBuffer();
 	void InitPyramidVertexBuffer();
-	
+	void CreateBuffer(SimpleVertex* vertices, int size, ID3D11Buffer** selectedBuffer);
+
+
 	//Generate Plane methods
 	ID3D11Buffer* GeneratePlaneVertices(float width, float depth, int rows, int columns);
 	ID3D11Buffer* GeneratePlaneIndices(int height, int width);

@@ -387,21 +387,7 @@ void Graphics::InitCubeVertexBuffer()
 		{ XMFLOAT3(1.0, -1.0,  1.0),		XMFLOAT3(0.0, -1.0,  0.0),		XMFLOAT2(1.0, 1.0) },	//Bottom Front Right
 	};
 
-	//Sets up the buffer description
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(cubeVertices);
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = cubeVertices;
-
-	_pd3dDevice->CreateBuffer(&bd, &InitData, &_pCubeVertexBuffer);
+	CreateBuffer(cubeVertices, 288,&_pCubeVertexBuffer);
 }
 
 void Graphics::InitPyramidVertexBuffer()
@@ -429,6 +415,23 @@ void Graphics::InitPyramidVertexBuffer()
 	pInitData.pSysMem = pyramidVertices;
 
 	_pd3dDevice->CreateBuffer(&pbd, &pInitData, &_pPyramidVertexBuffer);
+}
+
+void Graphics::CreateBuffer(SimpleVertex* vertices, int size, ID3D11Buffer** selectedBuffer)
+{
+	//Sets up the buffer description
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(vertices) * size;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA InitData;
+	ZeroMemory(&InitData, sizeof(InitData));
+	InitData.pSysMem = vertices;
+
+	_pd3dDevice->CreateBuffer(&bd, &InitData, selectedBuffer);
 }
 
 ID3D11Buffer* Graphics::GeneratePlaneVertices(float width, float depth, int rows, int columns)
