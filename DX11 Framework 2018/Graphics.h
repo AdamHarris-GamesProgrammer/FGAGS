@@ -21,6 +21,27 @@ struct SimpleVertex
 	XMFLOAT2 TexC;
 };
 
+struct BasicLight
+{
+	BasicLight() {}
+	BasicLight(XMFLOAT4 mat, XMFLOAT4 lig) {
+		material = mat;
+		light = lig;
+	}
+
+	XMFLOAT4 material;
+	XMFLOAT4 light;
+};
+
+struct LightWithIntensity : BasicLight {
+	LightWithIntensity() {}
+	LightWithIntensity(XMFLOAT4 mat, XMFLOAT4 lig, float power) : BasicLight(mat,lig) {
+		intensity = power;
+	}
+
+	float intensity;
+};
+
 struct ConstantBuffer
 {
 	XMMATRIX mWorld;
@@ -67,15 +88,10 @@ private:
 
 	XMFLOAT3 lightDirection;
 
-	XMFLOAT4 diffuseMaterial;
-	XMFLOAT4 diffuseLight;
-
-	XMFLOAT4 ambientMaterial;
-	XMFLOAT4 ambientLight;
-
-	XMFLOAT4 specularMtrl;
-	XMFLOAT4 specularLight;
-	float specularPower;
+	BasicLight diffuseLight;
+	BasicLight ambientLight;
+	LightWithIntensity specularLight;
+	
 
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;

@@ -78,19 +78,11 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	// Initialize the projection matrix
 	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
 
-
 	lightDirection = XMFLOAT3(0.25f, 0.5f, -1.0f);
 
-	diffuseMaterial = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
-
-	diffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	ambientLight = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f);
-	ambientMaterial = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
-
-	specularMtrl = { 1.0f,1.0f,1.0f,1.0f };
-	specularLight = { 0.5f,0.5f,0.5f, 1.0f };
-	specularPower = 10.0f;
+	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
+	specularLight = LightWithIntensity(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), 10.0f);
 
 	return S_OK;
 }
@@ -786,14 +778,14 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
 	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetMatrix()));
 	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
-	cb.DiffuseMtrl = diffuseMaterial;
-	cb.DiffuseLight = diffuseLight;
+	cb.DiffuseMtrl = diffuseLight.material;
+	cb.DiffuseLight = diffuseLight.light;
 	cb.LightVec3 = lightDirection;
-	cb.AmbientLight = ambientLight;
-	cb.AmbientMtrl = ambientMaterial;
-	cb.SpecularMtrl = specularMtrl;
-	cb.SpecularPower = specularPower;
-	cb.SpecularLight = specularLight;
+	cb.AmbientLight = ambientLight.light;
+	cb.AmbientMtrl = ambientLight.material;
+	cb.SpecularMtrl = specularLight.material;
+	cb.SpecularPower = specularLight.intensity;
+	cb.SpecularLight = specularLight.light;
 	XMVECTOR eyePos = mCamera.GetEye();
 	cb.EyePosW = { eyePos.m128_f32[0], eyePos.m128_f32[1], eyePos.m128_f32[2] };
 
