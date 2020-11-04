@@ -11,6 +11,7 @@
 #include "LightingStructs.h"
 #include "Camera.h"
 #include "VertexStruct.h"
+#include "OBJLoader.h"
 
 #include <string>
 #include <vector>
@@ -36,6 +37,8 @@ struct ConstantBuffer
 	float SpecularPower;
 	XMFLOAT3 padding2;
 	XMFLOAT3 EyePosW;
+
+	
 };
 
 class Graphics
@@ -70,6 +73,7 @@ private:
 	BasicLight ambientLight;
 	LightWithIntensity specularLight;
 	
+	MeshData mSphereMesh;
 
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
