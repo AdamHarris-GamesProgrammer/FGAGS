@@ -10,18 +10,14 @@
 
 #include "LightingStructs.h"
 #include "Camera.h"
+#include "VertexStruct.h"
 
 #include <string>
 #include <vector>
 
 using namespace DirectX;
 
-struct SimpleVertex
-{
-	XMFLOAT3 Pos;
-	XMFLOAT3 Normal;
-	XMFLOAT2 TexC;
-};
+
 
 struct ConstantBuffer
 {
@@ -63,6 +59,9 @@ public:
 	void SetShaders();
 
 private:
+
+private:
+
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 
 	XMFLOAT3 lightDirection;
@@ -79,6 +78,7 @@ private:
 	ID3D11Device* _pd3dDevice;
 	ID3D11DeviceContext* _pImmediateContext;
 	IDXGISwapChain* _pSwapChain;
+
 	ID3D11RenderTargetView* _pRenderTargetView;
 	ID3D11VertexShader* _pVertexShader;
 	ID3D11PixelShader* _pPixelShader;
