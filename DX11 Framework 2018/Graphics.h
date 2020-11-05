@@ -37,8 +37,6 @@ struct ConstantBuffer
 	float SpecularPower;
 	XMFLOAT3 padding2;
 	XMFLOAT3 EyePosW;
-
-	
 };
 
 class Graphics
@@ -61,6 +59,13 @@ public:
 
 	void SetShaders();
 
+	//Switching shapes 
+	void SwitchVertexBuffer(ID3D11Buffer* buffer);
+	void SwitchIndexBuffer(ID3D11Buffer* buffer);
+
+
+	ID3D11Device* _pd3dDevice;
+
 private:
 
 private:
@@ -73,13 +78,11 @@ private:
 	BasicLight ambientLight;
 	LightWithIntensity specularLight;
 	
-	MeshData mSphereMesh;
-
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
 	D3D_DRIVER_TYPE         _driverType;
 	D3D_FEATURE_LEVEL       _featureLevel;
-	ID3D11Device* _pd3dDevice;
+
 	ID3D11DeviceContext* _pImmediateContext;
 	IDXGISwapChain* _pSwapChain;
 
@@ -134,9 +137,7 @@ private:
 	HRESULT InitIndexBuffer();
 	void InitCubeIndexBuffer();
 	
-	//Switching shapes 
-	void SwitchVertexBuffer(ID3D11Buffer* buffer);
-	void SwitchIndexBuffer(ID3D11Buffer* buffer);
+
 
 
 	HRESULT InitDepthBuffer();

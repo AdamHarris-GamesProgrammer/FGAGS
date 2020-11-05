@@ -82,15 +82,18 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     float3 specularVal = specularColour.xyz;
     float specularPower = specularColour.w;
     
+    float3 normalW = normalize(input.normalW);
+    float3 toEye = normalize(EyePosW - input.Pos);
+    
     //Get each pixels normal
-    input.normalW = normalize(input.normalW);
+    //input.normalW = normalize(input.normalW);
     
     //compute reflection vector
-    float r = reflect(-LightVecW, input.normalW);
+    float r = reflect(-LightVecW, normalW);
     // Compute Colour using Diffuse lighting only
-    float diffuseAmount = max(dot(LightVecW, input.normalW), 0.0f);
+    float diffuseAmount = max(dot(LightVecW, normalW), 0.0f);
     // Determine how much (if any) specular light makes it into the eye.
-    float specularAmount = pow(max(dot(r, input.eye), 0), specularPower);
+    float specularAmount = pow(max(dot(r, toEye), 0), specularPower);
 
     //specular calc
     float3 specular = specularAmount * (specularVal * SpecularMtrl * SpecularLight).rgb;

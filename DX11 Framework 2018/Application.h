@@ -8,6 +8,7 @@
 #include "resource.h"
 
 #include "Graphics.h"
+#include "GameObject.h"
 #include <vector>
 
 #include "Time.h"
@@ -20,9 +21,11 @@ class Application
 private:
 	Graphics* graphics;
 
+	GameObject sphere;
+
 	D3D_DRIVER_TYPE         _driverType;
 
-	std::vector<XMFLOAT4X4> cubes;
+	//std::vector<XMFLOAT4X4> cubes;
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;

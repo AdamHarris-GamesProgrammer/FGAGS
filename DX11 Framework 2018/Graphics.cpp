@@ -79,12 +79,10 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
 
 
-	lightDirection = XMFLOAT3(0.25f, 0.5f, -1.0f);
+	lightDirection = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
 	specularLight = LightWithIntensity(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), 10.0f);
-
-	mSphereMesh = OBJLoader::Load("Assets/Models/Sphere.obj", _pd3dDevice, false);
 
 	return S_OK;
 }
@@ -602,11 +600,7 @@ void Graphics::ClearBuffers()
 void Graphics::Draw(unsigned int indexCount)
 {
 	//Draws object to swap chain buffer
-	//_pImmediateContext->DrawIndexed(indexCount, 0, 0);
-
-	_pImmediateContext->IASetVertexBuffers(0, 1, &mSphereMesh.VertexBuffer, &mSphereMesh.VBStride, &mSphereMesh.VBOffset);
-	_pImmediateContext->IASetIndexBuffer(mSphereMesh.IndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-	_pImmediateContext->DrawIndexed(mSphereMesh.IndexCount,0,0);
+	_pImmediateContext->DrawIndexed(indexCount, 0, 0);
 }
 
 void Graphics::Present()
