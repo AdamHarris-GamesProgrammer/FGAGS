@@ -109,6 +109,4 @@ void Time::Tick()
 	if (mDeltaTime < 0.0) {
 		mDeltaTime = 0.0;
 	}
-
-	mDeltaTime *= timeScale;
 }

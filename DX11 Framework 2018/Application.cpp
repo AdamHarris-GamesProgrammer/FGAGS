@@ -58,33 +58,21 @@ void Application::Update()
 		}
 	}
 
-	rotationValue = t;
+
+	rotationValue += rotationSpeed;
+	previousRotation = rotationValue;
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
-	sphere.Update(time.DeltaTime());
+	sphere.SetRotation(XMFLOAT4(0.0f, rotationValue * time.DeltaTime(), 0.0f, 0.0f));
+
+	//Test
+	XMMATRIX testTransform = XMMatrixIdentity();
+	testTransform = XMMatrixMultiply(testTransform, XMMatrixScaling(1, 1, 1) * XMMatrixTranslation(-0.2,-0.2,0) * XMMatrixRotationRollPitchYaw(0, rotationValue, 0));
+	//sphere.SetTransform(testTransform);
 
 
-	//cubes.resize(3);
-
-	//Sun
-	XMMATRIX plane = XMMatrixIdentity();
-	plane = XMMatrixMultiply(plane, XMMatrixScaling(1, 1, 1) * XMMatrixTranslation(-0.2,-0.2,0) * XMMatrixRotationRollPitchYaw(rotationValue, rotationValue, 0));
-	sphere.SetTransform(plane);
-
-
-	////Earth
-	//XMMATRIX earth = XMMatrixIdentity();
-	//earth = XMMatrixMultiply(earth, XMMatrixRotationRollPitchYaw(0,t * 2,0) * XMMatrixScaling(.25,.25,.25) *
-	//XMMatrixTranslation(6,0,0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
-	//XMStoreFloat4x4(&cubes[1], earth);
-
-
-	////Earth moon
-	//XMMATRIX earthMoon = XMMatrixIdentity();
-	//earthMoon = XMMatrixMultiply(earthMoon, XMMatrixScaling(.1, .1, .1) * XMMatrixTranslation(3, 0, 0) *
-	//	XMMatrixRotationRollPitchYaw(0, t * 1,0) * XMMatrixTranslation(6, 0, 0) * XMMatrixRotationRollPitchYaw(0, t * 2, 0));
-	//XMStoreFloat4x4(&cubes[2], earthMoon);
+	sphere.Update(t);
 }
 
 void Application::Draw()
@@ -92,8 +80,7 @@ void Application::Draw()
 	graphics->ClearBuffers();
 	graphics->SetShaders();
 
-	graphics->UpdateBuffers(sphere.GetTransform(), 0);
-	sphere.Draw(graphics);
+	sphere.Draw();
 
 	graphics->Present();
 }

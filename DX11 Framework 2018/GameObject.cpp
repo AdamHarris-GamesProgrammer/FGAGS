@@ -5,9 +5,9 @@ GameObject::GameObject()
 	Initialize();
 }
 
-GameObject::GameObject(Graphics* gfx, char* filepath)
+GameObject::GameObject(Graphics* gfx, char* filepath) : gfx(gfx)
 {
-	mMesh = OBJLoader::Load(filepath, gfx->_pd3dDevice, false);
+	mMesh = OBJLoader::Load(filepath, this->gfx->_pd3dDevice, false);
 	
 	Initialize();
 }
@@ -25,11 +25,12 @@ void GameObject::Update(float dt)
 	XMStoreFloat4x4(&mTransform, transformMatrix);
 }
 
-void GameObject::Draw(Graphics* gfx)
+void GameObject::Draw()
 {
 
 	gfx->SwitchVertexBuffer(mMesh.VertexBuffer);
 	gfx->SwitchIndexBuffer(mMesh.IndexBuffer);
+	gfx->UpdateBuffers(mTransform, 0.0f);
 	gfx->Draw(mMesh.IndexCount);
 }
 

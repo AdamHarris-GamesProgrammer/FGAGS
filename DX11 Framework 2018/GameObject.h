@@ -11,7 +11,7 @@ public:
 	
 
 	void Update(float dt);
-	void Draw(Graphics* gfx);
+	void Draw();
 
 	XMFLOAT4X4 GetTransform();
 
@@ -24,6 +24,7 @@ public:
 private:
 	void Initialize();
 
+	Graphics* gfx;
 protected:
 	//Mesh
 	MeshData mMesh;

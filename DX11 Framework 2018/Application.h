@@ -25,16 +25,16 @@ private:
 
 	D3D_DRIVER_TYPE         _driverType;
 
-	//std::vector<XMFLOAT4X4> cubes;
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
 	float spaceTimer = 0.1f;
 
-	float rotationSpeed = 150.0f;
+	float rotationSpeed = 1.0f;
 
 	Time time;
-	float rotationValue;
+	float rotationValue = 0.0f;
+	float previousRotation = 0.0f;
 
 private:
 
