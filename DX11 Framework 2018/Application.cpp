@@ -57,15 +57,13 @@ void Application::Update()
 		}
 	}
 
-
 	rotationValue += rotationSpeed;
 	previousRotation = rotationValue;
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
-	//sphere.SetRotation(XMFLOAT3(0.0f, rotationValue * time.DeltaTime(), 0.0f));
-
 	cube.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
+	cube.SetScale(XMFLOAT3(2.0f, 1.0f, 1.0f));
 	sphere.SetPosition(XMFLOAT3(-1.0f, 0.0f, 0.0f));
 	cylinder.SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	donut.SetPosition(XMFLOAT3(2.0f, 0.0f, 0.0f));

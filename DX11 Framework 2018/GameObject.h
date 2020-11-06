@@ -8,9 +8,10 @@ public:
 	GameObject();
 	GameObject(Graphics* gfx, char* filepath);
 
-	
-
 	void Update(float dt);
+
+	XMMATRIX CalculateTransform();
+
 	void Draw();
 
 	XMFLOAT4X4 GetTransform();

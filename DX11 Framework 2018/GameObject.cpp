@@ -14,15 +14,22 @@ GameObject::GameObject(Graphics* gfx, char* filepath) : gfx(gfx)
 
 void GameObject::Update(float dt)
 {
+	XMStoreFloat4x4(&mTransform, CalculateTransform());
+}
+
+DirectX::XMMATRIX GameObject::CalculateTransform()
+{
 	XMMATRIX transformMatrix = XMLoadFloat4x4(&mTransform);
+
+	
 
 	transformMatrix = XMMatrixMultiply(transformMatrix,
 		XMMatrixScaling(mScale.x, mScale.y, mScale.z) *
-		XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z) *
-		XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z)
+		XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z) *
+		XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z)
 	);
 
-	XMStoreFloat4x4(&mTransform, transformMatrix);
+	return transformMatrix;
 }
 
 void GameObject::Draw()
@@ -70,5 +77,6 @@ void GameObject::Initialize()
 	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
 	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
 	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
+	
 
 }

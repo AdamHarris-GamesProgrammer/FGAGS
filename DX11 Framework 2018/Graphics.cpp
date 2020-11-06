@@ -141,6 +141,8 @@ HRESULT Graphics::InitDevice()
 		return S_FALSE;
 	}
 
+	InitConstantBuffer();
+
 	InitViewport();
 
 	hr = CreateTextue(L"Assets/Textures/Crate_SPEC.dds", &_pSpecularTexture);
