@@ -49,17 +49,17 @@ void GameObject::SetTransform(XMFLOAT4X4 transform)
 	mTransform = transform;
 }
 
-void GameObject::SetPosition(XMFLOAT4 position)
+void GameObject::SetPosition(XMFLOAT3 position)
 {
 	mPosition = position;
 }
 
-void GameObject::SetRotation(XMFLOAT4 rotation)
+void GameObject::SetRotation(XMFLOAT3 rotation)
 {
 	mRotation = rotation;
 }
 
-void GameObject::SetScale(XMFLOAT4 scale)
+void GameObject::SetScale(XMFLOAT3 scale)
 {
 	mScale = scale;
 }
@@ -67,8 +67,8 @@ void GameObject::SetScale(XMFLOAT4 scale)
 void GameObject::Initialize()
 {
 	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
-	mPosition = XMFLOAT4(0.0f,0.0f,0.0f,0.0f);
-	mRotation = XMFLOAT4(0.0f,0.0f,0.0f,0.0f);
-	mScale = XMFLOAT4(1.0f,1.0f,1.0f,0.0f);
+	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
+	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
+	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
 
 }

@@ -91,9 +91,6 @@ private:
 	ID3D11PixelShader* _pPixelShader;
 	ID3D11InputLayout* _pVertexLayout;
 
-	ID3D11Buffer* _pCubeVertexBuffer;
-	ID3D11Buffer* _pCubeIndexBuffer;
-
 	ID3D11ShaderResourceView* _pDiffuseTexture = nullptr;
 	ID3D11ShaderResourceView* _pSpecularTexture = nullptr;
 	ID3D11SamplerState* _pSamplerLinear = nullptr;
@@ -124,21 +121,6 @@ private:
 
 	//Texture Methods
 	HRESULT CreateTextue(wchar_t* filepath, ID3D11ShaderResourceView** texture);
-
-
-	//Vertex Buffer Methods
-	HRESULT InitVertexBuffer();
-	void InitCubeVertexBuffer();
-	void CreateBuffer(SimpleVertex* vertices, int size, ID3D11Buffer** selectedBuffer);
-
-
-
-	//Index Buffer Methods
-	HRESULT InitIndexBuffer();
-	void InitCubeIndexBuffer();
-	
-
-
 
 	HRESULT InitDepthBuffer();
 	HRESULT InitSwapChain();

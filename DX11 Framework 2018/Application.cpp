@@ -63,12 +63,12 @@ void Application::Update()
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
-	//sphere.SetRotation(XMFLOAT4(0.0f, rotationValue * time.DeltaTime(), 0.0f, 0.0f));
+	//sphere.SetRotation(XMFLOAT3(0.0f, rotationValue * time.DeltaTime(), 0.0f));
 
-	cube.SetPosition(XMFLOAT4(-2.0f, 0, 0.0f, 0.0f));
-	sphere.SetPosition(XMFLOAT4(-1.0f, 0.0f, 0.0, 0.0f));
-	cylinder.SetPosition(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
-	donut.SetPosition(XMFLOAT4(2.0f, 0.0f, 0.0f, 0.0f));
+	cube.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
+	sphere.SetPosition(XMFLOAT3(-1.0f, 0.0f, 0.0f));
+	cylinder.SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	donut.SetPosition(XMFLOAT3(2.0f, 0.0f, 0.0f));
 
 
 	sphere.Update(time.DeltaTime());

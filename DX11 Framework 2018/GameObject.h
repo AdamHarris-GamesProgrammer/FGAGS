@@ -17,9 +17,9 @@ public:
 
 	void SetTransform(XMMATRIX transform);
 	void SetTransform(XMFLOAT4X4 transform);
-	void SetPosition(XMFLOAT4 position);
-	void SetRotation(XMFLOAT4 rotation);
-	void SetScale(XMFLOAT4 scale);
+	void SetPosition(XMFLOAT3 position);
+	void SetRotation(XMFLOAT3 rotation);
+	void SetScale(XMFLOAT3 scale);
 
 private:
 	void Initialize();
@@ -31,9 +31,9 @@ protected:
 
 	//Transform Properties
 	XMFLOAT4X4 mTransform;
-	XMFLOAT4 mPosition;
-	XMFLOAT4 mRotation;
-	XMFLOAT4 mScale;
+	XMFLOAT3 mPosition;
+	XMFLOAT3 mRotation;
+	XMFLOAT3 mScale;
 
 };
 
