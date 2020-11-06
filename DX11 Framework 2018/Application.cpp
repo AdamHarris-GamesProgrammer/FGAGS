@@ -20,6 +20,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cylinder = Cylinder(graphics);
 	donut = Donut(graphics);
 
+	rotationValue = 0.0f;
+
 	return S_OK;
 }
 
@@ -57,16 +59,17 @@ void Application::Update()
 		}
 	}
 
-	rotationValue += rotationSpeed;
-	previousRotation = rotationValue;
+	rotationValue += (rotationSpeed * time.DeltaTime());
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
-	cube.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
-	cube.SetScale(XMFLOAT3(2.0f, 1.0f, 1.0f));
-	sphere.SetPosition(XMFLOAT3(-1.0f, 0.0f, 0.0f));
-	cylinder.SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
-	donut.SetPosition(XMFLOAT3(2.0f, 0.0f, 0.0f));
+	cube.SetPosition(-8.0f, 0.0f, 0.0f);
+	cube.SetScale(1.0f, 1.0f, 1.0f);
+	cube.SetRotation(10.0f,rotationValue, 0.0f);
+	sphere.SetPosition(-4.0f, 0.0f, 0.0f);
+	cylinder.SetPosition(0.0f, 0.0f, 0.0f);
+	donut.SetRotation(90.0f, 0.0f, 0.0f);
+	donut.SetPosition(4.0f, 0.0f, 0.0f);
 
 
 	sphere.Update(time.DeltaTime());

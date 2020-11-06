@@ -21,7 +21,11 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 {
 	XMMATRIX transformMatrix = XMLoadFloat4x4(&mTransform);
 
-	
+	XMMATRIX objectScale = XMMatrixScaling(mScale.x, mScale.y, mScale.z);
+	XMMATRIX objectPosition = XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z);
+	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z);
+
+	return XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
 
 	transformMatrix = XMMatrixMultiply(transformMatrix,
 		XMMatrixScaling(mScale.x, mScale.y, mScale.z) *
@@ -61,14 +65,44 @@ void GameObject::SetPosition(XMFLOAT3 position)
 	mPosition = position;
 }
 
+void GameObject::SetPosition(float x, float y, float z)
+{
+	mPosition = XMFLOAT3(x, y, z);
+}
+
 void GameObject::SetRotation(XMFLOAT3 rotation)
 {
 	mRotation = rotation;
 }
 
+void GameObject::SetRotation(float x, float y, float z)
+{
+	mRotation = XMFLOAT3(x, y, z);
+}
+
 void GameObject::SetScale(XMFLOAT3 scale)
 {
 	mScale = scale;
+}
+
+void GameObject::SetScale(float x, float y, float z)
+{
+	mScale = XMFLOAT3(x, y, z);
+}
+
+DirectX::XMFLOAT3 GameObject::GetPosition()
+{
+	return mPosition;
+}
+
+DirectX::XMFLOAT3 GameObject::GetRotation()
+{
+	return mRotation;
+}
+
+DirectX::XMFLOAT3 GameObject::GetScale()
+{
+	return mScale;
 }
 
 void GameObject::Initialize()

@@ -20,7 +20,17 @@ public:
 	void SetTransform(XMFLOAT4X4 transform);
 	void SetPosition(XMFLOAT3 position);
 	void SetRotation(XMFLOAT3 rotation);
+	void SetPosition(float x, float y, float z);
+	void SetRotation(float x, float y, float z);
+	void SetScale(float x, float y, float z);
+
 	void SetScale(XMFLOAT3 scale);
+
+	XMFLOAT3 GetPosition();
+	XMFLOAT3 GetRotation();
+	XMFLOAT3 GetScale();
+
+
 
 private:
 	void Initialize();
