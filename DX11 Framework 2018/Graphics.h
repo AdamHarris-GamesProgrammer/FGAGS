@@ -55,7 +55,7 @@ public:
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
-	void UpdateBuffers(XMFLOAT4X4& position, float t);
+	void UpdateBuffers(XMFLOAT4X4& position);
 
 	void SetShaders();
 

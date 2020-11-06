@@ -15,11 +15,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	graphics = new Graphics();
 	graphics->Initialise(hInstance, nCmdShow);
 	
-	sphere = GameObject(graphics, "Assets/Models/Sphere.obj");
-
+	sphere = Sphere(graphics);
 	cube = Cube(graphics);
-
-;
+	cylinder = Cylinder(graphics);
+	donut = Donut(graphics);
 
 	return S_OK;
 }
@@ -64,11 +63,18 @@ void Application::Update()
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
-	sphere.SetRotation(XMFLOAT4(0.0f, rotationValue * time.DeltaTime(), 0.0f, 0.0f));
+	//sphere.SetRotation(XMFLOAT4(0.0f, rotationValue * time.DeltaTime(), 0.0f, 0.0f));
+
+	cube.SetPosition(XMFLOAT4(-2.0f, 0, 0.0f, 0.0f));
+	sphere.SetPosition(XMFLOAT4(-1.0f, 0.0f, 0.0, 0.0f));
+	cylinder.SetPosition(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	donut.SetPosition(XMFLOAT4(2.0f, 0.0f, 0.0f, 0.0f));
 
 
-	sphere.Update(t);
-	cube.Update(t);
+	sphere.Update(time.DeltaTime());
+	cube.Update(time.DeltaTime());
+	cylinder.Update(time.DeltaTime());
+	donut.Update(time.DeltaTime());
 }
 
 void Application::Draw()
@@ -77,8 +83,9 @@ void Application::Draw()
 	graphics->SetShaders();
 
 	sphere.Draw();
-
 	cube.Draw();
+	cylinder.Draw();
+	donut.Draw();
 
 	graphics->Present();
 }

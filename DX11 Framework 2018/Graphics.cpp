@@ -71,7 +71,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	// Initialize the Camera
 	mCamera = Camera();
-	mCamera.SetEye(XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f));
+	mCamera.SetEye(XMVectorSet(0.0f, 0.0f, -15.0f, 0.0f));
 	mCamera.SetAt(XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f));
 	mCamera.SetUp(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 
@@ -627,7 +627,7 @@ void Graphics::SetShaders()
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 
-void Graphics::UpdateBuffers(XMFLOAT4X4& position, float t)
+void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
 	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetMatrix()));

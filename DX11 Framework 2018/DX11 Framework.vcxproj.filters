@@ -9,27 +9,52 @@
       <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
       <Extensions>fx;fxh;hlsl</Extensions>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{b8628a0d-34b8-4198-8b4b-ec879f96ad2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Primitives">
+      <UniqueIdentifier>{f141c4c3-ce3e-4f73-aff5-0e421428fe40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Graphics.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="LightingStructs.h" />
-    <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Cube.h" />
+    <ClInclude Include="Cube.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingStructs.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJLoader.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Donut.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
-    <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJLoader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -45,8 +70,5 @@
     <ResourceCompile Include="DX11 Framework.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\DX11 Framework 2018\texture.dds" />
   </ItemGroup>
 </Project>

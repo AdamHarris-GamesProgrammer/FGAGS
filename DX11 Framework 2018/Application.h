@@ -9,7 +9,12 @@
 
 #include "Graphics.h"
 #include "GameObject.h"
+
 #include "Cube.h"
+#include "Sphere.h"
+#include "Cylinder.h"
+#include "Donut.h"
+
 #include <vector>
 
 #include "Time.h"
@@ -22,8 +27,10 @@ class Application
 private:
 	Graphics* graphics;
 
-	GameObject sphere;
+	Sphere sphere;
 	Cube cube;
+	Cylinder cylinder;
+	Donut donut;
 
 	D3D_DRIVER_TYPE         _driverType;
 

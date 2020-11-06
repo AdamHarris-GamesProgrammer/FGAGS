@@ -390,17 +390,17 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Donut.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="OBJLoader.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Time.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\DX11 Framework 2018\texture.dds" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

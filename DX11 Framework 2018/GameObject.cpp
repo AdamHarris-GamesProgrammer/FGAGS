@@ -30,7 +30,7 @@ void GameObject::Draw()
 
 	gfx->SwitchVertexBuffer(mMesh.VertexBuffer);
 	gfx->SwitchIndexBuffer(mMesh.IndexBuffer);
-	gfx->UpdateBuffers(mTransform, 0.0f);
+	gfx->UpdateBuffers(mTransform);
 	gfx->Draw(mMesh.IndexCount);
 }
 
