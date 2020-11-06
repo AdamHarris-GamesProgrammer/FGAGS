@@ -67,4 +67,8 @@ void GameObject::SetScale(XMFLOAT4 scale)
 void GameObject::Initialize()
 {
 	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
+	mPosition = XMFLOAT4(0.0f,0.0f,0.0f,0.0f);
+	mRotation = XMFLOAT4(0.0f,0.0f,0.0f,0.0f);
+	mScale = XMFLOAT4(1.0f,1.0f,1.0f,0.0f);
+
 }

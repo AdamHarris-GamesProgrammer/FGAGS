@@ -17,9 +17,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	
 	sphere = GameObject(graphics, "Assets/Models/Sphere.obj");
 
-	sphere.SetPosition(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
-	sphere.SetRotation(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
-	sphere.SetScale(XMFLOAT4(1.0f,1.0f,1.0f, 0.0f));
+	cube = Cube(graphics);
+
+;
 
 	return S_OK;
 }
@@ -66,13 +66,9 @@ void Application::Update()
 
 	sphere.SetRotation(XMFLOAT4(0.0f, rotationValue * time.DeltaTime(), 0.0f, 0.0f));
 
-	//Test
-	XMMATRIX testTransform = XMMatrixIdentity();
-	testTransform = XMMatrixMultiply(testTransform, XMMatrixScaling(1, 1, 1) * XMMatrixTranslation(-0.2,-0.2,0) * XMMatrixRotationRollPitchYaw(0, rotationValue, 0));
-	//sphere.SetTransform(testTransform);
-
 
 	sphere.Update(t);
+	cube.Update(t);
 }
 
 void Application::Draw()
@@ -81,6 +77,8 @@ void Application::Draw()
 	graphics->SetShaders();
 
 	sphere.Draw();
+
+	cube.Draw();
 
 	graphics->Present();
 }

@@ -19,6 +19,7 @@
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Cube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

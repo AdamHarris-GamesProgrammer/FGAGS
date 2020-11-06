@@ -9,6 +9,7 @@
 
 #include "Graphics.h"
 #include "GameObject.h"
+#include "Cube.h"
 #include <vector>
 
 #include "Time.h"
@@ -22,6 +23,7 @@ private:
 	Graphics* graphics;
 
 	GameObject sphere;
+	Cube cube;
 
 	D3D_DRIVER_TYPE         _driverType;
 
