@@ -20,6 +20,16 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cylinder = Cylinder(graphics);
 	donut = Donut(graphics);
 
+	sphere.CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
+	sphere.CreateTexture(L"Assets/Textures/Crate_SPEC.dds");
+
+	cube.CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
+	cube.CreateTexture(L"Assets/Textures/Marble_SPEC.dds");
+
+	cylinder.CreateTexture(L"Assets/Textures/Crate_Color.dds");
+	donut.CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
+	
+
 	rotationValue = 0.0f;
 
 	return S_OK;

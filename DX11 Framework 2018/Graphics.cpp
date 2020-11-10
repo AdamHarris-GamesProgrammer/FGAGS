@@ -80,7 +80,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	lightDirection = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
-	specularLight = LightWithIntensity(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), 10.0f);
+	specularLight = LightWithIntensity(XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), 10.0f);
 
 	return S_OK;
 }
@@ -145,16 +145,6 @@ HRESULT Graphics::InitDevice()
 
 	InitViewport();
 
-	hr = CreateTextue(L"Assets/Textures/Crate_SPEC.dds", &_pSpecularTexture);
-	if (FAILED(hr)) {
-		MessageBox(_hWnd, L"Initialization of specular texture failed", L"Error", MB_ICONERROR);
-	}
-
-	hr = CreateTextue(L"Assets/Textures/Crate_COLOR.dds", &_pDiffuseTexture);
-	if (FAILED(hr)) {
-		MessageBox(_hWnd, L"Initialization of diffuse texture failed", L"Error", MB_ICONERROR);
-	}
-
 	InitializeSampler();
 
 	return S_OK;
@@ -204,7 +194,6 @@ void Graphics::Cleanup()
 	if (_pConstantBuffer) _pConstantBuffer->Release();
 
 	if (_pSamplerLinear) _pSamplerLinear->Release();
-	if (_pDiffuseTexture) _pDiffuseTexture->Release();
 
 	if (_pVertexLayout) _pVertexLayout->Release();
 	if (_pVertexShader) _pVertexShader->Release();
@@ -317,7 +306,7 @@ HRESULT Graphics::InitShadersAndInputLayout()
 	return hr;
 }
 
-HRESULT Graphics::CreateTextue(wchar_t* filepath, ID3D11ShaderResourceView** texture)
+HRESULT Graphics::CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** texture)
 {
 	return CreateDDSTextureFromFile(_pd3dDevice, filepath, nullptr, texture);
 }
@@ -460,7 +449,7 @@ bool Graphics::CheckResult(int in)
 void Graphics::ClearBuffers()
 {
 	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, clearColor);
-
+	
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
@@ -476,6 +465,16 @@ void Graphics::Present()
 	_pSwapChain->Present(0, 0);
 }
 
+void Graphics::BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures)
+{
+	_pImmediateContext->PSSetShaderResources(startSlot, count, &textures[0]);
+}
+
+void Graphics::ClearTextures()
+{
+	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
+}
+
 void Graphics::EnableWireframe(bool enabled)
 {
 	ID3D11RasterizerState* renderState;
@@ -489,8 +488,6 @@ void Graphics::SetShaders()
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->PSSetShaderResources(0, 1, &_pDiffuseTexture);
-	_pImmediateContext->PSSetShaderResources(1, 1, &_pSpecularTexture);
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 

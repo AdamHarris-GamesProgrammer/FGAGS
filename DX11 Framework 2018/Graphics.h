@@ -48,8 +48,8 @@ public:
 	void ClearBuffers();
 	void Draw(unsigned int indexCount);
 	void Present();
-
-	void SetCubeBuffer();
+	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
+	void ClearTextures();
 
 	void EnableWireframe(bool enabled);
 	
@@ -58,11 +58,15 @@ public:
 	void UpdateBuffers(XMFLOAT4X4& position);
 
 	void SetShaders();
+	
 
 	//Switching shapes 
 	void SwitchVertexBuffer(ID3D11Buffer* buffer);
 	void SwitchIndexBuffer(ID3D11Buffer* buffer);
 
+
+	//Texture Methods
+	HRESULT CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** texture);
 
 	ID3D11Device* _pd3dDevice;
 
@@ -91,8 +95,6 @@ private:
 	ID3D11PixelShader* _pPixelShader;
 	ID3D11InputLayout* _pVertexLayout;
 
-	ID3D11ShaderResourceView* _pDiffuseTexture = nullptr;
-	ID3D11ShaderResourceView* _pSpecularTexture = nullptr;
 	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
 	ID3D11Buffer* _pConstantBuffer;
@@ -119,8 +121,7 @@ private:
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
 
-	//Texture Methods
-	HRESULT CreateTextue(wchar_t* filepath, ID3D11ShaderResourceView** texture);
+
 
 	HRESULT InitDepthBuffer();
 	HRESULT InitSwapChain();

@@ -38,33 +38,61 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 
 void GameObject::Draw()
 {
-
 	gfx->SwitchVertexBuffer(mMesh.VertexBuffer);
 	gfx->SwitchIndexBuffer(mMesh.IndexBuffer);
+	
+	if (hasTextures) 
+	{
+		gfx->BindTextures(0, mTextures.size(), mTextures);
+	}
+
 	gfx->UpdateBuffers(mTransform);
 	gfx->Draw(mMesh.IndexCount);
 }
 
+
+
+void GameObject::CreateTexture(wchar_t* path)
+{
+	ID3D11ShaderResourceView* texture;
+
+	hasTextures = true;
+
+	gfx->CreateTexture(path, &texture);
+	mTextures.push_back(texture);
+}
+
+
+void GameObject::Initialize()
+{
+	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
+	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
+	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
+	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
+}
+
+#pragma region Getters
+DirectX::XMFLOAT3 GameObject::GetPosition()
+{
+	return mPosition;
+}
+
+DirectX::XMFLOAT3 GameObject::GetRotation()
+{
+	return mRotation;
+}
+
+DirectX::XMFLOAT3 GameObject::GetScale()
+{
+	return mScale;
+}
 DirectX::XMFLOAT4X4 GameObject::GetTransform()
 {
 	return mTransform;
 }
+#pragma endregion
 
-void GameObject::SetTransform(XMMATRIX transform)
-{
-	XMStoreFloat4x4(&mTransform, transform);
-}
-
-void GameObject::SetTransform(XMFLOAT4X4 transform)
-{
-	mTransform = transform;
-}
-
-void GameObject::SetPosition(XMFLOAT3 position)
-{
-	mPosition = position;
-}
-
+#pragma region Setters
 void GameObject::SetPosition(float x, float y, float z)
 {
 	mPosition = XMFLOAT3(x, y, z);
@@ -89,28 +117,19 @@ void GameObject::SetScale(float x, float y, float z)
 {
 	mScale = XMFLOAT3(x, y, z);
 }
-
-DirectX::XMFLOAT3 GameObject::GetPosition()
+void GameObject::SetTransform(XMMATRIX transform)
 {
-	return mPosition;
+	XMStoreFloat4x4(&mTransform, transform);
 }
 
-DirectX::XMFLOAT3 GameObject::GetRotation()
+void GameObject::SetTransform(XMFLOAT4X4 transform)
 {
-	return mRotation;
+	mTransform = transform;
 }
 
-DirectX::XMFLOAT3 GameObject::GetScale()
+void GameObject::SetPosition(XMFLOAT3 position)
 {
-	return mScale;
+	mPosition = position;
 }
 
-void GameObject::Initialize()
-{
-	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
-	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
-	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
-	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
-	
-
-}
+#pragma endregion
