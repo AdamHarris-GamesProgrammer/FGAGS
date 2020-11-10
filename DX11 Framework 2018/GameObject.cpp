@@ -26,14 +26,6 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z);
 
 	return XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
-
-	transformMatrix = XMMatrixMultiply(transformMatrix,
-		XMMatrixScaling(mScale.x, mScale.y, mScale.z) *
-		XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z) *
-		XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z)
-	);
-
-	return transformMatrix;
 }
 
 void GameObject::Draw()

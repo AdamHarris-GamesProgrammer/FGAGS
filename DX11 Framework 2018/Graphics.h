@@ -30,12 +30,10 @@ struct ConstantBuffer
 	XMFLOAT4 DiffuseLight;
 	XMFLOAT4 AmbientMtrl;
 	XMFLOAT4 AmbientLight;
-	XMFLOAT3 LightVec3;
-	float padding;
 	XMFLOAT4 SpecularMtrl;
 	XMFLOAT4 SpecularLight;
+	XMFLOAT3 LightVec3;
 	float SpecularPower;
-	XMFLOAT3 padding2;
 	XMFLOAT3 EyePosW;
 };
 
@@ -120,7 +118,6 @@ private:
 	void Cleanup();
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
-
 
 
 	HRESULT InitDepthBuffer();

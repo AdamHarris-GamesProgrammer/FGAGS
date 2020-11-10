@@ -11,25 +11,27 @@ Texture2D txDiffuse : register(t0);
 Texture2D txSpecular : register(t1);
 SamplerState samLinear : register(s0);
 
+struct Light
+{
+    float4 light;
+    float4 lightColor;
+};
+
 cbuffer ConstantBuffer : register( b0 )
 {
 	matrix World;
 	matrix View;
 	matrix Projection;
     
-    float4 DiffuseMtrl;
-    float4 DiffuseLight;
-    float4 AmbientMtrl;
-    float4 AmbientLight;
+    Light Diffuse;
+    Light Ambient;
+    Light Specular;
     float3 LightVecW;
-    float padding;
-    float4 SpecularMtrl;
-    float4 SpecularLight;
     float SpecularPower;
-    float3 padding2;
     float3 EyePosW;
-    
 }
+
+
 
 //--------------------------------------------------------------------------------------
 struct VS_OUTPUT
@@ -96,15 +98,15 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     float specularAmount = pow(max(dot(r, toEye), 0), specularPower);
 
     //specular calc
-    float3 specular = specularAmount * (specularVal * SpecularMtrl * SpecularLight).rgb;
+    float3 specular = specularAmount * (specularVal * Specular.lightColor * Specular.light).rgb;
     //ambient calc
-    float3 ambient = AmbientMtrl * AmbientLight;
+    float3 ambient = Ambient.lightColor * Ambient.light;
     //diffuse calc
-    float3 diffuse = diffuseAmount * (textureColour * DiffuseMtrl * DiffuseLight).rgb;
+    float3 diffuse = diffuseAmount * (textureColour * Diffuse.lightColor * Diffuse.light).rgb;
 
     float4 finalColor;
     finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
-    finalColor.a = DiffuseMtrl.a;
+    finalColor.a = Diffuse.lightColor.a;
 
     return finalColor;
 }

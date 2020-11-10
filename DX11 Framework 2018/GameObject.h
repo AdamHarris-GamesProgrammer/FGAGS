@@ -4,6 +4,7 @@
 #include <vector>
 #include "DDSTextureLoader.h"
 
+
 class GameObject
 {
 public:
