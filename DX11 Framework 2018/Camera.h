@@ -24,14 +24,14 @@ public:
 	void SetUp(XMFLOAT3 inPos);
 	void SetAt(XMFLOAT3 inPos);
 
-	void Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth);
+	void Reshape(UINT windowWidth, UINT windowHeight, FLOAT nearDepth, FLOAT farDepth);
 
 private:
 	XMFLOAT4X4 mView;
 	XMFLOAT4X4 mProjection;
 
-	FLOAT mWindowWidth;
-	FLOAT mWindowHeight;
+	UINT mWindowWidth;
+	UINT mWindowHeight;
 	FLOAT mNearDepth;
 	FLOAT mFarDepth;
 

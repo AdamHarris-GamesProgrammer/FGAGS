@@ -66,15 +66,6 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 	}
 
-	// Initialize the Camera
-	mCamera = Camera(
-		XMFLOAT3(3.0f, 0.0f, -10.0f),
-		XMFLOAT3(0.0f, 0.0f, 0.0f),
-		XMFLOAT3(0.0f, 1.0f, 0.0f),
-		_WindowWidth, _WindowHeight, 0.01f, 100.0f
-	);
-
-
 	lightDirection = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
@@ -204,6 +195,8 @@ void Graphics::Cleanup()
 	if (_depthStencilBuffer) _depthStencilBuffer->Release();
 	if (_wireFrame) _wireFrame->Release();
 	if (_solid) _solid->Release();
+
+	mCurrentCamera = nullptr;
 }
 
 HRESULT Graphics::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
@@ -475,7 +468,12 @@ void Graphics::ClearTextures()
 
 void Graphics::UpdateCamera()
 {
-	mCamera.Update();
+	mCurrentCamera->Update();
+}
+
+void Graphics::SwitchCamera(Camera* newCamera)
+{
+	mCurrentCamera = newCamera;
 }
 
 void Graphics::EnableWireframe(bool enabled)
@@ -494,11 +492,21 @@ void Graphics::SetShaders()
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 
+UINT Graphics::GetWindowWidth()
+{
+	return _WindowWidth;
+}
+
+UINT Graphics::GetWindowHeight()
+{
+	return _WindowHeight;
+}
+
 void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetView()));
-	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetProjection()));
+	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCurrentCamera->GetView()));
+	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&mCurrentCamera->GetProjection()));
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
 	cb.DiffuseMtrl = diffuseLight.material;
@@ -510,7 +518,7 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 	cb.SpecularLight = specularLight.light;
 	cb.LightVec3 = lightDirection;
 
-	cb.EyePosW = mCamera.GetEye();
+	cb.EyePosW = mCurrentCamera->GetEye();
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

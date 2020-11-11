@@ -76,7 +76,7 @@ void Camera::SetAt(XMFLOAT3 inPos)
 	mAt = inPos;
 }
 
-void Camera::Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
+void Camera::Reshape(UINT windowWidth, UINT windowHeight, FLOAT nearDepth, FLOAT farDepth)
 {
 	mWindowWidth = windowWidth;
 	mWindowHeight = windowHeight;

@@ -51,6 +51,8 @@ public:
 
 	void UpdateCamera();
 
+	void SwitchCamera(Camera* newCamera);
+
 	void EnableWireframe(bool enabled);
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
@@ -59,6 +61,8 @@ public:
 
 	void SetShaders();
 	
+	UINT GetWindowWidth();
+	UINT GetWindowHeight();
 
 	//Switching shapes 
 	void SwitchVertexBuffer(ID3D11Buffer* buffer);
@@ -105,7 +109,7 @@ private:
 	ID3D11DepthStencilView* _depthStencilView;
 	ID3D11Texture2D* _depthStencilBuffer;
 
-	Camera mCamera;
+	Camera* mCurrentCamera;
 
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();

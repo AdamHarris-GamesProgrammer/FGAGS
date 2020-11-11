@@ -8,6 +8,11 @@ Application::Application()
 
 Application::~Application()
 {
+	delete cameraA;
+	delete cameraB;
+
+	cameraA = nullptr;
+	cameraB = nullptr;
 }
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
@@ -29,8 +34,31 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cylinder.CreateTexture(L"Assets/Textures/Crate_Color.dds");
 	donut.CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
 	
+	cameraA = new Camera(
+		XMFLOAT3(3.0f, 0.0f, -10.0f),
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 1.0f, 0.0f),
+		graphics->GetWindowWidth(),
+		graphics->GetWindowHeight(), 
+		0.01f, 100.0f
+	);
+
+	cameraB = new Camera(
+		XMFLOAT3(0.0f, 0.0f, -10.0f),
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 1.0f, 0.0f),
+		graphics->GetWindowWidth(),
+		graphics->GetWindowHeight(),
+		0.01f, 100.0f
+	);
+
+	graphics->SwitchCamera(cameraA);
 
 	rotationValue = 0.0f;
+
+	time = Time();
+
+	time.Reset();
 
 	return S_OK;
 }
@@ -38,26 +66,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 void Application::Update()
 {
 	time.Tick();
-
-	static float currentTime = GetTickCount();
-
-	// Update our rotation values
-	static float t = 0.0f;
-
-	if (_driverType == D3D_DRIVER_TYPE_REFERENCE)
-	{
-		t += (float)XM_PI * 0.0125f;
-	}
-	else
-	{
-		static DWORD dwTimeStart = 0;
-		DWORD dwTimeCur = GetTickCount();
-
-		if (dwTimeStart == 0)
-			dwTimeStart = dwTimeCur;
-
-		t = (dwTimeCur - dwTimeStart) / 1000.0f;
-	}
 
 	bool changed = false;
 	timeSinceSpacePressed += time.DeltaTime();
@@ -69,7 +77,16 @@ void Application::Update()
 		}
 	}
 
-	rotationValue += (rotationSpeed * time.DeltaTime());
+	if (GetAsyncKeyState(VK_NUMPAD1)) {
+		graphics->SwitchCamera(cameraA);
+	}
+	else if (GetAsyncKeyState(VK_NUMPAD2)) {
+		graphics->SwitchCamera(cameraB);
+	}
+
+	float dt = time.DeltaTime();
+
+	rotationValue += (rotationSpeed * dt);
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
@@ -84,10 +101,10 @@ void Application::Update()
 	donut.SetPosition(4.0f, 0.0f, 0.0f);
 
 
-	sphere.Update(time.DeltaTime());
-	cube.Update(time.DeltaTime());
-	cylinder.Update(time.DeltaTime());
-	donut.Update(time.DeltaTime());
+	sphere.Update(dt);
+	cube.Update(dt);
+	cylinder.Update(dt);
+	donut.Update(dt);
 }
 
 void Application::Draw()

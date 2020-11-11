@@ -32,14 +32,15 @@ private:
 	Cylinder cylinder;
 	Donut donut;
 
-	D3D_DRIVER_TYPE         _driverType;
 
+	Camera* cameraA = nullptr;
+	Camera* cameraB = nullptr;
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
 	float spaceTimer = 0.1f;
 
-	float rotationSpeed = 100000.0f;
+	float rotationSpeed = 1.0f;
 
 	Time time;
 	float rotationValue = 0.0f;
