@@ -73,6 +73,8 @@ void Application::Update()
 
 	if (changed) graphics->EnableWireframe(wireframeOn);
 
+	graphics->UpdateCamera();
+
 	cube.SetPosition(-8.0f, 0.0f, 0.0f);
 	cube.SetScale(1.0f, 1.0f, 1.0f);
 	cube.SetRotation(10.0f,rotationValue, 0.0f);

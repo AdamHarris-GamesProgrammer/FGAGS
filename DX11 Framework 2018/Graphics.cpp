@@ -66,15 +66,13 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 	}
 
-
 	// Initialize the Camera
-	mCamera = Camera();
-	mCamera.SetEye(XMVectorSet(0.0f, 0.0f, -15.0f, 0.0f));
-	mCamera.SetAt(XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f));
-	mCamera.SetUp(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-
-	// Initialize the projection matrix
-	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, _WindowWidth / (FLOAT)_WindowHeight, 0.01f, 100.0f));
+	mCamera = Camera(
+		XMFLOAT3(3.0f, 0.0f, -10.0f),
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 1.0f, 0.0f),
+		_WindowWidth, _WindowHeight, 0.01f, 100.0f
+	);
 
 
 	lightDirection = XMFLOAT3(0.0f, 0.0f, -1.0f);
@@ -475,6 +473,11 @@ void Graphics::ClearTextures()
 	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
 }
 
+void Graphics::UpdateCamera()
+{
+	mCamera.Update();
+}
+
 void Graphics::EnableWireframe(bool enabled)
 {
 	ID3D11RasterizerState* renderState;
@@ -494,19 +497,20 @@ void Graphics::SetShaders()
 void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetMatrix()));
-	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&_projection));
+	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetView()));
+	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&mCamera.GetProjection()));
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
+
 	cb.DiffuseMtrl = diffuseLight.material;
 	cb.DiffuseLight = diffuseLight.light;
-	cb.LightVec3 = lightDirection;
 	cb.AmbientLight = ambientLight.light;
 	cb.AmbientMtrl = ambientLight.material;
 	cb.SpecularMtrl = specularLight.material;
 	cb.SpecularPower = specularLight.intensity;
 	cb.SpecularLight = specularLight.light;
-	XMVECTOR eyePos = mCamera.GetEye();
-	cb.EyePosW = { eyePos.m128_f32[0], eyePos.m128_f32[1], eyePos.m128_f32[2] };
+	cb.LightVec3 = lightDirection;
+
+	cb.EyePosW = mCamera.GetEye();
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

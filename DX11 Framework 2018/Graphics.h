@@ -49,6 +49,8 @@ public:
 	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
 	void ClearTextures();
 
+	void UpdateCamera();
+
 	void EnableWireframe(bool enabled);
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
@@ -102,8 +104,6 @@ private:
 
 	ID3D11DepthStencilView* _depthStencilView;
 	ID3D11Texture2D* _depthStencilBuffer;
-
-	XMFLOAT4X4              _projection;
 
 	Camera mCamera;
 

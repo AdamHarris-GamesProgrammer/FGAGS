@@ -1,57 +1,87 @@
 #include "Camera.h"
 
-Camera::Camera(XMFLOAT4X4 inPos)
-{
-	mPosition = inPos;
-}
 
 Camera::Camera()
 {
 
 }
 
-DirectX::XMFLOAT4X4 Camera::GetMatrix()
+Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
 {
-	return mPosition;
+	mEye = position;
+	mAt = at;
+	mUp = up;
+
+	mWindowHeight = windowHeight;
+	mWindowWidth = windowWidth;
+	mNearDepth = nearDepth;
+	mFarDepth = farDepth;
+
+	Reshape(windowWidth, windowHeight, nearDepth, farDepth);
 }
 
-void Camera::SetMatrix(XMFLOAT4X4 inPos)
+Camera::~Camera()
 {
-	mPosition = inPos;
+
 }
 
-DirectX::XMVECTOR Camera::GetEye()
+void Camera::Update()
+{
+	XMVECTOR  eye = XMVectorSet(mEye.x, mEye.y, mEye.z, 0.0f);
+	XMVECTOR  at = XMVectorSet(mAt.x, mAt.y, mAt.z, 0.0f);
+	XMVECTOR  up = XMVectorSet(mUp.x, mUp.y, mUp.z, 0.0f);
+
+	XMStoreFloat4x4(&mView, XMMatrixLookAtLH(eye, at, up));
+
+	
+}
+
+DirectX::XMFLOAT3 Camera::GetEye()
 {
 	return mEye;
 }
 
-DirectX::XMVECTOR Camera::GetUp()
+DirectX::XMFLOAT3 Camera::GetUp()
 {
 	return mUp;
 }
 
-DirectX::XMVECTOR Camera::GetAt()
+DirectX::XMFLOAT3 Camera::GetAt()
 {
 	return mAt;
 }
 
-void Camera::SetEye(XMVECTOR inPos)
+DirectX::XMFLOAT4X4 Camera::GetProjection()
+{
+	return mProjection;
+}
+
+DirectX::XMFLOAT4X4 Camera::GetView()
+{
+	return mView;
+}
+
+void Camera::SetEye(XMFLOAT3 inPos)
 {
 	mEye = inPos;
-
-	XMStoreFloat4x4(&mPosition, XMMatrixLookAtLH(mEye, mAt, mUp));
 }
 
-void Camera::SetUp(XMVECTOR inPos)
+void Camera::SetUp(XMFLOAT3 inPos)
 {
 	mUp = inPos;
-
-	XMStoreFloat4x4(&mPosition, XMMatrixLookAtLH(mEye, mAt, mUp));
 }
 
-void Camera::SetAt(XMVECTOR inPos)
+void Camera::SetAt(XMFLOAT3 inPos)
 {
 	mAt = inPos;
+}
 
-	XMStoreFloat4x4(&mPosition, XMMatrixLookAtLH(mEye, mAt, mUp));
+void Camera::Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
+{
+	mWindowWidth = windowWidth;
+	mWindowHeight = windowHeight;
+	mNearDepth = nearDepth;
+	mFarDepth = farDepth;
+
+	XMStoreFloat4x4(&mProjection, XMMatrixPerspectiveFovLH(XM_PIDIV2, mWindowWidth / (FLOAT)mWindowHeight, 0.001f, 100.0f));
 }

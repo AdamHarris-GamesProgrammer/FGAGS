@@ -8,24 +8,36 @@ class Camera
 {
 public:
 	Camera();
-	Camera(XMFLOAT4X4 inPos);
+	Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight,
+		FLOAT nearDepth, FLOAT farDepth);
+	~Camera();
 
-	XMFLOAT4X4 GetMatrix();
-	void SetMatrix(XMFLOAT4X4 inPos);
+	void Update();
 
-	XMVECTOR GetEye();
-	XMVECTOR GetUp();
-	XMVECTOR GetAt();
+	XMFLOAT3 GetEye();
+	XMFLOAT3 GetUp();
+	XMFLOAT3 GetAt();
+	XMFLOAT4X4 GetProjection();
+	XMFLOAT4X4 GetView();
 
-	void SetEye(XMVECTOR inPos);
-	void SetUp(XMVECTOR inPos);
-	void SetAt(XMVECTOR inPos);
+	void SetEye(XMFLOAT3 inPos);
+	void SetUp(XMFLOAT3 inPos);
+	void SetAt(XMFLOAT3 inPos);
+
+	void Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth);
 
 private:
-	XMFLOAT4X4 mPosition;
-	XMVECTOR mEye;
-	XMVECTOR mAt;
-	XMVECTOR mUp;
+	XMFLOAT4X4 mView;
+	XMFLOAT4X4 mProjection;
+
+	FLOAT mWindowWidth;
+	FLOAT mWindowHeight;
+	FLOAT mNearDepth;
+	FLOAT mFarDepth;
+
+	XMFLOAT3 mEye;
+	XMFLOAT3 mAt;
+	XMFLOAT3 mUp;
 
 };
 
