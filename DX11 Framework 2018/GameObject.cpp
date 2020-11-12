@@ -25,7 +25,11 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 	XMMATRIX objectPosition = XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z);
 	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z);
 
-	return XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
+	XMMATRIX calculatedTransform = XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
+
+	XMStoreFloat4x4(&mTransform, calculatedTransform);
+
+	return calculatedTransform;
 }
 
 void GameObject::Draw()
@@ -66,7 +70,8 @@ void GameObject::Initialize()
 #pragma region Getters
 DirectX::XMFLOAT3 GameObject::GetPosition()
 {
-	return mPosition;
+
+	return XMFLOAT3(mTransform._41, mTransform._42, mTransform._43);
 }
 
 DirectX::XMFLOAT3 GameObject::GetRotation()

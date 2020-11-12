@@ -44,8 +44,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	);
 
 	cameraB = new Camera(
-		XMFLOAT3(0.0f, 0.0f, -10.0f),
-		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(1.0f, 0.0f, -1.0f),
+		XMFLOAT3(0.0f, 1.0f, 0.0f),
 		XMFLOAT3(0.0f, 1.0f, 0.0f),
 		graphics->GetWindowWidth(),
 		graphics->GetWindowHeight(),
@@ -53,6 +53,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	);
 
 	graphics->SwitchCamera(cameraA);
+
+	cameraB->SetLookTo(false);
+
+	
 
 	rotationValue = 0.0f;
 
@@ -100,6 +104,20 @@ void Application::Update()
 	donut.SetRotation(90.0f, 0.0f, 0.0f);
 	donut.SetPosition(4.0f, 0.0f, 0.0f);
 
+	XMFLOAT3 cubePos = cube.GetPosition();
+
+	cameraB->SetAt(cubePos);
+
+	
+
+	XMFLOAT3 cameraPos = XMFLOAT3
+	(
+		cubePos.x + cameraBOffset.x,
+		cubePos.y + cameraBOffset.y,
+		cubePos.z + cameraBOffset.z
+	);
+
+	cameraB->SetEye(cameraPos);
 
 	sphere.Update(dt);
 	cube.Update(dt);

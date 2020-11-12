@@ -36,6 +36,8 @@ private:
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
 
+	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 1.0f, -4.0f);
+
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
 	float spaceTimer = 0.1f;

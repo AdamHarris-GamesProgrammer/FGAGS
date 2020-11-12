@@ -20,6 +20,7 @@ public:
 	XMFLOAT4X4 GetProjection();
 	XMFLOAT4X4 GetView();
 
+	void SetLookTo(bool val);
 	void SetEye(XMFLOAT3 inPos);
 	void SetUp(XMFLOAT3 inPos);
 	void SetAt(XMFLOAT3 inPos);
@@ -38,6 +39,10 @@ private:
 	XMFLOAT3 mEye;
 	XMFLOAT3 mAt;
 	XMFLOAT3 mUp;
+
+	
+
+	bool mLookTo = false;
 
 };
 
