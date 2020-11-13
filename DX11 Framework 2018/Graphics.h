@@ -60,6 +60,8 @@ public:
 	void UpdateBuffers(XMFLOAT4X4& position);
 
 	void SetShaders();
+	void SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps);
+	void SetInputLayout(ID3D11InputLayout* layout);
 	
 	UINT GetWindowWidth();
 	UINT GetWindowHeight();
@@ -96,6 +98,8 @@ private:
 	IDXGISwapChain* _pSwapChain;
 
 	ID3D11RenderTargetView* _pRenderTargetView;
+
+
 	ID3D11VertexShader* _pVertexShader;
 	ID3D11PixelShader* _pPixelShader;
 	ID3D11InputLayout* _pVertexLayout;

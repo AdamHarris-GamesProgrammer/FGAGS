@@ -497,6 +497,20 @@ void Graphics::SetShaders()
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 
+void Graphics::SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps)
+{
+	_pImmediateContext->VSSetShader(vs, nullptr, 0);
+	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	_pImmediateContext->PSSetShader(ps, nullptr, 0);
+	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
+}
+
+void Graphics::SetInputLayout(ID3D11InputLayout* layout)
+{
+	_pImmediateContext->IASetInputLayout(layout);
+}
+
 UINT Graphics::GetWindowWidth()
 {
 	return _WindowWidth;

@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include <vector>
 #include "DDSTextureLoader.h"
+#include "Shaders.h"
 
 
 class GameObject
@@ -19,6 +20,9 @@ public:
 
 
 	void CreateTexture(wchar_t* path);
+
+
+
 
 	void SetTransform(XMMATRIX transform);
 	void SetTransform(XMFLOAT4X4 transform);
@@ -43,6 +47,8 @@ private:
 protected:
 	//Mesh
 	MeshData mMesh;
+
+	Shaders* mShader;
 
 
 	std::vector<ID3D11ShaderResourceView*> mTextures;

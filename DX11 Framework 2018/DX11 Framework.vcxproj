@@ -382,6 +382,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -400,6 +401,7 @@
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="OBJLoader.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="Shaders.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Time.h" />
     <ResourceCompile Include="DX11 Framework.rc" />

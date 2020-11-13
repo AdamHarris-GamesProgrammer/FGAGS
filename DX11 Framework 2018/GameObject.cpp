@@ -34,6 +34,7 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 
 void GameObject::Draw()
 {
+	mShader->BindShaders();
 	gfx->SwitchVertexBuffer(mMesh.VertexBuffer);
 	gfx->SwitchIndexBuffer(mMesh.IndexBuffer);
 	
@@ -65,6 +66,9 @@ void GameObject::Initialize()
 	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
 	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
 	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
+
+	mShader = new Shaders(gfx, L"DX11 Framework.fx");
+	mShader->InitializeShaders();
 }
 
 #pragma region Getters
