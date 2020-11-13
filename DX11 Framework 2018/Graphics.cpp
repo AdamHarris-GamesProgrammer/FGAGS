@@ -33,9 +33,6 @@ Graphics::Graphics()
 	_pImmediateContext = nullptr;
 	_pSwapChain = nullptr;
 	_pRenderTargetView = nullptr;
-	_pVertexShader = nullptr;
-	_pPixelShader = nullptr;
-	_pVertexLayout = nullptr;
 	_pConstantBuffer = nullptr;
 
 }
@@ -117,9 +114,8 @@ HRESULT Graphics::InitDevice()
 
 	if (!(CheckResult(InitSwapChain())
 		&& CheckResult(InitDepthBuffer())
-		&& CheckResult(InitRenderTarget())
-		&& CheckResult(InitShadersAndInputLayout())
-		)) {
+		&& CheckResult(InitRenderTarget()))
+		) {
 		MessageBox(_hWnd, L"Initialization of device failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
@@ -184,9 +180,6 @@ void Graphics::Cleanup()
 
 	if (_pSamplerLinear) _pSamplerLinear->Release();
 
-	if (_pVertexLayout) _pVertexLayout->Release();
-	if (_pVertexShader) _pVertexShader->Release();
-	if (_pPixelShader) _pPixelShader->Release();
 	if (_pRenderTargetView) _pRenderTargetView->Release();
 	if (_pSwapChain) _pSwapChain->Release();
 	if (_pImmediateContext) _pImmediateContext->Release();
@@ -199,103 +192,6 @@ void Graphics::Cleanup()
 	mCurrentCamera = nullptr;
 }
 
-HRESULT Graphics::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
-{
-	HRESULT hr = S_OK;
-
-	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
-#if defined(DEBUG) || defined(_DEBUG)
-	// Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-	// Setting this flag improves the shader debugging experience, but still allows 
-	// the shaders to be optimized and to run exactly the way they will run in 
-	// the release configuration of this program.
-	dwShaderFlags |= D3DCOMPILE_DEBUG;
-#endif
-
-	ID3DBlob* pErrorBlob;
-	hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
-		dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
-
-	if (FAILED(hr))
-	{
-		if (pErrorBlob != nullptr)
-			OutputDebugStringA((char*)pErrorBlob->GetBufferPointer());
-
-		if (pErrorBlob) pErrorBlob->Release();
-
-		return hr;
-	}
-
-	if (pErrorBlob) pErrorBlob->Release();
-
-	return S_OK;
-}
-
-HRESULT Graphics::InitShadersAndInputLayout()
-{
-	HRESULT hr;
-
-	// Compile the vertex shader
-	ID3DBlob* pVSBlob = nullptr;
-	hr = CompileShaderFromFile(L"DX11 Framework.fx", "VS", "vs_4_0", &pVSBlob);
-
-	if (FAILED(hr))
-	{
-		MessageBox(nullptr,
-			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-		return hr;
-	}
-
-	// Create the vertex shader
-	hr = _pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &_pVertexShader);
-
-	if (FAILED(hr))
-	{
-		pVSBlob->Release();
-		return hr;
-	}
-
-	// Compile the pixel shader
-	ID3DBlob* pPSBlob = nullptr;
-	hr = CompileShaderFromFile(L"DX11 Framework.fx", "PS", "ps_4_0", &pPSBlob);
-
-	if (FAILED(hr))
-	{
-		MessageBox(nullptr,
-			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-		return hr;
-	}
-
-	// Create the pixel shader
-	hr = _pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &_pPixelShader);
-	pPSBlob->Release();
-
-	if (FAILED(hr))
-		return hr;
-
-	// Define the input layout
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-	UINT numElements = ARRAYSIZE(layout);
-
-	// Create the input layout
-	hr = _pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(), &_pVertexLayout);
-	pVSBlob->Release();
-
-	if (FAILED(hr))
-		return hr;
-
-	// Set the input layout
-	_pImmediateContext->IASetInputLayout(_pVertexLayout);
-
-	return hr;
-}
 
 HRESULT Graphics::CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** texture)
 {
@@ -486,15 +382,6 @@ void Graphics::EnableWireframe(bool enabled)
 	ID3D11RasterizerState* renderState;
 	enabled ? renderState = _wireFrame : renderState = _solid;
 	_pImmediateContext->RSSetState(renderState);
-}
-
-void Graphics::SetShaders()
-{
-	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
-	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
 }
 
 void Graphics::SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps)

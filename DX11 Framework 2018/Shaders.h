@@ -9,7 +9,7 @@ public:
 	Shaders() = default;
 	Shaders(Graphics* gfx);
 	Shaders(Graphics* gfx, WCHAR* shaderPath);
-	Shaders(Graphics* gfx, WCHAR* shaderPath, D3D11_INPUT_ELEMENT_DESC* layoutArray);
+	Shaders(Graphics* gfx, WCHAR* shaderPath, D3D11_INPUT_ELEMENT_DESC* layoutArray, UINT layoutSize);
 
 	ID3D11PixelShader* GetPixelShader();
 	ID3D11VertexShader* GetVertexShader();
@@ -24,6 +24,8 @@ private:
 	ID3D11Device* mDevice;
 	D3D11_INPUT_ELEMENT_DESC* mLayoutDescription;
 	ID3D11InputLayout* mLayout;
+
+	UINT mLayoutSize;
 
 	WCHAR* mShaderFile;
 

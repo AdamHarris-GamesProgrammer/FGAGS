@@ -13,12 +13,13 @@ Shaders::Shaders(Graphics* gfx, WCHAR* shaderPath)
 	mShaderFile = shaderPath;
 }
 								
-Shaders::Shaders(Graphics* gfx, WCHAR* shaderPath, D3D11_INPUT_ELEMENT_DESC* layoutArray)
+Shaders::Shaders(Graphics* gfx, WCHAR* shaderPath, D3D11_INPUT_ELEMENT_DESC* layoutArray, UINT layoutSize)
 {
 	mGraphics = gfx;
 	mDevice = mGraphics->GetDevice();
 	mShaderFile = shaderPath;
 	mLayoutDescription = layoutArray;
+	mLayoutSize = layoutSize;
 }
 
 
@@ -64,18 +65,8 @@ HRESULT Shaders::InitializeShaders()
 	if (FAILED(hr))
 		return hr;
 
-	// Define the input layout
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-	UINT numElements = ARRAYSIZE(layout);
-
 	// Create the input layout
-	hr = mDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+	hr = mDevice->CreateInputLayout(mLayoutDescription, mLayoutSize, pVSBlob->GetBufferPointer(),
 		pVSBlob->GetBufferSize(), &mLayout);
 	pVSBlob->Release();
 

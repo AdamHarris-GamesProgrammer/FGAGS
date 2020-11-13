@@ -148,7 +148,6 @@ void Application::Update()
 void Application::Draw()
 {
 	graphics->ClearBuffers();
-	graphics->SetShaders();
 
 	for (auto& object : mGameObjects) {
 		object->Draw();
