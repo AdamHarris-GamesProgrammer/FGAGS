@@ -31,15 +31,6 @@ void Camera::Update()
 	XMVECTOR  at = XMVectorSet(mAt.x, mAt.y, mAt.z, 0.0f);
 	XMVECTOR  up = XMVectorSet(mUp.x, mUp.y, mUp.z, 0.0f);
 
-
-	//if (mLookTo) {
-	//	XMStoreFloat4x4(&mView, XMMatrixLookToLH(eye, at, up));
-	//}
-	//else
-	//{
-	//	XMStoreFloat4x4(&mView, XMMatrixLookAtLH(eye, at, up));
-	//}
-
 	XMStoreFloat4x4(&mView, XMMatrixLookAtLH(eye, at, up));
 }
 

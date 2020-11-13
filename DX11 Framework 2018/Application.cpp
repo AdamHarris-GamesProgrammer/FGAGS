@@ -56,7 +56,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		0.01f, 100.0f
 	);
 
-	cameraB->SetOffset(XMFLOAT3(0.0f, 1.0f, -4.0f));
+	cameraB->SetOffset(XMFLOAT3(3.0f, 1.0f, -4.0f));
 
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
@@ -64,7 +64,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Sets default positions
 	sphere->SetPosition(-4.0f, 0.0f, 0.0f);
 	cylinder->SetPosition(0.0f, 0.0f, 0.0f);
-	donut->SetRotation(90.0f, 0.0f, 0.0f);
 	donut->SetPosition(4.0f, 0.0f, 0.0f);
 	cube->SetPosition(-8.0f, 0.0f, 0.0f);
 
@@ -93,8 +92,6 @@ void Application::Update()
 	}
 
 	XMFLOAT3 cameraAPos = cameraA->GetEye();
-	XMFLOAT3 cameraAOffset = XMFLOAT3();
-
 
 	//Camera A - Stationary
 	if (GetAsyncKeyState(VK_NUMPAD1)) {
@@ -109,21 +106,21 @@ void Application::Update()
 
 	//Zoom In
 	if (GetAsyncKeyState(VK_NUMPAD8)) {
-		cameraAOffset.z += 1.2f * dt;
+		cameraAPos.z += 1.2f * dt;
 	}
 	//Zoom Out
 	else if (GetAsyncKeyState(VK_NUMPAD5)) {
-		cameraAOffset.z -= 1.2f * dt;
+		cameraAPos.z -= 1.2f * dt;
 	}
 
 	//Pivot Left
 	if (GetAsyncKeyState(VK_NUMPAD4)) {
-		cameraAOffset.x -= 1.2f * dt;
+		cameraAPos.x -= 1.2f * dt;
 	}
 
 	//Pivot Right
 	else if (GetAsyncKeyState(VK_NUMPAD6)) {
-		cameraAOffset.x += 1.2f * dt;
+		cameraAPos.x += 1.2f * dt;
 	}
 
 	rotationValue += (rotationSpeed * dt);
@@ -133,22 +130,13 @@ void Application::Update()
 
 
 	cube->SetRotation(10.0f,rotationValue, 0.0f);
-	
-
-	XMFLOAT3 newCameraAPos = XMFLOAT3
-	(
-		cameraAPos.x + cameraAOffset.x,
-		cameraAPos.y + cameraAOffset.y,
-		cameraAPos.z + cameraAOffset.z
-	);
+	donut->SetRotation(rotationValue, 0.0f, 0.0f);
 
 	if (mCurrentCamera == cameraA) {
-		mCurrentCamera->SetEye(newCameraAPos);
+		mCurrentCamera->SetEye(cameraAPos);
 	}
-	else
-	{
-		cameraB->PollInput(dt);
-	}
+
+	mCurrentCamera->PollInput(dt);
 
 	for (auto& object : mGameObjects) {
 		object->Update(dt);

@@ -17,6 +17,6 @@ public:
 private:
 	GameObject* mFollowTarget = nullptr;
 
-	XMFLOAT3 mOffset = XMFLOAT3();
+	XMFLOAT3 mOffset;
 };
 
