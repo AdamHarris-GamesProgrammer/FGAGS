@@ -2,9 +2,7 @@
 #include <iostream>
 #include <DirectXMath.h>
 
-Application::Application()
-{
-}
+Application::Application() {}
 
 Application::~Application()
 {
@@ -48,8 +46,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		0.01f, 100.0f
 	);
 
-	cameraB = new Camera(
-		XMFLOAT3(1.0f, 0.0f, -1.0f),
+	cameraB = new FollowCamera(
+		cube,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
 		XMFLOAT3(0.0f, 1.0f, 0.0f),
 		XMFLOAT3(0.0f, 1.0f, 0.0f),
 		graphics->GetWindowWidth(),
@@ -57,12 +56,12 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		0.01f, 100.0f
 	);
 
+	cameraB->SetOffset(XMFLOAT3(0.0f, 1.0f, -4.0f));
+
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
 
-	cameraB->SetLookTo(false);
-
-	//Sets deafault positions
+	//Sets default positions
 	sphere->SetPosition(-4.0f, 0.0f, 0.0f);
 	cylinder->SetPosition(0.0f, 0.0f, 0.0f);
 	donut->SetRotation(90.0f, 0.0f, 0.0f);
@@ -110,28 +109,22 @@ void Application::Update()
 
 	//Zoom In
 	if (GetAsyncKeyState(VK_NUMPAD8)) {
-		cameraBOffset.z += 1.2f * dt;
 		cameraAOffset.z += 1.2f * dt;
 	}
 	//Zoom Out
 	else if (GetAsyncKeyState(VK_NUMPAD5)) {
-		cameraBOffset.z -= 1.2f * dt;
 		cameraAOffset.z -= 1.2f * dt;
 	}
 
 	//Pivot Left
 	if (GetAsyncKeyState(VK_NUMPAD4)) {
-		cameraBOffset.x -= 1.2f * dt;
 		cameraAOffset.x -= 1.2f * dt;
 	}
 
 	//Pivot Right
 	else if (GetAsyncKeyState(VK_NUMPAD6)) {
-		cameraBOffset.x += 1.2f * dt;
 		cameraAOffset.x += 1.2f * dt;
 	}
-
-	
 
 	rotationValue += (rotationSpeed * dt);
 
@@ -142,21 +135,9 @@ void Application::Update()
 	cube->SetRotation(10.0f,rotationValue, 0.0f);
 	
 
-
-	XMFLOAT3 cubePos = cube->GetPosition();
-
-	cameraB->SetAt(cubePos);
-
-	XMFLOAT3 cameraBPos = XMFLOAT3
-	(
-		cubePos.x + cameraBOffset.x,
-		cubePos.y + cameraBOffset.y,
-		cubePos.z + cameraBOffset.z
-	);
-
 	XMFLOAT3 newCameraAPos = XMFLOAT3
 	(
-		cameraAPos.x +  cameraAOffset.x,
+		cameraAPos.x + cameraAOffset.x,
 		cameraAPos.y + cameraAOffset.y,
 		cameraAPos.z + cameraAOffset.z
 	);
@@ -166,7 +147,7 @@ void Application::Update()
 	}
 	else
 	{
-		mCurrentCamera->SetEye(cameraBPos);
+		cameraB->PollInput(dt);
 	}
 
 	for (auto& object : mGameObjects) {

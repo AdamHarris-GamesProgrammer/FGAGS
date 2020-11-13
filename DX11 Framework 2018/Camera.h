@@ -12,7 +12,8 @@ public:
 		FLOAT nearDepth, FLOAT farDepth);
 	~Camera();
 
-	void Update();
+	virtual void Update();
+	virtual void PollInput(float dt);
 
 	XMFLOAT3 GetEye();
 	XMFLOAT3 GetUp();
@@ -20,14 +21,14 @@ public:
 	XMFLOAT4X4 GetProjection();
 	XMFLOAT4X4 GetView();
 
-	void SetLookTo(bool val);
+	//void SetLookTo(bool val);
 	void SetEye(XMFLOAT3 inPos);
 	void SetUp(XMFLOAT3 inPos);
 	void SetAt(XMFLOAT3 inPos);
 
 	void Reshape(UINT windowWidth, UINT windowHeight, FLOAT nearDepth, FLOAT farDepth);
 
-private:
+protected:
 	XMFLOAT4X4 mView;
 	XMFLOAT4X4 mProjection;
 
@@ -40,9 +41,7 @@ private:
 	XMFLOAT3 mAt;
 	XMFLOAT3 mUp;
 
-	
-
-	bool mLookTo = false;
+private:
 
 };
 

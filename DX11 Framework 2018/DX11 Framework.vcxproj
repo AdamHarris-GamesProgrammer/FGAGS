@@ -378,6 +378,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
+    <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
@@ -393,6 +394,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Donut.h" />
+    <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="LightingStructs.h" />

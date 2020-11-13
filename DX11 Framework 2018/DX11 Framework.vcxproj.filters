@@ -39,6 +39,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Donut.h" />
+    <ClInclude Include="FollowCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -55,6 +56,7 @@
     <ClCompile Include="Time.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="FollowCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

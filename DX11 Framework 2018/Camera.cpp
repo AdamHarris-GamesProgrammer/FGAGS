@@ -32,15 +32,20 @@ void Camera::Update()
 	XMVECTOR  up = XMVectorSet(mUp.x, mUp.y, mUp.z, 0.0f);
 
 
-	if (mLookTo) {
-		XMStoreFloat4x4(&mView, XMMatrixLookToLH(eye, at, up));
-	}
-	else
-	{
-		XMStoreFloat4x4(&mView, XMMatrixLookAtLH(eye, at, up));
-	}
+	//if (mLookTo) {
+	//	XMStoreFloat4x4(&mView, XMMatrixLookToLH(eye, at, up));
+	//}
+	//else
+	//{
+	//	XMStoreFloat4x4(&mView, XMMatrixLookAtLH(eye, at, up));
+	//}
 
-	
+	XMStoreFloat4x4(&mView, XMMatrixLookAtLH(eye, at, up));
+}
+
+void Camera::PollInput(float dt)
+{
+
 }
 
 DirectX::XMFLOAT3 Camera::GetEye()
@@ -68,10 +73,10 @@ DirectX::XMFLOAT4X4 Camera::GetView()
 	return mView;
 }
 
-void Camera::SetLookTo(bool val)
-{
-	mLookTo = val;
-}
+//void Camera::SetLookTo(bool val)
+//{
+//	mLookTo = val;
+//}
 
 void Camera::SetEye(XMFLOAT3 inPos)
 {

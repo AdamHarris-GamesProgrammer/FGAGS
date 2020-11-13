@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "Time.h"
+#include "FollowCamera.h"
 
 using namespace DirectX;
 
@@ -35,11 +36,8 @@ private:
 
 
 	Camera* cameraA = nullptr;
-	Camera* cameraB = nullptr;
+	FollowCamera* cameraB = nullptr;
 	Camera* mCurrentCamera = nullptr;
-
-	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 1.0f, -4.0f);
-	//XMFLOAT3 cameraAOffset = XMFLOAT3();
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
