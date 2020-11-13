@@ -7,7 +7,7 @@ GameObject::GameObject()
 
 GameObject::GameObject(Graphics* gfx, char* filepath) : gfx(gfx)
 {
-	mMesh = OBJLoader::Load(filepath, this->gfx->_pd3dDevice, false);
+	mMesh = OBJLoader::Load(filepath, this->gfx->GetDevice(), false);
 	
 	Initialize();
 }
@@ -70,7 +70,6 @@ void GameObject::Initialize()
 #pragma region Getters
 DirectX::XMFLOAT3 GameObject::GetPosition()
 {
-
 	return XMFLOAT3(mTransform._41, mTransform._42, mTransform._43);
 }
 

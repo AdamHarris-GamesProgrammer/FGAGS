@@ -8,7 +8,6 @@
 #include "resource.h"
 
 #include "Graphics.h"
-#include "GameObject.h"
 
 #include "Cube.h"
 #include "Sphere.h"
@@ -27,16 +26,20 @@ class Application
 private:
 	Graphics* graphics;
 
-	Sphere sphere;
-	Cube cube;
-	Cylinder cylinder;
-	Donut donut;
+	Sphere* sphere;
+	Cube* cube;
+	Cylinder* cylinder;
+	Donut* donut;
+
+	std::vector<GameObject*> mGameObjects;
 
 
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
+	Camera* mCurrentCamera = nullptr;
 
 	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 1.0f, -4.0f);
+	//XMFLOAT3 cameraAOffset = XMFLOAT3();
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;

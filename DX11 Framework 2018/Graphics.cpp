@@ -302,6 +302,11 @@ HRESULT Graphics::CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** te
 	return CreateDDSTextureFromFile(_pd3dDevice, filepath, nullptr, texture);
 }
 
+ID3D11Device* Graphics::GetDevice()
+{
+	return _pd3dDevice;
+}
+
 void Graphics::SwitchVertexBuffer(ID3D11Buffer* buffer)
 {
 	UINT stride = sizeof(SimpleVertex);

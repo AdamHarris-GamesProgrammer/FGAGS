@@ -72,7 +72,7 @@ public:
 	//Texture Methods
 	HRESULT CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** texture);
 
-	ID3D11Device* _pd3dDevice;
+	ID3D11Device* GetDevice();
 
 private:
 
@@ -90,6 +90,7 @@ private:
 	HWND                    _hWnd;
 	D3D_DRIVER_TYPE         _driverType;
 	D3D_FEATURE_LEVEL       _featureLevel;
+	ID3D11Device* _pd3dDevice;
 
 	ID3D11DeviceContext* _pImmediateContext;
 	IDXGISwapChain* _pSwapChain;
