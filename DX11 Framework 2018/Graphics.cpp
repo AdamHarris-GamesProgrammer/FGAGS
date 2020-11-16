@@ -1,26 +1,20 @@
 #include "Graphics.h"
+#include <windowsx.h>
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+namespace
 {
-	PAINTSTRUCT ps;
-	HDC hdc;
+	// This is just used to forward Windows messages from a global window
+	// procedure to our member function window procedure because we cannot
+	// assign a member function to WNDCLASS::lpfnWndProc.
+	Graphics* gfx = 0;
+}
 
-	switch (message)
-	{
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
-		break;
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-
-	return 0;
+LRESULT CALLBACK
+MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	// Forward hwnd on because we can get messages (e.g., WM_CREATE)
+	// before CreateWindow returns, and thus before mhMainWnd is valid.
+	return gfx->WndProc(hwnd, msg, wParam, lParam);
 }
 
 Graphics::Graphics()
@@ -35,6 +29,7 @@ Graphics::Graphics()
 	_pRenderTargetView = nullptr;
 	_pConstantBuffer = nullptr;
 
+	gfx = this;
 }
 
 Graphics::~Graphics() {
@@ -71,13 +66,45 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	return S_OK;
 }
 
+void Graphics::OnMouseDown(WPARAM btnState, int x, int y)
+{
+	mMouseX = x;
+	mMouseY = y;
+}
+
+LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	PAINTSTRUCT ps;
+	HDC hdc;
+
+	switch (message)
+	{
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+		break;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+
+	case WM_MOUSEMOVE:
+		OnMouseDown(wParam, ((int)(short)LOWORD(lParam)), ((int)(short)HIWORD(lParam)));
+
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	return 0;
+}
+
 HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc = WndProc;
+	wcex.lpfnWndProc = MainWndProc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
@@ -201,6 +228,16 @@ HRESULT Graphics::CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** te
 ID3D11Device* Graphics::GetDevice()
 {
 	return _pd3dDevice;
+}
+
+int Graphics::GetMouseX()
+{
+	return mMouseX;
+}
+
+int Graphics::GetMouseY()
+{
+	return mMouseY;
 }
 
 void Graphics::SwitchVertexBuffer(ID3D11Buffer* buffer)
@@ -367,9 +404,22 @@ void Graphics::ClearTextures()
 	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
 }
 
+void Graphics::ConfineCursor()
+{
+	RECT rect;
+	GetClientRect(_hWnd, &rect);
+	MapWindowPoints(_hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+	ClipCursor(&rect);
+}
+
+void Graphics::FreeCursor()
+{
+	ClipCursor(nullptr);
+}
+
 void Graphics::UpdateCamera()
 {
-	mCurrentCamera->Update();
+	//mCurrentCamera->Update();
 }
 
 void Graphics::SwitchCamera(Camera* newCamera)
@@ -411,8 +461,8 @@ UINT Graphics::GetWindowHeight()
 void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
-	cb.mView = XMMatrixTranspose(XMLoadFloat4x4(&mCurrentCamera->GetView()));
-	cb.mProjection = XMMatrixTranspose(XMLoadFloat4x4(&mCurrentCamera->GetProjection()));
+	cb.mView = XMMatrixTranspose(mCurrentCamera->View());
+	cb.mProjection = XMMatrixTranspose(mCurrentCamera->Proj());
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
 	cb.DiffuseMtrl = diffuseLight.material;
@@ -424,7 +474,7 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 	cb.SpecularLight = specularLight.light;
 	cb.LightVec3 = lightDirection;
 
-	cb.EyePosW = mCurrentCamera->GetEye();
+	cb.EyePosW = mCurrentCamera->GetLook();
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

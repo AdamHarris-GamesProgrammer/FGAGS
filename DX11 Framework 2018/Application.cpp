@@ -7,17 +7,15 @@ Application::Application() {}
 Application::~Application()
 {
 	delete cameraA;
-	delete cameraB;
 
 	cameraA = nullptr;
-	cameraB = nullptr;
 }
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
 	graphics = new Graphics();
 	graphics->Initialise(hInstance, nCmdShow);
-	
+
 	sphere = new Sphere(graphics);
 	cube = new Cube(graphics);
 	cylinder = new Cylinder(graphics);
@@ -36,30 +34,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	cylinder->CreateTexture(L"Assets/Textures/Crate_Color.dds");
 	donut->CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
-	
-	cameraA = new Camera(
-		XMFLOAT3(3.0f, 0.0f, -10.0f),
-		XMFLOAT3(0.0f, 0.0f, 0.0f),
-		XMFLOAT3(0.0f, 1.0f, 0.0f),
-		graphics->GetWindowWidth(),
-		graphics->GetWindowHeight(), 
-		0.01f, 100.0f
-	);
 
-	cameraB = new FollowCamera(
-		cube,
-		XMFLOAT3(0.0f, 0.0f, 0.0f),
-		XMFLOAT3(0.0f, 1.0f, 0.0f),
-		XMFLOAT3(0.0f, 1.0f, 0.0f),
-		graphics->GetWindowWidth(),
-		graphics->GetWindowHeight(),
-		0.01f, 100.0f
-	);
 
-	cameraB->SetOffset(XMFLOAT3(3.0f, 1.0f, -4.0f));
-
+	cameraA = new Camera();
+	cameraA->SetLens(45.0f, graphics->GetWindowWidth() / graphics->GetWindowHeight(), 0.01f, 100.0f);
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
+
+	graphics->ConfineCursor();
 
 	//Sets default positions
 	sphere->SetPosition(-4.0f, 0.0f, 0.0f);
@@ -90,59 +72,51 @@ void Application::Update()
 			timeSinceSpacePressed = 0.0f;
 		}
 	}
+	if (changed) graphics->EnableWireframe(wireframeOn);
 
-	XMFLOAT3 cameraAPos = cameraA->GetEye();
-
-	//Camera A - Stationary
-	if (GetAsyncKeyState(VK_NUMPAD1)) {
-		mCurrentCamera = cameraA;
-		graphics->SwitchCamera(cameraA);
-	}
-	//Camera B - Follow Camera
-	else if (GetAsyncKeyState(VK_NUMPAD2)) {
-		graphics->SwitchCamera(cameraB);
-		mCurrentCamera = cameraB;
-	}
-
-	//Zoom In
-	if (GetAsyncKeyState(VK_NUMPAD8)) {
-		cameraAPos.z += 1.2f * dt;
-	}
-	//Zoom Out
-	else if (GetAsyncKeyState(VK_NUMPAD5)) {
-		cameraAPos.z -= 1.2f * dt;
+	timeSinceFPressed += dt;
+	if (GetAsyncKeyState('F')) {
+		if (timeSinceFPressed > fTimer) {
+			timeSinceFPressed = 0.0f;
+			clippedCursor = !clippedCursor;
+			if (clippedCursor) {
+				graphics->ConfineCursor();
+			}
+			else
+			{
+				graphics->FreeCursor();
+			}
+		}
 	}
 
-	//Pivot Left
-	if (GetAsyncKeyState(VK_NUMPAD4)) {
-		cameraAPos.x -= 1.2f * dt;
-	}
+	if (GetAsyncKeyState('W')) cameraA->Walk(10.0f * dt);
+	if (GetAsyncKeyState('S')) cameraA->Walk(-10.0f * dt);
+	if (GetAsyncKeyState('A')) cameraA->Strafe(-10.0f * dt);
+	if (GetAsyncKeyState('D')) cameraA->Strafe(10.0f * dt);
 
-	//Pivot Right
-	else if (GetAsyncKeyState(VK_NUMPAD6)) {
-		cameraAPos.x += 1.2f * dt;
-	}
+	float dx = XMConvertToRadians(0.25f * static_cast<float>(graphics->GetMouseX() - mLastMousePosX));
+	float dy = XMConvertToRadians(0.25f * static_cast<float>(graphics->GetMouseY() - mLastMousePosY));
+
+	mCurrentCamera->Pitch(dy);
+	mCurrentCamera->RotateY(dx);
+
+	mLastMousePosX = graphics->GetMouseX();
+	mLastMousePosY = graphics->GetMouseY();
+
+	mCurrentCamera->UpdateViewMatrix();
 
 	rotationValue += (rotationSpeed * dt);
 
-	if (changed) graphics->EnableWireframe(wireframeOn);
 
-
-
-	cube->SetRotation(10.0f,rotationValue, 0.0f);
+	cube->SetRotation(10.0f, rotationValue, 0.0f);
 	donut->SetRotation(rotationValue, 0.0f, 0.0f);
 
-	if (mCurrentCamera == cameraA) {
-		mCurrentCamera->SetEye(cameraAPos);
-	}
-
-	mCurrentCamera->PollInput(dt);
 
 	for (auto& object : mGameObjects) {
 		object->Update(dt);
 	}
 
-	graphics->UpdateCamera();
+	//graphics->UpdateCamera();
 }
 
 void Application::Draw()

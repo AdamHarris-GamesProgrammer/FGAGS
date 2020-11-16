@@ -7,6 +7,7 @@
 #include <directxcolors.h>
 #include "resource.h"
 #include "DDSTextureLoader.h"
+#include <windowsx.h>
 
 #include "LightingStructs.h"
 #include "Camera.h"
@@ -49,6 +50,9 @@ public:
 	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
 	void ClearTextures();
 
+	void ConfineCursor();
+	void FreeCursor();
+
 	void UpdateCamera();
 
 	void SwitchCamera(Camera* newCamera);
@@ -75,7 +79,18 @@ public:
 
 	ID3D11Device* GetDevice();
 
+	int GetMouseX();
+	int GetMouseY();
+
+	LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPatam);
+
 private:
+	void OnMouseDown(WPARAM btnState, int x, int y);
+
+	
+
+	int mMouseX = 0;
+	int mMouseY = 0;
 
 private:
 

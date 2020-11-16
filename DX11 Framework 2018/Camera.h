@@ -1,47 +1,78 @@
 #pragma once
+
 #include <d3d11.h>
 #include <DirectXMath.h>
 
 using namespace DirectX;
 
-class Camera
-{
+class Camera {
 public:
 	Camera();
-	Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight,
-		FLOAT nearDepth, FLOAT farDepth);
 	~Camera();
 
-	virtual void Update();
-	virtual void PollInput(float dt);
+	//Get/Set World Position
+	XMVECTOR GetPositionXM() const;
+	XMFLOAT3 GetPosition() const;
+	void SetPosition(float x, float y, float z);
+	void SetPosition(const XMFLOAT3& val);
 
-	XMFLOAT3 GetEye();
-	XMFLOAT3 GetUp();
-	XMFLOAT3 GetAt();
-	XMFLOAT4X4 GetProjection();
-	XMFLOAT4X4 GetView();
+	//Get Camera basis vectors
+	XMVECTOR GetRightXM() const;
+	XMFLOAT3 GetRight() const;
+	XMVECTOR GetUpXM() const;
+	XMFLOAT3 GetUp() const;
+	XMVECTOR GetLookXM() const;
+	XMFLOAT3 GetLook() const;
 
-	//void SetLookTo(bool val);
-	void SetEye(XMFLOAT3 inPos);
-	void SetUp(XMFLOAT3 inPos);
-	void SetAt(XMFLOAT3 inPos);
+	//Get frustum properties
+	float GetNearZ() const;
+	float GetFarZ() const;
+	float GetAspect() const;
+	float GetFovY() const;
+	float GetFovX() const;
 
-	void Reshape(UINT windowWidth, UINT windowHeight, FLOAT nearDepth, FLOAT farDepth);
+	//Get near and far plane dimensions in view space coordinates
+	float GetNearWindowHeight() const;
+	float GetNearWindowWidth() const;
+	float GetFarWindowHeight() const;
+	float GetFarWindowWidth() const;
 
-protected:
-	XMFLOAT4X4 mView;
-	XMFLOAT4X4 mProjection;
+	//Set frustum
+	void SetLens(float fovY, float aspect, float zn, float zf);
 
-	UINT mWindowWidth;
-	UINT mWindowHeight;
-	FLOAT mNearDepth;
-	FLOAT mFarDepth;
+	//Look at targets
+	void LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp);
+	void LookAt(const XMFLOAT3& pos, const XMFLOAT3& target, const XMFLOAT3& up);
 
-	XMFLOAT3 mEye;
-	XMFLOAT3 mAt;
-	XMFLOAT3 mUp;
+	//Get View/Proj matrices
+	XMMATRIX View() const;
+	XMMATRIX Proj() const;
+	XMMATRIX ViewProj() const;
+
+	//Strafe and Walk
+	void Strafe(float d);
+	void Walk(float d);
+
+	//Rotate the camera
+	void Pitch(float angle);
+	void RotateY(float angle);
+
+	//After modifying any camera aspects you need to update the view matrix
+	void UpdateViewMatrix();
 
 private:
+	XMFLOAT3 mPosition;
+	XMFLOAT3 mRight;
+	XMFLOAT3 mUp;
+	XMFLOAT3 mLook;
 
+	float mNearZ;
+	float mFarZ;
+	float mAspect;
+	float mFovY;
+	float mNearWindowHeight;
+	float mFarWindowHeight;
+
+	XMFLOAT4X4 mView;
+	XMFLOAT4X4 mProj;
 };
-

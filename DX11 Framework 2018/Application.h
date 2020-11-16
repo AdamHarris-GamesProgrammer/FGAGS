@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "Time.h"
-#include "FollowCamera.h"
+#include "Camera.h"
 
 using namespace DirectX;
 
@@ -36,11 +36,12 @@ private:
 
 
 	Camera* cameraA = nullptr;
-	FollowCamera* cameraB = nullptr;
 	Camera* mCurrentCamera = nullptr;
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
+	float timeSinceFPressed = 0.0f;
+	float fTimer = 0.1f;
 	float spaceTimer = 0.1f;
 
 	float rotationSpeed = 1.0f;
@@ -50,7 +51,10 @@ private:
 	float previousRotation = 0.0f;
 
 private:
+	float mLastMousePosX = 0.0f;
+	float mLastMousePosY = 0.0f;
 
+	bool clippedCursor = false;
 public:
 	Application();
 	~Application();
