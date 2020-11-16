@@ -63,6 +63,22 @@ void Application::Update()
 	time.Tick();
 	float dt = time.DeltaTime();
 
+	WireframeControls(dt);
+	CursorControls(dt);
+	CameraControls(dt);
+
+
+	cube->SetRotation(10.0f, rotationValue, 0.0f);
+	donut->SetRotation(rotationValue, 0.0f, 0.0f);
+
+
+	for (auto& object : mGameObjects) {
+		object->Update(dt);
+	}
+}
+
+void Application::WireframeControls(float dt)
+{
 	bool changed = false;
 	timeSinceSpacePressed += dt;
 	if (GetAsyncKeyState(VK_SPACE)) {
@@ -73,7 +89,10 @@ void Application::Update()
 		}
 	}
 	if (changed) graphics->EnableWireframe(wireframeOn);
+}
 
+void Application::CursorControls(float dt)
+{
 	timeSinceFPressed += dt;
 	if (GetAsyncKeyState('F')) {
 		if (timeSinceFPressed > fTimer) {
@@ -88,7 +107,10 @@ void Application::Update()
 			}
 		}
 	}
+}
 
+void Application::CameraControls(float dt)
+{
 	if (GetAsyncKeyState('W')) cameraA->Walk(10.0f * dt);
 	if (GetAsyncKeyState('S')) cameraA->Walk(-10.0f * dt);
 	if (GetAsyncKeyState('A')) cameraA->Strafe(-10.0f * dt);
@@ -106,17 +128,6 @@ void Application::Update()
 	mCurrentCamera->UpdateViewMatrix();
 
 	rotationValue += (rotationSpeed * dt);
-
-
-	cube->SetRotation(10.0f, rotationValue, 0.0f);
-	donut->SetRotation(rotationValue, 0.0f, 0.0f);
-
-
-	for (auto& object : mGameObjects) {
-		object->Update(dt);
-	}
-
-	//graphics->UpdateCamera();
 }
 
 void Application::Draw()
