@@ -1,9 +1,9 @@
 #pragma once
-#include "GameObject.h"
+#include "MeshedObject.h"
 
-class Sphere : public GameObject {
+class Sphere : public MeshedObject {
 public:
-	Sphere() : GameObject() {}
+	Sphere() : MeshedObject() {}
 
-	Sphere(Graphics* gfx) : GameObject(gfx, "Assets/Models/sphere.obj") {}
+	Sphere(Graphics* gfx) : MeshedObject(gfx, "Assets/Models/sphere.obj") {}
 };

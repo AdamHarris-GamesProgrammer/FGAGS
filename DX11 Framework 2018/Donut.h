@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObject.h"
+#include "MeshedObject.h"
 
-class Donut : public GameObject
+class Donut : public MeshedObject
 {
 public:
-	Donut::Donut() : GameObject() {}
+	Donut::Donut() : MeshedObject() {}
 
-	Donut::Donut(Graphics* gfx) : GameObject(gfx, "Assets/Models/donut.obj") {}
+	Donut::Donut(Graphics* gfx) : MeshedObject(gfx, "Assets/Models/donut.obj") {}
 };

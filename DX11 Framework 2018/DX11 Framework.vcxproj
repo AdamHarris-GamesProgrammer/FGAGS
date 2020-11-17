@@ -380,6 +380,7 @@
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -397,6 +398,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="LightingStructs.h" />
+    <ClInclude Include="MeshedObject.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Plane.h" />
     <CLInclude Include="resource.h" />

@@ -11,13 +11,12 @@ class GameObject
 public:
 	GameObject();
 	GameObject(Graphics* gfx);
-	GameObject(Graphics* gfx, char* filepath);
 
 	void Update(float dt);
 
 	XMMATRIX CalculateTransform();
 
-	void Draw();
+	virtual void Draw();
 
 
 	void CreateTexture(wchar_t* path);
@@ -40,18 +39,17 @@ public:
 	XMFLOAT3 GetScale();
 
 private:
-	bool hasTextures = false;
 
 	void Initialize();
 
 	
 protected:
-	//Mesh
-	MeshData mMesh;
+	bool hasTextures = false;
+
 
 	Shaders* mShader;
 
-	Graphics* gfx;
+	Graphics* mGfx;
 
 	std::vector<ID3D11ShaderResourceView*> mTextures;
 

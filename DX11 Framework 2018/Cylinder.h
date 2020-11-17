@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObject.h"
+#include "MeshedObject.h"
 
-class Cylinder : public GameObject
+class Cylinder : public MeshedObject
 {
 public:
-	Cylinder::Cylinder() : GameObject() {}
+	Cylinder::Cylinder() : MeshedObject() {}
 
-	Cylinder::Cylinder(Graphics* gfx) : GameObject(gfx, "Assets/Models/cylinder.obj") {}
+	Cylinder::Cylinder(Graphics* gfx) : MeshedObject(gfx, "Assets/Models/cylinder.obj") {}
 };

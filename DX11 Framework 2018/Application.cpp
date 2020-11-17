@@ -20,15 +20,18 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cube = new Cube(graphics);
 	cylinder = new Cylinder(graphics);
 	donut = new Donut(graphics);
+
 	groundPlane = new Plane(graphics);
 	groundPlane->Make(15.0f, 15.0f, 8, 8);
-	groundPlane->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
+	groundPlane->CreateTexture(L"Assets/Textures/stone.dds");
+	groundPlane->SetPosition(0.0f, -1.0f, 0.0f);
 	
 
 	mGameObjects.push_back(sphere);
 	mGameObjects.push_back(cube);
 	mGameObjects.push_back(cylinder);
 	mGameObjects.push_back(donut);
+	mGameObjects.push_back(groundPlane);
 
 	sphere->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
 	sphere->CreateTexture(L"Assets/Textures/Crate_SPEC.dds");

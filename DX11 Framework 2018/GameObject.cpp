@@ -6,17 +6,9 @@ GameObject::GameObject()
 }
 
 
-
-GameObject::GameObject(Graphics* gfx, char* filepath) : gfx(gfx)
-{
-	mMesh = OBJLoader::Load(filepath, this->gfx->GetDevice(), false);
-	
-	Initialize();
-}
-
 GameObject::GameObject(Graphics* gfx)
 {
-	this->gfx = gfx;
+	this->mGfx = gfx;
 	Initialize();
 }
 
@@ -42,17 +34,7 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 
 void GameObject::Draw()
 {
-	mShader->BindShaders();
-	gfx->SwitchVertexBuffer(mMesh.VertexBuffer);
-	gfx->SwitchIndexBuffer(mMesh.IndexBuffer);
-	
-	if (hasTextures) 
-	{
-		gfx->BindTextures(0, mTextures.size(), mTextures);
-	}
 
-	gfx->UpdateBuffers(mTransform);
-	gfx->Draw(mMesh.IndexCount);
 }
 
 
@@ -63,7 +45,7 @@ void GameObject::CreateTexture(wchar_t* path)
 
 	hasTextures = true;
 
-	gfx->CreateTexture(path, &texture);
+	mGfx->CreateTexture(path, &texture);
 	mTextures.push_back(texture);
 }
 
@@ -82,7 +64,7 @@ void GameObject::Initialize()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	mShader = new Shaders(gfx, L"DX11 Framework.fx", layout, 3);
+	mShader = new Shaders(mGfx, L"DX11 Framework.fx", layout, 3);
 	mShader->InitializeShaders();
 }
 

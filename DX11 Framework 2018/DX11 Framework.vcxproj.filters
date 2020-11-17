@@ -47,6 +47,7 @@
       <Filter>Primitives</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="MeshedObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -64,6 +65,7 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="MeshedObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

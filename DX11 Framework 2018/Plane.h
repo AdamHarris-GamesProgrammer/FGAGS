@@ -1,25 +1,9 @@
 #pragma once
 #include "GameObject.h"
 
-class Plane {
+class Plane : public GameObject {
 public:
-	Plane(Graphics* gfx) {
-		mGfx = gfx;
-
-		XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
-		mPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);
-		mRotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
-		mScale = XMFLOAT3(1.0f, 1.0f, 1.0f);
-
-		D3D11_INPUT_ELEMENT_DESC layout[] =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		};
-
-		mShader = new Shaders(mGfx, L"DX11 Framework.fx", layout, 3);
-		mShader->InitializeShaders();
+	Plane(Graphics* gfx) : GameObject(gfx) {
 	}
 
 	void Make(float width, float depth, UINT m, UINT n) {
@@ -104,21 +88,13 @@ public:
 
 	}
 
-	void Draw() {
+	void Draw() override {
 		mShader->BindShaders();
+		mGfx->BindTextures(0, mTextures.size(), mTextures);
 		mGfx->UpdateBuffers(mTransform);
 		mGfx->SwitchIndexBuffer(mIndexBuffer);
 		mGfx->SwitchVertexBuffer(mVertexBuffer);
-		mGfx->BindTextures(0, mTextures.size(), mTextures);
 		mGfx->Draw(indexCount);
-	}
-
-	void CreateTexture(wchar_t* path)
-	{
-		ID3D11ShaderResourceView* texture;
-
-		mGfx->CreateTexture(path, &texture);
-		mTextures.push_back(texture);
 	}
 
 	ID3D11Buffer* GetVertexBuffer() {
@@ -139,14 +115,4 @@ private:
 	ID3D11Buffer* mIndexBuffer;
 	ID3D11Device* mDevice;
 	UINT indexCount = 0;
-	Graphics* mGfx;
-
-	Shaders* mShader;
-	std::vector<ID3D11ShaderResourceView*> mTextures;
-
-	//Transform Properties
-	XMFLOAT4X4 mTransform;
-	XMFLOAT3 mPosition;
-	XMFLOAT3 mRotation;
-	XMFLOAT3 mScale;
 };
