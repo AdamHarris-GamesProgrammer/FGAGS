@@ -87,6 +87,10 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
+	case WM_QUIT:
+
+		break;
+
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		EndPaint(hWnd, &ps);
@@ -498,7 +502,7 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 	cb.SpecularLight = specularLight.light;
 	cb.LightVec3 = lightDirection;
 
-	cb.EyePosW = mCurrentCamera->GetLook();
+	cb.EyePosW = mCurrentCamera->GetPosition();
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

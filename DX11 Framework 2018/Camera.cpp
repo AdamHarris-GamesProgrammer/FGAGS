@@ -126,6 +126,12 @@ void Camera::SetLens(float fovY, float aspect, float zn, float zf)
 	XMStoreFloat4x4(&mProj, projection);
 }
 
+/// <summary>
+/// Looks at a certain point in space
+/// </summary>
+/// <param name="pos">Position of the camera</param>
+/// <param name="target">Position of the target</param>
+/// <param name="worldUp">Up vector</param>
 void Camera::LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp)
 {
 	XMVECTOR l = XMVector3Normalize(XMVectorSubtract(target, pos));

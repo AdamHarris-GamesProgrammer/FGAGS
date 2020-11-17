@@ -37,9 +37,18 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	cameraA = new Camera();
-	cameraA->SetLens(45.0f, graphics->GetWindowWidth() / graphics->GetWindowHeight(), 0.01f, 100.0f);
+	cameraA->SetLens(0.25f * 3.1452, graphics->GetWindowWidth() / graphics->GetWindowHeight(), 0.01f, 100.0f);
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
+
+	cameraB = new Camera();
+
+	cameraA->LookAt(
+		XMFLOAT3(0.0f, 0.0f, -15.0f),
+		XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+
+	cameraA->UpdateViewMatrix();
 
 	//Sets default positions
 	sphere->SetPosition(-4.0f, 0.0f, 0.0f);
@@ -69,14 +78,23 @@ void Application::Update()
 		CameraControls(dt);
 	}
 
+	if (GetAsyncKeyState('1')) {
+		mCurrentCamera = cameraA;
+		graphics->SwitchCamera(cameraA);
+	}
+	else if (GetAsyncKeyState('2')) {
+		mCurrentCamera = cameraB;
+		graphics->SwitchCamera(cameraB);
+	}
 
-	//CameraControls(dt);
+	cameraB->SetPosition(cube->GetPosition());
 
 	rotationValue += (rotationSpeed * dt);
 
 	cube->SetRotation(10.0f, rotationValue, 0.0f);
 	donut->SetRotation(rotationValue, 0.0f, 0.0f);
 
+	mCurrentCamera->UpdateViewMatrix();
 
 	for (auto& object : mGameObjects) {
 		object->Update(dt);
@@ -136,7 +154,7 @@ void Application::CameraControls(float dt)
 	mLastMousePosX = graphics->GetMouseX();
 	mLastMousePosY = graphics->GetMouseY();
 
-	mCurrentCamera->UpdateViewMatrix();
+	
 }
 
 void Application::Draw()

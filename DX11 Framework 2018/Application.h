@@ -36,6 +36,7 @@ private:
 
 
 	Camera* cameraA = nullptr;
+	Camera* cameraB = nullptr;
 	Camera* mCurrentCamera = nullptr;
 
 	bool wireframeOn = false;

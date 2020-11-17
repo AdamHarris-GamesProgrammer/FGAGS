@@ -42,7 +42,7 @@ public:
 
 	//Look at targets
 	void LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp);
-	void LookAt(const XMFLOAT3& pos, const XMFLOAT3& target, const XMFLOAT3& up);
+	void LookAt(const XMFLOAT3& pos, const XMFLOAT3& target, const XMFLOAT3& up = XMFLOAT3(0.0f,1.0f,0.0f));
 
 	//Get View/Proj matrices
 	XMMATRIX View() const;
