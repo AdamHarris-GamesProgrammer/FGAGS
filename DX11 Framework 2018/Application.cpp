@@ -41,8 +41,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
 
-	graphics->ConfineCursor();
-
 	//Sets default positions
 	sphere->SetPosition(-4.0f, 0.0f, 0.0f);
 	cylinder->SetPosition(0.0f, 0.0f, 0.0f);
@@ -65,8 +63,16 @@ void Application::Update()
 
 	WireframeControls(dt);
 	CursorControls(dt);
-	CameraControls(dt);
 
+	if (enableFlying)
+	{
+		CameraControls(dt);
+	}
+
+
+	//CameraControls(dt);
+
+	rotationValue += (rotationSpeed * dt);
 
 	cube->SetRotation(10.0f, rotationValue, 0.0f);
 	donut->SetRotation(rotationValue, 0.0f, 0.0f);
@@ -97,13 +103,18 @@ void Application::CursorControls(float dt)
 	if (GetAsyncKeyState('F')) {
 		if (timeSinceFPressed > fTimer) {
 			timeSinceFPressed = 0.0f;
+
+			enableFlying = !enableFlying;
+
 			clippedCursor = !clippedCursor;
 			if (clippedCursor) {
-				graphics->ConfineCursor();
+				//graphics->ConfineCursor();
+				graphics->HideCursor();
 			}
 			else
 			{
-				graphics->FreeCursor();
+				//graphics->FreeCursor();
+				graphics->ShowCursor();
 			}
 		}
 	}
@@ -126,8 +137,6 @@ void Application::CameraControls(float dt)
 	mLastMousePosY = graphics->GetMouseY();
 
 	mCurrentCamera->UpdateViewMatrix();
-
-	rotationValue += (rotationSpeed * dt);
 }
 
 void Application::Draw()

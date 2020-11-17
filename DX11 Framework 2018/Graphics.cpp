@@ -66,10 +66,18 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	return S_OK;
 }
 
+void Graphics::OnMouseMove(int x, int y)
+{
+	mMouseX = x;
+	mMouseY = y;
+}
+
 void Graphics::OnMouseDown(WPARAM btnState, int x, int y)
 {
 	mMouseX = x;
 	mMouseY = y;
+
+	SetCapture(_hWnd);
 }
 
 LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -89,7 +97,13 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MOUSEMOVE:
-		OnMouseDown(wParam, ((int)(short)LOWORD(lParam)), ((int)(short)HIWORD(lParam)));
+		const POINTS pt = MAKEPOINTS(lParam);
+		if (pt.x > 0 && pt.x < _WindowWidth && pt.y >= 0 && pt.y < _WindowHeight) {
+			OnMouseMove(pt.x, pt.y);
+			
+		}
+	case WM_RBUTTONDOWN:
+		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -402,6 +416,16 @@ void Graphics::BindTextures(int startSlot, int count, std::vector<ID3D11ShaderRe
 void Graphics::ClearTextures()
 {
 	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
+}
+
+void Graphics::HideCursor()
+{
+	::ShowCursor(false);
+}
+
+void Graphics::ShowCursor()
+{
+	::ShowCursor(true);
 }
 
 void Graphics::ConfineCursor()

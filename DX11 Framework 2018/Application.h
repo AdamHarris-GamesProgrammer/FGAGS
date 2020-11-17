@@ -54,6 +54,7 @@ private:
 	float mLastMousePosX = 0.0f;
 	float mLastMousePosY = 0.0f;
 
+	bool enableFlying = false;
 	bool clippedCursor = false;
 public:
 	Application();
@@ -62,6 +63,12 @@ public:
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
 	void Update();
+
+	void WireframeControls(float dt);
+
+	void CursorControls(float dt);
+
+	void CameraControls(float dt);
 	void Draw();
 };
 

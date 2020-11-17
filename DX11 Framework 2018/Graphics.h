@@ -50,6 +50,8 @@ public:
 	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
 	void ClearTextures();
 
+	void HideCursor();
+	void ShowCursor();
 	void ConfineCursor();
 	void FreeCursor();
 
@@ -82,12 +84,12 @@ public:
 	int GetMouseX();
 	int GetMouseY();
 
-	LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPatam);
+	LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
+	void OnMouseMove(int x, int y);
 	void OnMouseDown(WPARAM btnState, int x, int y);
 
-	
 
 	int mMouseX = 0;
 	int mMouseY = 0;
