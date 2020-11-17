@@ -10,6 +10,7 @@ class GameObject
 {
 public:
 	GameObject();
+	GameObject(Graphics* gfx);
 	GameObject(Graphics* gfx, char* filepath);
 
 	void Update(float dt);
@@ -43,13 +44,14 @@ private:
 
 	void Initialize();
 
-	Graphics* gfx;
+	
 protected:
 	//Mesh
 	MeshData mMesh;
 
 	Shaders* mShader;
 
+	Graphics* gfx;
 
 	std::vector<ID3D11ShaderResourceView*> mTextures;
 

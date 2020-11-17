@@ -18,6 +18,7 @@
 
 #include "Time.h"
 #include "Camera.h"
+#include "Plane.h"
 
 using namespace DirectX;
 
@@ -31,6 +32,7 @@ private:
 	Cube* cube;
 	Cylinder* cylinder;
 	Donut* donut;
+	Plane* groundPlane;
 
 	std::vector<GameObject*> mGameObjects;
 
@@ -54,6 +56,8 @@ private:
 private:
 	float mLastMousePosX = 0.0f;
 	float mLastMousePosY = 0.0f;
+
+	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 0.0f, -10.0f);
 
 	bool enableFlying = false;
 	bool clippedCursor = false;

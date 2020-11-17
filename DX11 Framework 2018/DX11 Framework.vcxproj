@@ -398,6 +398,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="Plane.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Sphere.h" />

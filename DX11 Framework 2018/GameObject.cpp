@@ -5,10 +5,18 @@ GameObject::GameObject()
 	Initialize();
 }
 
+
+
 GameObject::GameObject(Graphics* gfx, char* filepath) : gfx(gfx)
 {
 	mMesh = OBJLoader::Load(filepath, this->gfx->GetDevice(), false);
 	
+	Initialize();
+}
+
+GameObject::GameObject(Graphics* gfx)
+{
+	this->gfx = gfx;
 	Initialize();
 }
 

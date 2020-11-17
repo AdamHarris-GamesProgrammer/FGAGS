@@ -101,11 +101,15 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MOUSEMOVE:
-		const POINTS pt = MAKEPOINTS(lParam);
-		if (pt.x > 0 && pt.x < _WindowWidth && pt.y >= 0 && pt.y < _WindowHeight) {
-			OnMouseMove(pt.x, pt.y);
-			
+		if ((wParam & MK_RBUTTON) != 0) {
+			const POINTS pt = MAKEPOINTS(lParam);
+			if (pt.x > 0 && pt.x < _WindowWidth && pt.y >= 0 && pt.y < _WindowHeight) {
+				OnMouseMove(pt.x, pt.y);
+
+			}
 		}
+
+
 	case WM_RBUTTONDOWN:
 		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 

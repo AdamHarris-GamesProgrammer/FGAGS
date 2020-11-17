@@ -46,6 +46,7 @@
     <ClInclude Include="Sphere.h">
       <Filter>Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

@@ -20,6 +20,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cube = new Cube(graphics);
 	cylinder = new Cylinder(graphics);
 	donut = new Donut(graphics);
+	groundPlane = new Plane(graphics);
+	groundPlane->Make(10.0f, 10.0f, 8, 8);
 
 	mGameObjects.push_back(sphere);
 	mGameObjects.push_back(cube);
@@ -89,6 +91,24 @@ void Application::Update()
 
 	cameraB->SetPosition(cube->GetPosition());
 
+	XMFLOAT3 cubePos = cube->GetPosition();
+	XMFLOAT3 newCameraBPos = XMFLOAT3
+	(
+		cubePos.x + cameraBOffset.x,
+		cubePos.y + cameraBOffset.y,
+		cubePos.z + cameraBOffset.z
+	);
+
+
+	float dx = XMConvertToRadians(0.25f * static_cast<float>(graphics->GetMouseX() - mLastMousePosX));
+	cameraB->RotateY(dx);
+
+	cameraB->LookAt
+	(
+		newCameraBPos,
+		cubePos
+	);
+
 	rotationValue += (rotationSpeed * dt);
 
 	cube->SetRotation(10.0f, rotationValue, 0.0f);
@@ -153,8 +173,6 @@ void Application::CameraControls(float dt)
 
 	mLastMousePosX = graphics->GetMouseX();
 	mLastMousePosY = graphics->GetMouseY();
-
-	
 }
 
 void Application::Draw()
@@ -164,6 +182,8 @@ void Application::Draw()
 	for (auto& object : mGameObjects) {
 		object->Draw();
 	}
+
+	groundPlane->Draw();
 
 	graphics->Present();
 }
