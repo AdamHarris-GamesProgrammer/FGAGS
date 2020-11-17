@@ -21,7 +21,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cylinder = new Cylinder(graphics);
 	donut = new Donut(graphics);
 	groundPlane = new Plane(graphics);
-	groundPlane->Make(10.0f, 10.0f, 8, 8);
+	groundPlane->Make(15.0f, 15.0f, 8, 8);
+	groundPlane->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
+	
 
 	mGameObjects.push_back(sphere);
 	mGameObjects.push_back(cube);
