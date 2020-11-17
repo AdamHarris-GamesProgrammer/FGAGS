@@ -38,7 +38,6 @@ void GameObject::Draw()
 }
 
 
-
 void GameObject::CreateTexture(wchar_t* path)
 {
 	ID3D11ShaderResourceView* texture;
@@ -48,7 +47,6 @@ void GameObject::CreateTexture(wchar_t* path)
 	mGfx->CreateTexture(path, &texture);
 	mTextures.push_back(texture);
 }
-
 
 void GameObject::Initialize()
 {

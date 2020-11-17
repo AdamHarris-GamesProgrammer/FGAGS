@@ -22,9 +22,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	donut = new Donut(graphics);
 
 	groundPlane = new Plane(graphics);
-	groundPlane->Make(15.0f, 15.0f, 8, 8);
-	groundPlane->CreateTexture(L"Assets/Textures/stone.dds");
-	groundPlane->SetPosition(0.0f, -1.0f, 0.0f);
+	groundPlane->Make(25.0f, 25.0f, 8, 8);
+	
+
 	
 
 	mGameObjects.push_back(sphere);
@@ -39,19 +39,22 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cube->CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
 	cube->CreateTexture(L"Assets/Textures/Marble_SPEC.dds");
 
-	cylinder->CreateTexture(L"Assets/Textures/Crate_Color.dds");
+	cylinder->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
 	donut->CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
+
+	groundPlane->CreateTexture(L"Assets/Textures/stone.dds");
 
 
 	cameraA = new Camera();
 	cameraA->SetLens(0.25f * 3.1452, graphics->GetWindowWidth() / graphics->GetWindowHeight(), 0.01f, 100.0f);
+	
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
 
 	cameraB = new Camera();
 
 	cameraA->LookAt(
-		XMFLOAT3(0.0f, 0.0f, -15.0f),
+		XMFLOAT3(0.0f, 8.0f, -15.0f),
 		XMFLOAT3(0.0f, 0.0f, 0.0f)
 	);
 
@@ -62,6 +65,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cylinder->SetPosition(0.0f, 0.0f, 0.0f);
 	donut->SetPosition(4.0f, 0.0f, 0.0f);
 	cube->SetPosition(-8.0f, 0.0f, 0.0f);
+	groundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
 	rotationValue = 0.0f;
 

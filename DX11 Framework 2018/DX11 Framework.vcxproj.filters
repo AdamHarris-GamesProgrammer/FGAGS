@@ -66,6 +66,7 @@
     </ClCompile>
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="MeshedObject.cpp" />
+    <ClCompile Include="Plane.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

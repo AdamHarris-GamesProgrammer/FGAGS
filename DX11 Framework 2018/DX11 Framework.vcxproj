@@ -382,6 +382,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
