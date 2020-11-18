@@ -55,8 +55,6 @@ public:
 	void ConfineCursor();
 	void FreeCursor();
 
-	void UpdateCamera();
-
 	void SwitchCamera(Camera* newCamera);
 
 	void EnableWireframe(bool enabled);

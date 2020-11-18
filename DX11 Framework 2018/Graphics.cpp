@@ -449,10 +449,6 @@ void Graphics::FreeCursor()
 	ClipCursor(nullptr);
 }
 
-void Graphics::UpdateCamera()
-{
-	//mCurrentCamera->Update();
-}
 
 void Graphics::SwitchCamera(Camera* newCamera)
 {

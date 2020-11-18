@@ -3,7 +3,7 @@
 MeshedObject::MeshedObject(Graphics* gfx, char* filepath)
 	: GameObject(gfx)
 {
-	mMesh = OBJLoader::Load(filepath, this->mGfx->GetDevice(), false);
+	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(), false);
 }
 
 MeshedObject::MeshedObject()
