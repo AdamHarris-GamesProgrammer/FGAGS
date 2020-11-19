@@ -252,6 +252,11 @@ ID3D11Device* Graphics::GetDevice()
 	return _pd3dDevice;
 }
 
+ID3D11DeviceContext* Graphics::GetDeviceContext()
+{
+	return _pImmediateContext;
+}
+
 int Graphics::GetMouseX()
 {
 	return mMouseX;

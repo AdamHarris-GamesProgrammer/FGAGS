@@ -48,6 +48,8 @@
     </ClInclude>
     <ClInclude Include="Plane.h" />
     <ClInclude Include="MeshedObject.h" />
+    <ClInclude Include="Bindable.h" />
+    <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

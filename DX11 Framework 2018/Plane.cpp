@@ -20,6 +20,8 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 	float dv = 1.0f / (m - 1);
 
 	Vertices.resize(vertexCount);
+	//vBuffer->Resize(vertexCount);
+
 	for (UINT i = 0; i < m; ++i)
 	{
 		float z = halfDepth - i * dz;
@@ -36,18 +38,24 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(SimpleVertex) * Vertices.size();
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	//vBuffer->FillBuffer(&Vertices);
 
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = &Vertices[0];
+	//vBuffer->Finalize();
 
-	mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &mVertexBuffer);
+	vBuffer = new VertexBuffer(mGfx, Vertices);
+
+	//D3D11_BUFFER_DESC bd;
+	//ZeroMemory(&bd, sizeof(bd));
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(SimpleVertex) * Vertices.size();
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
+
+	//D3D11_SUBRESOURCE_DATA InitData;
+	//ZeroMemory(&InitData, sizeof(InitData));
+	//InitData.pSysMem = &Vertices[0];
+
+	//mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &mVertexBuffer);
 
 
 	Indices.resize(faceCount * 3); // 3 indices per face
@@ -72,12 +80,14 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 
 	indexCount = Indices.size();
 
+	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(WORD) * Indices.size();
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 
+	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = &Indices[0];
 	mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &mIndexBuffer);
@@ -86,7 +96,8 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 void Plane::Draw()
 {
 	mShader->BindShaders();
-	mGfx->SwitchVertexBuffer(mVertexBuffer);
+	vBuffer->Bind();
+	//mGfx->SwitchVertexBuffer(mVertexBuffer);
 	mGfx->SwitchIndexBuffer(mIndexBuffer);
 
 	if (hasTextures) {
