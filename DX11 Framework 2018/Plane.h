@@ -4,9 +4,7 @@
 
 class Plane : public GameObject {
 public:
-	Plane(Graphics* gfx) : GameObject(gfx) {
-		//vBuffer = new VertexBuffer(gfx);
-	}
+	Plane(Graphics* gfx) : GameObject(gfx) {}
 
 	void Make(float width, float depth, UINT m, UINT n);
 

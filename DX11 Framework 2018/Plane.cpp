@@ -20,7 +20,6 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 	float dv = 1.0f / (m - 1);
 
 	Vertices.resize(vertexCount);
-	//vBuffer->Resize(vertexCount);
 
 	for (UINT i = 0; i < m; ++i)
 	{
@@ -38,24 +37,7 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	//vBuffer->FillBuffer(&Vertices);
-
-	//vBuffer->Finalize();
-
 	vBuffer = new VertexBuffer(mGfx, Vertices);
-
-	//D3D11_BUFFER_DESC bd;
-	//ZeroMemory(&bd, sizeof(bd));
-	//bd.Usage = D3D11_USAGE_DEFAULT;
-	//bd.ByteWidth = sizeof(SimpleVertex) * Vertices.size();
-	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	//bd.CPUAccessFlags = 0;
-
-	//D3D11_SUBRESOURCE_DATA InitData;
-	//ZeroMemory(&InitData, sizeof(InitData));
-	//InitData.pSysMem = &Vertices[0];
-
-	//mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &mVertexBuffer);
 
 
 	Indices.resize(faceCount * 3); // 3 indices per face
@@ -97,7 +79,6 @@ void Plane::Draw()
 {
 	mShader->BindShaders();
 	vBuffer->Bind();
-	//mGfx->SwitchVertexBuffer(mVertexBuffer);
 	mGfx->SwitchIndexBuffer(mIndexBuffer);
 
 	if (hasTextures) {
