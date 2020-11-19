@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class Plane : public GameObject {
 public:
@@ -12,8 +13,5 @@ public:
 
 private:
 	VertexBuffer* vBuffer;
-
-	ID3D11Buffer* mVertexBuffer;
-	ID3D11Buffer* mIndexBuffer;
-	UINT indexCount = 0;
+	IndexBuffer* iBuffer;
 };

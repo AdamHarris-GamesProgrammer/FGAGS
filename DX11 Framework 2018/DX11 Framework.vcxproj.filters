@@ -50,6 +50,7 @@
     <ClInclude Include="MeshedObject.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="IndexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

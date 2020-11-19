@@ -60,31 +60,19 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	indexCount = Indices.size();
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(WORD) * Indices.size();
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = &Indices[0];
-	mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &mIndexBuffer);
+	iBuffer = new IndexBuffer(mGfx, Indices);
 }
 
 void Plane::Draw()
 {
 	mShader->BindShaders();
 	vBuffer->Bind();
-	mGfx->SwitchIndexBuffer(mIndexBuffer);
+	iBuffer->Bind();
 
 	if (hasTextures) {
 		mGfx->BindTextures(0, mTextures.size(), mTextures);
 	}
 
 	mGfx->UpdateBuffers(mTransform);
-	mGfx->Draw(indexCount);
+	mGfx->Draw(iBuffer->GetIndexCount());
 }
