@@ -38,7 +38,7 @@ void GameObject::Draw()
 }
 
 
-void GameObject::CreateTexture(wchar_t* path)
+void GameObject::CreateTexture(const wchar_t* path)
 {
 	ID3D11ShaderResourceView* texture;
 

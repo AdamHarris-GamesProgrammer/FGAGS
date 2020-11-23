@@ -75,7 +75,7 @@ public:
 
 
 	//Texture Methods
-	HRESULT CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** texture);
+	HRESULT CreateTexture(const wchar_t* filepath, ID3D11ShaderResourceView** texture);
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();

@@ -242,7 +242,7 @@ void Graphics::Cleanup()
 }
 
 
-HRESULT Graphics::CreateTexture(wchar_t* filepath, ID3D11ShaderResourceView** texture)
+HRESULT Graphics::CreateTexture(const wchar_t* filepath, ID3D11ShaderResourceView** texture)
 {
 	return CreateDDSTextureFromFile(_pd3dDevice, filepath, nullptr, texture);
 }

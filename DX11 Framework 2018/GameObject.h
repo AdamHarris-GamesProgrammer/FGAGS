@@ -19,7 +19,7 @@ public:
 	virtual void Draw();
 
 
-	void CreateTexture(wchar_t* path);
+	void CreateTexture(const wchar_t* path);
 
 	void SetName(std::string& name);
 	std::string GetName();

@@ -75,7 +75,26 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 			std::string meshName = jsonGo["meshPath"];
 			std::string meshPath = "Assets/Models/" + meshName;
 			go->Load(meshPath);
+		}
 
+		if (HasAttribute(&jsonGo, "diffuseTexture")) {
+			std::string textureName = jsonGo["diffuseTexture"];
+			std::string path = "Assets/Textures/" + textureName;
+			
+			wchar_t* convertedPath = new wchar_t[path.length() + 1];
+			mbstowcs_s(0, convertedPath, path.length() + 1, path.data(), _TRUNCATE);
+
+			go->CreateTexture(convertedPath);
+		}
+
+		if (HasAttribute(&jsonGo, "specularTexture")) {
+			std::string textureName = jsonGo["specularTexture"];
+			std::string path = "Assets/Textures/" + textureName;
+
+			wchar_t* convertedPath = new wchar_t[path.length() + 1];
+			mbstowcs_s(0, convertedPath, path.length() + 1, path.data(), _TRUNCATE);
+
+			go->CreateTexture(convertedPath);
 		}
 
 		mGameObjects.push_back(go);
