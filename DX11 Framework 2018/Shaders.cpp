@@ -1,4 +1,5 @@
 #include "Shaders.h"
+#include <d3dcompiler.h>
 
 Shaders::Shaders(Graphics* gfx)
 {
