@@ -22,11 +22,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	graphics = new Graphics();
 	graphics->Initialise(hInstance, nCmdShow);
 
-	sphere = new Sphere(graphics);
-	cube = new Cube(graphics);
-	cylinder = new Cylinder(graphics);
-	donut = new Donut(graphics);
-
 	groundPlane = new Plane(graphics);
 	groundPlane->Make(25.0f, 25.0f, 8, 8);
 	
@@ -100,22 +95,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		mGameObjects.push_back(go);
 	}
 
-	//__debugbreak();
-
-	mGameObjects.push_back(sphere);
-	mGameObjects.push_back(cube);
-	mGameObjects.push_back(cylinder);
-	mGameObjects.push_back(donut);
 	mGameObjects.push_back(groundPlane);
 
-	sphere->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
-	sphere->CreateTexture(L"Assets/Textures/Crate_SPEC.dds");
-
-	cube->CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
-	cube->CreateTexture(L"Assets/Textures/Marble_SPEC.dds");
-
-	cylinder->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
-	donut->CreateTexture(L"Assets/Textures/Marble_COLOR.dds");
+	cube = FindGameObjectWithName("Cube");
+	donut = FindGameObjectWithName("Donut");
 
 	groundPlane->CreateTexture(L"Assets/Textures/stone.dds");
 
@@ -136,9 +119,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cameraA->UpdateViewMatrix();
 
 	//Sets default positions
-	sphere->SetPosition(-4.0f, 0.0f, 0.0f);
-	cylinder->SetPosition(0.0f, 0.0f, 0.0f);
-	donut->SetPosition(4.0f, 0.0f, 0.0f);
 	cube->SetPosition(-8.0f, 0.0f, 0.0f);
 	groundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
@@ -230,12 +210,10 @@ void Application::CursorControls(float dt)
 
 			clippedCursor = !clippedCursor;
 			if (clippedCursor) {
-				//graphics->ConfineCursor();
 				graphics->HideCursor();
 			}
 			else
 			{
-				//graphics->FreeCursor();
 				graphics->ShowCursor();
 			}
 		}
@@ -270,4 +248,11 @@ void Application::Draw()
 	groundPlane->Draw();
 
 	graphics->Present();
+}
+
+GameObject* Application::FindGameObjectWithName(std::string name)
+{
+	for (auto& obj : mGameObjects) {
+		if (obj->GetName() == name) return obj;
+	}
 }

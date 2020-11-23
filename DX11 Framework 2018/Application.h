@@ -28,10 +28,8 @@ class Application
 private:
 	Graphics* graphics;
 
-	Sphere* sphere;
-	Cube* cube;
-	Cylinder* cylinder;
-	Donut* donut;
+	GameObject* cube;
+	GameObject* donut;
 	Plane* groundPlane;
 
 	std::vector<GameObject*> mGameObjects;
@@ -75,5 +73,7 @@ public:
 
 	void CameraControls(float dt);
 	void Draw();
+
+	GameObject* FindGameObjectWithName(std::string name);
 };
 

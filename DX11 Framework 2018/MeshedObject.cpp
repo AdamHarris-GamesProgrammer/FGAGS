@@ -34,7 +34,7 @@ void MeshedObject::Draw()
 
 void MeshedObject::Load(const char* filepath)
 {
-	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(), false);
+	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(), true);
 }
 
 void MeshedObject::Load(std::string& filepath)
