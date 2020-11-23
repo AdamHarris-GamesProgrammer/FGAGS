@@ -38,37 +38,50 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	inFile >> jsonFile;
-	std::string v = jsonFile["version"].get<std::string>();
 
 	json gameobjects = jsonFile["gameobjects"];
 	int size = gameobjects.size();
 
-	std::vector<GameObject> testObjects;
+
+	auto HasAttribute = [](json* file, std::string key) {
+		if (file->contains(key)) return true;
+
+		return false;
+	};
 
 	for (unsigned int i = 0; i < size; i++) {
-		GameObject go = GameObject(graphics);
+		MeshedObject* go = new MeshedObject(graphics);
 		json jsonGo = gameobjects.at(i);
 		std::string name = jsonGo["name"];
-		go.SetName(name);
+		go->SetName(name);
 
-		if (jsonGo.contains("meshPath")) {
-			MeshedObject* mesh = dynamic_cast<MeshedObject*>(&go);
-			std::string meshPath = jsonGo["meshPath"];
-			mesh->Load(meshPath);
-		}
-		else
-		{
-
+		if (HasAttribute(&jsonGo, "position")) {
+			std::vector<float> position = jsonGo["position"];
+			go->SetPosition(position[0], position[1], position[2]);
 		}
 
-		if (name == "Cube") {
+		if (HasAttribute(&jsonGo, "rotation")) {
+			std::vector<float> rotation = jsonGo["rotation"];
+			go->SetRotation(rotation[0], rotation[1], rotation[2]);
+		}
+
+		if (HasAttribute(&jsonGo, "scale")) {
+			std::vector<float> scale = jsonGo["scale"];
+			go->SetScale(scale[0], scale[1], scale[2]);
+		}
+
+		if (HasAttribute(&jsonGo, "meshPath")) {
+
+			std::string meshName = jsonGo["meshPath"];
+			std::string meshPath = "Assets/Models/" + meshName;
+			go->Load(meshPath);
 
 		}
 
-		testObjects.push_back(go);
+		mGameObjects.push_back(go);
 	}
 
-	__debugbreak();
+	//__debugbreak();
 
 	mGameObjects.push_back(sphere);
 	mGameObjects.push_back(cube);

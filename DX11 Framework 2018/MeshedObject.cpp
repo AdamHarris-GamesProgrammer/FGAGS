@@ -11,6 +11,12 @@ MeshedObject::MeshedObject()
 
 }
 
+MeshedObject::MeshedObject(Graphics* gfx)
+	: GameObject(gfx)
+{
+
+}
+
 void MeshedObject::Draw()
 {
 	mShader->BindShaders();
@@ -33,5 +39,5 @@ void MeshedObject::Load(const char* filepath)
 
 void MeshedObject::Load(std::string& filepath)
 {
-	Load(filepath.c_str())
+	Load(filepath.c_str());
 }
