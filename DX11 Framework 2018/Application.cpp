@@ -2,6 +2,12 @@
 #include <iostream>
 #include <DirectXMath.h>
 
+#include <fstream>
+#include <nlohmann/json.hpp>
+#include <string>
+
+using json = nlohmann::json;
+
 Application::Application() {}
 
 Application::~Application()
@@ -24,8 +30,45 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	groundPlane = new Plane(graphics);
 	groundPlane->Make(25.0f, 25.0f, 8, 8);
 	
+	std::ifstream inFile("Assets/Levels/level.json");
+	json jsonFile;
 
-	
+	if (!inFile.is_open()) {
+		__debugbreak();
+	}
+
+	inFile >> jsonFile;
+	std::string v = jsonFile["version"].get<std::string>();
+
+	json gameobjects = jsonFile["gameobjects"];
+	int size = gameobjects.size();
+
+	std::vector<GameObject> testObjects;
+
+	for (unsigned int i = 0; i < size; i++) {
+		GameObject go = GameObject(graphics);
+		json jsonGo = gameobjects.at(i);
+		std::string name = jsonGo["name"];
+		go.SetName(name);
+
+		if (jsonGo.contains("meshPath")) {
+			MeshedObject* mesh = dynamic_cast<MeshedObject*>(&go);
+			std::string meshPath = jsonGo["meshPath"];
+			mesh->Load(meshPath);
+		}
+		else
+		{
+
+		}
+
+		if (name == "Cube") {
+
+		}
+
+		testObjects.push_back(go);
+	}
+
+	__debugbreak();
 
 	mGameObjects.push_back(sphere);
 	mGameObjects.push_back(cube);

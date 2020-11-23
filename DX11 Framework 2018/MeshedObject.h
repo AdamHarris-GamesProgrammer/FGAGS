@@ -3,10 +3,12 @@
 class MeshedObject : public GameObject
 {
 public:
-	MeshedObject(Graphics* gfx, char* filepath);
+	MeshedObject(Graphics* gfx, const char* filepath);
 	MeshedObject();
 
 	void Draw() override;
+	void Load(const char* filepath);
+	void Load(std::string& filepath);
 
 private:
 	//Mesh

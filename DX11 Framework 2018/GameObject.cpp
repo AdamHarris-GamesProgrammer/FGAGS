@@ -48,6 +48,16 @@ void GameObject::CreateTexture(wchar_t* path)
 	mTextures.push_back(texture);
 }
 
+void GameObject::SetName(std::string& name)
+{
+	mName = name;
+}
+
+std::string GameObject::GetName()
+{
+	return mName;
+}
+
 void GameObject::Initialize()
 {
 	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());

@@ -21,7 +21,8 @@ public:
 
 	void CreateTexture(wchar_t* path);
 
-
+	void SetName(std::string& name);
+	std::string GetName();
 
 
 	void SetTransform(XMMATRIX transform);
@@ -46,6 +47,7 @@ private:
 protected:
 	bool hasTextures = false;
 
+	std::string mName = "Gameobject";
 
 	Shaders* mShader;
 

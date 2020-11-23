@@ -1,9 +1,9 @@
 #include "MeshedObject.h"
 
-MeshedObject::MeshedObject(Graphics* gfx, char* filepath)
+MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 	: GameObject(gfx)
 {
-	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(), false);
+	Load(filepath);
 }
 
 MeshedObject::MeshedObject()
@@ -24,4 +24,14 @@ void MeshedObject::Draw()
 
 	mGfx->UpdateBuffers(mTransform);
 	mGfx->Draw(mMesh.IndexCount);
+}
+
+void MeshedObject::Load(const char* filepath)
+{
+	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(), false);
+}
+
+void MeshedObject::Load(std::string& filepath)
+{
+	Load(filepath.c_str())
 }

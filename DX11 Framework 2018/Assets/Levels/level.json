@@ -1,0 +1,23 @@
+{
+  "gameobjects": [
+    {
+      "name": "Cube",
+      "xPos": -8.0,
+      "yPos": 0.0,
+      "zPos": 0.0,
+      "xRot": 0.0,
+      "yRot": 0.0,
+      "zRot": 0.0,
+      "meshPath": "cube.obj",
+      "diffuseTexture": "Crate_COLOR.dds",
+      "speuclarTexture": "Crate_SPEC.dds"
+    },
+    {
+      "name": "Donut"
+    },
+    {
+      "name": "Ground"
+    }
+  ],
+  "version":  "1.0"
+}
