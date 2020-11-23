@@ -5,22 +5,22 @@
       "position": [ -8.0, 0, 0 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
-      "speuclarTexture": "Crate_SPEC.dds"
-    },    
+      "specularTexture": "Crate_SPEC.dds"
+    },
     {
       "name": "Cube",
       "position": [ -8.0, 0, 0 ],
       "scale": [ 1, 1, 1 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Marble_COLOR.dds",
-      "speuclarTexture": "Marble_SPEC.dds"
+      "specularTexture": "Marble_SPEC.dds"
     },
     {
       "name": "Sphere",
       "position": [ -4.0, 0, 0 ],
       "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",
-      "speuclarTexture": "Crate_SPEC.dds"
+      "specularTexture": "Crate_SPEC.dds"
     },
     {
       "name": "Cylinder",
@@ -37,7 +37,7 @@
     {
       "name": "FuelBarrel",
       "position": [ 0, 0, -2 ],
-      "meshPath": "fuel barrel.obj",
+      "meshPath": "fuelBarrel.obj",
       "diffuseTexture": "Fuel_COLOR.dds"
     }
   ],
