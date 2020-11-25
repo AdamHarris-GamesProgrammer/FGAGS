@@ -16,6 +16,8 @@
 
 #include <vector>
 
+#include "ImGUIManager.h"
+
 #include "Time.h"
 #include "Camera.h"
 #include "Plane.h"
@@ -34,6 +36,7 @@ private:
 
 	std::vector<GameObject*> mGameObjects;
 
+	ImGUIManager* mImGuiManager;
 
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
@@ -59,6 +62,8 @@ private:
 
 	bool enableFlying = false;
 	bool clippedCursor = false;
+
+
 public:
 	Application();
 	~Application();

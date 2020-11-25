@@ -30,11 +30,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	groundPlane = new Plane(graphics);
 	groundPlane->Make(25.0f, 25.0f, 8, 8);
 
-	ImGui::CreateContext();
-	ImGui_ImplWin32_Init(graphics->GetWnd());
-	ImGui_ImplDX11_Init(graphics->GetDevice(), graphics->GetDeviceContext());
-	ImGui::StyleColorsDark();
 
+	mImGuiManager = new ImGUIManager(graphics);
 
 	std::ifstream inFile("Assets/Levels/level.json");
 	json jsonFile;
@@ -250,9 +247,7 @@ void Application::CameraControls(float dt)
 
 void Application::Draw()
 {
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
+	mImGuiManager->BeginFrame();
 
 	{
 		ImGui::Begin("Boop");
@@ -270,8 +265,7 @@ void Application::Draw()
 	groundPlane->Draw();
 
 
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	mImGuiManager->EndFrame();
 
 	graphics->Present();
 
