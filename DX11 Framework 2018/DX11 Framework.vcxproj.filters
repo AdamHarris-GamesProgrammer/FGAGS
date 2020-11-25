@@ -79,6 +79,7 @@
       <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="ImGUIManager.h" />
+    <ClInclude Include="JSONLevelLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -114,6 +115,7 @@
       <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="ImGUIManager.cpp" />
+    <ClCompile Include="JSONLevelLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

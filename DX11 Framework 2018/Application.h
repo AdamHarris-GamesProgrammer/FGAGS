@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "ImGUIManager.h"
+#include "JSONLevelLoader.h"
 
 #include "Time.h"
 #include "Camera.h"
@@ -37,6 +38,7 @@ private:
 	std::vector<GameObject*> mGameObjects;
 
 	ImGUIManager* mImGuiManager;
+	JSONLevelLoader* mJSONLevelLoader;
 
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
