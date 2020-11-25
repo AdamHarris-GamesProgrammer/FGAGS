@@ -85,6 +85,8 @@ public:
 
 	LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+	HWND& GetWnd();
+
 private:
 	void OnMouseMove(int x, int y);
 	void OnMouseDown(WPARAM btnState, int x, int y);
@@ -105,6 +107,9 @@ private:
 	
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
+
+
+
 	D3D_DRIVER_TYPE         _driverType;
 	D3D_FEATURE_LEVEL       _featureLevel;
 	ID3D11Device* _pd3dDevice;

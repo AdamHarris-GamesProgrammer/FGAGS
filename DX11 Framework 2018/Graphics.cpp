@@ -120,6 +120,11 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+HWND& Graphics::GetWnd()
+{
+	return _hWnd;
+}
+
 HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	// Register class

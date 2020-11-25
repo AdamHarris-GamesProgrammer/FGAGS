@@ -6,6 +6,11 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
+#include "Imgui/imgui.h"
+#include "Imgui/imgui_impl_dx11.h"
+#include "Imgui/imgui_impl_win32.h"
+
+
 using json = nlohmann::json;
 
 Application::Application() {}
@@ -24,7 +29,13 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	groundPlane = new Plane(graphics);
 	groundPlane->Make(25.0f, 25.0f, 8, 8);
-	
+
+	ImGui::CreateContext();
+	ImGui_ImplWin32_Init(graphics->GetWnd());
+	ImGui_ImplDX11_Init(graphics->GetDevice(), graphics->GetDeviceContext());
+	ImGui::StyleColorsDark();
+
+
 	std::ifstream inFile("Assets/Levels/level.json");
 	json jsonFile;
 
@@ -239,6 +250,17 @@ void Application::CameraControls(float dt)
 
 void Application::Draw()
 {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	{
+		ImGui::Begin("Boop");
+		ImGui::Text("Hello World");
+		ImGui::End();
+	}
+	
+
 	graphics->ClearBuffers();
 
 	for (auto& object : mGameObjects) {
@@ -247,7 +269,12 @@ void Application::Draw()
 
 	groundPlane->Draw();
 
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 	graphics->Present();
+
 }
 
 GameObject* Application::FindGameObjectWithName(std::string name)

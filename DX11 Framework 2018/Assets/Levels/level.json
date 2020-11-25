@@ -37,8 +37,15 @@
     {
       "name": "FuelBarrel",
       "position": [ 0, 0, -2 ],
+      "rotation": [ 3.14159265, 0, 0 ],
       "meshPath": "fuelBarrel.obj",
       "diffuseTexture": "Fuel_COLOR.dds"
+    },
+    {
+      "name": "Plane",
+      "position": [ 0, 0, -2 ],
+      "meshPath": "Hercules.obj",
+      "diffuseTexture": "Hercules_COLOR.dds"
     }
   ],
   "version":  "1.0"
