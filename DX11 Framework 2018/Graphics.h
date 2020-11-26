@@ -50,6 +50,8 @@ public:
 	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
 	void ClearTextures();
 
+	void DrawGUI();
+
 	void HideCursor();
 	void ShowCursor();
 	void ConfineCursor();

@@ -25,6 +25,10 @@ public:
 	std::string GetName();
 
 
+	void PhongDifShader();
+	void PhongDifSpcShader();
+	void PhongDifSpcNrmShader();
+
 	void SetTransform(XMMATRIX transform);
 	void SetTransform(XMFLOAT4X4 transform);
 	void SetPosition(XMFLOAT3 position);

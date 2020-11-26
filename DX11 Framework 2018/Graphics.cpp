@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include <windowsx.h>
+#include "ImGui/imgui.h"
 
 namespace
 {
@@ -61,7 +62,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	lightDirection = XMFLOAT3(0.0f, 1.0f, -1.0f);
 	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
-	specularLight = LightWithIntensity(XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.3f, 0.3f, 0.5f, 1.0f), 100.0f);
+	specularLight = LightWithIntensity(XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f), XMFLOAT4(0.3f, 0.3f, 0.5f, 1.0f), 1.0f);
 
 	return S_OK;
 }
@@ -435,6 +436,18 @@ void Graphics::BindTextures(int startSlot, int count, std::vector<ID3D11ShaderRe
 void Graphics::ClearTextures()
 {
 	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
+}
+
+void Graphics::DrawGUI()
+{
+	{
+		ImGui::Begin("Specular Power");
+
+		ImGui::DragFloat("Specular Power", &specularLight.intensity, 0.05f);
+
+
+		ImGui::End();
+	}
 }
 
 void Graphics::HideCursor()

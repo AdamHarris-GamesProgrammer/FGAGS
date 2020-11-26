@@ -190,6 +190,7 @@ void Application::Draw()
 
 	groundPlane->Draw();
 
+	graphics->DrawGUI();
 
 	mImGuiManager->EndFrame();
 

@@ -18,12 +18,14 @@
     <Filter Include="Imgui">
       <UniqueIdentifier>{a4863a25-1fbb-457a-8ad3-521e25f2523c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{321fc66d-a59e-4dcf-aa33-292c5e88a949}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Cube.h">
       <Filter>Primitives</Filter>
     </ClInclude>
@@ -49,11 +51,6 @@
     <ClInclude Include="Sphere.h">
       <Filter>Primitives</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="MeshedObject.h" />
-    <ClInclude Include="Bindable.h" />
-    <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Imgui\imconfig.h">
       <Filter>Imgui</Filter>
     </ClInclude>
@@ -78,15 +75,34 @@
     <ClInclude Include="Imgui\imstb_truetype.h">
       <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="ImGUIManager.h" />
     <ClInclude Include="JSONLevelLoader.h" />
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUIManager.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Bindable.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshedObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -97,8 +113,6 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Shaders.cpp" />
-    <ClCompile Include="MeshedObject.cpp" />
-    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Imgui\imgui.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
@@ -114,8 +128,19 @@
     <ClCompile Include="Imgui\imgui_widgets.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGUIManager.cpp" />
     <ClCompile Include="JSONLevelLoader.cpp" />
+    <ClCompile Include="ImGUIManager.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshedObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -124,6 +149,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DX11 Framework.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PhongDif.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PhongDifSpcNrm.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PhongDifSpc.fx">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -8,8 +8,6 @@
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
 Texture2D txDiffuse : register(t0);
-Texture2D txSpecular : register(t1);
-Texture2D txNormal : register(t2);
 
 SamplerState samplerAnisotropic : register(s0);
 
@@ -19,11 +17,11 @@ struct Light
     float4 lightColor;
 };
 
-cbuffer ConstantBuffer : register( b0 )
+cbuffer ConstantBuffer : register(b0)
 {
-	matrix World;
-	matrix View;
-	matrix Projection;
+    matrix World;
+    matrix View;
+    matrix Projection;
     
     Light Diffuse;
     Light Ambient;
@@ -48,21 +46,21 @@ struct VS_OUTPUT
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
-VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOORD)
+VS_OUTPUT VS(float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOORD)
 {
-    VS_OUTPUT output = (VS_OUTPUT)0;
+    VS_OUTPUT output = (VS_OUTPUT) 0;
     
     
     //converts from model to world space
-    output.Pos = mul( Pos, World );
+    output.Pos = mul(Pos, World);
     
     output.eye = normalize(EyePosW.xyz - output.Pos.xyz);
     
     //convers to camera space from world space
-    output.Pos = mul( output.Pos, View );
+    output.Pos = mul(output.Pos, View);
     
     //converts from view space to projection
-    output.Pos = mul( output.Pos, Projection );
+    output.Pos = mul(output.Pos, Projection);
     
     //multiplies the normal position with the world position to then get the normal 
     float3 normalW = mul(float4(Normal, 0.0f), World).xyz;
@@ -78,8 +76,8 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOO
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
-float4 PS( VS_OUTPUT input ) : SV_Target
-{   
+float4 PS(VS_OUTPUT input) : SV_Target
+{
     float4 textureColour = txDiffuse.Sample(samplerAnisotropic, input.Tex);
     
     if (textureColour.a < 0.01f)
@@ -87,14 +85,7 @@ float4 PS( VS_OUTPUT input ) : SV_Target
         discard;
     }
     
-    float4 specularColour = txSpecular.Sample(samplerAnisotropic, input.Tex);
-    
-    float3 specularVal = specularColour.xyz;
-    float specularPower = specularColour.w;
-    
-    float4 normalColour = txNormal.Sample(samplerAnisotropic, input.Tex);
-    
-    float3 normalW = normalize(input.normalW - normalColour.xyz);
+    float3 normalW = normalize(input.normalW);
     float3 toEye = normalize(EyePosW - input.Pos);
     
     //Get each pixels normal
@@ -105,10 +96,10 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     // Compute Colour using Diffuse lighting only
     float diffuseAmount = max(dot(LightVecW, normalW), 0.0f);
     // Determine how much (if any) specular light makes it into the eye.
-    float specularAmount = pow(max(dot(r, toEye), 0), specularPower);
+    float specularAmount = pow(max(dot(r, toEye), 0), SpecularPower);
 
     //specular calc
-    float3 specular = specularAmount * (specularVal * Specular.lightColor * Specular.light).rgb;
+    float3 specular = specularAmount * (Specular.lightColor * Specular.light).rgb;
     //ambient calc
     float3 ambient = Ambient.lightColor * Ambient.light;
     //diffuse calc

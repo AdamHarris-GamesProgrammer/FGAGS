@@ -58,13 +58,8 @@ std::string GameObject::GetName()
 	return mName;
 }
 
-void GameObject::Initialize()
+void GameObject::PhongDifShader()
 {
-	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
-	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
-	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
-	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
-
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -72,8 +67,45 @@ void GameObject::Initialize()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	mShader = new Shaders(mGfx, L"DX11 Framework.fx", layout, 3);
+
+	mShader = new Shaders(mGfx, L"PhongDif.fx", layout, 3);
 	mShader->InitializeShaders();
+}
+
+void GameObject::PhongDifSpcShader()
+{
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
+
+	mShader = new Shaders(mGfx, L"PhongDifSpc.fx", layout, 3);
+	mShader->InitializeShaders();
+}
+
+void GameObject::PhongDifSpcNrmShader()
+{
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
+
+	mShader = new Shaders(mGfx, L"PhongDifSpcNrm.fx", layout, 3);
+	mShader->InitializeShaders();
+}
+
+void GameObject::Initialize()
+{
+	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
+	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
+	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
+	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
 }
 
 #pragma region Getters

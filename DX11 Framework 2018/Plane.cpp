@@ -61,6 +61,8 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 	}
 
 	iBuffer = new IndexBuffer(mGfx, Indices);
+
+	PhongDifShader();
 }
 
 void Plane::Draw()

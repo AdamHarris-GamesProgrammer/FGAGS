@@ -10,6 +10,9 @@ JSONLevelLoader::JSONLevelLoader(Graphics* gfx)
 
 std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
 {
+
+
+
 	std::vector<GameObject*> gameObjects;
 
 	if (mGraphics == nullptr) return gameObjects;
@@ -34,6 +37,10 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 	};
 
 	for (unsigned int i = 0; i < size; i++) {
+		bool hasDifTexture = false;
+		bool hasSpcTexture = false;
+		bool hasNrmTexture = false;
+
 		MeshedObject* go = new MeshedObject(mGraphics);
 		json jsonGo = gameobjects.at(i);
 		std::string name = jsonGo["name"];
@@ -62,6 +69,8 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		}
 
 		if (HasAttribute(&jsonGo, "diffuseTexture")) {
+			hasDifTexture = true;
+
 			std::string textureName = jsonGo["diffuseTexture"];
 			std::string path = "Assets/Textures/" + textureName;
 
@@ -72,6 +81,8 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		}
 
 		if (HasAttribute(&jsonGo, "specularTexture")) {
+			hasSpcTexture = true;
+
 			std::string textureName = jsonGo["specularTexture"];
 			std::string path = "Assets/Textures/" + textureName;
 
@@ -82,6 +93,8 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		}
 
 		if (HasAttribute(&jsonGo, "normalTexture")) {
+			hasNrmTexture = true;
+
 			std::string textureName = jsonGo["normalTexture"];
 			std::string path = "Assets/Textures/" + textureName;
 
@@ -89,6 +102,16 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 			mbstowcs_s(0, convertedPath, path.length() + 1, path.data(), _TRUNCATE);
 
 			go->CreateTexture(convertedPath);
+		}
+
+		if (hasNrmTexture) {
+			go->PhongDifSpcNrmShader();
+		}
+		else if (hasSpcTexture) {
+			go->PhongDifSpcShader();
+		}
+		else if (hasDifTexture) {
+			go->PhongDifShader();
 		}
 
 		gameObjects.push_back(go);
