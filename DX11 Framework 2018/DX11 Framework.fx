@@ -9,7 +9,9 @@
 //--------------------------------------------------------------------------------------
 Texture2D txDiffuse : register(t0);
 Texture2D txSpecular : register(t1);
-SamplerState samLinear : register(s0);
+Texture2D txNormal : register(t2);
+
+SamplerState samplerAnisotropic : register(s0);
 
 struct Light
 {
@@ -78,13 +80,21 @@ VS_OUTPUT VS( float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOO
 //--------------------------------------------------------------------------------------
 float4 PS( VS_OUTPUT input ) : SV_Target
 {   
-    float4 textureColour = txDiffuse.Sample(samLinear, input.Tex);
-    float4 specularColour = txSpecular.Sample(samLinear, input.Tex);
+    float4 textureColour = txDiffuse.Sample(samplerAnisotropic, input.Tex);
+    
+    if (textureColour.a < 0.01f)
+    {
+        discard;
+    }
+    
+    float4 specularColour = txSpecular.Sample(samplerAnisotropic, input.Tex);
     
     float3 specularVal = specularColour.xyz;
     float specularPower = specularColour.w;
     
-    float3 normalW = normalize(input.normalW);
+    float4 normalColour = txNormal.Sample(samplerAnisotropic, input.Tex);
+    
+    float3 normalW = normalize(normalColour);
     float3 toEye = normalize(EyePosW - input.Pos);
     
     //Get each pixels normal

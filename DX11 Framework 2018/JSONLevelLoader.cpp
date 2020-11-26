@@ -81,6 +81,16 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 			go->CreateTexture(convertedPath);
 		}
 
+		if (HasAttribute(&jsonGo, "normalTexture")) {
+			std::string textureName = jsonGo["normalTexture"];
+			std::string path = "Assets/Textures/" + textureName;
+
+			wchar_t* convertedPath = new wchar_t[path.length() + 1];
+			mbstowcs_s(0, convertedPath, path.length() + 1, path.data(), _TRUNCATE);
+
+			go->CreateTexture(convertedPath);
+		}
+
 		gameObjects.push_back(go);
 	}
 

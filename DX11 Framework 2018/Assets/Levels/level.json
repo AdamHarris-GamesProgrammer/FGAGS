@@ -5,7 +5,8 @@
       "position": [ -8.0, 0, 0 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
-      "specularTexture": "Crate_SPEC.dds"
+      "specularTexture": "Crate_SPEC.dds",
+      "normalTexture": "Crate_NRM.dds"
     },
     {
       "name": "Cube",
@@ -14,6 +15,14 @@
       "meshPath": "cube.obj",
       "diffuseTexture": "Marble_COLOR.dds",
       "specularTexture": "Marble_SPEC.dds"
+    },
+    {
+      "name": "ChainLinkCube",
+      "position": [ -2.0, 0, -3 ],
+      "scale": [ 1, 1, 1 ],
+      "meshPath": "cube.obj",
+      "diffuseTexture": "ChainLink_COLOR.dds",
+      "specularTexture": "ChainLink_SPEC.dds"
     },
     {
       "name": "Sphere",
@@ -37,15 +46,9 @@
     {
       "name": "FuelBarrel",
       "position": [ 0, 0, -2 ],
-      "rotation": [ 3.14159265, 0, 0 ],
+      "rotation": [ 3.14, 0, 0 ],
       "meshPath": "fuelBarrel.obj",
       "diffuseTexture": "Fuel_COLOR.dds"
-    },
-    {
-      "name": "Plane",
-      "position": [ 0, 0, -2 ],
-      "meshPath": "Hercules.obj",
-      "diffuseTexture": "Hercules_COLOR.dds"
     }
   ],
   "version":  "1.0"
