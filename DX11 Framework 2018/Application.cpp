@@ -175,13 +175,6 @@ void Application::Draw()
 {
 	mImGuiManager->BeginFrame();
 
-	{
-		ImGui::Begin("Boop");
-		ImGui::Text("Hello World");
-		ImGui::End();
-	}
-	
-
 	graphics->ClearBuffers();
 
 	for (auto& object : mGameObjects) {

@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include <windowsx.h>
 #include "ImGui/imgui.h"
+#include "Imgui/imgui_impl_win32.h"
 
 namespace
 {
@@ -62,7 +63,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	lightDirection = XMFLOAT3(0.0f, 1.0f, -1.0f);
 	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
-	specularLight = LightWithIntensity(XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f), XMFLOAT4(0.3f, 0.3f, 0.5f, 1.0f), 1.0f);
+	specularLight = LightWithIntensity(XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f), XMFLOAT4(0.3f, 0.3f, 0.5f, 1.0f), 1.2f);
 
 	return S_OK;
 }
@@ -81,10 +82,15 @@ void Graphics::OnMouseDown(WPARAM btnState, int x, int y)
 	SetCapture(_hWnd);
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
 	HDC hdc;
+
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
 
 	switch (message)
 	{

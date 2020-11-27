@@ -6,7 +6,9 @@ ImGUIManager::ImGUIManager(Graphics* gfx)
 	ImGui_ImplDX11_Init(gfx->GetDevice(), gfx->GetDeviceContext());
 	ImGui_ImplWin32_Init(gfx->GetWnd());
 
-	ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.WantCaptureMouse = true;
+
 	SetStyle();
 }
 
@@ -19,7 +21,6 @@ void ImGUIManager::BeginFrame()
 
 void ImGUIManager::EndFrame()
 {
-
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
