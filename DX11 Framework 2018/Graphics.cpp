@@ -109,11 +109,11 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			}
 		}
-
+		return 0;
 
 	case WM_RBUTTONDOWN:
 		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-
+		return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -443,7 +443,7 @@ void Graphics::DrawGUI()
 	{
 		ImGui::Begin("Specular Power");
 
-		ImGui::DragFloat("Specular Power", &specularLight.intensity, 0.05f);
+		ImGui::SliderFloat("Specular Power", &specularLight.intensity, 0.0f, 10.0f, "%.2f");
 
 
 		ImGui::End();

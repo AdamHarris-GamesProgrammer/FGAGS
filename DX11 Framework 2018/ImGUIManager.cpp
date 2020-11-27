@@ -3,8 +3,10 @@
 ImGUIManager::ImGUIManager(Graphics* gfx)
 {
 	ImGui::CreateContext();
-	ImGui_ImplWin32_Init(gfx->GetWnd());
 	ImGui_ImplDX11_Init(gfx->GetDevice(), gfx->GetDeviceContext());
+	ImGui_ImplWin32_Init(gfx->GetWnd());
+
+	ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
 	SetStyle();
 }
 
