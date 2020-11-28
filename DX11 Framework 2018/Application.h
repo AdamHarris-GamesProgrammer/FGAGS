@@ -65,6 +65,9 @@ private:
 	bool enableFlying = false;
 	bool clippedCursor = false;
 
+	GameObject* mSelectedObject = nullptr;
+
+	void Picking();
 
 public:
 	Application();

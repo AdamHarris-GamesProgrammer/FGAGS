@@ -4,6 +4,8 @@
 
 #include "Imgui/imgui.h"
 
+
+
 Application::Application() {}
 
 Application::~Application()
@@ -117,6 +119,37 @@ void Application::Update()
 	for (auto& object : mGameObjects) {
 		object->Update(dt);
 	}
+}
+
+void Application::Picking()
+{
+	int mouseX = graphics->GetMouseX();
+	int mouseY = graphics->GetMouseY();
+
+	XMMATRIX invView = XMMatrixInverse(nullptr, mCurrentCamera->View());
+	XMMATRIX invProj = XMMatrixInverse(nullptr, mCurrentCamera->Proj());
+
+	float normalizedCoords[2];
+	//Near Window Width and Height may not be the correct thing
+	normalizedCoords[0] = (2.0f * mouseX) / mCurrentCamera->GetNearWindowWidth() - 1.0f;
+	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / mCurrentCamera->GetNearWindowHeight();
+
+	XMVECTOR eyePos;
+	XMVECTOR dummy;
+	XMMatrixDecompose(&dummy, &dummy, &eyePos, invView);
+
+	XMVECTOR rayOrigin = XMVectorSet(normalizedCoords[0], normalizedCoords[1], 0, 0);
+	rayOrigin = XMVector3Transform(rayOrigin, invProj);
+
+
+	rayOrigin = XMVector3Transform(rayOrigin, invView);
+
+	XMVECTOR rayDirection = rayOrigin - eyePos;
+
+	rayDirection = XMVector2Normalize(rayDirection);
+
+
+
 }
 
 void Application::WireframeControls(float dt)
