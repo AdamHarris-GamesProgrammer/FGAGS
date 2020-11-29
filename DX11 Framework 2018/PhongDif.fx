@@ -35,10 +35,7 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
     
-    CalculateVSOutput(World, View, Projection, input, output);
-    output.PosW = normalize(EyePosW.xyz - output.Pos.xyz);
-    
-    return output;
+    return CalculateVSOutput(World, View, Projection, EyePosW, input, output);
 }
 
 

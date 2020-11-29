@@ -13,11 +13,13 @@ struct VS_INPUT
     float2 Tex : TEXCOORD;
 };
 
-VS_OUTPUT CalculateVSOutput(matrix World, matrix View, matrix Projection, VS_INPUT input, out VS_OUTPUT output)
+VS_OUTPUT CalculateVSOutput(matrix World, matrix View, matrix Projection, float3 EyePosW, VS_INPUT input, out VS_OUTPUT output)
 {
     output = (VS_OUTPUT) 0;
     //converts from model to world space
     output.Pos = mul(input.Pos, World);
+    
+    output.PosW = normalize(EyePosW.xyz - output.Pos.xyz);
     
     //convers to camera space from world space
     output.Pos = mul(output.Pos, View);
