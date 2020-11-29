@@ -81,8 +81,6 @@ float4 PS(VS_OUTPUT input) : SV_Target
         discard;
     }
     
-    float4 actualColor = objectMaterial.Diffuse * textureColour;
-    
     float4 specularColour = txSpecular.Sample(samplerAnisotropic, input.Tex);
     
     
@@ -102,7 +100,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     spec += S;
 
     
-    float4 litColor = textureColour * (ambient + diffuse) + spec;
+    float4 litColor = textureColour * (ambient + diffuse) + (specularColour * spec);
     litColor.a = objectMaterial.Diffuse.a;
     
     return litColor;

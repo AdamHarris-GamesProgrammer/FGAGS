@@ -81,18 +81,14 @@ float4 PS(VS_OUTPUT input) : SV_Target
         discard;
     }
     
-   
-    
-    float4 actualColor = objectMaterial.Diffuse * textureColour;
     
     float4 specularColour = txSpecular.Sample(samplerAnisotropic, input.Tex);
     
-    float3 specularVal = specularColour.xyz;
-    float specularPower = specularColour.w;
-    
-    float4 normalColour = txNormal.Sample(samplerAnisotropic, input.Tex);
+    float3 normalColour = txNormal.Sample(samplerAnisotropic, input.Tex);
     
     input.normalW = normalize(input.normalW);
+    
+    
     
     float3 toEyeW = normalize(EyePosW - input.PosW);
     
@@ -102,13 +98,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     float4 A, D, S;
     
-    CalculateDirectionalLight(objectMaterial, directionalLight, input.normalW, toEyeW, A, D, S);
+    CalculateDirectionalLight(objectMaterial, directionalLight, input.normalW * normalColour, toEyeW, A, D, S);
     ambient += A;
     diffuse += D;
     spec += S;
 
     
-    float4 litColor = textureColour * (ambient + diffuse) + spec;
+    float4 litColor = textureColour * (ambient + diffuse) + (specularColour * spec);
     litColor.a = objectMaterial.Diffuse.a;
     
     return litColor;
