@@ -29,7 +29,7 @@ struct ConstantBuffer
 
 	Material ObjectMaterial;
 	DirectionalLight DirectionalLight;
-	float Padding;
+	PointLight PointLight;
 	XMFLOAT3 EyePosW;
 };
 
@@ -97,6 +97,9 @@ private:
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 
 	DirectionalLight mDirectionalLight;
+	PointLight mPointLight;
+
+
 	Material mMaterial;
 	
 	HINSTANCE               _hInst;

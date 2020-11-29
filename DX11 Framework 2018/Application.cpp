@@ -21,7 +21,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	graphics->Initialise(hInstance, nCmdShow);
 
 	groundPlane = new Plane(graphics);
-	groundPlane->Make(25.0f, 25.0f, 8, 8);
+	groundPlane->Make(75.0, 75.0f, 8, 8);
 
 
 	mImGuiManager = new ImGUIManager(graphics);

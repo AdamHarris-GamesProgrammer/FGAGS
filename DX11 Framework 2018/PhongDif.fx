@@ -23,7 +23,7 @@ cbuffer ConstantBuffer : register(b0)
     
     Material objectMaterial;
     DirectionalLight directionalLight;
-    float Padding;
+    PointLight pointLight;
     float3 EyePosW;
 }
 
@@ -62,6 +62,11 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float4 A, D, S;
     
     CalculateDirectionalLight(objectMaterial, directionalLight, input.normalW, toEyeW, A, D, S);
+    ambient += A;
+    diffuse += D;
+    spec += S;
+    
+    CalculatePointLight(objectMaterial, pointLight, input.PosW, input.normalW, toEyeW, A, D, S);
     ambient += A;
     diffuse += D;
     spec += S;

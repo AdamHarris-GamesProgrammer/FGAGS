@@ -65,6 +65,13 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mDirectionalLight.Ambient = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	mDirectionalLight.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f);
 
+	mPointLight.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+	mPointLight.Diffuse = XMFLOAT4(0.7f, 0.0f, 0.0f, 1.0f);
+	mPointLight.Specular = XMFLOAT4(0.7f, 0.7f, 0.7f, 0.6f);
+	mPointLight.Position = XMFLOAT3(0.0f, 2.0f, 0.0f);
+	mPointLight.Attenuation = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	mPointLight.Range = 2.0f;
+
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
@@ -523,19 +530,34 @@ UINT Graphics::GetWindowHeight()
 void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
+	
+	//Sets the View, Projection, and World Matrices
 	cb.mView = XMMatrixTranspose(mCurrentCamera->View());
 	cb.mProjection = XMMatrixTranspose(mCurrentCamera->Proj());
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
+	//Material Constant Buffers
 	cb.ObjectMaterial.Ambient = mMaterial.Ambient;
 	cb.ObjectMaterial.Diffuse = mMaterial.Diffuse;
 	cb.ObjectMaterial.Specular = mMaterial.Specular;
+
+	//Directional Light Constant Buffers
 	cb.DirectionalLight.Ambient = mDirectionalLight.Ambient;
 	cb.DirectionalLight.Diffuse = mDirectionalLight.Diffuse;
 	cb.DirectionalLight.Specular = mDirectionalLight.Specular;
 	cb.DirectionalLight.Direction = mDirectionalLight.Direction;
 
+	//Point Light Constant Buffers
+	cb.PointLight.Ambient = mPointLight.Ambient;
+	cb.PointLight.Diffuse = mPointLight.Diffuse;
+	cb.PointLight.Specular = mPointLight.Specular;
+	cb.PointLight.Attenuation = mPointLight.Attenuation;
+	cb.PointLight.Range = mPointLight.Range;
+	cb.PointLight.Position = mPointLight.Position;
+
+	//Camera Position
 	cb.EyePosW = mCurrentCamera->GetPosition();
 
+	//Updates the constant buffer with the new values
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }
