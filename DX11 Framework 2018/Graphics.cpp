@@ -60,13 +60,13 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 	}
 
-	mDirectionalLight.Direction = XMFLOAT3(0.0f, 1.0f, -1.0f);
+	mDirectionalLight.Direction = XMFLOAT3(0.577f, -0.577f, 0.577f);
 	mDirectionalLight.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	mDirectionalLight.Ambient = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	mDirectionalLight.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f);
 
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mMaterial.Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
 
 	return S_OK;
@@ -527,13 +527,13 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 	cb.mProjection = XMMatrixTranspose(mCurrentCamera->Proj());
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
-	cb.DiffuseMtrl = mMaterial.Diffuse;
-	cb.DiffuseLight = mDirectionalLight.Diffuse;
-	cb.AmbientLight = mDirectionalLight.Ambient;
-	cb.AmbientMtrl = mMaterial.Ambient;
-	cb.SpecularMtrl = mMaterial.Specular;
-	cb.SpecularLight = mDirectionalLight.Specular;
-	cb.LightVec3 = mDirectionalLight.Direction;
+	cb.ObjectMaterial.Ambient = mMaterial.Ambient;
+	cb.ObjectMaterial.Diffuse = mMaterial.Diffuse;
+	cb.ObjectMaterial.Specular = mMaterial.Specular;
+	cb.DirectionalLight.Ambient = mDirectionalLight.Ambient;
+	cb.DirectionalLight.Diffuse = mDirectionalLight.Diffuse;
+	cb.DirectionalLight.Specular = mDirectionalLight.Specular;
+	cb.DirectionalLight.Direction = mDirectionalLight.Direction;
 
 	cb.EyePosW = mCurrentCamera->GetPosition();
 

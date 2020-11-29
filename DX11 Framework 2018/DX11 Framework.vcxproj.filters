@@ -160,6 +160,9 @@
     <None Include="PhongDifSpc.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="LightUtilities.fx">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX11 Framework.rc">

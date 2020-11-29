@@ -4,6 +4,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 
+#include "LightUtilities.fx"
+
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
@@ -11,11 +13,6 @@ Texture2D txDiffuse : register(t0);
 
 SamplerState samplerAnisotropic : register(s0);
 
-struct Light
-{
-    float4 light;
-    float4 lightColor;
-};
 
 cbuffer ConstantBuffer : register(b0)
 {
@@ -23,10 +20,8 @@ cbuffer ConstantBuffer : register(b0)
     matrix View;
     matrix Projection;
     
-    Light Diffuse;
-    Light Ambient;
-    Light Specular;
-    float3 LightVecW;
+    Material objectMaterial;
+    DirectionalLight directionalLight;
     float Padding;
     float3 EyePosW;
 }
@@ -85,30 +80,24 @@ float4 PS(VS_OUTPUT input) : SV_Target
         discard;
     }
     
-    float3 normalW = normalize(input.normalW);
-    float3 toEye = normalize(EyePosW - input.Pos);
+    input.normalW = normalize(input.normalW);
     
-    //Get each pixels normal
-    //input.normalW = normalize(input.normalW);
-    float3 lightLecNorm = normalize(LightVecW);
+    float3 toEyeW = normalize(EyePosW - input.eye);
     
-    //compute reflection vector
-    float r = reflect(-lightLecNorm, normalW);
-    // Compute Colour using Diffuse lighting only
-    float diffuseAmount = max(dot(lightLecNorm, normalW), 0.0f);
-    // Determine how much (if any) specular light makes it into the eye.
-    float specularAmount = pow(max(dot(r, toEye), 0.0f), Specular.light.w);
+    float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    
+    float4 A, D, S;
+    
+    CalculateDirectionalLight(objectMaterial, directionalLight, input.normalW, toEyeW, A, D, S);
+    ambient += A;
+    diffuse += D;
+    spec += S;
 
-    //specular calc
-    float3 specular = specularAmount * (Specular.lightColor.rgb * Specular.light.rgb).rgb;
-    //ambient calc
-    float3 ambient = Ambient.lightColor * Ambient.light;
-    //diffuse calc
-    float3 diffuse = diffuseAmount * (textureColour * Diffuse.lightColor * Diffuse.light).rgb;
-
-    float4 finalColor;
-    finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
-    finalColor.a = Diffuse.lightColor.a;
-
-    return finalColor;
+    
+    float4 litColor = textureColour * (ambient + diffuse) + spec;
+    litColor.a = objectMaterial.Diffuse.a;
+    
+    return litColor;
 }

@@ -26,14 +26,9 @@ struct ConstantBuffer
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
-	
-	XMFLOAT4 DiffuseMtrl;
-	XMFLOAT4 DiffuseLight;
-	XMFLOAT4 AmbientMtrl;
-	XMFLOAT4 AmbientLight;
-	XMFLOAT4 SpecularMtrl;
-	XMFLOAT4 SpecularLight;
-	XMFLOAT3 LightVec3;
+
+	Material ObjectMaterial;
+	DirectionalLight DirectionalLight;
 	float Padding;
 	XMFLOAT3 EyePosW;
 };

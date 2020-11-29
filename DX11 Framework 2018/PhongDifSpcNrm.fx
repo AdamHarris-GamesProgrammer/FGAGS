@@ -4,6 +4,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 
+#include "LightUtilities.fx"
+
+
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
@@ -13,23 +16,14 @@ Texture2D txNormal : register(t2);
 
 SamplerState samplerAnisotropic : register(s0);
 
-struct Light
-{
-    float4 light;
-    float4 lightColor;
-};
-
 cbuffer ConstantBuffer : register(b0)
 {
     matrix World;
     matrix View;
     matrix Projection;
     
-    Light Diffuse;
-    Light Ambient;
-    Light Specular;
-    float3 LightVecW;
-    float Padding;
+    Material objectMaterial;
+    DirectionalLight directionalLight;
     float3 EyePosW;
 }
 
@@ -39,8 +33,8 @@ cbuffer ConstantBuffer : register(b0)
 struct VS_OUTPUT
 {
     float4 Pos : SV_POSITION;
+    float3 PosW : POSITION;
     float3 normalW : NORMAL;
-    float3 eye : POSITION;
     float2 Tex : TEXCOORD0;
 };
 
@@ -56,7 +50,7 @@ VS_OUTPUT VS(float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOOR
     //converts from model to world space
     output.Pos = mul(Pos, World);
     
-    output.eye = normalize(EyePosW.xyz - output.Pos.xyz);
+    output.PosW = normalize(EyePosW.xyz - output.Pos.xyz);
     
     //convers to camera space from world space
     output.Pos = mul(output.Pos, View);
@@ -87,6 +81,10 @@ float4 PS(VS_OUTPUT input) : SV_Target
         discard;
     }
     
+   
+    
+    float4 actualColor = objectMaterial.Diffuse * textureColour;
+    
     float4 specularColour = txSpecular.Sample(samplerAnisotropic, input.Tex);
     
     float3 specularVal = specularColour.xyz;
@@ -94,28 +92,24 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     float4 normalColour = txNormal.Sample(samplerAnisotropic, input.Tex);
     
-    float3 normalW = normalize(input.normalW - normalColour.xyz);
-    float3 toEye = normalize(EyePosW - input.Pos);
+    input.normalW = normalize(input.normalW);
     
-    float3 lightLecNorm = normalize(LightVecW);
+    float3 toEyeW = normalize(EyePosW - input.PosW);
     
-    //compute reflection vector
-    float r = reflect(-lightLecNorm, normalW);
-    // Compute Colour using Diffuse lighting only
-    float diffuseAmount = max(dot(lightLecNorm, normalW), 0.0f);
-    // Determine how much (if any) specular light makes it into the eye.
-    float specularAmount = pow(max(dot(r, toEye), 0.0f), specularPower);
+    float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    
+    float4 A, D, S;
+    
+    CalculateDirectionalLight(objectMaterial, directionalLight, input.normalW, toEyeW, A, D, S);
+    ambient += A;
+    diffuse += D;
+    spec += S;
 
-    //specular calc
-    float3 specular = specularAmount * (specularVal * Specular.lightColor.rgb * Specular.light.rgb).rgb;
-    //ambient calc
-    float3 ambient = Ambient.lightColor * Ambient.light;
-    //diffuse calc
-    float3 diffuse = diffuseAmount * (textureColour * Diffuse.lightColor * Diffuse.light).rgb;
-
-    float4 finalColor;
-    finalColor.rgb = clamp(diffuse, 0, 1) + ambient + clamp(specular, 0, 1);
-    finalColor.a = Diffuse.lightColor.a;
-
-    return finalColor;
+    
+    float4 litColor = textureColour * (ambient + diffuse) + spec;
+    litColor.a = objectMaterial.Diffuse.a;
+    
+    return litColor;
 }
