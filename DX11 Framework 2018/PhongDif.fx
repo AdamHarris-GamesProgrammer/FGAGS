@@ -5,6 +5,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "LightUtilities.fx"
+#include "VertexShaderUtilities.fx"
 
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
@@ -27,42 +28,15 @@ cbuffer ConstantBuffer : register(b0)
 }
 
 
-
-//--------------------------------------------------------------------------------------
-struct VS_OUTPUT
-{
-    float4 Pos : SV_POSITION;
-    float3 normalW : NORMAL;
-    float3 eye : POSITION;
-    float2 Tex : TEXCOORD0;
-};
-
-
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
-VS_OUTPUT VS(float4 Pos : POSITION, float3 Normal : NORMAL, float2 Tex : TEXCOORD)
+VS_OUTPUT VS(VS_INPUT input)
 {
-    VS_OUTPUT output = (VS_OUTPUT) 0;
+    VS_OUTPUT output;
     
-    
-    //converts from model to world space
-    output.Pos = mul(Pos, World);
-    
-    output.eye = normalize(EyePosW.xyz - output.Pos.xyz);
-    
-    //convers to camera space from world space
-    output.Pos = mul(output.Pos, View);
-    
-    //converts from view space to projection
-    output.Pos = mul(output.Pos, Projection);
-    
-    //multiplies the normal position with the world position to then get the normal 
-    float3 normalW = mul(float4(Normal, 0.0f), World).xyz;
-    //returns a value between 0 and 1
-    output.normalW = normalize(normalW);
-
-    output.Tex = Tex;
+    CalculateVSOutput(World, View, Projection, input, output);
+    output.PosW = normalize(EyePosW.xyz - output.Pos.xyz);
     
     return output;
 }
@@ -82,7 +56,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     input.normalW = normalize(input.normalW);
     
-    float3 toEyeW = normalize(EyePosW - input.eye);
+    float3 toEyeW = normalize(EyePosW - input.PosW);
     
     float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
     float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
