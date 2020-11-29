@@ -27,7 +27,7 @@ cbuffer ConstantBuffer : register(b0)
     Light Ambient;
     Light Specular;
     float3 LightVecW;
-    float SpecularPower;
+    float Padding;
     float3 EyePosW;
 }
 
@@ -97,7 +97,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     // Compute Colour using Diffuse lighting only
     float diffuseAmount = max(dot(lightLecNorm, normalW), 0.0f);
     // Determine how much (if any) specular light makes it into the eye.
-    float specularAmount = pow(max(dot(r, toEye), 0.0f), SpecularPower);
+    float specularAmount = pow(max(dot(r, toEye), 0.0f), Specular.light.w);
 
     //specular calc
     float3 specular = specularAmount * (Specular.lightColor.rgb * Specular.light.rgb).rgb;

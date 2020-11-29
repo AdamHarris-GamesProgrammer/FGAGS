@@ -29,7 +29,7 @@ cbuffer ConstantBuffer : register(b0)
     Light Ambient;
     Light Specular;
     float3 LightVecW;
-    float SpecularPower;
+    float Padding;
     float3 EyePosW;
 }
 

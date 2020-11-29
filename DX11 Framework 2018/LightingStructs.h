@@ -1,24 +1,49 @@
 #pragma once
 
+#include <Windows.h>
 #include <DirectXMath.h>
 
-struct BasicLight
-{
-	BasicLight() = default;
-	BasicLight(DirectX::XMFLOAT4 mat, DirectX::XMFLOAT4 lig) {
-		material = mat;
-		light = lig;
-	}
+using namespace DirectX;
 
-	DirectX::XMFLOAT4 material;
-	DirectX::XMFLOAT4 light;
+struct Light {
+	XMFLOAT4 Ambient;
+	XMFLOAT4 Diffuse;
+	XMFLOAT4 Specular;
 };
 
-struct LightWithIntensity : BasicLight {
-	LightWithIntensity() = default;
-	LightWithIntensity(DirectX::XMFLOAT4 mat, DirectX::XMFLOAT4 lig, float power) : BasicLight(mat, lig) {
-		intensity = power;
-	}
+struct DirectionalLight : Light {
+	DirectionalLight() { ZeroMemory(this, sizeof(this)); }
 
-	float intensity;
+
+	XMFLOAT3 Direction;
+	float Padding;
+};
+
+struct PointLight : Light {
+	PointLight() { ZeroMemory(this, sizeof(this)); }
+
+	XMFLOAT3 Position;
+	float Range;
+
+	XMFLOAT3 Attenuation;
+	float Padding;
+};
+
+struct SpotLight : Light {
+	SpotLight() { ZeroMemory(this, sizeof(this)); }
+
+	XMFLOAT3 Position;
+	float Range;
+
+	XMFLOAT3 Direction;
+	float Spot;
+
+	XMFLOAT3 Attenuation;
+	float Padding;
+};
+
+struct Material : Light {
+	Material() { ZeroMemory(this, sizeof(this)); }
+
+	XMFLOAT4 Reflect;
 };

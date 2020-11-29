@@ -34,7 +34,7 @@ struct ConstantBuffer
 	XMFLOAT4 SpecularMtrl;
 	XMFLOAT4 SpecularLight;
 	XMFLOAT3 LightVec3;
-	float SpecularPower;
+	float Padding;
 	XMFLOAT3 EyePosW;
 };
 
@@ -101,11 +101,8 @@ private:
 
 	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 
-	XMFLOAT3 lightDirection;
-
-	BasicLight diffuseLight;
-	BasicLight ambientLight;
-	LightWithIntensity specularLight;
+	DirectionalLight mDirectionalLight;
+	Material mMaterial;
 	
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;

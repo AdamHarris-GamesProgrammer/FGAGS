@@ -178,10 +178,12 @@ void Application::CursorControls(float dt)
 			clippedCursor = !clippedCursor;
 			if (clippedCursor) {
 				graphics->HideCursor();
+				ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
 			}
 			else
 			{
 				graphics->ShowCursor();
+				ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
 			}
 		}
 	}

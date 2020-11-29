@@ -60,10 +60,14 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 	}
 
-	lightDirection = XMFLOAT3(0.0f, 1.0f, -1.0f);
-	diffuseLight = BasicLight(XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
-	ambientLight = BasicLight(XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f), XMFLOAT4(0.2f, 0.2f, 0.2f, 0.2f));
-	specularLight = LightWithIntensity(XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f), XMFLOAT4(0.3f, 0.3f, 0.5f, 1.0f), 1.2f);
+	mDirectionalLight.Direction = XMFLOAT3(0.0f, 1.0f, -1.0f);
+	mDirectionalLight.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	mDirectionalLight.Ambient = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	mDirectionalLight.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f);
+
+	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	mMaterial.Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
 
 	return S_OK;
 }
@@ -418,7 +422,7 @@ bool Graphics::CheckResult(int in)
 void Graphics::ClearBuffers()
 {
 	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, clearColor);
-	
+
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
@@ -449,7 +453,7 @@ void Graphics::DrawGUI()
 	{
 		ImGui::Begin("Specular Power");
 
-		ImGui::SliderFloat("Specular Power", &specularLight.intensity, 0.0f, 10.0f, "%.2f");
+		ImGui::SliderFloat("Specular Power", &mMaterial.Specular.w, 0.0f, 25.0f, "%.2f");
 
 
 		ImGui::End();
@@ -523,14 +527,13 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 	cb.mProjection = XMMatrixTranspose(mCurrentCamera->Proj());
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
-	cb.DiffuseMtrl = diffuseLight.material;
-	cb.DiffuseLight = diffuseLight.light;
-	cb.AmbientLight = ambientLight.light;
-	cb.AmbientMtrl = ambientLight.material;
-	cb.SpecularMtrl = specularLight.material;
-	cb.SpecularPower = specularLight.intensity;
-	cb.SpecularLight = specularLight.light;
-	cb.LightVec3 = lightDirection;
+	cb.DiffuseMtrl = mMaterial.Diffuse;
+	cb.DiffuseLight = mDirectionalLight.Diffuse;
+	cb.AmbientLight = mDirectionalLight.Ambient;
+	cb.AmbientMtrl = mMaterial.Ambient;
+	cb.SpecularMtrl = mMaterial.Specular;
+	cb.SpecularLight = mDirectionalLight.Specular;
+	cb.LightVec3 = mDirectionalLight.Direction;
 
 	cb.EyePosW = mCurrentCamera->GetPosition();
 
