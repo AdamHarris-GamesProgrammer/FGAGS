@@ -216,10 +216,6 @@ void Application::Draw()
 		object->Draw();
 	}
 
-	groundPlane->Draw();
-
-	graphics->DrawGUI();
-
 	mImGuiManager->EndFrame();
 
 	graphics->Present();

@@ -75,6 +75,6 @@ void Plane::Draw()
 		mGfx->BindTextures(0, mTextures.size(), mTextures);
 	}
 
-	mGfx->UpdateBuffers(mTransform);
+	mGfx->UpdateBuffers(mMaterial, mTransform);
 	mGfx->Draw(iBuffer->GetIndexCount());
 }

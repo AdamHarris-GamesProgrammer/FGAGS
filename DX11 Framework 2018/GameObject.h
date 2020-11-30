@@ -37,11 +37,17 @@ public:
 	void SetRotation(float x, float y, float z);
 	void SetScale(float x, float y, float z);
 	void SetScale(XMFLOAT3 scale);
+	void SetMaterialDiffuse(XMFLOAT4 color);
+	void SetMaterialAmbient(XMFLOAT4 color);
+	void SetMaterialSpecular(XMFLOAT4 color);
 
 	XMFLOAT4X4 GetTransform();
 	XMFLOAT3 GetPosition();
 	XMFLOAT3 GetRotation();
 	XMFLOAT3 GetScale();
+	Material GetMaterial();
+
+
 
 private:
 
@@ -58,6 +64,8 @@ protected:
 	Graphics* mGfx;
 
 	std::vector<ID3D11ShaderResourceView*> mTextures;
+
+	Material mMaterial;
 
 	//Transform Properties
 	XMFLOAT4X4 mTransform;

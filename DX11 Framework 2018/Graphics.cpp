@@ -72,10 +72,6 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mPointLight.Attenuation = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	mPointLight.Range = 2.0f;
 
-	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
-
 	return S_OK;
 }
 
@@ -455,18 +451,6 @@ void Graphics::ClearTextures()
 	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
 }
 
-void Graphics::DrawGUI()
-{
-	{
-		ImGui::Begin("Specular Power");
-
-		ImGui::SliderFloat("Specular Power", &mMaterial.Specular.w, 0.0f, 25.0f, "%.2f");
-
-
-		ImGui::End();
-	}
-}
-
 void Graphics::HideCursor()
 {
 	::ShowCursor(false);
@@ -527,7 +511,7 @@ UINT Graphics::GetWindowHeight()
 	return _WindowHeight;
 }
 
-void Graphics::UpdateBuffers(XMFLOAT4X4& position)
+void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
 	
@@ -537,9 +521,9 @@ void Graphics::UpdateBuffers(XMFLOAT4X4& position)
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
 	//Material Constant Buffers
-	cb.ObjectMaterial.Ambient = mMaterial.Ambient;
-	cb.ObjectMaterial.Diffuse = mMaterial.Diffuse;
-	cb.ObjectMaterial.Specular = mMaterial.Specular;
+	cb.ObjectMaterial.Ambient = mat.Ambient;
+	cb.ObjectMaterial.Diffuse = mat.Diffuse;
+	cb.ObjectMaterial.Specular= mat.Specular;
 
 	//Directional Light Constant Buffers
 	cb.DirectionalLight.Ambient = mDirectionalLight.Ambient;

@@ -43,8 +43,11 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 
 		MeshedObject* go = new MeshedObject(mGraphics);
 		json jsonGo = gameobjects.at(i);
-		std::string name = jsonGo["name"];
-		go->SetName(name);
+
+		if (HasAttribute(&jsonGo, "name")) {
+			std::string name = jsonGo["name"];
+			go->SetName(name);
+		}
 
 		if (HasAttribute(&jsonGo, "position")) {
 			std::vector<float> position = jsonGo["position"];
@@ -104,6 +107,19 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 			go->CreateTexture(convertedPath);
 		}
 
+		if (HasAttribute(&jsonGo, "ambient")) {
+			std::vector<float> colorVals = jsonGo["ambient"];
+			go->SetMaterialAmbient(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+		}
+		if (HasAttribute(&jsonGo, "diffuse")) {
+			std::vector<float> colorVals = jsonGo["diffuse"];
+			go->SetMaterialDiffuse(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+		}
+		if (HasAttribute(&jsonGo, "specular")) {
+			std::vector<float> colorVals = jsonGo["specular"];
+			go->SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+		}
+
 		if (hasNrmTexture) {
 			go->PhongDifSpcNrmShader();
 		}
@@ -116,6 +132,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 
 		gameObjects.push_back(go);
 	}
+
 
 	return gameObjects;
 }

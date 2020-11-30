@@ -6,7 +6,10 @@
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
-      "normalTexture": "Crate_NRM.dds"
+      "normalTexture": "Crate_NRM.dds",
+      "ambient": [ 0.2, 0.2, 0.2, 1.0 ],
+      "diffuse": [ 1.0, 0.0, 0.0, 1.0 ],
+      "specular": [ 0.0, 0.0, 1.0, 10.0 ]
     },
     {
       "name": "Cube",
@@ -29,7 +32,8 @@
       "position": [ -4.0, 0, 0 ],
       "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",
-      "specularTexture": "Crate_SPEC.dds"
+      "specularTexture": "Crate_SPEC.dds",
+      "diffuse": [0.0,0.0,1.0,1.0]
     },
     {
       "name": "Cylinder",
@@ -51,5 +55,5 @@
       "diffuseTexture": "Fuel_COLOR.dds"
     }
   ],
-  "version":  "1.0"
+  "version": "1.0"
 }

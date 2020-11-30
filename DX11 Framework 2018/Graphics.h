@@ -45,7 +45,6 @@ public:
 	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
 	void ClearTextures();
 
-	void DrawGUI();
 
 	void HideCursor();
 	void ShowCursor();
@@ -58,7 +57,7 @@ public:
 	
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
-	void UpdateBuffers(XMFLOAT4X4& position);
+	void UpdateBuffers(Material mat, XMFLOAT4X4& position);
 
 	void SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps);
 	void SetInputLayout(ID3D11InputLayout* layout);
@@ -98,9 +97,6 @@ private:
 
 	DirectionalLight mDirectionalLight;
 	PointLight mPointLight;
-
-
-	Material mMaterial;
 	
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;

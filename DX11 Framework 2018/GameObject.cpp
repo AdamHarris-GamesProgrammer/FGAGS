@@ -106,6 +106,10 @@ void GameObject::Initialize()
 	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
 	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
 	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
+	
+	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
 }
 
 #pragma region Getters
@@ -123,6 +127,12 @@ DirectX::XMFLOAT3 GameObject::GetScale()
 {
 	return mScale;
 }
+
+Material GameObject::GetMaterial()
+{
+	return mMaterial;
+}
+
 DirectX::XMFLOAT4X4 GameObject::GetTransform()
 {
 	return mTransform;
@@ -154,6 +164,22 @@ void GameObject::SetScale(float x, float y, float z)
 {
 	mScale = XMFLOAT3(x, y, z);
 }
+
+void GameObject::SetMaterialDiffuse(XMFLOAT4 color)
+{
+	mMaterial.Diffuse = color;
+}
+
+void GameObject::SetMaterialAmbient(XMFLOAT4 color)
+{
+	mMaterial.Ambient = color;
+}
+
+void GameObject::SetMaterialSpecular(XMFLOAT4 color)
+{
+	mMaterial.Specular = color;
+}
+
 void GameObject::SetTransform(XMMATRIX transform)
 {
 	XMStoreFloat4x4(&mTransform, transform);
