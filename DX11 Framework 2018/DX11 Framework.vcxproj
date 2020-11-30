@@ -399,10 +399,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Cube.h" />
-    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="DDSTextureLoader.h" />
-    <ClInclude Include="Donut.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="ImGUIManager.h" />
@@ -422,7 +419,6 @@
     <ClInclude Include="Plane.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Shaders.h" />
-    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ResourceCompile Include="DX11 Framework.rc" />

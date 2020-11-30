@@ -55,7 +55,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cameraA->UpdateViewMatrix();
 
 	//Sets default positions
-	cube->SetPosition(-8.0f, 0.0f, 0.0f);
 	groundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
 	rotationValue = 0.0f;

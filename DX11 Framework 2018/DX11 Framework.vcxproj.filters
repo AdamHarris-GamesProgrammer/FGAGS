@@ -12,9 +12,6 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{b8628a0d-34b8-4198-8b4b-ec879f96ad2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Primitives">
-      <UniqueIdentifier>{f141c4c3-ce3e-4f73-aff5-0e421428fe40}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Imgui">
       <UniqueIdentifier>{a4863a25-1fbb-457a-8ad3-521e25f2523c}</UniqueIdentifier>
     </Filter>
@@ -26,9 +23,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Cube.h">
-      <Filter>Primitives</Filter>
-    </ClInclude>
     <ClInclude Include="LightingStructs.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -42,15 +36,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Shaders.h" />
-    <ClInclude Include="Donut.h">
-      <Filter>Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Cylinder.h">
-      <Filter>Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>Primitives</Filter>
-    </ClInclude>
     <ClInclude Include="Imgui\imconfig.h">
       <Filter>Imgui</Filter>
     </ClInclude>

@@ -9,11 +9,6 @@
 
 #include "Graphics.h"
 
-#include "Cube.h"
-#include "Sphere.h"
-#include "Cylinder.h"
-#include "Donut.h"
-
 #include <vector>
 
 #include "ImGUIManager.h"

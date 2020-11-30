@@ -61,16 +61,16 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	mDirectionalLight.Direction = XMFLOAT3(0.577f, -0.577f, 0.577f);
-	mDirectionalLight.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	mDirectionalLight.Diffuse = XMFLOAT4(0.99f, 0.92f, 0.8f, 1.0f);
 	mDirectionalLight.Ambient = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	mDirectionalLight.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f);
 
 	mPointLight.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
 	mPointLight.Diffuse = XMFLOAT4(0.7f, 0.0f, 0.0f, 1.0f);
 	mPointLight.Specular = XMFLOAT4(0.7f, 0.7f, 0.7f, 0.6f);
-	mPointLight.Position = XMFLOAT3(0.0f, 2.0f, 0.0f);
-	mPointLight.Attenuation = XMFLOAT3(0.0f, 1.0f, 0.0f);
-	mPointLight.Range = 2.0f;
+	mPointLight.Position = XMFLOAT3(0.0f, 3.0f, 0.0f);
+	mPointLight.Attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
+	mPointLight.Range = 8.0f;
 
 	return S_OK;
 }

@@ -13,7 +13,7 @@
     },
     {
       "name": "Cube",
-      "position": [ -8.0, 0, 0 ],
+      "position": [ -12.0, 0, 0 ],
       "scale": [ 1, 1, 1 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Marble_COLOR.dds",

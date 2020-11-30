@@ -8,7 +8,7 @@ struct VS_OUTPUT
 
 struct VS_INPUT
 {
-    float4 Pos : POSITION;
+    float3 Pos : POSITION;
     float3 Normal : NORMAL;
     float2 Tex : TEXCOORD;
 };
@@ -17,9 +17,9 @@ VS_OUTPUT CalculateVSOutput(matrix World, matrix View, matrix Projection, float3
 {
     output = (VS_OUTPUT) 0;
     //converts from model to world space
-    output.Pos = mul(input.Pos, World);
+    output.Pos = mul(float4(input.Pos, 1.0f),World);
     
-    output.PosW = normalize(EyePosW.xyz - output.Pos.xyz);
+    output.PosW = mul(float4(input.Pos, 1.0f), World);
     
     //convers to camera space from world space
     output.Pos = mul(output.Pos, View);
@@ -29,7 +29,6 @@ VS_OUTPUT CalculateVSOutput(matrix World, matrix View, matrix Projection, float3
     
     //multiplies the normal position with the world position to then get the normal 
     float3 normalW = mul(float4(input.Normal, 0.0f), World).xyz;
-    //returns a value between 0 and 1
     output.normalW = normalize(normalW);
 
     output.Tex = input.Tex;
