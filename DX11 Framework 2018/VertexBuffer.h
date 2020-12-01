@@ -4,7 +4,7 @@
 
 class VertexBuffer : public Bindable {
 public:
-	VertexBuffer(Graphics* gfx, std::vector<SimpleVertex>& vertices) : Bindable(gfx) {
+	VertexBuffer(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<SimpleVertex>& vertices) : Bindable(device, context) {
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;
@@ -16,12 +16,12 @@ public:
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = vertices.data();
 
-		mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &vertexBuffer);
+		mDevice->CreateBuffer(&bd, &InitData, &vertexBuffer);
 	}
 
 	void Bind() override
 	{
-		mGfx->GetDeviceContext()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		mContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	}
 
 private:

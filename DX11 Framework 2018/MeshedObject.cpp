@@ -53,7 +53,7 @@ bool MeshedObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 
 void MeshedObject::Load(const char* filepath)
 {
-	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(), true);
+	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(),mGfx->GetDeviceContext(),true);
 }
 
 void MeshedObject::Load(std::string& filepath)

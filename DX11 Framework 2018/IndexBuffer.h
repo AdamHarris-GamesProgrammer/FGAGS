@@ -4,8 +4,8 @@
 
 class IndexBuffer : public Bindable {
 public:
-	IndexBuffer(Graphics* gfx, std::vector<WORD>& indices) 
-		: Bindable(gfx), mIndexCount(indices.size())
+	IndexBuffer(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<WORD>& indices)
+		: Bindable(device, context), mIndexCount(indices.size())
 	{
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
@@ -17,12 +17,12 @@ public:
 		D3D11_SUBRESOURCE_DATA InitData;
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = indices.data();
-		mGfx->GetDevice()->CreateBuffer(&bd, &InitData, &mIndexBuffer);
+		mDevice->CreateBuffer(&bd, &InitData, &mIndexBuffer);
 	}
 
 	void Bind() override
 	{
-		mGfx->GetDeviceContext()->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+		mContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 	}
 
 	UINT GetIndexCount() {

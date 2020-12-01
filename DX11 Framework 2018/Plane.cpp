@@ -35,7 +35,7 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	vBuffer = new VertexBuffer(mGfx, Vertices);
+	vBuffer = new VertexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), Vertices);
 
 
 	Indices.resize(faceCount * 3); // 3 indices per face
@@ -58,7 +58,7 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	iBuffer = new IndexBuffer(mGfx, Indices);
+	iBuffer = new IndexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), Indices);
 
 	PhongDifShader();
 }

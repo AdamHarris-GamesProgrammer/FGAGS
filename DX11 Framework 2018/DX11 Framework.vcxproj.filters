@@ -64,9 +64,6 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>Imgui</Filter>
-    </ClInclude>
     <ClInclude Include="ImGUIManager.h">
       <Filter>Imgui</Filter>
     </ClInclude>
@@ -81,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

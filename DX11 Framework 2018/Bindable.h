@@ -5,11 +5,12 @@
 class Bindable
 {
 public:
-	Bindable(Graphics* gfx) : mGfx(gfx) {}
+	Bindable(ID3D11Device* device, ID3D11DeviceContext* context) : mDevice(device), mContext(context) {}
 	virtual void Finalize() {}
 	virtual void Bind() = 0;
 
 protected:
-	Graphics* mGfx;
+	ID3D11DeviceContext* mContext;
+	ID3D11Device* mDevice;
 };
 
