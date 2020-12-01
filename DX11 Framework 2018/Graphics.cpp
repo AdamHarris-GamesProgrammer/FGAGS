@@ -286,18 +286,6 @@ int Graphics::GetMouseY()
 	return mMouseY;
 }
 
-void Graphics::SwitchVertexBuffer(ID3D11Buffer* buffer)
-{
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
-}
-
-void Graphics::SwitchIndexBuffer(ID3D11Buffer* buffer)
-{
-	_pImmediateContext->IASetIndexBuffer(buffer, DXGI_FORMAT_R16_UINT, 0);
-}
-
 HRESULT Graphics::InitDepthBuffer()
 {
 	D3D11_TEXTURE2D_DESC depthStencilDesc;

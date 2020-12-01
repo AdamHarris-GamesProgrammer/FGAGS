@@ -5,7 +5,6 @@ MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 {
 	Load(filepath);
 
-	mBoundingSphere.Radius = mMesh.Radius;
 
 }
 
@@ -23,8 +22,6 @@ MeshedObject::MeshedObject(Graphics* gfx)
 void MeshedObject::Draw()
 {
 	mShader->BindShaders();
-	/*mGfx->SwitchVertexBuffer(mMesh.VertexBuffer);
-	mGfx->SwitchIndexBuffer(mMesh.IndexBuffer);*/
 
 	vb->Bind();
 	ib->Bind();
@@ -61,6 +58,8 @@ void MeshedObject::Load(const char* filepath)
 
 	vb = new VertexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), mMesh.Vertices);
 	ib = new IndexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), mMesh.Indices);
+
+	mBoundingSphere.Radius = mMesh.Radius;
 }
 
 void MeshedObject::Load(std::string& filepath)

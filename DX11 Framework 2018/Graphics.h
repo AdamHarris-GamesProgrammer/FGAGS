@@ -19,8 +19,6 @@
 
 using namespace DirectX;
 
-
-
 struct ConstantBuffer
 {
 	XMMATRIX mWorld;
@@ -67,10 +65,6 @@ public:
 	UINT GetWindowWidth();
 	UINT GetWindowHeight();
 
-	//Switching shapes 
-	void SwitchVertexBuffer(ID3D11Buffer* buffer);
-	void SwitchIndexBuffer(ID3D11Buffer* buffer);
-
 
 	//Texture Methods
 	HRESULT CreateTexture(const wchar_t* filepath, ID3D11ShaderResourceView** texture);
@@ -90,8 +84,6 @@ public:
 private:
 	void OnMouseMove(WPARAM btnState, int x, int y);
 	void OnMouseDown(WPARAM btnState, int x, int y);
-
-
 
 	int mMouseX = 0;
 	int mMouseY = 0;
