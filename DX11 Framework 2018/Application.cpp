@@ -78,6 +78,12 @@ void Application::Update()
 	{
 		CameraControls(dt);
 	}
+	else
+	{
+		if (mSelectedObject != nullptr) {
+			SelectedObjectControl(dt);
+		}
+	}
 
 	if (GetAsyncKeyState('1')) {
 		mCurrentCamera = cameraA;
@@ -120,20 +126,42 @@ void Application::Update()
 	}
 }
 
+void Application::SelectedObjectControl(float dt)
+{
+	XMFLOAT3 objectPosition = mSelectedObject->GetPosition();
+
+	if (GetAsyncKeyState('W')) {
+		objectPosition.z += movementSpeed * dt;
+	}
+	else if (GetAsyncKeyState('S')) {
+		objectPosition.z += -movementSpeed * dt;
+	}
+	if (GetAsyncKeyState('A')) {
+		objectPosition.x += -movementSpeed * dt;
+	}
+	else if (GetAsyncKeyState('D')) {
+		objectPosition.x += movementSpeed * dt;
+	}
+
+	if (objectPosition.x != mSelectedObject->GetPosition().x
+		|| objectPosition.z != mSelectedObject->GetPosition().z) {
+		mSelectedObject->SetPosition(objectPosition);
+	}
+}
+
 void Application::Picking()
 {
 	int mouseX = graphics->GetMouseX();
 	int mouseY = graphics->GetMouseY();
-
-	__debugbreak();
 
 	XMMATRIX invView = XMMatrixInverse(nullptr, mCurrentCamera->View());
 	XMMATRIX invProj = XMMatrixInverse(nullptr, mCurrentCamera->Proj());
 
 	float normalizedCoords[2];
 	//Near Window Width and Height may not be the correct thing
-	normalizedCoords[0] = (2.0f * mouseX) / mCurrentCamera->GetFarWindowWidth() - 1.0f;
-	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / mCurrentCamera->GetFarWindowHeight();
+	normalizedCoords[0] = (2.0f * mouseX) / 1280 - 1.0f;
+	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / 720 ;
+
 
 	XMVECTOR eyePos;
 	XMVECTOR dummy;
@@ -155,13 +183,10 @@ void Application::Picking()
 	XMStoreFloat4(&direction, rayDirection);
 
 	for (auto& object : mGameObjects) {
-		
-
 		if (object->TestCollision(origin, direction)) {
-			std::string objectName = object->GetName();
-			object->SetMaterialDiffuse(XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f));
+			mSelectedObject = object;
 
-			__debugbreak();
+			break;
 		}
 	}
 
@@ -212,15 +237,17 @@ void Application::CameraControls(float dt)
 	if (GetAsyncKeyState('D')) cameraA->Strafe(10.0f * dt);
 
 	if (GetAsyncKeyState('Q')) {
-		cameraRotY += -0.1f * dt;
+		cameraRotY += -1.0f * dt;
 		mCurrentCamera->RotateY(cameraRotY);
 	}
 
 	if (GetAsyncKeyState('E')) {
-		cameraRotY += 0.1f * dt;
+		cameraRotY += 1.0f * dt;
 		mCurrentCamera->RotateY(cameraRotY);
 	}
 
+
+	cameraRotX = 0.0f;
 	cameraRotY = 0.0f;
 }
 

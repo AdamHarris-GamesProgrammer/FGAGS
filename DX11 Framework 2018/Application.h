@@ -24,16 +24,18 @@ using namespace DirectX;
 class Application
 {
 private:
-	Graphics* graphics;
+	Graphics* graphics = nullptr;
 
-	GameObject* cube;
-	GameObject* donut;
-	Plane* groundPlane;
+	GameObject* cube = nullptr;
+	GameObject* donut = nullptr;
+	Plane* groundPlane = nullptr;
 
 	std::vector<GameObject*> mGameObjects;
 
-	ImGUIManager* mImGuiManager;
-	JSONLevelLoader* mJSONLevelLoader;
+	GameObject* mSelectedObject = nullptr;
+
+	ImGUIManager* mImGuiManager = nullptr;
+	JSONLevelLoader* mJSONLevelLoader = nullptr;
 
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
@@ -51,6 +53,8 @@ private:
 	float rotationValue = 0.0f;
 	float previousRotation = 0.0f;
 
+	float movementSpeed = 5.0f;
+
 private:
 	float cameraRotX = 0.0f;
 	float cameraRotY = 0.0f;
@@ -59,8 +63,6 @@ private:
 
 	bool enableFlying = false;
 	bool clippedCursor = false;
-
-	GameObject* mSelectedObject = nullptr;
 
 	void Picking();
 
@@ -71,6 +73,8 @@ public:
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
 	void Update();
+
+	void SelectedObjectControl(float dt);
 
 	void WireframeControls(float dt);
 
