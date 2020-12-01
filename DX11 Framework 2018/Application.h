@@ -42,10 +42,8 @@ private:
 	Camera* mCurrentCamera = nullptr;
 
 	bool wireframeOn = false;
-	float timeSinceSpacePressed = 0.0f;
 	float timeSinceGPressed = 0.0f;
 	float fTimer = 0.1f;
-	float spaceTimer = 0.1f;
 
 	float rotationSpeed = 1.0f;
 	float movementSpeed = 5.0f;
@@ -75,8 +73,6 @@ public:
 	void Update();
 
 	void SelectedObjectControl(float dt);
-
-	void WireframeControls(float dt);
 
 	void CursorControls(float dt);
 

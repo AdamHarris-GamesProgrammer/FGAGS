@@ -131,19 +131,33 @@ void Application::DrawGUI()
 {
 	//Simulation Settings Window
 	{
+		bool originalWireframe = wireframeOn;
+
 		bool* open = new bool(true);
 
+		//Opens a Window called "Simulation Settings, which defaults to open and is non re sizable
 		ImGui::Begin("Simulation Settings", open, ImGuiWindowFlags_NoResize);
 		
+		//Object Movement Speed
 		ImGui::Text("Object Movement Speed: ");
 		ImGui::SameLine();
 		ImGui::PushItemWidth(100.0f);
 		ImGui::SliderFloat("", &movementSpeed, 0.0f, 10.0f);
 
+		//Object Rotation Speed
 		ImGui::Text("Object Rotation Speed: ");
 		ImGui::SameLine();
 		ImGui::PushItemWidth(100.0f);
 		ImGui::SliderFloat("##", &rotationSpeed, 0.0f, 15.0f);
+
+		//Wireframe Checkbox
+		ImGui::Text("Wireframe Mode: ");
+		ImGui::SameLine();
+		ImGui::Checkbox("###", &wireframeOn);
+		if (originalWireframe != wireframeOn) graphics->EnableWireframe(wireframeOn);
+
+		//Background Clear Color 
+
 
 		ImGui::End();
 	}
@@ -151,9 +165,6 @@ void Application::DrawGUI()
 
 
 	//Selected Object Window
-
-
-	//Set Background Color
 
 }
 
@@ -213,7 +224,6 @@ void Application::Picking()
 
 void Application::PollInput(float dt)
 {
-	WireframeControls(dt);
 	CursorControls(dt);
 
 	if (enableFlying)
@@ -243,20 +253,6 @@ void Application::PollInput(float dt)
 	if (GetAsyncKeyState('Y')) {
 		mSelectedObject = nullptr;
 	}
-}
-
-void Application::WireframeControls(float dt)
-{
-	bool changed = false;
-	timeSinceSpacePressed += dt;
-	if (GetAsyncKeyState(VK_SPACE)) {
-		if (timeSinceSpacePressed > spaceTimer) {
-			wireframeOn = !wireframeOn;
-			changed = true;
-			timeSinceSpacePressed = 0.0f;
-		}
-	}
-	if (changed) graphics->EnableWireframe(wireframeOn);
 }
 
 void Application::CursorControls(float dt)
