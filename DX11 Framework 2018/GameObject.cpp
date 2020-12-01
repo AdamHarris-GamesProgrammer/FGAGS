@@ -49,7 +49,7 @@ void GameObject::CreateTexture(const wchar_t* path)
 
 	hasTextures = true;
 
-	mGfx->CreateTexture(path, &texture);
+	CreateDDSTextureFromFile(mGfx->GetDevice(), path, nullptr, &texture);
 	mTextures.push_back(texture);
 }
 

@@ -26,7 +26,6 @@ public:
 
 private:
 	ID3D11Buffer* vertexBuffer = nullptr;
-	std::vector<SimpleVertex>* Vertices;
 
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;

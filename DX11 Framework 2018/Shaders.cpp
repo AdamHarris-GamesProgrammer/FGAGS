@@ -110,8 +110,12 @@ HRESULT Shaders::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, L
 
 void Shaders::BindShaders()
 {
-	mGraphics->SetInputLayout(mLayout);
-	mGraphics->SetShaders(mVertexShader, mPixelShader);
+	mGraphics->GetDeviceContext()->IASetInputLayout(mLayout);
+
+	mGraphics->GetDeviceContext()->VSSetShader(mVertexShader, nullptr, 0);
+	mGraphics->GetDeviceContext()->PSSetShader(mPixelShader, nullptr, 0);
+
+	mGraphics->SetConstantBuffer();
 }
 #pragma region Getters
 

@@ -70,7 +70,7 @@ void Plane::Draw()
 	iBuffer->Bind();
 
 	if (hasTextures) {
-		mGfx->BindTextures(0, mTextures.size(), mTextures);
+		mGfx->GetDeviceContext()->PSSetShaderResources(0, mTextures.size(), &mTextures[0]);
 	}
 
 	mGfx->UpdateBuffers(mMaterial, mTransform);

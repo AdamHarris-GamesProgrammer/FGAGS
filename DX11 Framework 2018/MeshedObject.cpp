@@ -4,20 +4,9 @@ MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 	: GameObject(gfx)
 {
 	Load(filepath);
-
-
 }
 
-MeshedObject::MeshedObject()
-{
-
-}
-
-MeshedObject::MeshedObject(Graphics* gfx)
-	: GameObject(gfx)
-{
-
-}
+MeshedObject::MeshedObject(Graphics* gfx) : GameObject(gfx) {}
 
 void MeshedObject::Draw()
 {
@@ -28,7 +17,7 @@ void MeshedObject::Draw()
 
 	if (hasTextures)
 	{
-		mGfx->BindTextures(0, mTextures.size(), mTextures);
+		mGfx->GetDeviceContext()->PSSetShaderResources(0, mTextures.size(), &mTextures[0]);
 	}
 
 	mGfx->UpdateBuffers(mMaterial, mTransform);
@@ -58,6 +47,9 @@ void MeshedObject::Load(const char* filepath)
 
 	vb = new VertexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), mMesh.Vertices);
 	ib = new IndexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), mMesh.Indices);
+
+	mMesh.Vertices.clear();
+	mMesh.Indices.clear();
 
 	mBoundingSphere.Radius = mMesh.Radius;
 }

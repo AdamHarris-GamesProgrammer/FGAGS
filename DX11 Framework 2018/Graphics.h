@@ -40,8 +40,6 @@ public:
 	void ClearBuffers();
 	void Draw(unsigned int indexCount);
 	void Present();
-	void BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures);
-	void ClearTextures();
 
 
 	void HideCursor();
@@ -57,8 +55,7 @@ public:
 
 	void UpdateBuffers(Material mat, XMFLOAT4X4& position);
 
-	void SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps);
-	void SetInputLayout(ID3D11InputLayout* layout);
+	void SetConstantBuffer();
 
 	
 	
@@ -66,8 +63,6 @@ public:
 	UINT GetWindowHeight();
 
 
-	//Texture Methods
-	HRESULT CreateTexture(const wchar_t* filepath, ID3D11ShaderResourceView** texture);
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
@@ -98,8 +93,6 @@ private:
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
 
-
-
 	D3D_DRIVER_TYPE         _driverType;
 	D3D_FEATURE_LEVEL       _featureLevel;
 	ID3D11Device* _pd3dDevice;
@@ -108,8 +101,6 @@ private:
 	IDXGISwapChain* _pSwapChain;
 
 	ID3D11RenderTargetView* _pRenderTargetView;
-
-
 
 	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
@@ -129,10 +120,7 @@ private:
 	void InitializeSampler();
 
 	HRESULT InitRenderTarget();
-
-
 	void Cleanup();
-
 
 	HRESULT InitDepthBuffer();
 	HRESULT InitSwapChain();
@@ -140,7 +128,6 @@ private:
 	HRESULT InitSolidView();
 	HRESULT InitConstantBuffer();
 	void InitViewport();
-
 
 	bool CheckResult(int in);
 

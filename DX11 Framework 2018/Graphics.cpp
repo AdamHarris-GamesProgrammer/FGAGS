@@ -253,11 +253,6 @@ void Graphics::Cleanup()
 }
 
 
-HRESULT Graphics::CreateTexture(const wchar_t* filepath, ID3D11ShaderResourceView** texture)
-{
-	return CreateDDSTextureFromFile(_pd3dDevice, filepath, nullptr, texture);
-}
-
 ID3D11Device* Graphics::GetDevice()
 {
 	return _pd3dDevice;
@@ -428,16 +423,6 @@ void Graphics::Present()
 	_pSwapChain->Present(0, 0);
 }
 
-void Graphics::BindTextures(int startSlot, int count, std::vector<ID3D11ShaderResourceView*> textures)
-{
-	_pImmediateContext->PSSetShaderResources(startSlot, count, &textures[0]);
-}
-
-void Graphics::ClearTextures()
-{
-	_pImmediateContext->PSSetShaderResources(0, 0, nullptr);
-}
-
 void Graphics::HideCursor()
 {
 	::ShowCursor(false);
@@ -474,18 +459,11 @@ void Graphics::EnableWireframe(bool enabled)
 	_pImmediateContext->RSSetState(renderState);
 }
 
-void Graphics::SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps)
+void Graphics::SetConstantBuffer()
 {
-	_pImmediateContext->VSSetShader(vs, nullptr, 0);
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetShader(ps, nullptr, 0);
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
-}
-
-void Graphics::SetInputLayout(ID3D11InputLayout* layout)
-{
-	_pImmediateContext->IASetInputLayout(layout);
 }
 
 UINT Graphics::GetWindowWidth()
