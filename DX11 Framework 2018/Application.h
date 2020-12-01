@@ -56,7 +56,7 @@ private:
 	float movementSpeed = 5.0f;
 
 private:
-	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 0.0f, -10.0f);
+	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 4.5f, -10.0f);
 
 	bool enableFlying = false;
 	bool clippedCursor = false;

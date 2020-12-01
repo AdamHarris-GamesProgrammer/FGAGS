@@ -91,28 +91,33 @@ void Application::Update()
 	}
 	else if (GetAsyncKeyState('2')) {
 		mCurrentCamera = cameraB;
+		enableFlying = false;
 		graphics->SwitchCamera(cameraB);
 	}
 
 	if (GetAsyncKeyState('H')) {
 		Picking();
 	}
+	if (GetAsyncKeyState('Y')) {
+		mSelectedObject = nullptr;
+	}
 	
-	cameraB->SetPosition(cube->GetPosition());
+	if (mSelectedObject != nullptr) {
+		XMFLOAT3 selectedObjectPosition = mSelectedObject->GetPosition();
+		XMFLOAT3 newCameraBPos = XMFLOAT3
+		(
+			selectedObjectPosition.x + cameraBOffset.x,
+			selectedObjectPosition.y + cameraBOffset.y,
+			selectedObjectPosition.z + cameraBOffset.z
+		);
 
-	XMFLOAT3 cubePos = cube->GetPosition();
-	XMFLOAT3 newCameraBPos = XMFLOAT3
-	(
-		cubePos.x + cameraBOffset.x,
-		cubePos.y + cameraBOffset.y,
-		cubePos.z + cameraBOffset.z
-	);
+		cameraB->LookAt
+		(
+			newCameraBPos,
+			selectedObjectPosition
+		);
+	}
 
-	cameraB->LookAt
-	(
-		newCameraBPos,
-		cubePos
-	);
 
 	rotationValue += (rotationSpeed * dt);
 
@@ -143,6 +148,7 @@ void Application::SelectedObjectControl(float dt)
 		objectPosition.x += movementSpeed * dt;
 	}
 
+	//if the position of the selected object changed then update the new position
 	if (objectPosition.x != mSelectedObject->GetPosition().x
 		|| objectPosition.z != mSelectedObject->GetPosition().z) {
 		mSelectedObject->SetPosition(objectPosition);
@@ -183,6 +189,8 @@ void Application::Picking()
 	XMStoreFloat4(&origin, rayOrigin);
 	XMStoreFloat4(&direction, rayDirection);
 
+	bool objectFound = false;
+
 	//Loops through all objects in the scene 
 	for (auto& object : mGameObjects) {
 		//Tests collision with each object
@@ -190,11 +198,15 @@ void Application::Picking()
 			//Sets the selected object
 			mSelectedObject = object;
 
+			objectFound = true;
+
 			//Breaks when a object has been selected, stops it from selecting objects behind the original object
 			break;
 		}
 	}
 
+	//Allows user to deselect an item
+	if (!objectFound) mSelectedObject = nullptr;
 }
 
 void Application::WireframeControls(float dt)
