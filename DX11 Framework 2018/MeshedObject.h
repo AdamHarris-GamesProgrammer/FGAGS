@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class MeshedObject : public GameObject
 {
@@ -18,5 +20,7 @@ public:
 private:
 	//Mesh
 	MeshData mMesh;
+	VertexBuffer* vb;
+	IndexBuffer* ib;
 };
 

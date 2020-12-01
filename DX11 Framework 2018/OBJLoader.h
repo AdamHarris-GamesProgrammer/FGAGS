@@ -11,6 +11,8 @@ using namespace DirectX;
 
 struct MeshData
 {
+	std::vector<SimpleVertex> Vertices;
+	std::vector<unsigned short> Indices;
 	ID3D11Buffer * VertexBuffer;
 	ID3D11Buffer * IndexBuffer;
 	UINT VBStride;

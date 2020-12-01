@@ -4,13 +4,13 @@
 
 class IndexBuffer : public Bindable {
 public:
-	IndexBuffer(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<WORD>& indices)
+	IndexBuffer(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<unsigned short>& indices)
 		: Bindable(device, context), mIndexCount(indices.size())
 	{
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.ByteWidth = sizeof(WORD) * indices.size();
+		bd.ByteWidth = sizeof(unsigned short) * indices.size();
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		bd.CPUAccessFlags = 0;
 

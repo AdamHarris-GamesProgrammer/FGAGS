@@ -6,6 +6,7 @@ MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 	Load(filepath);
 
 	mBoundingSphere.Radius = mMesh.Radius;
+
 }
 
 MeshedObject::MeshedObject()
@@ -22,8 +23,11 @@ MeshedObject::MeshedObject(Graphics* gfx)
 void MeshedObject::Draw()
 {
 	mShader->BindShaders();
-	mGfx->SwitchVertexBuffer(mMesh.VertexBuffer);
-	mGfx->SwitchIndexBuffer(mMesh.IndexBuffer);
+	/*mGfx->SwitchVertexBuffer(mMesh.VertexBuffer);
+	mGfx->SwitchIndexBuffer(mMesh.IndexBuffer);*/
+
+	vb->Bind();
+	ib->Bind();
 
 	if (hasTextures)
 	{
@@ -31,7 +35,7 @@ void MeshedObject::Draw()
 	}
 
 	mGfx->UpdateBuffers(mMaterial, mTransform);
-	mGfx->Draw(mMesh.IndexCount);
+	mGfx->Draw(ib->GetIndexCount());
 }
 
 void MeshedObject::Update(float dt)
@@ -54,6 +58,9 @@ bool MeshedObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 void MeshedObject::Load(const char* filepath)
 {
 	mMesh = OBJLoader::Load(filepath, mGfx->GetDevice(),mGfx->GetDeviceContext(),true);
+
+	vb = new VertexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), mMesh.Vertices);
+	ib = new IndexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), mMesh.Indices);
 }
 
 void MeshedObject::Load(std::string& filepath)
