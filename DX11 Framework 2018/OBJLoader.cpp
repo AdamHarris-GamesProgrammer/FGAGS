@@ -207,6 +207,23 @@ MeshData OBJLoader::Load(const char* filename, ID3D11Device* _pd3dDevice, bool i
 			//The rest of the code will hopefully look familiar to you, as it's similar to whats in your InitVertexBuffer and InitIndexBuffer methods
 			ID3D11Buffer* vertexBuffer;
 
+			float maxRadius = 0;
+
+			for (auto& vertex : meshVertices) {
+				if (fabs(vertex.x) > maxRadius) {
+					maxRadius = fabs(vertex.x);
+				}
+				if (fabs(vertex.y) > maxRadius) {
+					maxRadius = fabs(vertex.y);
+				}
+				if (fabs(vertex.z) > maxRadius) {
+					maxRadius = fabs(vertex.z);
+				}
+			}
+
+			meshData.Radius = maxRadius;
+
+
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
 			bd.Usage = D3D11_USAGE_DEFAULT;
@@ -280,6 +297,24 @@ MeshData OBJLoader::Load(const char* filename, ID3D11Device* _pd3dDevice, bool i
 		//Put data into vertex and index buffers, then pass the relevant data to the MeshData object.
 		//The rest of the code will hopefully look familiar to you, as it's similar to whats in your InitVertexBuffer and InitIndexBuffer methods
 		ID3D11Buffer* vertexBuffer;
+
+		float maxRadius = 0;
+
+		for (int i = 0; i < numVertices; i++) {
+			XMFLOAT3 vertex = finalVerts[i].Pos;
+
+			if (fabs(vertex.x) > maxRadius) {
+				maxRadius = fabs(vertex.x);
+			}
+			if (fabs(vertex.y) > maxRadius) {
+				maxRadius = fabs(vertex.y);
+			}
+			if (fabs(vertex.z) > maxRadius) {
+				maxRadius = fabs(vertex.z);
+			}
+		}
+
+		meshData.Radius = maxRadius;
 
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));

@@ -52,8 +52,8 @@ private:
 	float previousRotation = 0.0f;
 
 private:
-	float mLastMousePosX = 0.0f;
-	float mLastMousePosY = 0.0f;
+	float cameraRotX = 0.0f;
+	float cameraRotY = 0.0f;
 
 	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 0.0f, -10.0f);
 

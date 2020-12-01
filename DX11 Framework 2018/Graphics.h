@@ -84,7 +84,7 @@ public:
 	HWND& GetWnd();
 
 private:
-	void OnMouseMove(int x, int y);
+	void OnMouseMove(WPARAM btnState, int x, int y);
 	void OnMouseDown(WPARAM btnState, int x, int y);
 
 
@@ -93,7 +93,7 @@ private:
 
 private:
 
-	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+	float clearColor[4] = { 0.5f,0.5f,0.5f,1.0f };
 
 	DirectionalLight mDirectionalLight;
 	PointLight mPointLight;

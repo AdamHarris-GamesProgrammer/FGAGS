@@ -4,6 +4,8 @@ MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 	: GameObject(gfx)
 {
 	Load(filepath);
+
+	mBoundingSphere.Radius = mMesh.Radius;
 }
 
 MeshedObject::MeshedObject()
@@ -30,6 +32,23 @@ void MeshedObject::Draw()
 
 	mGfx->UpdateBuffers(mMaterial, mTransform);
 	mGfx->Draw(mMesh.IndexCount);
+}
+
+void MeshedObject::Update(float dt)
+{
+	GameObject::Update(dt);
+	mBoundingSphere.Center = GetPosition();
+
+}
+
+bool MeshedObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
+{
+	float distance = 0.0f;
+	if (mBoundingSphere.Intersects(XMLoadFloat4(&rayOrigin), XMLoadFloat4(&rayDirection), distance)) {
+		return true;
+	}
+
+	return false;
 }
 
 void MeshedObject::Load(const char* filepath)

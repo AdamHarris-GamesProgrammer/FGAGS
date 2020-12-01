@@ -75,7 +75,7 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	return S_OK;
 }
 
-void Graphics::OnMouseMove(int x, int y)
+void Graphics::OnMouseMove(WPARAM btnState, int x, int y)
 {
 	mMouseX = x;
 	mMouseY = y;
@@ -85,6 +85,7 @@ void Graphics::OnMouseDown(WPARAM btnState, int x, int y)
 {
 	mMouseX = x;
 	mMouseY = y;
+
 
 	SetCapture(_hWnd);
 }
@@ -115,17 +116,7 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MOUSEMOVE:
-		if ((wParam & MK_RBUTTON) != 0) {
-			const POINTS pt = MAKEPOINTS(lParam);
-			if (pt.x > 0 && pt.x < _WindowWidth && pt.y >= 0 && pt.y < _WindowHeight) {
-				OnMouseMove(pt.x, pt.y);
-
-			}
-		}
-		return 0;
-
-	case WM_RBUTTONDOWN:
-		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -514,7 +505,7 @@ UINT Graphics::GetWindowHeight()
 void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
 {
 	ConstantBuffer cb;
-	
+
 	//Sets the View, Projection, and World Matrices
 	cb.mView = XMMatrixTranspose(mCurrentCamera->View());
 	cb.mProjection = XMMatrixTranspose(mCurrentCamera->Proj());
@@ -523,7 +514,7 @@ void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
 	//Material Constant Buffers
 	cb.ObjectMaterial.Ambient = mat.Ambient;
 	cb.ObjectMaterial.Diffuse = mat.Diffuse;
-	cb.ObjectMaterial.Specular= mat.Specular;
+	cb.ObjectMaterial.Specular = mat.Specular;
 
 	//Directional Light Constant Buffers
 	cb.DirectionalLight.Ambient = mDirectionalLight.Ambient;

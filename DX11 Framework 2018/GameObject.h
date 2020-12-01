@@ -2,6 +2,7 @@
 #include "OBJLoader.h"
 #include "Graphics.h"
 #include <vector>
+#include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
 #include "Shaders.h"
 
@@ -12,11 +13,11 @@ public:
 	GameObject();
 	GameObject(Graphics* gfx);
 
-	void Update(float dt);
-
 	XMMATRIX CalculateTransform();
 
 	virtual void Draw();
+	virtual void Update(float dt);
+	virtual bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection);
 
 
 	void CreateTexture(const wchar_t* path);
@@ -60,6 +61,8 @@ protected:
 	std::string mName = "Gameobject";
 
 	Shaders* mShader;
+
+	BoundingSphere mBoundingSphere;
 
 	Graphics* mGfx;
 

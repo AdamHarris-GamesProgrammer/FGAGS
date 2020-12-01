@@ -17,6 +17,11 @@ void GameObject::Update(float dt)
 	XMStoreFloat4x4(&mTransform, CalculateTransform());
 }
 
+bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
+{
+	return false;
+}
+
 DirectX::XMMATRIX GameObject::CalculateTransform()
 {
 	XMMATRIX transformMatrix = XMLoadFloat4x4(&mTransform);
@@ -110,6 +115,9 @@ void GameObject::Initialize()
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
+
+	mBoundingSphere.Radius = 1.0f;
+	mBoundingSphere.Center = GetPosition();
 }
 
 #pragma region Getters

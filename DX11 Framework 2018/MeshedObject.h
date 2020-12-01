@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 class MeshedObject : public GameObject
 {
 public:
@@ -8,6 +9,9 @@ public:
 	MeshedObject();
 
 	void Draw() override;
+	void Update(float dt) override;
+	bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection) override;
+
 	void Load(const char* filepath);
 	void Load(std::string& filepath);
 

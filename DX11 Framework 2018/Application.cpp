@@ -88,6 +88,10 @@ void Application::Update()
 		graphics->SwitchCamera(cameraB);
 	}
 
+	if (GetAsyncKeyState('H')) {
+		Picking();
+	}
+	
 	cameraB->SetPosition(cube->GetPosition());
 
 	XMFLOAT3 cubePos = cube->GetPosition();
@@ -97,10 +101,6 @@ void Application::Update()
 		cubePos.y + cameraBOffset.y,
 		cubePos.z + cameraBOffset.z
 	);
-
-
-	float dx = XMConvertToRadians(0.25f * static_cast<float>(graphics->GetMouseX() - mLastMousePosX));
-	cameraB->RotateY(dx);
 
 	cameraB->LookAt
 	(
@@ -125,13 +125,15 @@ void Application::Picking()
 	int mouseX = graphics->GetMouseX();
 	int mouseY = graphics->GetMouseY();
 
+	__debugbreak();
+
 	XMMATRIX invView = XMMatrixInverse(nullptr, mCurrentCamera->View());
 	XMMATRIX invProj = XMMatrixInverse(nullptr, mCurrentCamera->Proj());
 
 	float normalizedCoords[2];
 	//Near Window Width and Height may not be the correct thing
-	normalizedCoords[0] = (2.0f * mouseX) / mCurrentCamera->GetNearWindowWidth() - 1.0f;
-	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / mCurrentCamera->GetNearWindowHeight();
+	normalizedCoords[0] = (2.0f * mouseX) / mCurrentCamera->GetFarWindowWidth() - 1.0f;
+	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / mCurrentCamera->GetFarWindowHeight();
 
 	XMVECTOR eyePos;
 	XMVECTOR dummy;
@@ -145,9 +147,23 @@ void Application::Picking()
 
 	XMVECTOR rayDirection = rayOrigin - eyePos;
 
-	rayDirection = XMVector2Normalize(rayDirection);
+	rayDirection = XMVector3Normalize(rayDirection);
 
+	XMFLOAT4 origin;
+	XMFLOAT4 direction;
+	XMStoreFloat4(&origin, rayOrigin);
+	XMStoreFloat4(&direction, rayDirection);
 
+	for (auto& object : mGameObjects) {
+		
+
+		if (object->TestCollision(origin, direction)) {
+			std::string objectName = object->GetName();
+			object->SetMaterialDiffuse(XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f));
+
+			__debugbreak();
+		}
+	}
 
 }
 
@@ -195,14 +211,17 @@ void Application::CameraControls(float dt)
 	if (GetAsyncKeyState('A')) cameraA->Strafe(-10.0f * dt);
 	if (GetAsyncKeyState('D')) cameraA->Strafe(10.0f * dt);
 
-	float dx = XMConvertToRadians(0.25f * static_cast<float>(graphics->GetMouseX() - mLastMousePosX));
-	float dy = XMConvertToRadians(0.25f * static_cast<float>(graphics->GetMouseY() - mLastMousePosY));
+	if (GetAsyncKeyState('Q')) {
+		cameraRotY += -0.1f * dt;
+		mCurrentCamera->RotateY(cameraRotY);
+	}
 
-	mCurrentCamera->Pitch(dy);
-	mCurrentCamera->RotateY(dx);
+	if (GetAsyncKeyState('E')) {
+		cameraRotY += 0.1f * dt;
+		mCurrentCamera->RotateY(cameraRotY);
+	}
 
-	mLastMousePosX = graphics->GetMouseX();
-	mLastMousePosY = graphics->GetMouseY();
+	cameraRotY = 0.0f;
 }
 
 void Application::Draw()

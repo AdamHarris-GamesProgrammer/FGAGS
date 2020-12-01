@@ -1,7 +1,5 @@
 #include "Plane.h"
 
-
-
 void Plane::Make(float width, float depth, UINT m, UINT n)
 {
 	UINT vertexCount = m * n;
