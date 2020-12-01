@@ -63,6 +63,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	time.Reset();
 
+
 	return S_OK;
 }
 
@@ -157,7 +158,11 @@ void Application::DrawGUI()
 		if (originalWireframe != wireframeOn) graphics->EnableWireframe(wireframeOn);
 
 		//Background Clear Color 
-
+		ImGui::Text("Background Clear Colour");
+		ImGui::NewLine();
+		ImGui::PushItemWidth(100.0f);
+		ImGui::ColorPicker4("####", clearColor);
+		graphics->SetClearColor(clearColor);
 
 		ImGui::End();
 	}

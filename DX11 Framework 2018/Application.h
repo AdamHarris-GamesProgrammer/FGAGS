@@ -64,6 +64,10 @@ private:
 	void Picking();
 	void PollInput(float dt);
 
+	
+	//A nice blue sky colour
+	float clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
+
 public:
 	Application();
 	~Application();

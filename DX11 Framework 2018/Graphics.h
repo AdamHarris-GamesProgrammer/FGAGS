@@ -61,6 +61,8 @@ public:
 
 	void SetShaders(ID3D11VertexShader* vs, ID3D11PixelShader* ps);
 	void SetInputLayout(ID3D11InputLayout* layout);
+
+	
 	
 	UINT GetWindowWidth();
 	UINT GetWindowHeight();
@@ -76,6 +78,8 @@ public:
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
 
+	void SetClearColor(float* color);
+
 	int GetMouseX();
 	int GetMouseY();
 
@@ -86,6 +90,7 @@ public:
 private:
 	void OnMouseMove(WPARAM btnState, int x, int y);
 	void OnMouseDown(WPARAM btnState, int x, int y);
+
 
 
 	int mMouseX = 0;

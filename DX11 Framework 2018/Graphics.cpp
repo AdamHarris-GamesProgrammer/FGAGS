@@ -268,6 +268,14 @@ ID3D11DeviceContext* Graphics::GetDeviceContext()
 	return _pImmediateContext;
 }
 
+void Graphics::SetClearColor(float* color)
+{
+	clearColor[0] = color[0];
+	clearColor[1] = color[1];
+	clearColor[2] = color[2];
+	clearColor[3] = color[3];
+}
+
 int Graphics::GetMouseX()
 {
 	return mMouseX;
