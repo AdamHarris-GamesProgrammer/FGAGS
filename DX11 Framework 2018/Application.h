@@ -48,13 +48,15 @@ private:
 	float spaceTimer = 0.1f;
 
 	float rotationSpeed = 1.0f;
+	float movementSpeed = 5.0f;
+
 
 	Time time;
 	float rotationValue = 0.0f;
 	float previousRotation = 0.0f;
 
-	float movementSpeed = 5.0f;
 
+	void DrawGUI();
 private:
 	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 4.5f, -10.0f);
 
@@ -62,6 +64,7 @@ private:
 	bool clippedCursor = false;
 
 	void Picking();
+	void PollInput(float dt);
 
 public:
 	Application();

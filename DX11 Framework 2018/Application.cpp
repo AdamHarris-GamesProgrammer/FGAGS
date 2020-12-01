@@ -41,7 +41,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	cameraA = new Camera();
 	cameraA->SetLens(0.25f * 3.1452, graphics->GetWindowWidth() / graphics->GetWindowHeight(), 0.01f, 100.0f);
-	
+
 	mCurrentCamera = cameraA;
 	graphics->SwitchCamera(cameraA);
 
@@ -71,38 +71,10 @@ void Application::Update()
 	time.Tick();
 	float dt = time.DeltaTime();
 
-	WireframeControls(dt);
-	CursorControls(dt);
+	PollInput(dt);
 
-	if (enableFlying)
-	{
-		CameraControls(dt);
-	}
-	else
-	{
-		if (mSelectedObject != nullptr) {
-			SelectedObjectControl(dt);
-		}
-	}
-
-	if (GetAsyncKeyState('1')) {
-		mCurrentCamera = cameraA;
-		graphics->SwitchCamera(cameraA);
-	}
-	else if (GetAsyncKeyState('2')) {
-		mCurrentCamera = cameraB;
-		enableFlying = false;
-		graphics->SwitchCamera(cameraB);
-	}
-
-	if (GetAsyncKeyState('H')) {
-		Picking();
-	}
-	if (GetAsyncKeyState('Y')) {
-		mSelectedObject = nullptr;
-	}
-	
-	if (mSelectedObject != nullptr) {
+	//Camera B Selected Object Tracking 
+	if (mSelectedObject != nullptr && mCurrentCamera == cameraB) {
 		XMFLOAT3 selectedObjectPosition = mSelectedObject->GetPosition();
 		XMFLOAT3 newCameraBPos = XMFLOAT3
 		(
@@ -155,6 +127,36 @@ void Application::SelectedObjectControl(float dt)
 	}
 }
 
+void Application::DrawGUI()
+{
+	//Simulation Settings Window
+	{
+		bool* open = new bool(true);
+
+		ImGui::Begin("Simulation Settings", open, ImGuiWindowFlags_NoResize);
+		
+		ImGui::Text("Object Movement Speed: ");
+		ImGui::SameLine();
+		ImGui::PushItemWidth(100.0f);
+		ImGui::SliderFloat("", &movementSpeed, 0.0f, 10.0f);
+
+		ImGui::Text("Object Rotation Speed: ");
+		ImGui::SameLine();
+		ImGui::PushItemWidth(100.0f);
+		ImGui::SliderFloat("##", &rotationSpeed, 0.0f, 15.0f);
+
+		ImGui::End();
+	}
+
+
+
+	//Selected Object Window
+
+
+	//Set Background Color
+
+}
+
 void Application::Picking()
 {
 	int mouseX = graphics->GetMouseX();
@@ -170,7 +172,7 @@ void Application::Picking()
 
 	//Sets the X and Y positions for the origin of the ray
 	XMVECTOR rayOrigin = XMVectorSet(normalizedCoords[0], normalizedCoords[1], 0, 0);
-	
+
 	//Converts it from screen space to projection space
 	rayOrigin = XMVector3Transform(rayOrigin, invProj);
 
@@ -207,6 +209,40 @@ void Application::Picking()
 
 	//Allows user to deselect an item
 	if (!objectFound) mSelectedObject = nullptr;
+}
+
+void Application::PollInput(float dt)
+{
+	WireframeControls(dt);
+	CursorControls(dt);
+
+	if (enableFlying)
+	{
+		CameraControls(dt);
+	}
+	else
+	{
+		if (mSelectedObject != nullptr) {
+			SelectedObjectControl(dt);
+		}
+	}
+
+	if (GetAsyncKeyState('1')) {
+		mCurrentCamera = cameraA;
+		graphics->SwitchCamera(cameraA);
+	}
+	else if (GetAsyncKeyState('2')) {
+		mCurrentCamera = cameraB;
+		enableFlying = false;
+		graphics->SwitchCamera(cameraB);
+	}
+
+	if (GetAsyncKeyState('H')) {
+		Picking();
+	}
+	if (GetAsyncKeyState('Y')) {
+		mSelectedObject = nullptr;
+	}
 }
 
 void Application::WireframeControls(float dt)
@@ -269,6 +305,11 @@ void Application::Draw()
 	for (auto& object : mGameObjects) {
 		object->Draw();
 	}
+
+	ImGui::ShowDemoWindow();
+
+
+	DrawGUI();
 
 	mImGuiManager->EndFrame();
 

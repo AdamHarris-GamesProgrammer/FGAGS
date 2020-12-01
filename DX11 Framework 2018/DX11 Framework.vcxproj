@@ -381,6 +381,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="ImGUIManager.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
+    <ClCompile Include="Imgui\imgui_demo.cpp" />
     <ClCompile Include="Imgui\imgui_draw.cpp" />
     <ClCompile Include="Imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="Imgui\imgui_impl_win32.cpp" />

@@ -126,6 +126,9 @@
     <ClCompile Include="Plane.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Imgui\imgui_demo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
