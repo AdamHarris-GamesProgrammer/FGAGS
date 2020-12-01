@@ -157,35 +157,40 @@ void Application::Picking()
 	XMMATRIX invView = XMMatrixInverse(nullptr, mCurrentCamera->View());
 	XMMATRIX invProj = XMMatrixInverse(nullptr, mCurrentCamera->Proj());
 
+	//Convert mouse position to NDC (Normalized Device Coordinates)
 	float normalizedCoords[2];
-	//Near Window Width and Height may not be the correct thing
-	normalizedCoords[0] = (2.0f * mouseX) / 1280 - 1.0f;
-	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / 720 ;
+	normalizedCoords[0] = (2.0f * mouseX) / graphics->GetWindowWidth() - 1.0f;
+	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / graphics->GetWindowHeight();
 
-
-	XMVECTOR eyePos;
-	XMVECTOR dummy;
-	XMMatrixDecompose(&dummy, &dummy, &eyePos, invView);
-
+	//Sets the X and Y positions for the origin of the ray
 	XMVECTOR rayOrigin = XMVectorSet(normalizedCoords[0], normalizedCoords[1], 0, 0);
+	
+	//Converts it from screen space to projection space
 	rayOrigin = XMVector3Transform(rayOrigin, invProj);
 
-
+	//Converts from screen space to view space
 	rayOrigin = XMVector3Transform(rayOrigin, invView);
 
-	XMVECTOR rayDirection = rayOrigin - eyePos;
+	//Calculates the direction of the ray
+	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&cameraA->GetPosition());
 
+	//Normalizes the direction
 	rayDirection = XMVector3Normalize(rayDirection);
 
+	//Stores them as a XMFLOAT4 to allow passing between functions
 	XMFLOAT4 origin;
 	XMFLOAT4 direction;
 	XMStoreFloat4(&origin, rayOrigin);
 	XMStoreFloat4(&direction, rayDirection);
 
+	//Loops through all objects in the scene 
 	for (auto& object : mGameObjects) {
+		//Tests collision with each object
 		if (object->TestCollision(origin, direction)) {
+			//Sets the selected object
 			mSelectedObject = object;
 
+			//Breaks when a object has been selected, stops it from selecting objects behind the original object
 			break;
 		}
 	}
@@ -208,10 +213,10 @@ void Application::WireframeControls(float dt)
 
 void Application::CursorControls(float dt)
 {
-	timeSinceFPressed += dt;
-	if (GetAsyncKeyState('F')) {
-		if (timeSinceFPressed > fTimer) {
-			timeSinceFPressed = 0.0f;
+	timeSinceGPressed += dt;
+	if (GetAsyncKeyState('G')) {
+		if (timeSinceGPressed > fTimer) {
+			timeSinceGPressed = 0.0f;
 
 			enableFlying = !enableFlying;
 
@@ -232,23 +237,15 @@ void Application::CursorControls(float dt)
 void Application::CameraControls(float dt)
 {
 	if (GetAsyncKeyState('W')) cameraA->Walk(10.0f * dt);
-	if (GetAsyncKeyState('S')) cameraA->Walk(-10.0f * dt);
+	else if (GetAsyncKeyState('S')) cameraA->Walk(-10.0f * dt);
 	if (GetAsyncKeyState('A')) cameraA->Strafe(-10.0f * dt);
-	if (GetAsyncKeyState('D')) cameraA->Strafe(10.0f * dt);
+	else if (GetAsyncKeyState('D')) cameraA->Strafe(10.0f * dt);
 
-	if (GetAsyncKeyState('Q')) {
-		cameraRotY += -1.0f * dt;
-		mCurrentCamera->RotateY(cameraRotY);
-	}
+	if (GetAsyncKeyState('Q')) cameraA->RotateY(-1.0f * dt);
+	else if (GetAsyncKeyState('E')) cameraA->RotateY(1.0f * dt);
 
-	if (GetAsyncKeyState('E')) {
-		cameraRotY += 1.0f * dt;
-		mCurrentCamera->RotateY(cameraRotY);
-	}
-
-
-	cameraRotX = 0.0f;
-	cameraRotY = 0.0f;
+	if (GetAsyncKeyState('R')) cameraA->Pitch(-1.0f * dt);
+	else if (GetAsyncKeyState('F')) cameraA->Pitch(1.0f * dt);
 }
 
 void Application::Draw()

@@ -43,7 +43,7 @@ private:
 
 	bool wireframeOn = false;
 	float timeSinceSpacePressed = 0.0f;
-	float timeSinceFPressed = 0.0f;
+	float timeSinceGPressed = 0.0f;
 	float fTimer = 0.1f;
 	float spaceTimer = 0.1f;
 
@@ -56,9 +56,6 @@ private:
 	float movementSpeed = 5.0f;
 
 private:
-	float cameraRotX = 0.0f;
-	float cameraRotY = 0.0f;
-
 	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 0.0f, -10.0f);
 
 	bool enableFlying = false;
