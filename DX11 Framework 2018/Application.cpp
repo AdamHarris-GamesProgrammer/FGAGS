@@ -5,9 +5,6 @@
 #include "Imgui/imgui.h"
 
 
-
-Application::Application() {}
-
 Application::~Application()
 {
 	delete cameraA;
@@ -17,17 +14,17 @@ Application::~Application()
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
-	graphics = new Graphics();
-	graphics->Initialise(hInstance, nCmdShow);
+	mGfx = new Graphics();
+	mGfx->Initialise(hInstance, nCmdShow);
 
-	groundPlane = new Plane(graphics);
+	groundPlane = new Plane(mGfx);
 	groundPlane->Make(75.0, 75.0f, 8, 8);
 
 
-	mImGuiManager = new ImGUIManager(graphics);
+	mImGuiManager = new ImGUIManager(mGfx);
 
 
-	mJSONLevelLoader = new JSONLevelLoader(graphics);
+	mJSONLevelLoader = new JSONLevelLoader(mGfx);
 
 	mGameObjects = mJSONLevelLoader->LoadObjectsFromFile("Assets/Levels/level.json");
 
@@ -40,10 +37,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	cameraA = new Camera();
-	cameraA->SetLens(0.25f * 3.1452, graphics->GetWindowWidth() / graphics->GetWindowHeight(), 0.01f, 100.0f);
+	cameraA->SetLens(0.25f * 3.1452f, mGfx->GetWindowWidth() / mGfx->GetWindowHeight(), 0.01f, 100.0f);
 
 	mCurrentCamera = cameraA;
-	graphics->SwitchCamera(cameraA);
+	mGfx->SwitchCamera(cameraA);
 
 	cameraB = new Camera();
 
@@ -138,7 +135,7 @@ void Application::DrawGUI()
 
 		//Opens a Window called "Simulation Settings, which defaults to open and is non re sizable
 		ImGui::Begin("Simulation Settings", open, ImGuiWindowFlags_NoResize);
-		
+
 		//Object Movement Speed
 		ImGui::Text("Object Movement Speed: ");
 		ImGui::SameLine();
@@ -155,36 +152,67 @@ void Application::DrawGUI()
 		ImGui::Text("Wireframe Mode: ");
 		ImGui::SameLine();
 		ImGui::Checkbox("###", &wireframeOn);
-		if (originalWireframe != wireframeOn) graphics->EnableWireframe(wireframeOn);
+		if (originalWireframe != wireframeOn) mGfx->EnableWireframe(wireframeOn);
 
 		//Background Clear Color 
-		ImGui::Text("Background Clear Colour");
+		ImGui::Text("Background Clear Colour: ");
 		ImGui::NewLine();
 		ImGui::PushItemWidth(100.0f);
 		ImGui::ColorPicker4("####", clearColor);
-		graphics->SetClearColor(clearColor);
+		mGfx->SetClearColor(clearColor);
 
 		ImGui::End();
 	}
 
+	{
+		ImGui::Begin("Controls");
+
+		//Camera A Controls
+		ImGui::Text("Camera A: 1");
+		ImGui::Text("Camera A Enable Movement: G");
+		if (ImGui::TreeNode("Camera A Movement Controls")) {
+			ImGui::Text("Walk Forwards: W");
+			ImGui::Text("Walk Backwards: S");
+			ImGui::Text("Walk Left: A");
+			ImGui::Text("Walk Right: D");
+			ImGui::Text("Rotate Left: Q");
+			ImGui::Text("Rotate Right: E");
+			ImGui::Text("Pitch Up: R");
+			ImGui::Text("Pitch Down: F");
+			ImGui::TreePop();
+		}
+		ImGui::Text("Camera B: 2");
+
+		//Selected Object Controls
+		ImGui::Text("Select Object with Mouse Position: H");
+		if (ImGui::TreeNode("Selected Object Controls")) {
+			ImGui::Text("Move Forwards: W");
+			ImGui::Text("Move Backwards: S");
+			ImGui::Text("Move Left: A");
+			ImGui::Text("Move Right: D");
+			ImGui::Text("Press Y to deselect current object");
+			ImGui::TreePop();
+		}
 
 
+		ImGui::End();
+	}
 	//Selected Object Window
 
 }
 
 void Application::Picking()
 {
-	int mouseX = graphics->GetMouseX();
-	int mouseY = graphics->GetMouseY();
+	int mouseX = mGfx->GetMouseX();
+	int mouseY = mGfx->GetMouseY();
 
 	XMMATRIX invView = XMMatrixInverse(nullptr, mCurrentCamera->View());
 	XMMATRIX invProj = XMMatrixInverse(nullptr, mCurrentCamera->Proj());
 
 	//Convert mouse position to NDC (Normalized Device Coordinates)
 	float normalizedCoords[2];
-	normalizedCoords[0] = (2.0f * mouseX) / graphics->GetWindowWidth() - 1.0f;
-	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / graphics->GetWindowHeight();
+	normalizedCoords[0] = (2.0f * mouseX) / mGfx->GetWindowWidth() - 1.0f;
+	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / mGfx->GetWindowHeight();
 
 	//Sets the X and Y positions for the origin of the ray
 	XMVECTOR rayOrigin = XMVectorSet(normalizedCoords[0], normalizedCoords[1], 0, 0);
@@ -244,12 +272,12 @@ void Application::PollInput(float dt)
 
 	if (GetAsyncKeyState('1')) {
 		mCurrentCamera = cameraA;
-		graphics->SwitchCamera(cameraA);
+		mGfx->SwitchCamera(cameraA);
 	}
 	else if (GetAsyncKeyState('2')) {
 		mCurrentCamera = cameraB;
 		enableFlying = false;
-		graphics->SwitchCamera(cameraB);
+		mGfx->SwitchCamera(cameraB);
 	}
 
 	if (GetAsyncKeyState('H')) {
@@ -271,12 +299,12 @@ void Application::CursorControls(float dt)
 
 			clippedCursor = !clippedCursor;
 			if (clippedCursor) {
-				graphics->HideCursor();
+				mGfx->HideCursor();
 				ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
 			}
 			else
 			{
-				graphics->ShowCursor();
+				mGfx->ShowCursor();
 				ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
 			}
 		}
@@ -301,7 +329,7 @@ void Application::Draw()
 {
 	mImGuiManager->BeginFrame();
 
-	graphics->ClearBuffers();
+	mGfx->ClearBuffers();
 
 	for (auto& object : mGameObjects) {
 		object->Draw();
@@ -314,7 +342,7 @@ void Application::Draw()
 
 	mImGuiManager->EndFrame();
 
-	graphics->Present();
+	mGfx->Present();
 
 }
 

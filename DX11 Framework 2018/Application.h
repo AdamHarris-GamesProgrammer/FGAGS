@@ -24,7 +24,7 @@ using namespace DirectX;
 class Application
 {
 private:
-	Graphics* graphics = nullptr;
+	Graphics* mGfx = nullptr;
 
 	GameObject* cube = nullptr;
 	GameObject* donut = nullptr;
@@ -69,7 +69,7 @@ private:
 	float clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
 
 public:
-	Application();
+	Application() = default;
 	~Application();
 
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
