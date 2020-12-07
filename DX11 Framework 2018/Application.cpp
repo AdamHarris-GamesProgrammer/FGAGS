@@ -197,7 +197,28 @@ void Application::DrawGUI()
 
 		ImGui::End();
 	}
+	
 	//Selected Object Window
+	{
+		ImGui::Begin("Selected Object");
+
+		if (mSelectedObject != nullptr) {
+			const char* name = mSelectedObject->GetName().c_str();
+
+			ImGui::Text(name);
+			
+			float pos[3] = {
+				mSelectedObject->GetPosition().x,
+				mSelectedObject->GetPosition().y,
+				mSelectedObject->GetPosition().z,
+			};
+
+			ImGui::SliderFloat3("Position", pos, -100.0f, 100.0f);
+		}
+
+		ImGui::End();
+	}
+
 
 }
 

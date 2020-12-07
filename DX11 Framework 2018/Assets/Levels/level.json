@@ -33,7 +33,7 @@
       "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
-      "diffuse": [0.0,0.0,1.0,1.0]
+      "diffuse": [ 0.0, 0.0, 1.0, 1.0 ]
     },
     {
       "name": "Cylinder",
@@ -45,6 +45,31 @@
       "name": "Donut",
       "position": [ 4.0, 0, 0 ],
       "meshPath": "donut.obj",
+      "diffuseTexture": "Marble_COLOR.dds"
+    },
+    {
+      "name": "BuildingA",
+      "position": [ 8.5, 0, -0.6 ],
+      "scale":  [1.4, 1,1.1],
+      "meshPath": "buildingA.obj",
+      "diffuseTexture": "Marble_COLOR.dds"
+    },
+    {
+      "name": "BuildingB",
+      "position": [ -5.0, 0, 20 ],
+      "meshPath": "buildingB.obj",
+      "diffuseTexture": "Marble_COLOR.dds"
+    },
+    {
+      "name": "BuildingC",
+      "position": [ 0, 0, -8.87 ],
+      "meshPath": "buildingC.obj",
+      "diffuseTexture": "Marble_COLOR.dds"
+    },
+    {
+      "name": "BuildingD",
+      "position": [ 0, 0, -10 ],
+      "meshPath": "buildingD.obj",
       "diffuseTexture": "Marble_COLOR.dds"
     },
     {
