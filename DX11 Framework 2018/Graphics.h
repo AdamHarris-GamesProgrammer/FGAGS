@@ -61,7 +61,8 @@ public:
 
 	void SetConstantBuffer();
 
-	
+	void SetSolidBlend();
+	void SetTransparentBlend();
 	
 	UINT GetWindowWidth();
 	UINT GetWindowHeight();
@@ -113,6 +114,7 @@ private:
 
 	ID3D11RasterizerState* _wireFrame;
 	ID3D11RasterizerState* _solid;
+	ID3D11BlendState* mBlendState;
 
 	ID3D11DepthStencilView* _depthStencilView;
 	ID3D11Texture2D* _depthStencilBuffer;

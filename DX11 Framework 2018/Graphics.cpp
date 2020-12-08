@@ -199,6 +199,27 @@ HRESULT Graphics::InitDevice()
 
 	InitializeSampler();
 
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory(&blendDesc, sizeof(blendDesc));
+
+	D3D11_RENDER_TARGET_BLEND_DESC rtbd;
+	ZeroMemory(&rtbd, sizeof(rtbd));
+
+	rtbd.BlendEnable = true;
+	rtbd.SrcBlend = D3D11_BLEND_SRC_COLOR;
+	rtbd.DestBlend = D3D11_BLEND_BLEND_FACTOR;
+	rtbd.BlendOp = D3D11_BLEND_OP_ADD;
+	rtbd.SrcBlendAlpha = D3D11_BLEND_ONE;
+	rtbd.DestBlendAlpha = D3D11_BLEND_ZERO;
+	rtbd.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	rtbd.RenderTargetWriteMask = D3D10_COLOR_WRITE_ENABLE_ALL;
+
+	blendDesc.AlphaToCoverageEnable = FALSE;
+	blendDesc.RenderTarget[0] = rtbd;
+
+	_pd3dDevice->CreateBlendState(&blendDesc, &mBlendState);
+
+
 	return S_OK;
 }
 
@@ -421,6 +442,9 @@ void Graphics::ClearBuffers()
 
 void Graphics::Draw(unsigned int indexCount)
 {
+
+
+
 	//Draws object to swap chain buffer
 	_pImmediateContext->DrawIndexed(indexCount, 0, 0);
 }
@@ -618,6 +642,19 @@ void Graphics::SetConstantBuffer()
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
+}
+
+void Graphics::SetSolidBlend()
+{
+
+	_pImmediateContext->OMSetBlendState(0, 0, 0xFFFFFFFF);
+}
+
+void Graphics::SetTransparentBlend()
+{
+	float blendFactor[] = { 0.75f,0.75f,0.75f,1.0f };
+
+	_pImmediateContext->OMSetBlendState(mBlendState, blendFactor, 0xFFFFFFFF);
 }
 
 UINT Graphics::GetWindowWidth()
