@@ -164,6 +164,7 @@ void Application::DrawGUI()
 		ImGui::End();
 	}
 
+	//Controls Window
 	{
 		ImGui::Begin("Controls");
 
@@ -221,7 +222,7 @@ void Application::DrawGUI()
 		ImGui::End();
 	}
 
-
+	mGfx->LightingWindow();
 }
 
 void Application::Picking()

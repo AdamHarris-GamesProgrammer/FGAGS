@@ -48,6 +48,9 @@ public:
 	void ConfineCursor();
 	void FreeCursor();
 
+	void LightColourOptions(Light* light);
+	void LightingWindow();
+
 	void SwitchCamera(Camera* newCamera);
 
 	void EnableWireframe(bool enabled);

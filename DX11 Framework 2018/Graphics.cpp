@@ -455,6 +455,80 @@ void Graphics::FreeCursor()
 }
 
 
+void Graphics::LightColourOptions(Light* light)
+{
+	float diffuse[4] = {
+	light->Diffuse.x,
+	light->Diffuse.y,
+	light->Diffuse.z,
+	light->Diffuse.w
+	};
+
+	float ambient[4] = {
+		light->Ambient.x,
+		light->Ambient.y,
+		light->Ambient.z,
+		light->Ambient.w
+	};
+
+	float specular[3] = {
+		light->Specular.x,
+		light->Specular.y,
+		light->Specular.z
+	};
+
+	ImGui::Text("Diffuse");
+	ImGui::SameLine();
+	ImGui::ColorEdit4("#", diffuse);
+
+	ImGui::Text("Ambient");
+	ImGui::SameLine();
+	ImGui::ColorEdit4("##", ambient);
+
+	ImGui::Text("Specular");
+	ImGui::SameLine();
+	ImGui::ColorEdit3("###", specular);
+
+	light->Diffuse = XMFLOAT4(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
+	light->Ambient = XMFLOAT4(ambient[0], ambient[1], ambient[2], ambient[3]);
+	
+	float specularPower = light->Specular.w;
+	light->Specular = XMFLOAT4(specular[0], specular[1], specular[2], specularPower);
+}
+
+void Graphics::LightingWindow()
+{
+	ImGui::Begin("Lighting Control Panel");
+
+	ImGui::Text("Directional Light");
+
+	if (ImGui::TreeNode("Directional Light")) {
+		if (ImGui::TreeNode("Colour Settings")) {
+			LightColourOptions(&mDirectionalLight);
+			ImGui::TreePop();
+		}
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Point Light")) {
+		if (ImGui::TreeNode("Colour Settings")) {
+			LightColourOptions(&mPointLight);
+			ImGui::TreePop();
+		}
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Spot Light")) {
+		if (ImGui::TreeNode("Colour Settings")) {
+			LightColourOptions(&mSpotLight);
+			ImGui::TreePop();
+		}
+		ImGui::TreePop();
+	}
+
+	ImGui::End();
+}
+
 void Graphics::SwitchCamera(Camera* newCamera)
 {
 	mCurrentCamera = newCamera;
