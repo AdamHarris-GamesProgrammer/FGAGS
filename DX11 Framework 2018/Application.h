@@ -37,6 +37,8 @@ private:
 	ImGUIManager* mImGuiManager = nullptr;
 	JSONLevelLoader* mJSONLevelLoader = nullptr;
 
+	MeshedObject* mBlendedCube = nullptr;
+
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
 	Camera* cameraC = nullptr;

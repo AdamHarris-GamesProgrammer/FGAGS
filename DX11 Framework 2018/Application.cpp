@@ -63,6 +63,15 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cameraD->UpdateViewMatrix();
 
 
+	mBlendedCube = new MeshedObject(mGfx, "Assets/Models/cube.obj");
+	mBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
+	mBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
+	mBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
+	mBlendedCube->PhongDifShader();
+	mBlendedCube->InitializeBoundingSphere();
+
+
+
 	//Sets default positions
 	groundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
@@ -111,6 +120,7 @@ void Application::Update()
 	for (auto& object : mGameObjects) {
 		object->Update(dt);
 	}
+	mBlendedCube->Update(dt);
 }
 
 void Application::SelectedObjectControl(float dt)
@@ -375,12 +385,13 @@ void Application::Draw()
 
 	mGfx->ClearBuffers();
 
+	mGfx->SetSolidBlend();
 	for (auto& object : mGameObjects) {
 		object->Draw();
 	}
 
-	ImGui::ShowDemoWindow();
-
+	mGfx->SetTransparentBlend();
+	mBlendedCube->Draw();
 
 	DrawGUI();
 
