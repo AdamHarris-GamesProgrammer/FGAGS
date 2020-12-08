@@ -454,7 +454,6 @@ void Graphics::FreeCursor()
 	ClipCursor(nullptr);
 }
 
-
 void Graphics::LightColourOptions(Light* light)
 {
 	float diffuse[4] = {
@@ -507,6 +506,18 @@ void Graphics::LightingWindow()
 			LightColourOptions(&mDirectionalLight);
 			ImGui::TreePop();
 		}
+
+		ImGui::Text("Direction");
+		ImGui::SameLine();
+
+		float val[3] = {
+			mDirectionalLight.Direction.x, mDirectionalLight.Direction.y, mDirectionalLight.Direction.z
+		};
+
+		ImGui::SliderFloat3("####", val, -1.0f,1.0f);
+
+		mDirectionalLight.Direction = XMFLOAT3(val[0], val[1], val[2]);
+
 		ImGui::TreePop();
 	}
 
@@ -515,6 +526,36 @@ void Graphics::LightingWindow()
 			LightColourOptions(&mPointLight);
 			ImGui::TreePop();
 		}
+		
+		ImGui::Text("Position");
+		ImGui::SameLine();
+
+		float tempPos[3] = {
+			mPointLight.Position.x, mPointLight.Position.y, mPointLight.Position.z
+		};
+
+		ImGui::SliderFloat3("####", tempPos, -100.0f, 100.0f);
+
+		mPointLight.Position = XMFLOAT3(tempPos[0], tempPos[1], tempPos[2]);
+
+
+		ImGui::Text("Range");
+		ImGui::SameLine();
+
+		ImGui::SliderFloat("######", &mSpotLight.Range, 0.1f, 100.0f);
+
+
+		ImGui::Text("Attenuation");
+		ImGui::SameLine();
+		float tempAttenuation[3] = {
+			mPointLight.Attenuation.x, mPointLight.Attenuation.y, mPointLight.Attenuation.z
+		};
+
+		ImGui::SliderFloat3("#####", tempAttenuation, 0.0f, 1.0f);
+
+		mPointLight.Attenuation = XMFLOAT3(tempAttenuation[0], tempAttenuation[1], tempAttenuation[2]);
+
+
 		ImGui::TreePop();
 	}
 
@@ -523,6 +564,37 @@ void Graphics::LightingWindow()
 			LightColourOptions(&mSpotLight);
 			ImGui::TreePop();
 		}
+
+		ImGui::Text("Position");
+		ImGui::SameLine();
+
+		float tempPos[3] = {
+			mSpotLight.Position.x, mSpotLight.Position.y, mSpotLight.Position.z
+		};
+
+		ImGui::SliderFloat3("####", tempPos, -100.0f, 100.0f);
+
+		mSpotLight.Position = XMFLOAT3(tempPos[0], tempPos[1], tempPos[2]);
+
+		ImGui::Text("Range");
+		ImGui::SameLine();
+
+		ImGui::SliderFloat("######", &mSpotLight.Range, 0.1f, 100.0f);
+
+		ImGui::Text("Attenuation");
+		ImGui::SameLine();
+		float tempAttenuation[3] = {
+			mSpotLight.Attenuation.x, mSpotLight.Attenuation.y, mSpotLight.Attenuation.z
+		};
+
+		ImGui::SliderFloat3("#####", tempAttenuation, 0.0f, 1.0f);
+
+		mSpotLight.Attenuation = XMFLOAT3(tempAttenuation[0], tempAttenuation[1], tempAttenuation[2]);
+
+		ImGui::Text("Spot Exponent");
+		ImGui::SameLine();
+		ImGui::SliderFloat("#######", &mSpotLight.Spot, 0.01f, 100.0f);
+
 		ImGui::TreePop();
 	}
 
