@@ -116,7 +116,7 @@ void GameObject::Initialize()
 	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
 
-	mBoundingSphere.Radius = 1.0f;
+	mBoundingSphere.Radius = 0.0f;
 	mBoundingSphere.Center = GetPosition();
 }
 

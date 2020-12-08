@@ -9,23 +9,23 @@
       "normalTexture": "Crate_NRM.dds",
       "ambient": [ 0.2, 0.2, 0.2, 1.0 ],
       "diffuse": [ 1.0, 0.0, 0.0, 1.0 ],
-      "specular": [ 0.0, 0.0, 1.0, 10.0 ]
+      "boundingSphere":  "true"
     },
     {
       "name": "Cube",
       "position": [ -12.0, 0, 0 ],
-      "scale": [ 1, 1, 1 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Marble_COLOR.dds",
-      "specularTexture": "Marble_SPEC.dds"
+      "specularTexture": "Marble_SPEC.dds",
+      "boundingSphere": "true"
     },
     {
       "name": "ChainLinkCube",
       "position": [ -2.0, 0, -3 ],
-      "scale": [ 1, 1, 1 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "ChainLink_COLOR.dds",
-      "specularTexture": "ChainLink_SPEC.dds"
+      "specularTexture": "ChainLink_SPEC.dds",
+      "boundingSphere": "true"
     },
     {
       "name": "Sphere",
@@ -33,51 +33,63 @@
       "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
-      "diffuse": [ 0.0, 0.0, 1.0, 1.0 ]
+      "diffuse": [ 0.0, 0.0, 1.0, 1.0 ],
+      "boundingSphere": "true"
     },
     {
       "name": "Cylinder",
       "position": [ 0.0, 0, 0 ],
       "meshPath": "cylinder.obj",
-      "diffuseTexture": "Crate_COLOR.dds"
+      "diffuseTexture": "Crate_COLOR.dds",
+      "boundingSphere": "true"
     },
     {
       "name": "Donut",
       "position": [ 4.0, 0, 0 ],
       "meshPath": "donut.obj",
-      "diffuseTexture": "Marble_COLOR.dds"
+      "diffuseTexture": "Marble_COLOR.dds",
+      "boundingSphere": "true"
     },
     {
       "name": "BuildingA",
       "position": [ 8.5, 0, -0.6 ],
-      "scale":  [1.4, 1,1.1],
+      "scale": [ 1.4, 1, 1.1 ],
       "meshPath": "buildingA.obj",
-      "diffuseTexture": "Marble_COLOR.dds"
+      "diffuseTexture": "Bricks_COLOR.dds",
+      "specularTexture": "Bricks_SPEC.dds",
+      "normalTexture": "Bricks_NRM.dds"
     },
     {
       "name": "BuildingB",
       "position": [ -5.0, 0, 20 ],
       "meshPath": "buildingB.obj",
-      "diffuseTexture": "Marble_COLOR.dds"
+      "diffuseTexture": "Bricks_COLOR.dds",
+      "specularTexture": "Bricks_SPEC.dds",
+      "normalTexture": "Bricks_NRM.dds"
     },
     {
       "name": "BuildingC",
-      "position": [ 0, 0, -8.87 ],
+      "position": [ 0, 0, -10 ],
       "meshPath": "buildingC.obj",
-      "diffuseTexture": "Marble_COLOR.dds"
+      "diffuseTexture": "Bricks_COLOR.dds",
+      "specularTexture": "Bricks_SPEC.dds",
+      "normalTexture": "Bricks_NRM.dds"
     },
     {
       "name": "BuildingD",
       "position": [ 0, 0, -10 ],
       "meshPath": "buildingD.obj",
-      "diffuseTexture": "Marble_COLOR.dds"
+      "diffuseTexture": "Bricks_COLOR.dds",
+      "specularTexture": "Bricks_SPEC.dds",
+      "normalTexture": "Bricks_NRM.dds"
     },
     {
       "name": "FuelBarrel",
       "position": [ 0, 0, -2 ],
       "rotation": [ 3.14, 0, 0 ],
       "meshPath": "fuelBarrel.obj",
-      "diffuseTexture": "Fuel_COLOR.dds"
+      "diffuseTexture": "Fuel_COLOR.dds",
+      "boundingSphere": "true"
     }
   ],
   "version": "1.0"

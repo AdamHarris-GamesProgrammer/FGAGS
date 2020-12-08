@@ -214,6 +214,8 @@ void Application::DrawGUI()
 			};
 
 			ImGui::SliderFloat3("Position", pos, -100.0f, 100.0f);
+
+			mSelectedObject->SetPosition(pos[0], pos[1], pos[2]);
 		}
 
 		ImGui::End();

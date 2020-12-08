@@ -10,9 +10,6 @@ JSONLevelLoader::JSONLevelLoader(Graphics* gfx)
 
 std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
 {
-
-
-
 	std::vector<GameObject*> gameObjects;
 
 	if (mGraphics == nullptr) return gameObjects;
@@ -118,6 +115,9 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		if (HasAttribute(&jsonGo, "specular")) {
 			std::vector<float> colorVals = jsonGo["specular"];
 			go->SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+		}
+		if (HasAttribute(&jsonGo, "boundingSphere")) {
+			go->InitializeBoundingSphere();
 		}
 
 		if (hasNrmTexture) {

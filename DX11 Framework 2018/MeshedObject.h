@@ -17,6 +17,8 @@ public:
 	void Load(const char* filepath);
 	void Load(std::string& filepath);
 
+	void InitializeBoundingSphere();
+
 private:
 	//Mesh
 	MeshData mMesh;

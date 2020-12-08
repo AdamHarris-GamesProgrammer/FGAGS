@@ -34,6 +34,9 @@ void MeshedObject::Update(float dt)
 bool MeshedObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 {
 	float distance = 0.0f;
+
+	if (mBoundingSphere.Radius == 0.0f) return false;
+
 	if (mBoundingSphere.Intersects(XMLoadFloat4(&rayOrigin), XMLoadFloat4(&rayDirection), distance)) {
 		return true;
 	}
@@ -51,10 +54,14 @@ void MeshedObject::Load(const char* filepath)
 	mMesh.Vertices.clear();
 	mMesh.Indices.clear();
 
-	mBoundingSphere.Radius = mMesh.Radius;
 }
 
 void MeshedObject::Load(std::string& filepath)
 {
 	Load(filepath.c_str());
+}
+
+void MeshedObject::InitializeBoundingSphere()
+{
+	mBoundingSphere.Radius = mMesh.Radius;
 }
