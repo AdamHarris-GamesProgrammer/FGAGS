@@ -24,6 +24,7 @@ cbuffer ConstantBuffer : register(b0)
     Material objectMaterial;
     DirectionalLight directionalLight;
     PointLight pointLight;
+	SpotLight spotLight;
     float3 EyePosW;
 }
 
@@ -70,6 +71,11 @@ float4 PS(VS_OUTPUT input) : SV_Target
     ambient += A;
     diffuse += D;
     spec += S;
+    
+	CalculateSpotLight(objectMaterial, spotLight, input.PosW, input.normalW, toEyeW, A, D, S);
+	ambient += A;
+	diffuse += D;
+	spec += S;
 
     
     float4 litColor = textureColour * (ambient + diffuse) + spec;

@@ -26,6 +26,7 @@ cbuffer ConstantBuffer : register(b0)
     Material objectMaterial;
     DirectionalLight directionalLight;
     PointLight pointLight;
+	SpotLight spotLight;
     float3 EyePosW;
 }
 
@@ -59,8 +60,6 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     input.normalW = normalize(input.normalW);
     
-    
-    
     float3 toEyeW = normalize(EyePosW - input.PosW);
     
     float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -69,16 +68,22 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     float4 A, D, S;
     
-    CalculateDirectionalLight(objectMaterial, directionalLight, input.normalW * normalColour, toEyeW, A, D, S);
+	float3 norm = input.normalW * normalColour;
+    
+    CalculateDirectionalLight(objectMaterial, directionalLight, norm, toEyeW, A, D, S);
     ambient += A;
     diffuse += D;
     spec += S;
     
-    CalculatePointLight(objectMaterial, pointLight, input.PosW, input.normalW, toEyeW, A, D, S);
+    CalculatePointLight(objectMaterial, pointLight, input.PosW, norm, toEyeW, A, D, S);
     ambient += A;
     diffuse += D;
     spec += S;
 
+	CalculateSpotLight(objectMaterial, spotLight, input.PosW, norm, toEyeW, A, D, S);
+	ambient += A;
+	diffuse += D;
+	spec += S;
     
     float4 litColor = textureColour * (ambient + diffuse) + (specularColour * spec);
     litColor.a = objectMaterial.Diffuse.a;

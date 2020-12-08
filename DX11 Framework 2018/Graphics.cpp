@@ -72,6 +72,14 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mPointLight.Attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
 	mPointLight.Range = 8.0f;
 
+	mSpotLight.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	mSpotLight.Diffuse = XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
+	mSpotLight.Specular = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	mSpotLight.Attenuation = XMFLOAT3(1.0f, 0.0f, 0.0f);
+	mSpotLight.Spot = 96.0f;
+	mSpotLight.Range = 10000.0f;
+	mSpotLight.Direction = XMFLOAT3(1.0f, 0.1f, 0.0f);
+	mSpotLight.Position = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	return S_OK;
 }
 
@@ -490,19 +498,10 @@ void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
 	cb.ObjectMaterial.Diffuse = mat.Diffuse;
 	cb.ObjectMaterial.Specular = mat.Specular;
 
-	//Directional Light Constant Buffers
-	cb.DirectionalLight.Ambient = mDirectionalLight.Ambient;
-	cb.DirectionalLight.Diffuse = mDirectionalLight.Diffuse;
-	cb.DirectionalLight.Specular = mDirectionalLight.Specular;
-	cb.DirectionalLight.Direction = mDirectionalLight.Direction;
-
-	//Point Light Constant Buffers
-	cb.PointLight.Ambient = mPointLight.Ambient;
-	cb.PointLight.Diffuse = mPointLight.Diffuse;
-	cb.PointLight.Specular = mPointLight.Specular;
-	cb.PointLight.Attenuation = mPointLight.Attenuation;
-	cb.PointLight.Range = mPointLight.Range;
-	cb.PointLight.Position = mPointLight.Position;
+	//Light Constant Buffers
+	cb.DirectionalLight = mDirectionalLight;
+	cb.PointLight = mPointLight;
+	cb.SpotLight = mSpotLight;
 
 	//Camera Position
 	cb.EyePosW = mCurrentCamera->GetPosition();

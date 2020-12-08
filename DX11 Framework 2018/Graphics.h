@@ -28,6 +28,7 @@ struct ConstantBuffer
 	Material ObjectMaterial;
 	DirectionalLight DirectionalLight;
 	PointLight PointLight;
+	SpotLight SpotLight;
 	XMFLOAT3 EyePosW;
 };
 
@@ -89,6 +90,7 @@ private:
 
 	DirectionalLight mDirectionalLight;
 	PointLight mPointLight;
+	SpotLight mSpotLight;
 	
 	HINSTANCE               _hInst;
 	HWND                    _hWnd;
