@@ -68,6 +68,9 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+
+!DX11 Framework 2018/Assets/Models/*.obj
+
 # Files built by Visual Studio
 *_i.c
 *_p.c
