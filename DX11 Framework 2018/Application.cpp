@@ -43,13 +43,25 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mGfx->SwitchCamera(cameraA);
 
 	cameraB = new Camera();
+	cameraB->SetLens(0.25f * 3.1452f, mGfx->GetWindowWidth() / mGfx->GetWindowHeight(), 0.01f, 100.0f);
 
 	cameraA->LookAt(
 		XMFLOAT3(0.0f, 8.0f, -15.0f),
 		XMFLOAT3(0.0f, 0.0f, 0.0f)
 	);
 
+	cameraC = new Camera();
+	cameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
+
+
+	cameraD = new Camera();
+	cameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
+
 	cameraA->UpdateViewMatrix();
+	cameraB->UpdateViewMatrix();
+	cameraC->UpdateViewMatrix();
+	cameraD->UpdateViewMatrix();
+
 
 	//Sets default positions
 	groundPlane->SetPosition(0.0f, -1.6f, 0.0f);
@@ -248,7 +260,7 @@ void Application::Picking()
 	rayOrigin = XMVector3Transform(rayOrigin, invView);
 
 	//Calculates the direction of the ray
-	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&cameraA->GetPosition());
+	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&mCurrentCamera->GetPosition());
 
 	//Normalizes the direction
 	rayDirection = XMVector3Normalize(rayDirection);
@@ -302,6 +314,14 @@ void Application::PollInput(float dt)
 		mCurrentCamera = cameraB;
 		enableFlying = false;
 		mGfx->SwitchCamera(cameraB);
+	}
+	else if (GetAsyncKeyState('3')) {
+		mCurrentCamera = cameraC;
+		mGfx->SwitchCamera(cameraC);
+	}
+	else if (GetAsyncKeyState('4')) {
+		mCurrentCamera = cameraD;
+		mGfx->SwitchCamera(cameraD);
 	}
 
 	if (GetAsyncKeyState('H')) {
