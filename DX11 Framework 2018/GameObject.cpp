@@ -65,44 +65,17 @@ std::string GameObject::GetName()
 
 void GameObject::PhongDifShader()
 {
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-
-	mShader = new Shaders(mGfx, L"PhongDif.fx", layout, 3);
-	mShader->InitializeShaders();
+	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDif.fx");
 }
 
 void GameObject::PhongDifSpcShader()
 {
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-
-	mShader = new Shaders(mGfx, L"PhongDifSpc.fx", layout, 3);
-	mShader->InitializeShaders();
+	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDifSpc.fx");
 }
 
 void GameObject::PhongDifSpcNrmShader()
 {
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-
-	mShader = new Shaders(mGfx, L"PhongDifSpcNrm.fx", layout, 3);
-	mShader->InitializeShaders();
+	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDifSpcNrm.fx");
 }
 
 void GameObject::Initialize()
@@ -118,6 +91,15 @@ void GameObject::Initialize()
 
 	mBoundingSphere.Radius = 0.0f;
 	mBoundingSphere.Center = GetPosition();
+
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+
+	mVertexShader = new VertexShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDif.fx", layout, 3);
 }
 
 #pragma region Getters

@@ -6,7 +6,6 @@ class Bindable
 {
 public:
 	Bindable(ID3D11Device* device, ID3D11DeviceContext* context) : mDevice(device), mContext(context) {}
-	virtual void Finalize() {}
 	virtual void Bind() = 0;
 
 protected:

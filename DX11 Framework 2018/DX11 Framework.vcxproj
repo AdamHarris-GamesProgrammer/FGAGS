@@ -390,7 +390,6 @@
     <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -417,11 +416,12 @@
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="MeshedObject.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
     <CLInclude Include="resource.h" />
-    <ClInclude Include="Shaders.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
   <ItemGroup>

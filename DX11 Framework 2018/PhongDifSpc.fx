@@ -51,10 +51,8 @@ float4 PS(VS_OUTPUT input) : SV_Target
 {
     float4 textureColour = txDiffuse.Sample(samplerAnisotropic, input.Tex);
     
-    if (textureColour.a < 0.01f)
-    {
-        discard;
-    }
+	clip(textureColour.a - 0.25f);
+    
     
     float4 specularColour = txSpecular.Sample(samplerAnisotropic, input.Tex);
     

@@ -385,6 +385,8 @@ void Application::Draw()
 
 	mGfx->ClearBuffers();
 
+	mGfx->SetConstantBuffer();
+
 	mGfx->SetSolidBlend();
 	for (auto& object : mGameObjects) {
 		object->Draw();

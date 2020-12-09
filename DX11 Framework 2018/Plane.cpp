@@ -65,13 +65,16 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 
 void Plane::Draw()
 {
-	mShader->BindShaders();
+	mVertexShader->Bind();
+	mPixelShader->Bind();
 	vBuffer->Bind();
 	iBuffer->Bind();
 
 	if (hasTextures) {
 		mGfx->GetDeviceContext()->PSSetShaderResources(0, mTextures.size(), &mTextures[0]);
 	}
+
+	mGfx->SetConstantBuffer();
 
 	mGfx->UpdateBuffers(mMaterial, mTransform);
 	mGfx->Draw(iBuffer->GetIndexCount());

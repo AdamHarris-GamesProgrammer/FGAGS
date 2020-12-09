@@ -84,8 +84,11 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>Engine\Bindables</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Engine\Bindables</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Engine\Bindables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,9 +135,6 @@
     </ClCompile>
     <ClCompile Include="Imgui\imgui_demo.cpp">
       <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

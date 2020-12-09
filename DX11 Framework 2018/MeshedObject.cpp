@@ -10,8 +10,8 @@ MeshedObject::MeshedObject(Graphics* gfx) : GameObject(gfx) {}
 
 void MeshedObject::Draw()
 {
-	mShader->BindShaders();
-
+	mPixelShader->Bind();
+	mVertexShader->Bind();
 	vb->Bind();
 	ib->Bind();
 

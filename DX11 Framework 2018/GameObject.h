@@ -4,8 +4,8 @@
 #include <vector>
 #include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
-#include "Shaders.h"
-
+#include "VertexShader.h"
+#include "PixelShader.h"
 
 class GameObject
 {
@@ -60,7 +60,8 @@ protected:
 
 	std::string mName = "Gameobject";
 
-	Shaders* mShader;
+	VertexShader* mVertexShader;
+	PixelShader* mPixelShader;
 
 	BoundingSphere mBoundingSphere;
 
