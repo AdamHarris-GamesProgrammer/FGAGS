@@ -121,13 +121,13 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		}
 
 		if (hasNrmTexture) {
-			go->PhongDifSpcNrmShader();
+			go->SetShader(L"PhongDifSpcNrm.fx");
 		}
 		else if (hasSpcTexture) {
-			go->PhongDifSpcShader();
+			go->SetShader(L"PhongDifSpc.fx");
 		}
 		else if (hasDifTexture) {
-			go->PhongDifShader();
+			go->SetShader(L"PhongDif.fx");
 		}
 
 		gameObjects.push_back(go);

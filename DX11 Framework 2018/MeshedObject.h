@@ -10,8 +10,6 @@ public:
 	MeshedObject(Graphics* gfx);
 	MeshedObject() {}
 
-	void Draw() override;
-	void Update(float dt) override;
 	bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection) override;
 
 	void Load(const char* filepath);
@@ -22,7 +20,5 @@ public:
 private:
 	//Mesh
 	MeshData mMesh;
-	VertexBuffer* vb;
-	IndexBuffer* ib;
 };
 

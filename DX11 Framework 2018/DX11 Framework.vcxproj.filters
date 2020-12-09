@@ -90,6 +90,9 @@
     <ClInclude Include="VertexShader.h">
       <Filter>Engine\Bindables</Filter>
     </ClInclude>
+    <ClInclude Include="BindableHeaders.h">
+      <Filter>Engine\Bindables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

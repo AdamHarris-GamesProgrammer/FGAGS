@@ -15,6 +15,7 @@ GameObject::GameObject(Graphics* gfx)
 void GameObject::Update(float dt)
 {
 	XMStoreFloat4x4(&mTransform, CalculateTransform());
+	mBoundingSphere.Center = mPosition;
 }
 
 bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
@@ -39,7 +40,19 @@ DirectX::XMMATRIX GameObject::CalculateTransform()
 
 void GameObject::Draw()
 {
+	mVertexShader->Bind();
+	mPixelShader->Bind();
+	mVertexBuffer->Bind();
+	mIndexBuffer->Bind();
 
+	if (hasTextures) {
+		mGfx->GetDeviceContext()->PSSetShaderResources(0, mTextures.size(), &mTextures[0]);
+	}
+
+	mGfx->SetConstantBuffer();
+
+	mGfx->UpdateBuffers(mMaterial, mTransform);
+	mGfx->Draw(mIndexBuffer->GetIndexCount());
 }
 
 
@@ -63,19 +76,9 @@ std::string GameObject::GetName()
 	return mName;
 }
 
-void GameObject::PhongDifShader()
+void GameObject::SetShader(WCHAR* path)
 {
-	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDif.fx");
-}
-
-void GameObject::PhongDifSpcShader()
-{
-	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDifSpc.fx");
-}
-
-void GameObject::PhongDifSpcNrmShader()
-{
-	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDifSpcNrm.fx");
+	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), path);
 }
 
 void GameObject::Initialize()
@@ -103,27 +106,27 @@ void GameObject::Initialize()
 }
 
 #pragma region Getters
-DirectX::XMFLOAT3 GameObject::GetPosition()
+DirectX::XMFLOAT3 GameObject::GetPosition() const
 {
 	return XMFLOAT3(mTransform._41, mTransform._42, mTransform._43);
 }
 
-DirectX::XMFLOAT3 GameObject::GetRotation()
+DirectX::XMFLOAT3 GameObject::GetRotation() const
 {
 	return mRotation;
 }
 
-DirectX::XMFLOAT3 GameObject::GetScale()
+DirectX::XMFLOAT3 GameObject::GetScale() const
 {
 	return mScale;
 }
 
-Material GameObject::GetMaterial()
+Material GameObject::GetMaterial() const
 {
 	return mMaterial;
 }
 
-DirectX::XMFLOAT4X4 GameObject::GetTransform()
+DirectX::XMFLOAT4X4 GameObject::GetTransform() const
 {
 	return mTransform;
 }

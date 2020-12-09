@@ -646,7 +646,6 @@ void Graphics::SetConstantBuffer()
 
 void Graphics::SetSolidBlend()
 {
-
 	_pImmediateContext->OMSetBlendState(0, 0, 0xFFFFFFFF);
 }
 

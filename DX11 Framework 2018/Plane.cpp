@@ -35,7 +35,7 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	vBuffer = new VertexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), Vertices);
+	mVertexBuffer = new VertexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), Vertices);
 
 
 	Indices.resize(faceCount * 3); // 3 indices per face
@@ -58,24 +58,8 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	iBuffer = new IndexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), Indices);
+	mIndexBuffer = new IndexBuffer(mGfx->GetDevice(), mGfx->GetDeviceContext(), Indices);
 
-	PhongDifShader();
+	SetShader(L"PhongDif.fx");
 }
 
-void Plane::Draw()
-{
-	mVertexShader->Bind();
-	mPixelShader->Bind();
-	vBuffer->Bind();
-	iBuffer->Bind();
-
-	if (hasTextures) {
-		mGfx->GetDeviceContext()->PSSetShaderResources(0, mTextures.size(), &mTextures[0]);
-	}
-
-	mGfx->SetConstantBuffer();
-
-	mGfx->UpdateBuffers(mMaterial, mTransform);
-	mGfx->Draw(iBuffer->GetIndexCount());
-}

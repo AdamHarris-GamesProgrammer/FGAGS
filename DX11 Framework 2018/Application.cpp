@@ -67,7 +67,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
 	mBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
 	mBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
-	mBlendedCube->PhongDifShader();
+	mBlendedCube->SetShader(L"PhongDif.fx");
 	mBlendedCube->InitializeBoundingSphere();
 
 
@@ -191,7 +191,7 @@ void Application::DrawGUI()
 		ImGui::Begin("Controls");
 
 		//Camera A Controls
-		ImGui::Text("Camera A: 1");
+		ImGui::Text("Camera A (Debug Fly Cam): 1");
 		ImGui::Text("Camera A Enable Movement: G");
 		if (ImGui::TreeNode("Camera A Movement Controls")) {
 			ImGui::Text("Walk Forwards: W");
@@ -204,7 +204,9 @@ void Application::DrawGUI()
 			ImGui::Text("Pitch Down: F");
 			ImGui::TreePop();
 		}
-		ImGui::Text("Camera B: 2");
+		ImGui::Text("Camera B (Third Person Cam): 2");
+		ImGui::Text("Camera C (Top Down Cam): 3");
+		ImGui::Text("Camera D (Level Overview): 4");
 
 		//Selected Object Controls
 		ImGui::Text("Select Object with Mouse Position: H");

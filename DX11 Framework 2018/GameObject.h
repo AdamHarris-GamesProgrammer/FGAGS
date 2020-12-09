@@ -4,8 +4,7 @@
 #include <vector>
 #include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
+#include "BindableHeaders.h"
 
 class GameObject
 {
@@ -25,10 +24,7 @@ public:
 	void SetName(std::string& name);
 	std::string GetName();
 
-
-	void PhongDifShader();
-	void PhongDifSpcShader();
-	void PhongDifSpcNrmShader();
+	void SetShader(WCHAR* path);
 
 	void SetTransform(XMMATRIX transform);
 	void SetTransform(XMFLOAT4X4 transform);
@@ -42,11 +38,11 @@ public:
 	void SetMaterialAmbient(XMFLOAT4 color);
 	void SetMaterialSpecular(XMFLOAT4 color);
 
-	XMFLOAT4X4 GetTransform();
-	XMFLOAT3 GetPosition();
-	XMFLOAT3 GetRotation();
-	XMFLOAT3 GetScale();
-	Material GetMaterial();
+	XMFLOAT4X4 GetTransform() const;
+	XMFLOAT3 GetPosition() const;
+	XMFLOAT3 GetRotation() const;
+	XMFLOAT3 GetScale() const;
+	Material GetMaterial() const;
 
 
 
@@ -62,6 +58,8 @@ protected:
 
 	VertexShader* mVertexShader;
 	PixelShader* mPixelShader;
+	VertexBuffer* mVertexBuffer;
+	IndexBuffer* mIndexBuffer;
 
 	BoundingSphere mBoundingSphere;
 
