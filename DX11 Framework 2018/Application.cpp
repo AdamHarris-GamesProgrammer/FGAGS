@@ -11,64 +11,78 @@ Application::~Application()
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
+	//Initializes the Graphics object
 	pGfx = new Graphics();
 	pGfx->Initialise(hInstance, nCmdShow);
 
-	pGroundPlane = new Plane(pGfx);
-	pGroundPlane->Make(75.0, 75.0f, 8, 8);
-
-
+	//Initializes the ImGUIManager and the JSON level loader
 	mImGuiManager = ImGUIManager(pGfx);
 	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
+	//Sets the game objects vector and loads the objects from the json file
 	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile("Assets/Levels/level.json");
 
-	pGameObjects.push_back(pGroundPlane);
-
+	//Finds the cube and donut objects from the game objects array, used so these can be referenced in code
 	pCube = FindGameObjectWithName("Cube");
 	pDonut = FindGameObjectWithName("Donut");
 
+
+
+	//Initializes the Ground Plane object and creates the geometry
+	pGroundPlane = new Plane(pGfx);
+	pGroundPlane->Make(75.0, 75.0f, 8, 8);
+
+	//Sets default positions
+	pGroundPlane->SetPosition(0.0f, -1.6f, 0.0f);
+
+	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
 
+	//Adds the ground plane to the game objects vector so it will be rendered and updated
+	pGameObjects.push_back(pGroundPlane);
 
+
+
+	//Initializes all camera objects
 	pCameraA = std::make_shared<Camera>();
 	pCameraB = std::make_shared<Camera>();
 	pCameraC = std::make_shared<Camera>();
 	pCameraD = std::make_shared<Camera>();
 
-
-
+	//Sets the current camera and sends it to the graphics class
 	pCurrentCamera = pCameraA;
 	pGfx->SwitchCamera(pCameraA);
 
+	//Sets the default positions and look at targets for the cameras
 	pCameraA->LookAt(XMFLOAT3(0.0f, 8.0f, -15.0f),XMFLOAT3(0.0f, 0.0f, 0.0f));
-
+	pCameraB->LookAt(XMFLOAT3(0.0f, 4.5f, -10.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 	pCameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
-
-
 	pCameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
 
-
+	//Initializes the skysphere and scales it up
 	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
-	pSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
-	pSkySphere->SetShader(L"Skybox.fx");
 	pSkySphere->SetScale(500.0f, 500.0f, 500.0f);
 
+	//Loads the skybox texture and sets the shader
+	pSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
+	pSkySphere->SetShader(L"Skybox.fx");
+
+	//Initializes the transparent cube object, and positions it
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
 	pBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
+
+	//Sets the material, texture and shader
 	pBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
 	pBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
 	pBlendedCube->SetShader(L"PhongDif.fx");
+
+	//Initializes the bounding sphere collider
 	pBlendedCube->InitializeBoundingSphere();
 
-	//Sets default positions
-	pGroundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
-	mObjectRotationValue = 0.0f;
-
+	//Initializes and resets the Timer object
 	mTime = Time();
-
 	mTime.Reset();
 
 	return S_OK;
@@ -76,14 +90,20 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 void Application::Update()
 {
+	//Ticks the Timer object and gets the new delta time value
 	mTime.Tick();
 	float dt = mTime.DeltaTime();
 
+	//Polls the users input
 	PollInput(dt);
 
 	//Camera B Selected Object Tracking 
+	//Checks that a selected object is available and that Camera B is the current camera
 	if (pSelectedObject != nullptr && pCurrentCamera == pCameraB) {
+		//Gets the selected objects position
 		XMFLOAT3 selectedObjectPosition = pSelectedObject->GetPosition();
+
+		//Calculates the camera position with the camera offset added to it
 		XMFLOAT3 newCameraBPos = XMFLOAT3
 		(
 			selectedObjectPosition.x + mCameraBOffset.x,
@@ -91,6 +111,7 @@ void Application::Update()
 			selectedObjectPosition.z + mCameraBOffset.z
 		);
 
+		//Uses the look at method to reposition camera b and aim it at the selected object
 		pCameraB->LookAt
 		(
 			newCameraBPos,
@@ -98,21 +119,27 @@ void Application::Update()
 		);
 	}
 
-
+	//Calculates the new rotation value 
 	mObjectRotationValue += (mObjectRotationSpeed * dt);
 
+	//Sets the rotation of the cube and the donut game objects
 	pCube->SetRotation(10.0f, mObjectRotationValue, 0.0f);
 	pDonut->SetRotation(mObjectRotationValue, 0.0f, 0.0f);
 
+	//Updates the view matrix for the current camera
 	pCurrentCamera->UpdateViewMatrix();
 
+
+	//Loops through every game object and calls the update method
 	for (auto& object : pGameObjects) {
 		object->Update(dt);
 	}
 
+	//Updates the blended cube object
 	pBlendedCube->Update(dt);
 
 
+	//Sets the position of the sky sphere to the cameras position so that the camera cant fly out of the sky
 	pSkySphere->SetPosition(pCurrentCamera->GetPosition());
 	pSkySphere->Update(dt);
 }
@@ -222,10 +249,11 @@ void Application::DrawGUI()
 		ImGui::Begin("Selected Object");
 
 		if (pSelectedObject != nullptr) {
+			//Object Name		
 			const char* name = pSelectedObject->GetName().c_str();
-
 			ImGui::Text(name);
 			
+			//Object Position
 			float pos[3] = {
 				pSelectedObject->GetPosition().x,
 				pSelectedObject->GetPosition().y,
@@ -233,13 +261,13 @@ void Application::DrawGUI()
 			};
 
 			ImGui::SliderFloat3("Position", pos, -100.0f, 100.0f);
-
 			pSelectedObject->SetPosition(pos[0], pos[1], pos[2]);
 		}
 
 		ImGui::End();
 	}
 
+	//Calls the lighting control panel method in the graphics class
 	pGfx->LightingWindow();
 }
 

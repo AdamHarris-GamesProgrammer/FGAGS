@@ -83,7 +83,6 @@ private:
 
 	//Sets the default clear colour to a sky blue
 	float clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
-	float mObjectRotationValue = 0.0f;
 
 	//Key timing member variables
 	//Timers used to stop the code from rapid firing when key is pressed
@@ -91,6 +90,7 @@ private:
 	float mGKeyTimer = 0.1f;
 
 	//Object movement and rotation related member variables
+	float mObjectRotationValue = 0.0f;
 	float mObjectRotationSpeed = 1.0f;
 	float mObjectMovementSpeed = 5.0f;
 
