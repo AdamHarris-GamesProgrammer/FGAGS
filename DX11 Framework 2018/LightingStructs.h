@@ -44,6 +44,4 @@ struct SpotLight : Light {
 
 struct Material : Light {
 	Material() { ZeroMemory(this, sizeof(this)); }
-
-	XMFLOAT4 Reflect;
 };

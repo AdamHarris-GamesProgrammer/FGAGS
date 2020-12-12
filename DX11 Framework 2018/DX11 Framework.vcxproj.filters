@@ -146,9 +146,6 @@
     </CLInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DX11 Framework.fx">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="PhongDif.fx">
       <Filter>Shaders</Filter>
     </None>
