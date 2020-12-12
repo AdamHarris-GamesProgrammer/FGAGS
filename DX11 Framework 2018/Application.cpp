@@ -37,7 +37,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	cameraA = new Camera();
-	cameraA->SetLens(0.25f * 3.1452f, mGfx->GetWindowWidth() / mGfx->GetWindowHeight(), 0.01f, 100.0f);
+	cameraA->SetLens(0.25f * 3.1452f, mGfx->GetWindowWidth() / mGfx->GetWindowHeight(), 0.01f, 600.0f);
 
 	mCurrentCamera = cameraA;
 	mGfx->SwitchCamera(cameraA);
@@ -62,6 +62,11 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	cameraC->UpdateViewMatrix();
 	cameraD->UpdateViewMatrix();
 
+
+	mSkySphere = new MeshedObject(mGfx, "Assets/Models/sphere.obj");
+	mSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
+	mSkySphere->SetShader(L"Skybox.fx");
+	mSkySphere->SetScale(500.0f, 500.0f, 500.0f);
 
 	mBlendedCube = new MeshedObject(mGfx, "Assets/Models/cube.obj");
 	mBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
@@ -120,7 +125,12 @@ void Application::Update()
 	for (auto& object : mGameObjects) {
 		object->Update(dt);
 	}
+
 	mBlendedCube->Update(dt);
+
+
+	mSkySphere->SetPosition(mCurrentCamera->GetPosition());
+	mSkySphere->Update(dt);
 }
 
 void Application::SelectedObjectControl(float dt)
@@ -390,6 +400,13 @@ void Application::Draw()
 	mGfx->SetConstantBuffer();
 
 	mGfx->SetSolidBlend();
+
+	//Draw Sky sphere
+	mGfx->SetFrontFaceCulling();
+	mSkySphere->Draw();
+	mGfx->SetBackFaceCulling();
+
+
 	for (auto& object : mGameObjects) {
 		object->Draw();
 	}

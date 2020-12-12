@@ -61,6 +61,9 @@ public:
 
 	void SetConstantBuffer();
 
+	void SetFrontFaceCulling();
+	void SetBackFaceCulling();
+
 	void SetSolidBlend();
 	void SetTransparentBlend();
 	
@@ -114,6 +117,8 @@ private:
 
 	ID3D11RasterizerState* _wireFrame;
 	ID3D11RasterizerState* _solid;
+	ID3D11RasterizerState* mFrontFaceCulling;
+
 	ID3D11BlendState* mBlendState;
 
 	ID3D11DepthStencilView* _depthStencilView;
@@ -133,6 +138,7 @@ private:
 	HRESULT InitSwapChain();
 	HRESULT InitWireframeView();
 	HRESULT InitSolidView();
+	HRESULT InitFrontCulling();
 	HRESULT InitConstantBuffer();
 	void InitViewport();
 

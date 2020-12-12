@@ -39,6 +39,8 @@ private:
 
 	MeshedObject* mBlendedCube = nullptr;
 
+	MeshedObject* mSkySphere = nullptr;
+
 	Camera* cameraA = nullptr;
 	Camera* cameraB = nullptr;
 	Camera* cameraC = nullptr;

@@ -188,7 +188,8 @@ HRESULT Graphics::InitDevice()
 	}
 
 	if (!(CheckResult(InitWireframeView())
-		&& CheckResult(InitSolidView()))) {
+		&& CheckResult(InitSolidView())
+		&& CheckResult(InitFrontCulling()))) {
 		MessageBox(_hWnd, L"Initialization of rasterizer failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
@@ -400,6 +401,15 @@ HRESULT Graphics::InitSolidView()
 	sodesc.FillMode = D3D11_FILL_SOLID;
 	sodesc.CullMode = D3D11_CULL_BACK;
 	return _pd3dDevice->CreateRasterizerState(&sodesc, &_solid);
+}
+
+HRESULT Graphics::InitFrontCulling()
+{
+	D3D11_RASTERIZER_DESC sodesc;
+	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
+	sodesc.FillMode = D3D11_FILL_SOLID;
+	sodesc.CullMode = D3D11_CULL_FRONT;
+	return _pd3dDevice->CreateRasterizerState(&sodesc, &mFrontFaceCulling);
 }
 
 HRESULT Graphics::InitConstantBuffer()
@@ -642,6 +652,16 @@ void Graphics::SetConstantBuffer()
 	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
 	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
+}
+
+void Graphics::SetFrontFaceCulling()
+{
+	_pImmediateContext->RSSetState(mFrontFaceCulling);
+}
+
+void Graphics::SetBackFaceCulling()
+{
+	_pImmediateContext->RSSetState(_solid);
 }
 
 void Graphics::SetSolidBlend()
