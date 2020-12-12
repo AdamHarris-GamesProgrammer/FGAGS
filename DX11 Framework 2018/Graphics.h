@@ -62,7 +62,7 @@ public:
 	void SetConstantBuffer();
 
 	void SetFrontFaceCulling();
-	void SetBackFaceCulling();
+	void SetCurrentRSState();
 
 	void SetSolidBlend();
 	void SetTransparentBlend();
@@ -118,6 +118,7 @@ private:
 	ID3D11RasterizerState* _wireFrame;
 	ID3D11RasterizerState* _solid;
 	ID3D11RasterizerState* mFrontFaceCulling;
+	ID3D11RasterizerState* mCurrentRSState;
 
 	ID3D11BlendState* mBlendState;
 

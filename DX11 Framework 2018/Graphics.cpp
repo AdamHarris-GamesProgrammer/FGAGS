@@ -221,6 +221,9 @@ HRESULT Graphics::InitDevice()
 	_pd3dDevice->CreateBlendState(&blendDesc, &mBlendState);
 
 
+
+	mCurrentRSState = _solid;
+
 	return S_OK;
 }
 
@@ -645,6 +648,7 @@ void Graphics::EnableWireframe(bool enabled)
 	ID3D11RasterizerState* renderState;
 	enabled ? renderState = _wireFrame : renderState = _solid;
 	_pImmediateContext->RSSetState(renderState);
+	mCurrentRSState = renderState;
 }
 
 void Graphics::SetConstantBuffer()
@@ -659,9 +663,9 @@ void Graphics::SetFrontFaceCulling()
 	_pImmediateContext->RSSetState(mFrontFaceCulling);
 }
 
-void Graphics::SetBackFaceCulling()
+void Graphics::SetCurrentRSState()
 {
-	_pImmediateContext->RSSetState(_solid);
+	_pImmediateContext->RSSetState(mCurrentRSState);
 }
 
 void Graphics::SetSolidBlend()

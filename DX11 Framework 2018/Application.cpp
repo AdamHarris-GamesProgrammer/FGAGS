@@ -404,7 +404,7 @@ void Application::Draw()
 	//Draw Sky sphere
 	mGfx->SetFrontFaceCulling();
 	mSkySphere->Draw();
-	mGfx->SetBackFaceCulling();
+	mGfx->SetCurrentRSState();
 
 
 	for (auto& object : mGameObjects) {
