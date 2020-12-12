@@ -18,6 +18,8 @@
 #include "Camera.h"
 #include "Plane.h"
 
+#include <memory>
+
 using namespace DirectX;
 
 
@@ -65,13 +67,13 @@ private:
 	std::vector<GameObject*> pGameObjects;
 
 	//Camera member variables
-	Camera* pCameraA = nullptr;
-	Camera* pCameraB = nullptr;
-	Camera* pCameraC = nullptr;
-	Camera* pCameraD = nullptr;
+	std::shared_ptr<Camera> pCameraA = nullptr;
+	std::shared_ptr<Camera> pCameraB = nullptr;
+	std::shared_ptr<Camera> pCameraC = nullptr;
+	std::shared_ptr<Camera> pCameraD = nullptr;
 
 	//Current Camera is stored so only the update code for one camera is called 
-	Camera* pCurrentCamera = nullptr;
+	std::shared_ptr<Camera> pCurrentCamera = nullptr;
 
 	//ImGuiManager object
 	ImGUIManager mImGuiManager;

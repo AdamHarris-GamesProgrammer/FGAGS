@@ -7,9 +7,6 @@
 
 Application::~Application()
 {
-	delete pCameraA;
-
-	pCameraA = nullptr;
 }
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
@@ -34,31 +31,23 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
 
 
-	pCameraA = new Camera();
-	pCameraA->SetLens(0.25f * 3.1452f, pGfx->GetWindowWidth() / pGfx->GetWindowHeight(), 0.01f, 600.0f);
+	pCameraA = std::make_shared<Camera>();
+	pCameraB = std::make_shared<Camera>();
+	pCameraC = std::make_shared<Camera>();
+	pCameraD = std::make_shared<Camera>();
+
+
 
 	pCurrentCamera = pCameraA;
 	pGfx->SwitchCamera(pCameraA);
 
-	pCameraB = new Camera();
-	pCameraB->SetLens(0.25f * 3.1452f, pGfx->GetWindowWidth() / pGfx->GetWindowHeight(), 0.01f, 100.0f);
+	pCameraA->LookAt(XMFLOAT3(0.0f, 8.0f, -15.0f),XMFLOAT3(0.0f, 0.0f, 0.0f));
 
-	pCameraA->LookAt(
-		XMFLOAT3(0.0f, 8.0f, -15.0f),
-		XMFLOAT3(0.0f, 0.0f, 0.0f)
-	);
-
-	pCameraC = new Camera();
 	pCameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
 
-	pCameraD = new Camera();
 	pCameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
-	pCameraA->UpdateViewMatrix();
-	pCameraB->UpdateViewMatrix();
-	pCameraC->UpdateViewMatrix();
-	pCameraD->UpdateViewMatrix();
 
 
 	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
@@ -73,8 +62,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pBlendedCube->SetShader(L"PhongDif.fx");
 	pBlendedCube->InitializeBoundingSphere();
 
-
-
 	//Sets default positions
 	pGroundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
@@ -83,7 +70,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mTime = Time();
 
 	mTime.Reset();
-
 
 	return S_OK;
 }

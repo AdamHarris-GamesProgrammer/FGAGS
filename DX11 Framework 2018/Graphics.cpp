@@ -638,7 +638,7 @@ void Graphics::LightingWindow()
 	ImGui::End();
 }
 
-void Graphics::SwitchCamera(Camera* newCamera)
+void Graphics::SwitchCamera(std::shared_ptr<Camera> newCamera)
 {
 	mCurrentCamera = newCamera;
 }

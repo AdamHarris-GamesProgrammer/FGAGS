@@ -6,8 +6,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
-    Application* app = new Application();
-
+    std::unique_ptr<Application> app = std::make_unique<Application>();
 
 	if (FAILED(app->Initialise(hInstance, nCmdShow)))
 	{
@@ -32,9 +31,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
             app->Draw();
         }
     }
-
-    delete app;
-    app = nullptr;
 
     return (int) msg.wParam;
 }

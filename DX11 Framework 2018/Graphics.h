@@ -51,7 +51,7 @@ public:
 	void LightColourOptions(Light* light);
 	void LightingWindow();
 
-	void SwitchCamera(Camera* newCamera);
+	void SwitchCamera(std::shared_ptr<Camera> newCamera);
 
 	void EnableWireframe(bool enabled);
 	
@@ -125,7 +125,7 @@ private:
 	ID3D11DepthStencilView* _depthStencilView;
 	ID3D11Texture2D* _depthStencilBuffer;
 
-	Camera* mCurrentCamera;
+	std::shared_ptr<Camera> mCurrentCamera;
 
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
