@@ -48,7 +48,6 @@ public:
 	void ConfineCursor();
 	void FreeCursor();
 
-	void LightColourOptions(Light* light);
 	void LightingWindow();
 
 	void SwitchCamera(std::shared_ptr<Camera> newCamera);
