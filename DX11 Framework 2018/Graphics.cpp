@@ -21,15 +21,15 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 Graphics::Graphics()
 {
-	_hInst = nullptr;
-	_hWnd = nullptr;
-	_driverType = D3D_DRIVER_TYPE_NULL;
-	_featureLevel = D3D_FEATURE_LEVEL_11_0;
-	_pd3dDevice = nullptr;
-	_pImmediateContext = nullptr;
-	_pSwapChain = nullptr;
-	_pRenderTargetView = nullptr;
-	_pConstantBuffer = nullptr;
+	mInstance = nullptr;
+	mWindow = nullptr;
+	mDriverType = D3D_DRIVER_TYPE_NULL;
+	mfeatureLevel = D3D_FEATURE_LEVEL_11_0;
+	pDevice = nullptr;
+	pDeviceContext = nullptr;
+	pSwapChain = nullptr;
+	pRenderTargetView = nullptr;
+	pConstantBuffer = nullptr;
 
 	gfx = this;
 }
@@ -48,9 +48,9 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//defines the window size
 	RECT rc;
-	GetClientRect(_hWnd, &rc);
-	_WindowWidth = rc.right - rc.left;
-	_WindowHeight = rc.bottom - rc.top;
+	GetClientRect(mWindow, &rc);
+	mWindowWidth = rc.right - rc.left;
+	mWindowHeight = rc.bottom - rc.top;
 
 	//if failed to init the window return a fail
 	if (FAILED(InitDevice()))
@@ -95,7 +95,7 @@ void Graphics::OnMouseDown(WPARAM btnState, int x, int y)
 	mMouseY = y;
 
 
-	SetCapture(_hWnd);
+	SetCapture(mWindow);
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -135,7 +135,7 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 HWND& Graphics::GetWnd()
 {
-	return _hWnd;
+	return mWindow;
 }
 
 HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
@@ -158,18 +158,18 @@ HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 
 	// Create window
-	_hInst = hInstance;
+	mInstance = hInstance;
 	//sets window size
 	RECT rc = { 0, 0, 1280, 720 };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-	_hWnd = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
+	mWindow = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
 		nullptr);
-	if (!_hWnd)
+	if (!mWindow)
 		return E_FAIL;
 
 	//display the window on the screen
-	ShowWindow(_hWnd, nCmdShow);
+	ShowWindow(mWindow, nCmdShow);
 
 
 	return S_OK;
@@ -183,14 +183,14 @@ HRESULT Graphics::InitDevice()
 		&& CheckResult(InitDepthBuffer())
 		&& CheckResult(InitRenderTarget()))
 		) {
-		MessageBox(_hWnd, L"Initialization of device failed", L"Error", MB_ICONERROR);
+		MessageBox(mWindow, L"Initialization of device failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
 
 	if (!(CheckResult(InitWireframeView())
 		&& CheckResult(InitSolidView())
 		&& CheckResult(InitFrontCulling()))) {
-		MessageBox(_hWnd, L"Initialization of rasterizer failed", L"Error", MB_ICONERROR);
+		MessageBox(mWindow, L"Initialization of rasterizer failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
 
@@ -218,11 +218,11 @@ HRESULT Graphics::InitDevice()
 	blendDesc.AlphaToCoverageEnable = FALSE;
 	blendDesc.RenderTarget[0] = rtbd;
 
-	_pd3dDevice->CreateBlendState(&blendDesc, &mBlendState);
+	pDevice->CreateBlendState(&blendDesc, &pBlendState);
 
 
 
-	mCurrentRSState = _solid;
+	pCurrentRSState = pSolidRSState;
 
 	return S_OK;
 }
@@ -240,7 +240,7 @@ void Graphics::InitializeSampler()
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-	_pd3dDevice->CreateSamplerState(&sampDesc, &_pSamplerLinear);
+	pDevice->CreateSamplerState(&sampDesc, &pLinearSampler);
 }
 
 HRESULT Graphics::InitRenderTarget()
@@ -249,67 +249,67 @@ HRESULT Graphics::InitRenderTarget()
 
 	// Create a render target view
 	ID3D11Texture2D* pBackBuffer = nullptr;
-	hr = _pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	hr = pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
 	if (FAILED(hr))
 		return hr;
 
-	hr = _pd3dDevice->CreateRenderTargetView(pBackBuffer, nullptr, &_pRenderTargetView);
+	hr = pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &pRenderTargetView);
 	pBackBuffer->Release();
 
 	if (FAILED(hr))
 		return hr;
 
-	_pImmediateContext->OMSetRenderTargets(1, &_pRenderTargetView, _depthStencilView);
+	pDeviceContext->OMSetRenderTargets(1, &pRenderTargetView, pDepthStencilView);
 
 	// Set primitive topology
-	_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Graphics::Cleanup()
 {
-	if (_pImmediateContext) _pImmediateContext->ClearState();
-	if (_pConstantBuffer) _pConstantBuffer->Release();
+	if (pDeviceContext) pDeviceContext->ClearState();
+	if (pConstantBuffer) pConstantBuffer->Release();
 
-	if (_pSamplerLinear) _pSamplerLinear->Release();
+	if (pLinearSampler) pLinearSampler->Release();
 
-	if (_pRenderTargetView) _pRenderTargetView->Release();
-	if (_pSwapChain) _pSwapChain->Release();
-	if (_pImmediateContext) _pImmediateContext->Release();
-	if (_pd3dDevice) _pd3dDevice->Release();
-	if (_depthStencilView) _depthStencilView->Release();
-	if (_depthStencilBuffer) _depthStencilBuffer->Release();
-	if (_wireFrame) _wireFrame->Release();
-	if (_solid) _solid->Release();
+	if (pRenderTargetView) pRenderTargetView->Release();
+	if (pSwapChain) pSwapChain->Release();
+	if (pDeviceContext) pDeviceContext->Release();
+	if (pDevice) pDevice->Release();
+	if (pDepthStencilView) pDepthStencilView->Release();
+	if (pDepthStencilBuffer) pDepthStencilBuffer->Release();
+	if (pWireframeRSState) pWireframeRSState->Release();
+	if (pSolidRSState) pSolidRSState->Release();
 
-	mCurrentCamera = nullptr;
+	pCurrentCamera = nullptr;
 }
 
 
-ID3D11Device* Graphics::GetDevice()
+ID3D11Device* Graphics::GetDevice() const 
 {
-	return _pd3dDevice;
+	return pDevice;
 }
 
-ID3D11DeviceContext* Graphics::GetDeviceContext()
+ID3D11DeviceContext* Graphics::GetDeviceContext() const
 {
-	return _pImmediateContext;
+	return pDeviceContext;
 }
 
 void Graphics::SetClearColor(float* color)
 {
-	clearColor[0] = color[0];
-	clearColor[1] = color[1];
-	clearColor[2] = color[2];
-	clearColor[3] = color[3];
+	mClearColor[0] = color[0];
+	mClearColor[1] = color[1];
+	mClearColor[2] = color[2];
+	mClearColor[3] = color[3];
 }
 
-int Graphics::GetMouseX()
+int Graphics::GetMouseX() const 
 {
 	return mMouseX;
 }
 
-int Graphics::GetMouseY()
+int Graphics::GetMouseY() const
 {
 	return mMouseY;
 }
@@ -317,8 +317,8 @@ int Graphics::GetMouseY()
 HRESULT Graphics::InitDepthBuffer()
 {
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
-	depthStencilDesc.Width = _WindowWidth;
-	depthStencilDesc.Height = _WindowHeight;
+	depthStencilDesc.Width = mWindowWidth;
+	depthStencilDesc.Height = mWindowHeight;
 	depthStencilDesc.MipLevels = 1;
 	depthStencilDesc.ArraySize = 1;
 	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -329,8 +329,8 @@ HRESULT Graphics::InitDepthBuffer()
 	depthStencilDesc.CPUAccessFlags = 0;
 	depthStencilDesc.MiscFlags = 0;
 
-	_pd3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &_depthStencilBuffer);
-	return _pd3dDevice->CreateDepthStencilView(_depthStencilBuffer, nullptr, &_depthStencilView);
+	pDevice->CreateTexture2D(&depthStencilDesc, nullptr, &pDepthStencilBuffer);
+	return pDevice->CreateDepthStencilView(pDepthStencilBuffer, nullptr, &pDepthStencilView);
 }
 
 HRESULT Graphics::InitSwapChain()
@@ -364,22 +364,22 @@ HRESULT Graphics::InitSwapChain()
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
 	sd.BufferCount = 1;
-	sd.BufferDesc.Width = _WindowWidth;
-	sd.BufferDesc.Height = _WindowHeight;
+	sd.BufferDesc.Width = mWindowWidth;
+	sd.BufferDesc.Height = mWindowHeight;
 	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 60;
 	sd.BufferDesc.RefreshRate.Denominator = 1;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.OutputWindow = _hWnd;
+	sd.OutputWindow = mWindow;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
 
 	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
 	{
-		_driverType = driverTypes[driverTypeIndex];
-		hr = D3D11CreateDeviceAndSwapChain(nullptr, _driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, &sd, &_pSwapChain, &_pd3dDevice, &_featureLevel, &_pImmediateContext);
+		mDriverType = driverTypes[driverTypeIndex];
+		hr = D3D11CreateDeviceAndSwapChain(nullptr, mDriverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
+			D3D11_SDK_VERSION, &sd, &pSwapChain, &pDevice, &mfeatureLevel, &pDeviceContext);
 		if (SUCCEEDED(hr))
 			break;
 	}
@@ -394,7 +394,7 @@ HRESULT Graphics::InitWireframeView()
 	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
 	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
 	wfdesc.CullMode = D3D11_CULL_NONE;
-	return _pd3dDevice->CreateRasterizerState(&wfdesc, &_wireFrame);
+	return pDevice->CreateRasterizerState(&wfdesc, &pWireframeRSState);
 }
 
 HRESULT Graphics::InitSolidView()
@@ -403,7 +403,7 @@ HRESULT Graphics::InitSolidView()
 	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
 	sodesc.FillMode = D3D11_FILL_SOLID;
 	sodesc.CullMode = D3D11_CULL_BACK;
-	return _pd3dDevice->CreateRasterizerState(&sodesc, &_solid);
+	return pDevice->CreateRasterizerState(&sodesc, &pSolidRSState);
 }
 
 HRESULT Graphics::InitFrontCulling()
@@ -412,7 +412,7 @@ HRESULT Graphics::InitFrontCulling()
 	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
 	sodesc.FillMode = D3D11_FILL_SOLID;
 	sodesc.CullMode = D3D11_CULL_FRONT;
-	return _pd3dDevice->CreateRasterizerState(&sodesc, &mFrontFaceCulling);
+	return pDevice->CreateRasterizerState(&sodesc, &pFrontFaceRSState);
 }
 
 HRESULT Graphics::InitConstantBuffer()
@@ -424,20 +424,20 @@ HRESULT Graphics::InitConstantBuffer()
 	bd.ByteWidth = sizeof(ConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
-	return _pd3dDevice->CreateBuffer(&bd, nullptr, &_pConstantBuffer);
+	return pDevice->CreateBuffer(&bd, nullptr, &pConstantBuffer);
 }
 
 void Graphics::InitViewport()
 {
 	// Setup the viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)_WindowWidth;
-	vp.Height = (FLOAT)_WindowHeight;
+	vp.Width = (FLOAT)mWindowWidth;
+	vp.Height = (FLOAT)mWindowHeight;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
-	_pImmediateContext->RSSetViewports(1, &vp);
+	pDeviceContext->RSSetViewports(1, &vp);
 }
 
 bool Graphics::CheckResult(int in)
@@ -448,9 +448,9 @@ bool Graphics::CheckResult(int in)
 
 void Graphics::ClearBuffers()
 {
-	_pImmediateContext->ClearRenderTargetView(_pRenderTargetView, clearColor);
+	pDeviceContext->ClearRenderTargetView(pRenderTargetView, mClearColor);
 
-	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	pDeviceContext->ClearDepthStencilView(pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void Graphics::Draw(unsigned int indexCount)
@@ -459,13 +459,13 @@ void Graphics::Draw(unsigned int indexCount)
 
 
 	//Draws object to swap chain buffer
-	_pImmediateContext->DrawIndexed(indexCount, 0, 0);
+	pDeviceContext->DrawIndexed(indexCount, 0, 0);
 }
 
 void Graphics::Present()
 {
 	// Present our back buffer to our front buffer
-	_pSwapChain->Present(0, 0);
+	pSwapChain->Present(0, 0);
 }
 
 void Graphics::HideCursor()
@@ -481,8 +481,8 @@ void Graphics::ShowCursor()
 void Graphics::ConfineCursor()
 {
 	RECT rect;
-	GetClientRect(_hWnd, &rect);
-	MapWindowPoints(_hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+	GetClientRect(mWindow, &rect);
+	MapWindowPoints(mWindow, nullptr, reinterpret_cast<POINT*>(&rect), 2);
 	ClipCursor(&rect);
 }
 
@@ -640,54 +640,54 @@ void Graphics::LightingWindow()
 
 void Graphics::SwitchCamera(std::shared_ptr<Camera> newCamera)
 {
-	mCurrentCamera = newCamera;
+	pCurrentCamera = newCamera;
 }
 
 void Graphics::EnableWireframe(bool enabled)
 {
 	ID3D11RasterizerState* renderState;
-	enabled ? renderState = _wireFrame : renderState = _solid;
-	_pImmediateContext->RSSetState(renderState);
-	mCurrentRSState = renderState;
+	enabled ? renderState = pWireframeRSState : renderState = pSolidRSState;
+	pDeviceContext->RSSetState(renderState);
+	pCurrentRSState = renderState;
 }
 
 void Graphics::SetConstantBuffer()
 {
-	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetSamplers(0, 1, &_pSamplerLinear);
+	pDeviceContext->VSSetConstantBuffers(0, 1, &pConstantBuffer);
+	pDeviceContext->PSSetConstantBuffers(0, 1, &pConstantBuffer);
+	pDeviceContext->PSSetSamplers(0, 1, &pLinearSampler);
 }
 
 void Graphics::SetFrontFaceCulling()
 {
-	_pImmediateContext->RSSetState(mFrontFaceCulling);
+	pDeviceContext->RSSetState(pFrontFaceRSState);
 }
 
 void Graphics::SetCurrentRSState()
 {
-	_pImmediateContext->RSSetState(mCurrentRSState);
+	pDeviceContext->RSSetState(pCurrentRSState);
 }
 
 void Graphics::SetSolidBlend()
 {
-	_pImmediateContext->OMSetBlendState(0, 0, 0xFFFFFFFF);
+	pDeviceContext->OMSetBlendState(0, 0, 0xFFFFFFFF);
 }
 
 void Graphics::SetTransparentBlend()
 {
 	float blendFactor[] = { 0.75f,0.75f,0.75f,1.0f };
 
-	_pImmediateContext->OMSetBlendState(mBlendState, blendFactor, 0xFFFFFFFF);
+	pDeviceContext->OMSetBlendState(pBlendState, blendFactor, 0xFFFFFFFF);
 }
 
-UINT Graphics::GetWindowWidth()
+UINT Graphics::GetWindowWidth() const 
 {
-	return _WindowWidth;
+	return mWindowWidth;
 }
 
-UINT Graphics::GetWindowHeight()
+UINT Graphics::GetWindowHeight() const
 {
-	return _WindowHeight;
+	return mWindowHeight;
 }
 
 void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
@@ -695,14 +695,12 @@ void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
 	ConstantBuffer cb;
 
 	//Sets the View, Projection, and World Matrices
-	cb.mView = XMMatrixTranspose(mCurrentCamera->View());
-	cb.mProjection = XMMatrixTranspose(mCurrentCamera->Proj());
+	cb.mView = XMMatrixTranspose(pCurrentCamera->View());
+	cb.mProjection = XMMatrixTranspose(pCurrentCamera->Proj());
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
 	//Material Constant Buffers
-	cb.ObjectMaterial.Ambient = mat.Ambient;
-	cb.ObjectMaterial.Diffuse = mat.Diffuse;
-	cb.ObjectMaterial.Specular = mat.Specular;
+	cb.ObjectMaterial = mat;
 
 	//Light Constant Buffers
 	cb.DirectionalLight = mDirectionalLight;
@@ -710,8 +708,8 @@ void Graphics::UpdateBuffers(Material mat, XMFLOAT4X4& position)
 	cb.SpotLight = mSpotLight;
 
 	//Camera Position
-	cb.EyePosW = mCurrentCamera->GetPosition();
+	cb.EyePosW = pCurrentCamera->GetPosition();
 
 	//Updates the constant buffer with the new values
-	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	pDeviceContext->UpdateSubresource(pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }

@@ -82,7 +82,7 @@ private:
 	JSONLevelLoader mJSONLevelLoader;
 
 	//Sets the default clear colour to a sky blue
-	float clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
+	float mClearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
 
 	//Key timing member variables
 	//Timers used to stop the code from rapid firing when key is pressed

@@ -5,9 +5,7 @@
 #include "Imgui/imgui.h"
 
 
-Application::~Application()
-{
-}
+Application::~Application() {}
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
@@ -201,8 +199,8 @@ void Application::DrawGUI()
 		ImGui::Text("Background Clear Colour: ");
 		ImGui::NewLine();
 		ImGui::PushItemWidth(100.0f);
-		ImGui::ColorPicker4("####", clearColor);
-		pGfx->SetClearColor(clearColor);
+		ImGui::ColorPicker4("####", mClearColor);
+		pGfx->SetClearColor(mClearColor);
 
 		ImGui::End();
 	}

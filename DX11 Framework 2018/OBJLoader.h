@@ -19,7 +19,7 @@ struct MeshData
 namespace OBJLoader
 {
 	//The only method you'll need to call
-	MeshData Load(const char* filename, ID3D11Device* _pd3dDevice, ID3D11DeviceContext* deviceContext, bool invertTexCoords = true);
+	MeshData Load(const char* filename, ID3D11Device* pDevice, ID3D11DeviceContext* deviceContext, bool invertTexCoords = true);
 
 	//Helper methods for the above method
 	//Searhes to see if a similar vertex already exists in the buffer -- if true, we re-use that index

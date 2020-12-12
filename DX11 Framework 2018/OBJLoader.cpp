@@ -65,7 +65,7 @@ void OBJLoader::CreateIndices(const std::vector<XMFLOAT3>& inVertices,
 //WARNING: This code makes a big assumption -- that your models have texture coordinates AND normals which they should have anyway (else you can't do texturing and lighting!)
 //If your .obj file has no lines beginning with "vt" or "vn", then you'll need to change the Export settings in your modelling software so that it exports the texture coordinates 
 //and normals. If you still have no "vt" lines, you'll need to do some texture unwrapping, also known as UV unwrapping.
-MeshData OBJLoader::Load(const char* filename, ID3D11Device* _pd3dDevice, ID3D11DeviceContext* deviceContext, bool invertTexCoords /*= true*/)
+MeshData OBJLoader::Load(const char* filename, ID3D11Device* pDevice, ID3D11DeviceContext* deviceContext, bool invertTexCoords /*= true*/)
 {
 	std::string binaryFilename = filename;
 	binaryFilename.append("Binary");
