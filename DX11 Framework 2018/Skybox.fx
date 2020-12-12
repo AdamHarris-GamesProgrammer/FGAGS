@@ -1,30 +1,14 @@
-#include "LightUtilities.fx"
 #include "VertexShaderUtilities.fx"
 
-//--------------------------------------------------------------------------------------
-// Constant Buffer Variables
-//--------------------------------------------------------------------------------------
+//Diffuse Texture Map
 Texture2D txDiffuse : register(t0);
 
+//Sampler
 SamplerState samplerAnisotropic : register(s0);
 
-
-cbuffer ConstantBuffer : register(b0)
-{
-    matrix World;
-    matrix View;
-    matrix Projection;
-    
-    Material objectMaterial;
-    DirectionalLight directionalLight;
-    PointLight pointLight;
-    SpotLight spotLight;
-    float3 EyePosW;
-}
-
+//Pixel Shader
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    float4 textureColour = txDiffuse.Sample(samplerAnisotropic, input.Tex);
-    
-    return textureColour;
+    //The Skybox shader only needs to return the texel at the specified location
+    return txDiffuse.Sample(samplerAnisotropic, input.Tex);
 }

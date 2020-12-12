@@ -20,8 +20,6 @@ public:
 	}
 
 	void Bind() {
-		//mContext->IASetInputLayout(mLayout);
-
 		mContext->PSSetShader(mPixelShader, nullptr, 0);
 	}
 

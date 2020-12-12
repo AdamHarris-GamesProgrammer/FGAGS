@@ -1,3 +1,5 @@
+#include "ConstantBuffers.fx"
+
 struct VS_OUTPUT
 {
     float4 Pos : SV_POSITION;
@@ -13,11 +15,12 @@ struct VS_INPUT
     float2 Tex : TEXCOORD;
 };
 
-VS_OUTPUT CalculateVSOutput(matrix World, matrix View, matrix Projection, float3 EyePosW, VS_INPUT input, out VS_OUTPUT output)
+
+VS_OUTPUT VS(VS_INPUT input)
 {
-    output = (VS_OUTPUT) 0;
-    //converts from model to world space
-    output.Pos = mul(float4(input.Pos, 1.0f),World);
+    VS_OUTPUT output;
+    
+    output.Pos = mul(float4(input.Pos, 1.0f), World);
     
     output.PosW = mul(float4(input.Pos, 1.0f), World);
     

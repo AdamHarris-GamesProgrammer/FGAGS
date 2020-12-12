@@ -1,52 +1,15 @@
-//--------------------------------------------------------------------------------------
-// File: DX11 Framework.fx
-//
-// Copyright (c) Microsoft Corporation. All rights reserved.
-//--------------------------------------------------------------------------------------
-
 #include "LightUtilities.fx"
 #include "VertexShaderUtilities.fx"
+#include "ConstantBuffers.fx"
 
-
-//--------------------------------------------------------------------------------------
-// Constant Buffer Variables
-//--------------------------------------------------------------------------------------
+//Texture Maps for Diffuse and Specular
 Texture2D txDiffuse : register(t0);
 Texture2D txSpecular : register(t1);
 
-
+//Sampler
 SamplerState samplerAnisotropic : register(s0);
 
-
-
-cbuffer ConstantBuffer : register(b0)
-{
-    matrix World;
-    matrix View;
-    matrix Projection;
-    
-    Material objectMaterial;
-    DirectionalLight directionalLight;
-    PointLight pointLight;
-	SpotLight spotLight;
-    float3 EyePosW;
-}
-
-
-//--------------------------------------------------------------------------------------
-// Vertex Shader
-//--------------------------------------------------------------------------------------
-VS_OUTPUT VS(VS_INPUT input)
-{
-    VS_OUTPUT output;
-    
-    return CalculateVSOutput(World, View, Projection, EyePosW, input, output);
-}
-
-
-//--------------------------------------------------------------------------------------
 // Pixel Shader
-//--------------------------------------------------------------------------------------
 float4 PS(VS_OUTPUT input) : SV_Target
 {
     float4 textureColour = txDiffuse.Sample(samplerAnisotropic, input.Tex);

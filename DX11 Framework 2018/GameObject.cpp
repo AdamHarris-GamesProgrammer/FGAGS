@@ -102,7 +102,7 @@ void GameObject::Initialize()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	mVertexShader = new VertexShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"PhongDif.fx", layout, 3);
+	mVertexShader = new VertexShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"VertexShaderUtilities.fx", layout, 3);
 }
 
 #pragma region Getters

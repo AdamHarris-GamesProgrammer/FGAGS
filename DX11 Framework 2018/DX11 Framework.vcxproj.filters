@@ -167,6 +167,12 @@
     <None Include="Skybox.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="LightStructures.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ConstantBuffers.fx">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX11 Framework.rc">
