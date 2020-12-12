@@ -23,58 +23,6 @@ using namespace DirectX;
 
 class Application
 {
-private:
-	Graphics* mGfx = nullptr;
-
-	GameObject* cube = nullptr;
-	GameObject* donut = nullptr;
-	Plane* groundPlane = nullptr;
-
-	std::vector<GameObject*> mGameObjects;
-
-	GameObject* mSelectedObject = nullptr;
-
-	ImGUIManager* mImGuiManager = nullptr;
-	JSONLevelLoader* mJSONLevelLoader = nullptr;
-
-	MeshedObject* mBlendedCube = nullptr;
-
-	MeshedObject* mSkySphere = nullptr;
-
-	Camera* cameraA = nullptr;
-	Camera* cameraB = nullptr;
-	Camera* cameraC = nullptr;
-	Camera* cameraD = nullptr;
-
-	Camera* mCurrentCamera = nullptr;
-
-	bool wireframeOn = false;
-	float timeSinceGPressed = 0.0f;
-	float fTimer = 0.1f;
-
-	float rotationSpeed = 1.0f;
-	float movementSpeed = 5.0f;
-
-
-	Time time;
-	float rotationValue = 0.0f;
-	float previousRotation = 0.0f;
-
-
-	void DrawGUI();
-private:
-	XMFLOAT3 cameraBOffset = XMFLOAT3(0.0f, 4.5f, -10.0f);
-
-	bool enableFlying = false;
-	bool clippedCursor = false;
-
-	void Picking();
-	void PollInput(float dt);
-
-	
-	//A nice blue sky colour
-	float clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
-
 public:
 	Application() = default;
 	~Application();
@@ -83,13 +31,73 @@ public:
 
 	void Update();
 
+	void Draw();
+
+	GameObject* FindGameObjectWithName(std::string name);
+
+private:
+	void Picking();
+	void PollInput(float dt);
+	void DrawGUI();
 	void SelectedObjectControl(float dt);
 
 	void CursorControls(float dt);
 
 	void CameraControls(float dt);
-	void Draw();
 
-	GameObject* FindGameObjectWithName(std::string name);
+private:
+	//Time object used to track delta time for object translations
+	Time mTime;
+
+	Graphics* pGfx = nullptr;
+
+
+	//GameObject member variables
+	GameObject* pCube = nullptr;
+	GameObject* pDonut = nullptr;
+	Plane* pGroundPlane = nullptr;
+
+	MeshedObject* pBlendedCube = nullptr;
+
+	MeshedObject* pSkySphere = nullptr;
+	GameObject* pSelectedObject = nullptr;
+
+	std::vector<GameObject*> pGameObjects;
+
+	//Camera member variables
+	Camera* pCameraA = nullptr;
+	Camera* pCameraB = nullptr;
+	Camera* pCameraC = nullptr;
+	Camera* pCameraD = nullptr;
+
+	//Current Camera is stored so only the update code for one camera is called 
+	Camera* pCurrentCamera = nullptr;
+
+	//ImGuiManager object
+	ImGUIManager mImGuiManager;
+
+	//Level loader object 
+	JSONLevelLoader mJSONLevelLoader;
+
+	//Sets the default clear colour to a sky blue
+	float clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
+	float mObjectRotationValue = 0.0f;
+
+	//Key timing member variables
+	//Timers used to stop the code from rapid firing when key is pressed
+	float mTimeSinceGPressed = 0.0f;
+	float mGKeyTimer = 0.1f;
+
+	//Object movement and rotation related member variables
+	float mObjectRotationSpeed = 1.0f;
+	float mObjectMovementSpeed = 5.0f;
+
+	//Offset variable for positioning camera B around a object
+	XMFLOAT3 mCameraBOffset = XMFLOAT3(0.0f, 4.5f, -10.0f);
+
+	//Boolean member variables
+	bool mWireframeEnabled = false;
+	bool mFlyingEnabled = false;
+	bool mCursorClipped = false;
 };
 

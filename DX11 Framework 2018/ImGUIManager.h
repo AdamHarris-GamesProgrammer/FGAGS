@@ -8,6 +8,7 @@
 class ImGUIManager
 {
 public:
+	ImGUIManager() = default;
 	ImGUIManager(Graphics* gfx);
 
 

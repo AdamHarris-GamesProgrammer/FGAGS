@@ -7,84 +7,82 @@
 
 Application::~Application()
 {
-	delete cameraA;
+	delete pCameraA;
 
-	cameraA = nullptr;
+	pCameraA = nullptr;
 }
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
-	mGfx = new Graphics();
-	mGfx->Initialise(hInstance, nCmdShow);
+	pGfx = new Graphics();
+	pGfx->Initialise(hInstance, nCmdShow);
 
-	groundPlane = new Plane(mGfx);
-	groundPlane->Make(75.0, 75.0f, 8, 8);
-
-
-	mImGuiManager = new ImGUIManager(mGfx);
+	pGroundPlane = new Plane(pGfx);
+	pGroundPlane->Make(75.0, 75.0f, 8, 8);
 
 
-	mJSONLevelLoader = new JSONLevelLoader(mGfx);
+	mImGuiManager = ImGUIManager(pGfx);
+	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
-	mGameObjects = mJSONLevelLoader->LoadObjectsFromFile("Assets/Levels/level.json");
+	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile("Assets/Levels/level.json");
 
-	mGameObjects.push_back(groundPlane);
+	pGameObjects.push_back(pGroundPlane);
 
-	cube = FindGameObjectWithName("Cube");
-	donut = FindGameObjectWithName("Donut");
+	pCube = FindGameObjectWithName("Cube");
+	pDonut = FindGameObjectWithName("Donut");
 
-	groundPlane->CreateTexture(L"Assets/Textures/stone.dds");
+	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
 
 
-	cameraA = new Camera();
-	cameraA->SetLens(0.25f * 3.1452f, mGfx->GetWindowWidth() / mGfx->GetWindowHeight(), 0.01f, 600.0f);
+	pCameraA = new Camera();
+	pCameraA->SetLens(0.25f * 3.1452f, pGfx->GetWindowWidth() / pGfx->GetWindowHeight(), 0.01f, 600.0f);
 
-	mCurrentCamera = cameraA;
-	mGfx->SwitchCamera(cameraA);
+	pCurrentCamera = pCameraA;
+	pGfx->SwitchCamera(pCameraA);
 
-	cameraB = new Camera();
-	cameraB->SetLens(0.25f * 3.1452f, mGfx->GetWindowWidth() / mGfx->GetWindowHeight(), 0.01f, 100.0f);
+	pCameraB = new Camera();
+	pCameraB->SetLens(0.25f * 3.1452f, pGfx->GetWindowWidth() / pGfx->GetWindowHeight(), 0.01f, 100.0f);
 
-	cameraA->LookAt(
+	pCameraA->LookAt(
 		XMFLOAT3(0.0f, 8.0f, -15.0f),
 		XMFLOAT3(0.0f, 0.0f, 0.0f)
 	);
 
-	cameraC = new Camera();
-	cameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
+	pCameraC = new Camera();
+	pCameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
 
-	cameraD = new Camera();
-	cameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
+	pCameraD = new Camera();
+	pCameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
-	cameraA->UpdateViewMatrix();
-	cameraB->UpdateViewMatrix();
-	cameraC->UpdateViewMatrix();
-	cameraD->UpdateViewMatrix();
+	pCameraA->UpdateViewMatrix();
+	pCameraB->UpdateViewMatrix();
+	pCameraC->UpdateViewMatrix();
+	pCameraD->UpdateViewMatrix();
 
 
-	mSkySphere = new MeshedObject(mGfx, "Assets/Models/sphere.obj");
-	mSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
-	mSkySphere->SetShader(L"Skybox.fx");
-	mSkySphere->SetScale(500.0f, 500.0f, 500.0f);
+	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
+	pSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
+	pSkySphere->SetShader(L"Skybox.fx");
+	pSkySphere->SetScale(500.0f, 500.0f, 500.0f);
 
-	mBlendedCube = new MeshedObject(mGfx, "Assets/Models/cube.obj");
-	mBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
-	mBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
-	mBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
-	mBlendedCube->SetShader(L"PhongDif.fx");
-	mBlendedCube->InitializeBoundingSphere();
+	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
+	pBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
+	pBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
+	pBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
+	pBlendedCube->SetShader(L"PhongDif.fx");
+	pBlendedCube->InitializeBoundingSphere();
 
 
 
 	//Sets default positions
-	groundPlane->SetPosition(0.0f, -1.6f, 0.0f);
+	pGroundPlane->SetPosition(0.0f, -1.6f, 0.0f);
 
-	rotationValue = 0.0f;
+	mObjectRotationValue = 0.0f;
 
-	time = Time();
+	mTime = Time();
 
-	time.Reset();
+	mTime.Reset();
 
 
 	return S_OK;
@@ -92,22 +90,22 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 void Application::Update()
 {
-	time.Tick();
-	float dt = time.DeltaTime();
+	mTime.Tick();
+	float dt = mTime.DeltaTime();
 
 	PollInput(dt);
 
 	//Camera B Selected Object Tracking 
-	if (mSelectedObject != nullptr && mCurrentCamera == cameraB) {
-		XMFLOAT3 selectedObjectPosition = mSelectedObject->GetPosition();
+	if (pSelectedObject != nullptr && pCurrentCamera == pCameraB) {
+		XMFLOAT3 selectedObjectPosition = pSelectedObject->GetPosition();
 		XMFLOAT3 newCameraBPos = XMFLOAT3
 		(
-			selectedObjectPosition.x + cameraBOffset.x,
-			selectedObjectPosition.y + cameraBOffset.y,
-			selectedObjectPosition.z + cameraBOffset.z
+			selectedObjectPosition.x + mCameraBOffset.x,
+			selectedObjectPosition.y + mCameraBOffset.y,
+			selectedObjectPosition.z + mCameraBOffset.z
 		);
 
-		cameraB->LookAt
+		pCameraB->LookAt
 		(
 			newCameraBPos,
 			selectedObjectPosition
@@ -115,45 +113,45 @@ void Application::Update()
 	}
 
 
-	rotationValue += (rotationSpeed * dt);
+	mObjectRotationValue += (mObjectRotationSpeed * dt);
 
-	cube->SetRotation(10.0f, rotationValue, 0.0f);
-	donut->SetRotation(rotationValue, 0.0f, 0.0f);
+	pCube->SetRotation(10.0f, mObjectRotationValue, 0.0f);
+	pDonut->SetRotation(mObjectRotationValue, 0.0f, 0.0f);
 
-	mCurrentCamera->UpdateViewMatrix();
+	pCurrentCamera->UpdateViewMatrix();
 
-	for (auto& object : mGameObjects) {
+	for (auto& object : pGameObjects) {
 		object->Update(dt);
 	}
 
-	mBlendedCube->Update(dt);
+	pBlendedCube->Update(dt);
 
 
-	mSkySphere->SetPosition(mCurrentCamera->GetPosition());
-	mSkySphere->Update(dt);
+	pSkySphere->SetPosition(pCurrentCamera->GetPosition());
+	pSkySphere->Update(dt);
 }
 
 void Application::SelectedObjectControl(float dt)
 {
-	XMFLOAT3 objectPosition = mSelectedObject->GetPosition();
+	XMFLOAT3 objectPosition = pSelectedObject->GetPosition();
 
 	if (GetAsyncKeyState('W')) {
-		objectPosition.z += movementSpeed * dt;
+		objectPosition.z += mObjectMovementSpeed * dt;
 	}
 	else if (GetAsyncKeyState('S')) {
-		objectPosition.z += -movementSpeed * dt;
+		objectPosition.z += -mObjectMovementSpeed * dt;
 	}
 	if (GetAsyncKeyState('A')) {
-		objectPosition.x += -movementSpeed * dt;
+		objectPosition.x += -mObjectMovementSpeed * dt;
 	}
 	else if (GetAsyncKeyState('D')) {
-		objectPosition.x += movementSpeed * dt;
+		objectPosition.x += mObjectMovementSpeed * dt;
 	}
 
 	//if the position of the selected object changed then update the new position
-	if (objectPosition.x != mSelectedObject->GetPosition().x
-		|| objectPosition.z != mSelectedObject->GetPosition().z) {
-		mSelectedObject->SetPosition(objectPosition);
+	if (objectPosition.x != pSelectedObject->GetPosition().x
+		|| objectPosition.z != pSelectedObject->GetPosition().z) {
+		pSelectedObject->SetPosition(objectPosition);
 	}
 }
 
@@ -161,7 +159,7 @@ void Application::DrawGUI()
 {
 	//Simulation Settings Window
 	{
-		bool originalWireframe = wireframeOn;
+		bool originalWireframe = mWireframeEnabled;
 
 		bool* open = new bool(true);
 
@@ -172,26 +170,26 @@ void Application::DrawGUI()
 		ImGui::Text("Object Movement Speed: ");
 		ImGui::SameLine();
 		ImGui::PushItemWidth(100.0f);
-		ImGui::SliderFloat("", &movementSpeed, 0.0f, 10.0f);
+		ImGui::SliderFloat("", &mObjectMovementSpeed, 0.0f, 10.0f);
 
 		//Object Rotation Speed
 		ImGui::Text("Object Rotation Speed: ");
 		ImGui::SameLine();
 		ImGui::PushItemWidth(100.0f);
-		ImGui::SliderFloat("##", &rotationSpeed, 0.0f, 15.0f);
+		ImGui::SliderFloat("##", &mObjectRotationSpeed, 0.0f, 15.0f);
 
 		//Wireframe Checkbox
 		ImGui::Text("Wireframe Mode: ");
 		ImGui::SameLine();
-		ImGui::Checkbox("###", &wireframeOn);
-		if (originalWireframe != wireframeOn) mGfx->EnableWireframe(wireframeOn);
+		ImGui::Checkbox("###", &mWireframeEnabled);
+		if (originalWireframe != mWireframeEnabled) pGfx->EnableWireframe(mWireframeEnabled);
 
 		//Background Clear Color 
 		ImGui::Text("Background Clear Colour: ");
 		ImGui::NewLine();
 		ImGui::PushItemWidth(100.0f);
 		ImGui::ColorPicker4("####", clearColor);
-		mGfx->SetClearColor(clearColor);
+		pGfx->SetClearColor(clearColor);
 
 		ImGui::End();
 	}
@@ -237,40 +235,40 @@ void Application::DrawGUI()
 	{
 		ImGui::Begin("Selected Object");
 
-		if (mSelectedObject != nullptr) {
-			const char* name = mSelectedObject->GetName().c_str();
+		if (pSelectedObject != nullptr) {
+			const char* name = pSelectedObject->GetName().c_str();
 
 			ImGui::Text(name);
 			
 			float pos[3] = {
-				mSelectedObject->GetPosition().x,
-				mSelectedObject->GetPosition().y,
-				mSelectedObject->GetPosition().z,
+				pSelectedObject->GetPosition().x,
+				pSelectedObject->GetPosition().y,
+				pSelectedObject->GetPosition().z,
 			};
 
 			ImGui::SliderFloat3("Position", pos, -100.0f, 100.0f);
 
-			mSelectedObject->SetPosition(pos[0], pos[1], pos[2]);
+			pSelectedObject->SetPosition(pos[0], pos[1], pos[2]);
 		}
 
 		ImGui::End();
 	}
 
-	mGfx->LightingWindow();
+	pGfx->LightingWindow();
 }
 
 void Application::Picking()
 {
-	int mouseX = mGfx->GetMouseX();
-	int mouseY = mGfx->GetMouseY();
+	int mouseX = pGfx->GetMouseX();
+	int mouseY = pGfx->GetMouseY();
 
-	XMMATRIX invView = XMMatrixInverse(nullptr, mCurrentCamera->View());
-	XMMATRIX invProj = XMMatrixInverse(nullptr, mCurrentCamera->Proj());
+	XMMATRIX invView = XMMatrixInverse(nullptr, pCurrentCamera->View());
+	XMMATRIX invProj = XMMatrixInverse(nullptr, pCurrentCamera->Proj());
 
 	//Convert mouse position to NDC (Normalized Device Coordinates)
 	float normalizedCoords[2];
-	normalizedCoords[0] = (2.0f * mouseX) / mGfx->GetWindowWidth() - 1.0f;
-	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / mGfx->GetWindowHeight();
+	normalizedCoords[0] = (2.0f * mouseX) / pGfx->GetWindowWidth() - 1.0f;
+	normalizedCoords[1] = 1.0f - (2.0f * mouseY) / pGfx->GetWindowHeight();
 
 	//Sets the X and Y positions for the origin of the ray
 	XMVECTOR rayOrigin = XMVectorSet(normalizedCoords[0], normalizedCoords[1], 0, 0);
@@ -282,7 +280,7 @@ void Application::Picking()
 	rayOrigin = XMVector3Transform(rayOrigin, invView);
 
 	//Calculates the direction of the ray
-	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&mCurrentCamera->GetPosition());
+	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&pCurrentCamera->GetPosition());
 
 	//Normalizes the direction
 	rayDirection = XMVector3Normalize(rayDirection);
@@ -296,11 +294,11 @@ void Application::Picking()
 	bool objectFound = false;
 
 	//Loops through all objects in the scene 
-	for (auto& object : mGameObjects) {
+	for (auto& object : pGameObjects) {
 		//Tests collision with each object
 		if (object->TestCollision(origin, direction)) {
 			//Sets the selected object
-			mSelectedObject = object;
+			pSelectedObject = object;
 
 			objectFound = true;
 
@@ -310,67 +308,67 @@ void Application::Picking()
 	}
 
 	//Allows user to deselect an item
-	if (!objectFound) mSelectedObject = nullptr;
+	if (!objectFound) pSelectedObject = nullptr;
 }
 
 void Application::PollInput(float dt)
 {
 	CursorControls(dt);
 
-	if (enableFlying)
+	if (mFlyingEnabled)
 	{
 		CameraControls(dt);
 	}
 	else
 	{
-		if (mSelectedObject != nullptr) {
+		if (pSelectedObject != nullptr) {
 			SelectedObjectControl(dt);
 		}
 	}
 
 	if (GetAsyncKeyState('1')) {
-		mCurrentCamera = cameraA;
-		mGfx->SwitchCamera(cameraA);
+		pCurrentCamera = pCameraA;
+		pGfx->SwitchCamera(pCameraA);
 	}
 	else if (GetAsyncKeyState('2')) {
-		mCurrentCamera = cameraB;
-		enableFlying = false;
-		mGfx->SwitchCamera(cameraB);
+		pCurrentCamera = pCameraB;
+		mFlyingEnabled = false;
+		pGfx->SwitchCamera(pCameraB);
 	}
 	else if (GetAsyncKeyState('3')) {
-		mCurrentCamera = cameraC;
-		mGfx->SwitchCamera(cameraC);
+		pCurrentCamera = pCameraC;
+		pGfx->SwitchCamera(pCameraC);
 	}
 	else if (GetAsyncKeyState('4')) {
-		mCurrentCamera = cameraD;
-		mGfx->SwitchCamera(cameraD);
+		pCurrentCamera = pCameraD;
+		pGfx->SwitchCamera(pCameraD);
 	}
 
 	if (GetAsyncKeyState('H')) {
 		Picking();
 	}
 	if (GetAsyncKeyState('Y')) {
-		mSelectedObject = nullptr;
+		pSelectedObject = nullptr;
 	}
 }
 
 void Application::CursorControls(float dt)
 {
-	timeSinceGPressed += dt;
+	mTimeSinceGPressed += dt;
 	if (GetAsyncKeyState('G')) {
-		if (timeSinceGPressed > fTimer) {
-			timeSinceGPressed = 0.0f;
+		if (mTimeSinceGPressed > mGKeyTimer) {
+			mTimeSinceGPressed = 0.0f;
 
-			enableFlying = !enableFlying;
+			mFlyingEnabled = !mFlyingEnabled;
 
-			clippedCursor = !clippedCursor;
-			if (clippedCursor) {
-				mGfx->HideCursor();
+			mCursorClipped = !mCursorClipped;
+			if (mCursorClipped) {
+				pGfx->HideCursor();
 				ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
 			}
 			else
 			{
-				mGfx->ShowCursor();
+				pGfx->ShowCursor();
 				ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
 			}
 		}
@@ -379,52 +377,54 @@ void Application::CursorControls(float dt)
 
 void Application::CameraControls(float dt)
 {
-	if (GetAsyncKeyState('W')) cameraA->Walk(10.0f * dt);
-	else if (GetAsyncKeyState('S')) cameraA->Walk(-10.0f * dt);
-	if (GetAsyncKeyState('A')) cameraA->Strafe(-10.0f * dt);
-	else if (GetAsyncKeyState('D')) cameraA->Strafe(10.0f * dt);
+	if (GetAsyncKeyState('W')) pCameraA->Walk(10.0f * dt);
+	else if (GetAsyncKeyState('S')) pCameraA->Walk(-10.0f * dt);
+	if (GetAsyncKeyState('A')) pCameraA->Strafe(-10.0f * dt);
+	else if (GetAsyncKeyState('D')) pCameraA->Strafe(10.0f * dt);
 
-	if (GetAsyncKeyState('Q')) cameraA->RotateY(-1.0f * dt);
-	else if (GetAsyncKeyState('E')) cameraA->RotateY(1.0f * dt);
+	if (GetAsyncKeyState('Q')) pCameraA->RotateY(-1.0f * dt);
+	else if (GetAsyncKeyState('E')) pCameraA->RotateY(1.0f * dt);
 
-	if (GetAsyncKeyState('R')) cameraA->Pitch(-1.0f * dt);
-	else if (GetAsyncKeyState('F')) cameraA->Pitch(1.0f * dt);
+	if (GetAsyncKeyState('R')) pCameraA->Pitch(-1.0f * dt);
+	else if (GetAsyncKeyState('F')) pCameraA->Pitch(1.0f * dt);
 }
 
 void Application::Draw()
 {
-	mImGuiManager->BeginFrame();
+	mImGuiManager.BeginFrame();
 
-	mGfx->ClearBuffers();
+	pGfx->ClearBuffers();
 
-	mGfx->SetConstantBuffer();
+	pGfx->SetConstantBuffer();
 
-	mGfx->SetSolidBlend();
+	pGfx->SetSolidBlend();
 
 	//Draw Sky sphere
-	mGfx->SetFrontFaceCulling();
-	mSkySphere->Draw();
-	mGfx->SetCurrentRSState();
+	pGfx->SetFrontFaceCulling();
+	pSkySphere->Draw();
+	pGfx->SetCurrentRSState();
 
 
-	for (auto& object : mGameObjects) {
+	for (auto& object : pGameObjects) {
 		object->Draw();
 	}
 
-	mGfx->SetTransparentBlend();
-	mBlendedCube->Draw();
+	pGfx->SetTransparentBlend();
+	pBlendedCube->Draw();
 
 	DrawGUI();
 
-	mImGuiManager->EndFrame();
+	mImGuiManager.EndFrame();
 
-	mGfx->Present();
+	pGfx->Present();
 
 }
 
 GameObject* Application::FindGameObjectWithName(std::string name)
 {
-	for (auto& obj : mGameObjects) {
+	for (auto& obj : pGameObjects) {
 		if (obj->GetName() == name) return obj;
 	}
+
+	return nullptr;
 }

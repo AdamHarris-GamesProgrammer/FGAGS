@@ -9,6 +9,7 @@
 class JSONLevelLoader
 {
 public:
+	JSONLevelLoader() = default;
 	JSONLevelLoader(Graphics* gfx);
 
 	std::vector<GameObject*> LoadObjectsFromFile(const char* filename);
