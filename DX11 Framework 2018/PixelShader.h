@@ -1,33 +1,46 @@
 #pragma once
 #include "Bindable.h"
 
+/// <summary>
+/// Pixel Shader class is used to store, create and bind a Pixel shader to the graphical pipeline 
+/// </summary>
 class PixelShader : public Bindable {
 public:
+	//Creates a PixelShader object
 	PixelShader(ID3D11Device* device, ID3D11DeviceContext* context, WCHAR* shaderPath)
 		: Bindable(device, context)
 	{
 		ID3DBlob* pPSBlob = nullptr;
 
+		//Attempts to compile the shader
 		if (FAILED(CompileShaderFromFile(shaderPath, "PS", "ps_4_0", &pPSBlob)))
 		{
 			MessageBox(nullptr,
 				L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		}
 
-		// Create the pixel shader
-		mDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &mPixelShader);
+		// Creates the pixel shader
+		pDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
+
+		//Releases the memory associated with the blob
 		pPSBlob->Release();
 	}
 
+	~PixelShader() {
+		if (pPixelShader) pPixelShader->Release();
+	}
+
+	//Overrides the base Bind function and sets the pixel shader that needs to be used
 	void Bind() {
-		mContext->PSSetShader(mPixelShader, nullptr, 0);
+		pDeviceContext->PSSetShader(pPixelShader, nullptr, 0);
 	}
 
 
 private:
-	ID3D11PixelShader* mPixelShader;
+	ID3D11PixelShader* pPixelShader;
 
 private:
+	//Compiles a shader from file
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
 	{
 		HRESULT hr = S_OK;

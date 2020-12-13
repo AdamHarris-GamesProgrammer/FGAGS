@@ -5,7 +5,16 @@
 #include "Imgui/imgui.h"
 
 
-Application::~Application() {}
+Application::~Application() 
+{
+	pGameObjects.clear();
+
+	delete pGroundPlane;
+	delete pGfx;
+
+	pGroundPlane = nullptr;
+	pGfx = nullptr;
+}
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {

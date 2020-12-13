@@ -1,18 +1,22 @@
 #pragma once
 #include "Bindable.h"
 
+/// <summary>
+/// Vertex Shader class used to create, store and bind a vertex shader to the graphical pipeline 
+/// </summary>
 class VertexShader : public Bindable {
 
 public:
+	//Creates a Vertex Shader object
 	VertexShader(ID3D11Device* device, ID3D11DeviceContext* context, WCHAR* shaderPath,
 		D3D11_INPUT_ELEMENT_DESC* layoutArray, UINT layoutSize)
 		: Bindable(device, context)
 	{
-		// Compile the vertex shader
 		ID3DBlob* pVSBlob = nullptr;
 		
 		HRESULT hr;
 
+		// Compiles the vertex shader
 		hr = CompileShaderFromFile(shaderPath, "VS", "vs_4_0", &pVSBlob);
 
 		if (FAILED(hr))
@@ -22,29 +26,35 @@ public:
 		}
 
 		// Create the vertex shader
-		
-		hr = mDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &mVertexShader);
+		hr = pDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
 
 		if (FAILED(hr))
 		{
 			pVSBlob->Release();
 		}
 
-		mDevice->CreateInputLayout(layoutArray, layoutSize, pVSBlob->GetBufferPointer(),
-			pVSBlob->GetBufferSize(), &mLayout);
+		//Creates the Input layout 
+		pDevice->CreateInputLayout(layoutArray, layoutSize, pVSBlob->GetBufferPointer(),
+			pVSBlob->GetBufferSize(), &pLayout);
 		pVSBlob->Release();
 	}
 
+	//Binds the input layout and the vertex shader
 	void Bind() override
 	{
-		mContext->IASetInputLayout(mLayout);
-		mContext->VSSetShader(mVertexShader, nullptr, 0);
+		pDeviceContext->IASetInputLayout(pLayout);
+		pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
 
 	}
 
+	~VertexShader() {
+		if (pVertexShader) pVertexShader->Release();
+		if (pLayout) pLayout->Release();
+	}
+
 private:
-	ID3D11VertexShader* mVertexShader;
-	ID3D11InputLayout* mLayout;
+	ID3D11VertexShader* pVertexShader;
+	ID3D11InputLayout* pLayout;
 
 	UINT mLayoutSize;
 

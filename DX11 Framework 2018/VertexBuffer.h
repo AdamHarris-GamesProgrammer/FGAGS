@@ -2,8 +2,12 @@
 #include "Bindable.h"
 #include <algorithm>
 
+/// <summary>
+/// Vertex Buffer class is used to create and bind a Vertex Buffer to the graphical pipeline 
+/// </summary>
 class VertexBuffer : public Bindable {
 public:
+	//Creates a Vertex Buffer object
 	VertexBuffer(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<SimpleVertex>& vertices) : Bindable(device, context) {
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
@@ -16,17 +20,22 @@ public:
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = vertices.data();
 
-		mDevice->CreateBuffer(&bd, &InitData, &vertexBuffer);
+		pDevice->CreateBuffer(&bd, &InitData, &pVertexBuffer);
 	}
 
+	~VertexBuffer() {
+		if (pVertexBuffer)pVertexBuffer->Release();
+	}
+
+	//Overrides the base Bind function  to set the Vertex Buffer for the current object
 	void Bind() override
 	{
-		mContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		pDeviceContext->IASetVertexBuffers(0, 1, &pVertexBuffer, &mStride, &mOffset);
 	}
 
 private:
-	ID3D11Buffer* vertexBuffer = nullptr;
+	ID3D11Buffer* pVertexBuffer = nullptr;
 
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
+	UINT mStride = sizeof(SimpleVertex);
+	UINT mOffset = 0;
 };

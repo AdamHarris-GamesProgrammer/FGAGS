@@ -51,7 +51,7 @@ void GameObject::Draw()
 
 	mGfx->SetConstantBuffer();
 
-	mGfx->UpdateBuffers(mMaterial, mTransform);
+	mGfx->SetObjectBuffers(mMaterial, mTransform);
 	mGfx->Draw(mIndexBuffer->GetIndexCount());
 }
 
