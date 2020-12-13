@@ -6322,7 +6322,7 @@ struct ImGuiPlotArrayGetterData
     const float* Values;
     int Stride;
 
-    ImGuiPlotArrayGetterData(const float* values, int stride) { Values = values; Stride = stride; }
+    ImGuiPlotArrayGetterData(const float* values, int mStride) { Values = values; Stride = mStride; }
 };
 
 static float Plot_ArrayGetter(void* data, int idx)
@@ -6332,9 +6332,9 @@ static float Plot_ArrayGetter(void* data, int idx)
     return v;
 }
 
-void ImGui::PlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size, int stride)
+void ImGui::PlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size, int mStride)
 {
-    ImGuiPlotArrayGetterData data(values, stride);
+    ImGuiPlotArrayGetterData data(values, mStride);
     PlotEx(ImGuiPlotType_Lines, label, &Plot_ArrayGetter, (void*)&data, values_count, values_offset, overlay_text, scale_min, scale_max, graph_size);
 }
 
@@ -6343,9 +6343,9 @@ void ImGui::PlotLines(const char* label, float (*values_getter)(void* data, int 
     PlotEx(ImGuiPlotType_Lines, label, values_getter, data, values_count, values_offset, overlay_text, scale_min, scale_max, graph_size);
 }
 
-void ImGui::PlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size, int stride)
+void ImGui::PlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size, int mStride)
 {
-    ImGuiPlotArrayGetterData data(values, stride);
+    ImGuiPlotArrayGetterData data(values, mStride);
     PlotEx(ImGuiPlotType_Histogram, label, &Plot_ArrayGetter, (void*)&data, values_count, values_offset, overlay_text, scale_min, scale_max, graph_size);
 }
 
@@ -7913,9 +7913,9 @@ float ImGui::GetColumnOffsetFromNorm(const ImGuiOldColumns* columns, float offse
     return offset_norm * (columns->OffMaxX - columns->OffMinX);
 }
 
-float ImGui::GetColumnNormFromOffset(const ImGuiOldColumns* columns, float offset)
+float ImGui::GetColumnNormFromOffset(const ImGuiOldColumns* columns, float mOffset)
 {
-    return offset / (columns->OffMaxX - columns->OffMinX);
+    return mOffset / (columns->OffMaxX - columns->OffMinX);
 }
 
 static const float COLUMNS_HIT_RECT_HALF_WIDTH = 4.0f;
@@ -7979,7 +7979,7 @@ float ImGui::GetColumnWidth(int column_index)
     return GetColumnOffsetFromNorm(columns, columns->Columns[column_index + 1].OffsetNorm - columns->Columns[column_index].OffsetNorm);
 }
 
-void ImGui::SetColumnOffset(int column_index, float offset)
+void ImGui::SetColumnOffset(int column_index, float mOffset)
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
@@ -7994,11 +7994,11 @@ void ImGui::SetColumnOffset(int column_index, float offset)
     const float width = preserve_width ? GetColumnWidthEx(columns, column_index, columns->IsBeingResized) : 0.0f;
 
     if (!(columns->Flags & ImGuiOldColumnFlags_NoForceWithinWindow))
-        offset = ImMin(offset, columns->OffMaxX - g.Style.ColumnsMinSpacing * (columns->Count - column_index));
-    columns->Columns[column_index].OffsetNorm = GetColumnNormFromOffset(columns, offset - columns->OffMinX);
+        mOffset = ImMin(mOffset, columns->OffMaxX - g.Style.ColumnsMinSpacing * (columns->Count - column_index));
+    columns->Columns[column_index].OffsetNorm = GetColumnNormFromOffset(columns, mOffset - columns->OffMinX);
 
     if (preserve_width)
-        SetColumnOffset(column_index + 1, offset + ImMax(g.Style.ColumnsMinSpacing, width));
+        SetColumnOffset(column_index + 1, mOffset + ImMax(g.Style.ColumnsMinSpacing, width));
 }
 
 void ImGui::SetColumnWidth(int column_index, float width)

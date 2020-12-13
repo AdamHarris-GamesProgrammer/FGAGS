@@ -21,13 +21,6 @@ public:
 	void Reset();
 
 
-	/// <summary>
-	/// Allows the programmer to set a time scale variable that affects the delta time variable. Defaults at 1.0f
-	/// </summary>
-	void SetTimeScale(float value);
-
-	float GetTimeScale();
-
 	void Start();
 
 
@@ -49,8 +42,6 @@ private:
 	__int64 mCurrentTime;
 
 	bool isStopped;
-
-	float timeScale = 1.0f;
 
 };
 

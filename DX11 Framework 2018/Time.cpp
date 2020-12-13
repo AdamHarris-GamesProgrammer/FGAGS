@@ -41,17 +41,6 @@ void Time::Reset()
 	isStopped = false;
 }
 
-void Time::SetTimeScale(float value)
-{
-	if (value < 0.0f) value = 0.0f;
-	timeScale = value;
-}
-
-float Time::GetTimeScale()
-{
-	return timeScale;
-}
-
 void Time::Start()
 {
 	__int64 startTime;

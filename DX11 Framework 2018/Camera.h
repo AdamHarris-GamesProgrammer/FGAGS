@@ -8,7 +8,6 @@ using namespace DirectX;
 class Camera {
 public:
 	Camera();
-	~Camera();
 
 	//Get/Set World Position
 	XMVECTOR GetPositionXM() const;

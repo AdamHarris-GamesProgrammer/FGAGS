@@ -8,51 +8,76 @@ GameObject::GameObject()
 
 GameObject::GameObject(Graphics* gfx)
 {
-	this->mGfx = gfx;
+	this->pGfx = gfx;
 	Initialize();
+}
+
+GameObject::~GameObject()
+{
+	delete pVertexShader;
+	delete pPixelShader;
+	delete pVertexShader;
+	delete pIndexBuffer;
+
+	pVertexBuffer = nullptr;
+	pVertexShader = nullptr;
+	pPixelShader = nullptr;
+	pIndexBuffer = nullptr;
 }
 
 void GameObject::Update(float dt)
 {
-	XMStoreFloat4x4(&mTransform, CalculateTransform());
+	//Stores the objects new world space location
+	//Updates the bounding spheres position
+	CalculateTransform();
 	mBoundingSphere.Center = mPosition;
 }
 
+//Collision method may be different each type of object
 bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 {
 	return false;
 }
 
-DirectX::XMMATRIX GameObject::CalculateTransform()
+
+void GameObject::CalculateTransform()
 {
+	//Loads the transform matrix
 	XMMATRIX transformMatrix = XMLoadFloat4x4(&mTransform);
 
+	//Sets the scale, position and rotation matrices
 	XMMATRIX objectScale = XMMatrixScaling(mScale.x, mScale.y, mScale.z);
 	XMMATRIX objectPosition = XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z);
 	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z);
 
+	//Calculates the transform
 	XMMATRIX calculatedTransform = XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
 
+	//Stores the transform
 	XMStoreFloat4x4(&mTransform, calculatedTransform);
-
-	return calculatedTransform;
 }
 
 void GameObject::Draw()
 {
-	mVertexShader->Bind();
-	mPixelShader->Bind();
-	mVertexBuffer->Bind();
-	mIndexBuffer->Bind();
+	//Binds the shaders and buffers
+	pVertexShader->Bind();
+	pPixelShader->Bind();
+	pVertexBuffer->Bind();
+	pIndexBuffer->Bind();
 
-	if (hasTextures) {
-		mGfx->GetDeviceContext()->PSSetShaderResources(0, mTextures.size(), &mTextures[0]);
+	//Sets the textures for the shaders
+	if (mHasTextures) {
+		pGfx->GetDeviceContext()->PSSetShaderResources(0, pTextures.size(), &pTextures[0]);
 	}
 
-	mGfx->SetConstantBuffer();
+	//Sets the constant buffer
+	pGfx->SetConstantBuffer();
 
-	mGfx->SetObjectBuffers(mMaterial, mTransform);
-	mGfx->Draw(mIndexBuffer->GetIndexCount());
+	//Sends the objects material and transform to the graphics class for the updated constant buffer
+	pGfx->SetObjectBuffers(mMaterial, mTransform);
+
+	//Draws the object
+	pGfx->Draw(pIndexBuffer->GetIndexCount());
 }
 
 
@@ -60,41 +85,33 @@ void GameObject::CreateTexture(const wchar_t* path)
 {
 	ID3D11ShaderResourceView* texture;
 
-	hasTextures = true;
+	mHasTextures = true;
 
-	CreateDDSTextureFromFile(mGfx->GetDevice(), path, nullptr, &texture);
-	mTextures.push_back(texture);
+	//Creates and adds the texture to the texture vector
+	CreateDDSTextureFromFile(pGfx->GetDevice(), path, nullptr, &texture);
+	pTextures.push_back(texture);
 }
 
-void GameObject::SetName(std::string& name)
-{
-	mName = name;
-}
-
-std::string GameObject::GetName()
-{
-	return mName;
-}
-
-void GameObject::SetShader(WCHAR* path)
-{
-	mPixelShader = new PixelShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), path);
-}
 
 void GameObject::Initialize()
 {
 	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
+	//Initializes the position and rotation to world origin
 	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
 	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
+	//Sets the default scale
 	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
 	
+	//Sets sensible default values for the material
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
 
+	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
 	mBoundingSphere.Center = GetPosition();
 
+	//Creates a temporary layout array for the vertex shader
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -102,10 +119,16 @@ void GameObject::Initialize()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	mVertexShader = new VertexShader(mGfx->GetDevice(), mGfx->GetDeviceContext(), L"VertexShaderUtilities.fx", layout, 3);
+	//Sets the vertex shader
+	pVertexShader = new VertexShader(pGfx->GetDevice(), pGfx->GetDeviceContext(), L"VertexShaderUtilities.fx", layout, 3);
 }
 
 #pragma region Getters
+std::string GameObject::GetName() const
+{
+	return mName;
+}
+
 DirectX::XMFLOAT3 GameObject::GetPosition() const
 {
 	return XMFLOAT3(mTransform._41, mTransform._42, mTransform._43);
@@ -133,6 +156,15 @@ DirectX::XMFLOAT4X4 GameObject::GetTransform() const
 #pragma endregion
 
 #pragma region Setters
+void GameObject::SetShader(WCHAR* path)
+{
+	pPixelShader = new PixelShader(pGfx->GetDevice(), pGfx->GetDeviceContext(), path);
+}
+void GameObject::SetName(std::string& name)
+{
+	mName = name;
+}
+
 void GameObject::SetPosition(float x, float y, float z)
 {
 	mPosition = XMFLOAT3(x, y, z);

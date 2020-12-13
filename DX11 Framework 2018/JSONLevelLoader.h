@@ -12,10 +12,14 @@ public:
 	JSONLevelLoader() = default;
 	JSONLevelLoader(Graphics* gfx);
 
+
+	//Loads the objects from the file
 	std::vector<GameObject*> LoadObjectsFromFile(const char* filename);
 
 private:
-	Graphics* mGraphics;
+	Graphics* pGfx;
+
+	wchar_t* ConvertString(std::string& str);
 
 };
 

@@ -270,7 +270,7 @@ HRESULT Graphics::InitBlendState()
 	blendDesc.AlphaToCoverageEnable = FALSE;
 	blendDesc.RenderTarget[0] = rtbd;
 
-	pDevice->CreateBlendState(&blendDesc, &pBlendState);
+	hr = pDevice->CreateBlendState(&blendDesc, &pBlendState);
 
 	return hr;
 }

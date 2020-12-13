@@ -2902,7 +2902,7 @@ static void ShowDemoWindowLayout()
     if (ImGui::TreeNode("Clipping"))
     {
         static ImVec2 size(100.0f, 100.0f);
-        static ImVec2 offset(30.0f, 30.0f);
+        static ImVec2 mOffset(30.0f, 30.0f);
         ImGui::DragFloat2("size", (float*)&size, 0.5f, 1.0f, 200.0f, "%.0f");
         ImGui::TextWrapped("(Click and drag to scroll)");
 
@@ -2916,13 +2916,13 @@ static void ShowDemoWindowLayout()
             ImGui::InvisibleButton("##empty", size);
             if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left))
             {
-                offset.x += ImGui::GetIO().MouseDelta.x;
-                offset.y += ImGui::GetIO().MouseDelta.y;
+                mOffset.x += ImGui::GetIO().MouseDelta.x;
+                mOffset.y += ImGui::GetIO().MouseDelta.y;
             }
             const ImVec2 p0 = ImGui::GetItemRectMin();
             const ImVec2 p1 = ImGui::GetItemRectMax();
             const char* text_str = "Line 1 hello\nLine 2 clip me!";
-            const ImVec2 text_pos = ImVec2(p0.x + offset.x, p0.y + offset.y);
+            const ImVec2 text_pos = ImVec2(p0.x + mOffset.x, p0.y + mOffset.y);
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
             switch (n)

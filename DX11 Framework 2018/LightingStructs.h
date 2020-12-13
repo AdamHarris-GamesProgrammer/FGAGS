@@ -7,6 +7,9 @@
 
 using namespace DirectX;
 
+/// <summary>
+/// Base Struct for all Lights
+/// </summary>
 struct Light {
 	XMFLOAT4 Ambient;
 	XMFLOAT4 Diffuse;
@@ -53,6 +56,9 @@ struct Light {
 	}
 };
 
+/// <summary>
+/// A Directional light, a infinite range light with a direction
+/// </summary>
 struct DirectionalLight : Light {
 	DirectionalLight() { ZeroMemory(this, sizeof(this)); }
 
@@ -81,6 +87,9 @@ struct DirectionalLight : Light {
 	}
 };
 
+/// <summary>
+/// A Point light, a finite range light with a specified position and drop off factor
+/// </summary>
 struct PointLight : Light {
 	PointLight() { ZeroMemory(this, sizeof(this)); }
 
@@ -129,6 +138,9 @@ struct PointLight : Light {
 	}
 };
 
+/// <summary>
+/// A Spot light, a finite range light with a specified position, direction and drop off factor
+/// </summary>
 struct SpotLight : Light {
 	SpotLight() { ZeroMemory(this, sizeof(this)); }
 
@@ -181,6 +193,9 @@ struct SpotLight : Light {
 	}
 };
 
+/// <summary>
+/// A Material, represents a objects material 
+/// </summary>
 struct Material : Light {
 	Material() { ZeroMemory(this, sizeof(this)); }
 };

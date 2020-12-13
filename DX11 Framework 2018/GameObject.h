@@ -11,19 +11,27 @@ class GameObject
 public:
 	GameObject();
 	GameObject(Graphics* gfx);
+	~GameObject();
 
-	XMMATRIX CalculateTransform();
+	//Calculates the objects transform 
+	void CalculateTransform();
 
+	//Allows the object to be drawn
 	virtual void Draw();
+
+	//Update method for the object
 	virtual void Update(float dt);
+
+	//TestCollision with a ray, used for picking 
 	virtual bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection);
 
-
+	//Creates a texture based off the designated path and adds it to the textures vector
 	void CreateTexture(const wchar_t* path);
 
-	void SetName(std::string& name);
-	std::string GetName();
 
+
+	//Setters
+	//Set Shader function calls the loading logic for the shader
 	void SetShader(WCHAR* path);
 
 	void SetTransform(XMMATRIX transform);
@@ -37,35 +45,41 @@ public:
 	void SetMaterialDiffuse(XMFLOAT4 color);
 	void SetMaterialAmbient(XMFLOAT4 color);
 	void SetMaterialSpecular(XMFLOAT4 color);
+	void SetName(std::string& name);
 
+
+	//Getters 
 	XMFLOAT4X4 GetTransform() const;
 	XMFLOAT3 GetPosition() const;
 	XMFLOAT3 GetRotation() const;
 	XMFLOAT3 GetScale() const;
 	Material GetMaterial() const;
+	std::string GetName() const;
+
 
 
 
 private:
-
 	void Initialize();
 
 	
 protected:
-	bool hasTextures = false;
 
-	std::string mName = "Gameobject";
 
-	VertexShader* mVertexShader;
-	PixelShader* mPixelShader;
-	VertexBuffer* mVertexBuffer;
-	IndexBuffer* mIndexBuffer;
+	VertexShader* pVertexShader;
+	PixelShader* pPixelShader;
+	VertexBuffer* pVertexBuffer;
+	IndexBuffer* pIndexBuffer;
 
 	BoundingSphere mBoundingSphere;
 
-	Graphics* mGfx;
+	Graphics* pGfx;
 
-	std::vector<ID3D11ShaderResourceView*> mTextures;
+	std::vector<ID3D11ShaderResourceView*> pTextures;
+
+	bool mHasTextures = false;
+
+	std::string mName = "Gameobject";
 
 	Material mMaterial;
 

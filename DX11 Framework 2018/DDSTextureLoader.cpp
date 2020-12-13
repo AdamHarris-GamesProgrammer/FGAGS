@@ -257,10 +257,10 @@ static HRESULT LoadTextureDataFromFile(_In_z_ const wchar_t* fileName,
 
 	// setup the pointers in the process request
 	*header = hdr;
-	ptrdiff_t offset = sizeof(uint32_t) + sizeof(DDS_HEADER)
+	ptrdiff_t mOffset = sizeof(uint32_t) + sizeof(DDS_HEADER)
 		+ (bDXT10Header ? sizeof(DDS_HEADER_DXT10) : 0);
-	*bitData = ddsData.get() + offset;
-	*bitSize = FileSize.LowPart - offset;
+	*bitData = ddsData.get() + mOffset;
+	*bitSize = FileSize.LowPart - mOffset;
 
 	return S_OK;
 }
@@ -1646,12 +1646,12 @@ HRESULT DirectX::CreateDDSTextureFromMemoryEx(ID3D11Device* d3dDevice,
 		bDXT10Header = true;
 	}
 
-	ptrdiff_t offset = sizeof(uint32_t)
+	ptrdiff_t mOffset = sizeof(uint32_t)
 		+ sizeof(DDS_HEADER)
 		+ (bDXT10Header ? sizeof(DDS_HEADER_DXT10) : 0);
 
 	HRESULT hr = CreateTextureFromDDS(d3dDevice, d3dContext, header,
-		ddsData + offset, ddsDataSize - offset, maxsize,
+		ddsData + mOffset, ddsDataSize - mOffset, maxsize,
 		usage, bindFlags, cpuAccessFlags, miscFlags, forceSRGB,
 		texture, textureView);
 	if (SUCCEEDED(hr))

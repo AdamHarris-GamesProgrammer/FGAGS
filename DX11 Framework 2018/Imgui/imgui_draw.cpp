@@ -1961,7 +1961,7 @@ int ImFontAtlas::AddCustomRectRegular(int width, int height)
     return CustomRects.Size - 1; // Return index
 }
 
-int ImFontAtlas::AddCustomRectFontGlyph(ImFont* font, ImWchar id, int width, int height, float advance_x, const ImVec2& offset)
+int ImFontAtlas::AddCustomRectFontGlyph(ImFont* font, ImWchar id, int width, int height, float advance_x, const ImVec2& mOffset)
 {
 #ifdef IMGUI_USE_WCHAR32
     IM_ASSERT(id <= IM_UNICODE_CODEPOINT_MAX);
@@ -1974,7 +1974,7 @@ int ImFontAtlas::AddCustomRectFontGlyph(ImFont* font, ImWchar id, int width, int
     r.Height = (unsigned short)height;
     r.GlyphID = id;
     r.GlyphAdvanceX = advance_x;
-    r.GlyphOffset = offset;
+    r.GlyphOffset = mOffset;
     r.Font = font;
     CustomRects.push_back(r);
     return CustomRects.Size - 1; // Return index
@@ -2024,10 +2024,10 @@ void    ImFontAtlasBuildMultiplyCalcLookupTable(unsigned char out_table[256], fl
     }
 }
 
-void    ImFontAtlasBuildMultiplyRectAlpha8(const unsigned char table[256], unsigned char* pixels, int x, int y, int w, int h, int stride)
+void    ImFontAtlasBuildMultiplyRectAlpha8(const unsigned char table[256], unsigned char* pixels, int x, int y, int w, int h, int mStride)
 {
-    unsigned char* data = pixels + x + y * stride;
-    for (int j = h; j > 0; j--, data += stride)
+    unsigned char* data = pixels + x + y * mStride;
+    for (int j = h; j > 0; j--, data += mStride)
         for (int i = 0; i < w; i++)
             data[i] = table[data[i]];
 }
@@ -2392,8 +2392,8 @@ static void ImFontAtlasBuildRenderDefaultTexData(ImFontAtlas* atlas)
     {
         // Render 4 white pixels
         IM_ASSERT(r->Width == 2 && r->Height == 2);
-        const int offset = (int)r->X + (int)r->Y * w;
-        atlas->TexPixelsAlpha8[offset] = atlas->TexPixelsAlpha8[offset + 1] = atlas->TexPixelsAlpha8[offset + w] = atlas->TexPixelsAlpha8[offset + w + 1] = 0xFF;
+        const int mOffset = (int)r->X + (int)r->Y * w;
+        atlas->TexPixelsAlpha8[mOffset] = atlas->TexPixelsAlpha8[mOffset + 1] = atlas->TexPixelsAlpha8[mOffset + w] = atlas->TexPixelsAlpha8[mOffset + w + 1] = 0xFF;
     }
     atlas->TexUvWhitePixel = ImVec2((r->X + 0.5f) * atlas->TexUvScale.x, (r->Y + 0.5f) * atlas->TexUvScale.y);
 }
@@ -3422,10 +3422,10 @@ void ImGui::RenderMouseCursor(ImDrawList* draw_list, ImVec2 pos, float scale, Im
     IM_ASSERT(mouse_cursor > ImGuiMouseCursor_None && mouse_cursor < ImGuiMouseCursor_COUNT);
 
     ImFontAtlas* font_atlas = draw_list->_Data->Font->ContainerAtlas;
-    ImVec2 offset, size, uv[4];
-    if (font_atlas->GetMouseCursorTexData(mouse_cursor, &offset, &size, &uv[0], &uv[2]))
+    ImVec2 mOffset, size, uv[4];
+    if (font_atlas->GetMouseCursorTexData(mouse_cursor, &mOffset, &size, &uv[0], &uv[2]))
     {
-        pos -= offset;
+        pos -= mOffset;
         const ImTextureID tex_id = font_atlas->TexID;
         draw_list->PushTextureID(tex_id);
         draw_list->AddImage(tex_id, pos + ImVec2(1, 0) * scale, pos + (ImVec2(1, 0) + size) * scale,    uv[2], uv[3], col_shadow);

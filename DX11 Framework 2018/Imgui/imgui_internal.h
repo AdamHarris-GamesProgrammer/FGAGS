@@ -1975,7 +1975,7 @@ namespace ImGui
     IMGUI_API ImGuiID       GetColumnsID(const char* str_id, int count);
     IMGUI_API ImGuiOldColumns* FindOrCreateColumns(ImGuiWindow* window, ImGuiID id);
     IMGUI_API float         GetColumnOffsetFromNorm(const ImGuiOldColumns* columns, float offset_norm);
-    IMGUI_API float         GetColumnNormFromOffset(const ImGuiOldColumns* columns, float offset);
+    IMGUI_API float         GetColumnNormFromOffset(const ImGuiOldColumns* columns, float mOffset);
 
     // Tab Bars
     IMGUI_API bool          BeginTabBarEx(ImGuiTabBar* tab_bar, const ImRect& bb, ImGuiTabBarFlags flags);
@@ -2108,7 +2108,7 @@ IMGUI_API void              ImFontAtlasBuildPackCustomRects(ImFontAtlas* atlas, 
 IMGUI_API void              ImFontAtlasBuildFinish(ImFontAtlas* atlas);
 IMGUI_API void              ImFontAtlasBuildRender1bppRectFromString(ImFontAtlas* atlas, int atlas_x, int atlas_y, int w, int h, const char* in_str, char in_marker_char, unsigned char in_marker_pixel_value);
 IMGUI_API void              ImFontAtlasBuildMultiplyCalcLookupTable(unsigned char out_table[256], float in_multiply_factor);
-IMGUI_API void              ImFontAtlasBuildMultiplyRectAlpha8(const unsigned char table[256], unsigned char* pixels, int x, int y, int w, int h, int stride);
+IMGUI_API void              ImFontAtlasBuildMultiplyRectAlpha8(const unsigned char table[256], unsigned char* pixels, int x, int y, int w, int h, int mStride);
 
 //-----------------------------------------------------------------------------
 // [SECTION] Test Engine specific hooks (imgui_test_engine)
