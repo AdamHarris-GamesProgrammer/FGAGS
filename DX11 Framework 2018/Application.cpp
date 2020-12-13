@@ -49,7 +49,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Sets the current camera and sends it to the graphics class
 	pCurrentCamera = pCameraA;
-	pGfx->SwitchCamera(pCameraA);
+	pGfx->SetCurrentCamera(pCameraA);
 
 	//Sets the default positions and look at targets for the cameras
 	pCameraA->LookAt(XMFLOAT3(0.0f, 8.0f, -15.0f),XMFLOAT3(0.0f, 0.0f, 0.0f));
@@ -193,7 +193,7 @@ void Application::DrawGUI()
 		ImGui::Text("Wireframe Mode: ");
 		ImGui::SameLine();
 		ImGui::Checkbox("###", &mWireframeEnabled);
-		if (originalWireframe != mWireframeEnabled) pGfx->EnableWireframe(mWireframeEnabled);
+		if (originalWireframe != mWireframeEnabled) pGfx->SetWireframe(mWireframeEnabled);
 
 		//Background Clear Color 
 		ImGui::Text("Background Clear Colour: ");
@@ -340,20 +340,20 @@ void Application::PollInput(float dt)
 
 	if (GetAsyncKeyState('1')) {
 		pCurrentCamera = pCameraA;
-		pGfx->SwitchCamera(pCameraA);
+		pGfx->SetCurrentCamera(pCameraA);
 	}
 	else if (GetAsyncKeyState('2')) {
 		pCurrentCamera = pCameraB;
 		mFlyingEnabled = false;
-		pGfx->SwitchCamera(pCameraB);
+		pGfx->SetCurrentCamera(pCameraB);
 	}
 	else if (GetAsyncKeyState('3')) {
 		pCurrentCamera = pCameraC;
-		pGfx->SwitchCamera(pCameraC);
+		pGfx->SetCurrentCamera(pCameraC);
 	}
 	else if (GetAsyncKeyState('4')) {
 		pCurrentCamera = pCameraD;
-		pGfx->SwitchCamera(pCameraD);
+		pGfx->SetCurrentCamera(pCameraD);
 	}
 
 	if (GetAsyncKeyState('H')) {

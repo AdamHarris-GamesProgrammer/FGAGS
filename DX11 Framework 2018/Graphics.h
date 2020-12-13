@@ -38,37 +38,46 @@ public:
 	Graphics();
 	~Graphics();
 
+	//Initialize Functions
+	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
+	LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	//Drawing Related Functions
 	void ClearBuffers();
 	void Draw(unsigned int indexCount);
 	void Present();
 
+	//Light Control Window
+	void LightingWindow();
 
+	//Mouse Control Settings
 	void HideCursor();
 	void ShowCursor();
 	void ConfineCursor();
 	void FreeCursor();
 
-	void LightingWindow();
 
-	void SwitchCamera(std::shared_ptr<Camera> newCamera);
-
-	void EnableWireframe(bool enabled);
-
-	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
-
-	void UpdateBuffers(Material mat, XMFLOAT4X4& position);
-
-
+	//Setters
 	void SetConstantBuffer();
+	void SetObjectBuffers(Material mat, XMFLOAT4X4& position);
 
+	//Rasterizer State Setters
+	void SetWireframe(bool enabled);
 	void SetFrontFaceCulling();
 	void SetCurrentRSState();
 
+	//Blender State Setters
 	void SetSolidBlend();
 	void SetTransparentBlend();
 
+	//Render Clear Colour Setter
 	void SetClearColor(float* color);
 
+	//Current Camera Setter
+	void SetCurrentCamera(std::shared_ptr<Camera> newCamera);
+
+
+	//Getters
 	UINT GetWindowWidth() const;
 	UINT GetWindowHeight() const;
 
@@ -82,32 +91,29 @@ public:
 
 
 
-
-
-	LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-
 private:
+	//Mouse Event
 	void OnMouseMove(WPARAM btnState, int x, int y);
-	void OnMouseDown(WPARAM btnState, int x, int y);
 
-
+	//Initialization Functions
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
-
-	void InitializeSampler();
-
+	HRESULT InitSampler();
+	HRESULT InitBlendState();
 	HRESULT InitRenderTarget();
-	void Cleanup();
-
 	HRESULT InitDepthBuffer();
 	HRESULT InitSwapChain();
 	HRESULT InitWireframeView();
 	HRESULT InitSolidView();
 	HRESULT InitFrontCulling();
 	HRESULT InitConstantBuffer();
+
 	void InitViewport();
 
+	//Memory Cleanup
+	void Cleanup();
+
+	//Short hand for checking HRESULT error codes
 	bool CheckResult(int in);
 
 private:
@@ -115,8 +121,8 @@ private:
 	ID3D11DeviceContext* pDeviceContext = nullptr;
 
 
-	HINSTANCE               mInstance;
-	HWND                    mWindow;
+	HINSTANCE               mInstance = nullptr;
+	HWND                    mWindow = nullptr;
 
 	D3D_DRIVER_TYPE         mDriverType;
 	D3D_FEATURE_LEVEL       mfeatureLevel;
@@ -141,15 +147,18 @@ private:
 
 	std::shared_ptr<Camera> pCurrentCamera;
 
-
+	//Window Size
 	UINT mWindowHeight;
 	UINT mWindowWidth;
 
+	//Mouse Position
 	int mMouseX = 0;
 	int mMouseY = 0;
 
+	//Render Clear Colour
 	float mClearColor[4] = { 0.5f,0.5f,0.5f,1.0f };
 
+	//Scene Lighting Variables
 	DirectionalLight mDirectionalLight;
 	PointLight mPointLight;
 	SpotLight mSpotLight;
