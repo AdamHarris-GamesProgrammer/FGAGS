@@ -41,7 +41,7 @@ private:
 	__int64 mPreviousTime;
 	__int64 mCurrentTime;
 
-	bool isStopped;
+	bool mIsStopped;
 
 };
 

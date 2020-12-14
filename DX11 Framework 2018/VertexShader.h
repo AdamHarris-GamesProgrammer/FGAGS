@@ -17,7 +17,7 @@ public:
 		HRESULT hr;
 
 		// Compiles the vertex shader
-		hr = CompileShaderFromFile(shaderPath, "VS", "vs_4_0", &pVSBlob);
+		hr = CompileShaderFromFile(shaderPath, &pVSBlob);
 
 		if (FAILED(hr))
 		{
@@ -48,8 +48,6 @@ public:
 	}
 
 	~VertexShader() {
-		if (pVertexShader) pVertexShader->Release();
-		if (pLayout) pLayout->Release();
 	}
 
 private:
@@ -60,7 +58,7 @@ private:
 
 
 private:
-	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) {
+	HRESULT CompileShaderFromFile(WCHAR* szFileName, ID3DBlob** ppBlobOut) {
 		HRESULT hr = S_OK;
 
 		DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -73,7 +71,7 @@ private:
 #endif
 
 		ID3DBlob* pErrorBlob;
-		hr = D3DCompileFromFile(szFileName, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, szEntryPoint, szShaderModel,
+		hr = D3DCompileFromFile(szFileName, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS", "vs_4_0",
 			dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
 
 		if (FAILED(hr))

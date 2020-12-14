@@ -3,7 +3,7 @@
 
 Time::Time() 
 	: mSecondsPerCount(0.0), mDeltaTime(-1.0), mBaseTime(0), 
-	mPausedTime(0), mPreviousTime(0.0), mCurrentTime(0), isStopped(false)
+	mPausedTime(0), mPreviousTime(0.0), mCurrentTime(0), mIsStopped(false)
 {
 	__int64 countsPerSecond;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&countsPerSecond);
@@ -13,7 +13,7 @@ Time::Time()
 
 float Time::GameTime() const
 {
-	if (isStopped) {
+	if (mIsStopped) {
 		//Gets the total time from when we paused
 		return (float)(((mStopTime - mPausedTime) - mBaseTime) * mSecondsPerCount);
 	}
@@ -38,7 +38,7 @@ void Time::Reset()
 	mBaseTime = currentTime;
 	mPreviousTime = currentTime;
 	mStopTime = 0.0;
-	isStopped = false;
+	mIsStopped = false;
 }
 
 void Time::Start()
@@ -46,7 +46,7 @@ void Time::Start()
 	__int64 startTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
 
-	if (isStopped) {
+	if (mIsStopped) {
 		//Accumulate the time elapsed between stop and start function calls
 		mPausedTime += (startTime - mStopTime);
 
@@ -55,14 +55,14 @@ void Time::Start()
 
 		//resets stop time
 		mStopTime = 0;
-		isStopped = false;
+		mIsStopped = false;
 	}
 }
 
 void Time::Stop()
 {
 	//if the timer is stopped then dont do anything
-	if (isStopped) return;
+	if (mIsStopped) return;
 
 	__int64 currentTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
@@ -70,14 +70,14 @@ void Time::Stop()
 	//Save the time we stopped at
 	mStopTime = currentTime;
 
-	isStopped = true;
+	mIsStopped = true;
 }
 
 
 void Time::Tick()
 {
 	//if the timer is stopped then dont calculate delta time
-	if (isStopped) {
+	if (mIsStopped) {
 		mDeltaTime = 0.0f;
 		return;
 	}

@@ -13,7 +13,7 @@ public:
 		ID3DBlob* pPSBlob = nullptr;
 
 		//Attempts to compile the shader
-		if (FAILED(CompileShaderFromFile(shaderPath, "PS", "ps_4_0", &pPSBlob)))
+		if (FAILED(CompileShaderFromFile(shaderPath, &pPSBlob)))
 		{
 			MessageBox(nullptr,
 				L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
@@ -27,7 +27,6 @@ public:
 	}
 
 	~PixelShader() {
-		if (pPixelShader) pPixelShader->Release();
 	}
 
 	//Overrides the base Bind function and sets the pixel shader that needs to be used
@@ -41,7 +40,7 @@ private:
 
 private:
 	//Compiles a shader from file
-	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
+	HRESULT CompileShaderFromFile(WCHAR* szFileName, ID3DBlob** ppBlobOut)
 	{
 		HRESULT hr = S_OK;
 
@@ -55,7 +54,7 @@ private:
 #endif
 
 		ID3DBlob* pErrorBlob;
-		hr = D3DCompileFromFile(szFileName, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, szEntryPoint, szShaderModel,
+		hr = D3DCompileFromFile(szFileName, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PS", "ps_4_0",
 			dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
 
 		if (FAILED(hr))

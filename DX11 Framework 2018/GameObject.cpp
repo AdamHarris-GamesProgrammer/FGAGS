@@ -16,7 +16,7 @@ GameObject::~GameObject()
 {
 	delete pVertexShader;
 	delete pPixelShader;
-	delete pVertexShader;
+	delete pVertexBuffer;
 	delete pIndexBuffer;
 
 	pVertexBuffer = nullptr;

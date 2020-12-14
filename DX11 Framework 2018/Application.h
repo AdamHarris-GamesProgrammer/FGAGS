@@ -35,7 +35,7 @@ public:
 
 	void Draw();
 
-	GameObject* FindGameObjectWithName(std::string name);
+	
 
 private:
 	void Picking();
@@ -46,6 +46,8 @@ private:
 	void CursorControls(float dt);
 
 	void CameraControls(float dt);
+
+	GameObject* FindGameObjectWithName(std::string name);
 
 private:
 	//Time object used to track delta time for object translations
