@@ -5,6 +5,7 @@
 /// <summary>
 /// Index Buffer class is used to create and bind a index buffer to the graphical pipeline 
 /// </summary>
+/// //B1
 class IndexBuffer : public Bindable {
 public:
 	//Creates the Index Buffer

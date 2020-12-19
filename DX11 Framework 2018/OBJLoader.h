@@ -16,6 +16,7 @@ struct MeshData
 	float Radius;
 };
 
+//B2
 namespace OBJLoader
 {
 	//The only method you'll need to call

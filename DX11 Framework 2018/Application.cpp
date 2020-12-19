@@ -26,6 +26,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mImGuiManager = ImGUIManager(pGfx);
 	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
+	//G1 
 	//Sets the game objects vector and loads the objects from the json file
 	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile("Assets/Levels/level.json");
 
@@ -34,7 +35,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pDonut = FindGameObjectWithName("Donut");
 
 
-
+	//C2
 	//Initializes the Ground Plane object and creates the geometry
 	pGroundPlane = new Plane(pGfx);
 	pGroundPlane->Make(75.0, 75.0f, 8, 8);
@@ -61,16 +62,22 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGfx->SetCurrentCamera(pCameraA);
 
 	//Sets the default positions and look at targets for the cameras
+	//I2
 	pCameraA->LookAt(XMFLOAT3(0.0f, 8.0f, -15.0f),XMFLOAT3(0.0f, 0.0f, 0.0f));
+	//I1
 	pCameraB->LookAt(XMFLOAT3(0.0f, 4.5f, -10.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
+	//H1
 	pCameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
+	//H2
 	pCameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
 
+	//C1
 	//Initializes the skysphere and scales it up
 	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
 	pSkySphere->SetScale(500.0f, 500.0f, 500.0f);
 
+	//J1
 	//Loads the skybox texture and sets the shader
 	pSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
 	pSkySphere->SetShader(L"Skybox.fx");
@@ -151,6 +158,7 @@ void Application::Update()
 	pSkySphere->Update(dt);
 }
 
+//E1
 void Application::SelectedObjectControl(float dt)
 {
 	XMFLOAT3 objectPosition = pSelectedObject->GetPosition();
@@ -175,6 +183,7 @@ void Application::SelectedObjectControl(float dt)
 	}
 }
 
+//J4
 void Application::DrawGUI()
 {
 	//Simulation Settings Window
@@ -186,6 +195,7 @@ void Application::DrawGUI()
 		//Opens a Window called "Simulation Settings, which defaults to open and is non re sizable
 		ImGui::Begin("Simulation Settings", open, ImGuiWindowFlags_NoResize);
 
+		//E3
 		//Object Movement Speed
 		ImGui::Text("Object Movement Speed: ");
 		ImGui::SameLine();
@@ -198,6 +208,7 @@ void Application::DrawGUI()
 		ImGui::PushItemWidth(100.0f);
 		ImGui::SliderFloat("##", &mObjectRotationSpeed, 0.0f, 15.0f);
 
+		//C3
 		//Wireframe Checkbox
 		ImGui::Text("Wireframe Mode: ");
 		ImGui::SameLine();
@@ -277,7 +288,7 @@ void Application::DrawGUI()
 	//Calls the lighting control panel method in the graphics class
 	pGfx->LightingWindow();
 }
-
+//J3
 void Application::Picking()
 {
 	int mouseX = pGfx->GetMouseX();
@@ -420,6 +431,7 @@ void Application::Draw()
 
 	pGfx->SetSolidBlend();
 
+	//J1
 	//Draw Sky sphere
 	pGfx->SetFrontFaceCulling();
 	pSkySphere->Draw();

@@ -1,6 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 
+//B1
 struct SimpleVertex
 {
 	DirectX::XMFLOAT3 Pos;

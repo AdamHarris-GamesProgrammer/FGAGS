@@ -5,6 +5,7 @@
 /// <summary>
 /// Vertex Buffer class is used to create and bind a Vertex Buffer to the graphical pipeline 
 /// </summary>
+/// //B1
 class VertexBuffer : public Bindable {
 public:
 	//Creates a Vertex Buffer object

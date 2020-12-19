@@ -298,6 +298,7 @@ HRESULT Graphics::InitRenderTarget()
 	pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
+//C4
 HRESULT Graphics::InitDepthBuffer()
 {
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -467,6 +468,7 @@ void Graphics::ClearBuffers()
 {
 	pDeviceContext->ClearRenderTargetView(pRenderTargetView, mClearColor);
 
+	//C4
 	pDeviceContext->ClearDepthStencilView(pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 

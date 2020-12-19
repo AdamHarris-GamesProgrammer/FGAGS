@@ -6,6 +6,7 @@
 #include "DDSTextureLoader.h"
 #include "BindableHeaders.h"
 
+//K1
 class GameObject
 {
 public:

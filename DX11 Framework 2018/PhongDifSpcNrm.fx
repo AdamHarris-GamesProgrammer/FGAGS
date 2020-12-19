@@ -3,12 +3,16 @@
 #include "ConstantBuffers.fx"
 
 // Texture Maps for Diffuse, Specular and Normal
+//F1
 Texture2D txDiffuse : register(t0);
 Texture2D txSpecular : register(t1);
+//J2
 Texture2D txNormal : register(t2);
 
 //Sampler
 SamplerState samplerAnisotropic : register(s0);
+
+//D2
 
 // Pixel Shader
 float4 PS(VS_OUTPUT input) : SV_Target
@@ -29,11 +33,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
     //Calculates the vector from the cameras position (EyePosW) and the objects position (input.PosW)
     float3 toEyeW = normalize(EyePosW - input.PosW);
     
+    //D3
     //variables used to store the final colours of each types of shading
     float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
     float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
     float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
     
+    //J2
     //short hand for the normal at this texel of the normal map
 	float3 norm = input.normalW * normalColour;
     
@@ -57,6 +63,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
 	diffuse += D;
 	spec += S;
     
+    //F2
     //Calculates the final colour based on the texture colour and the calculated lighting colours
     float4 litColor = textureColour * (ambient + diffuse) + (specularColour * spec);
     //Sets the alpha colour

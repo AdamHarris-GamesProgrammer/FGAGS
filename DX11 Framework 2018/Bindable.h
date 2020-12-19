@@ -4,6 +4,7 @@
 /// <summary>
 /// Bindable Class acts as a purely virtual base class for all things that get bound to the graphical pipeline, such as Vertex Buffers, Index Buffers and Shaders
 /// </summary>
+/// //K2
 class Bindable
 {
 public:
