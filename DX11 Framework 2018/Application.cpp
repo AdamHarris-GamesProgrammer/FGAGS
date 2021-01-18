@@ -41,7 +41,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGroundPlane->Make(75.0, 75.0f, 8, 8);
 
 	//Sets default positions
-	pGroundPlane->transform.SetPosition(0.0f, -1.6f, 0.0f);
+	pGroundPlane->GetTransform().SetPosition(0.0f, -1.6f, 0.0f);
 
 	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
@@ -75,7 +75,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//C1
 	//Initializes the skysphere and scales it up
 	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
-	pSkySphere->transform.SetScale(500.0f, 500.0f, 500.0f);
+	pSkySphere->GetTransform().SetScale(500.0f, 500.0f, 500.0f);
 
 	//J1
 	//Loads the skybox texture and sets the shader
@@ -84,10 +84,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Initializes the transparent cube object, and positions it
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
-	pBlendedCube->transform.SetPosition(4.0f, 1.2f, 3.0f);
+	pBlendedCube->GetTransform().SetPosition(4.0f, 1.2f, 3.0f);
 
 	//Sets the material, texture and shader
-	pBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
+	pBlendedCube->GetMaterial().SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
 	pBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
 	pBlendedCube->SetShader(L"PhongDif.fx");
 
@@ -115,7 +115,7 @@ void Application::Update()
 	//Checks that a selected object is available and that Camera B is the current camera
 	if (pSelectedObject != nullptr && pCurrentCamera == pCameraB) {
 		//Gets the selected objects position
-		XMFLOAT3 selectedObjectPosition = pSelectedObject->transform.GetPosition();
+		XMFLOAT3 selectedObjectPosition = pSelectedObject->GetTransform().GetPosition();
 
 		//Calculates the camera position with the camera offset added to it
 		XMFLOAT3 newCameraBPos = XMFLOAT3
@@ -137,8 +137,8 @@ void Application::Update()
 	mObjectRotationValue += (mObjectRotationSpeed * dt);
 
 	//Sets the rotation of the cube and the donut game objects
-	pCube->transform.SetRotation(10.0f, mObjectRotationValue, 0.0f);
-	pDonut->transform.SetRotation(mObjectRotationValue, 0.0f, 0.0f);
+	pCube->GetTransform().SetRotation(10.0f, mObjectRotationValue, 0.0f);
+	pDonut->GetTransform().SetRotation(mObjectRotationValue, 0.0f, 0.0f);
 
 	//Updates the view matrix for the current camera
 	pCurrentCamera->UpdateViewMatrix();
@@ -154,14 +154,14 @@ void Application::Update()
 
 
 	//Sets the position of the sky sphere to the cameras position so that the camera cant fly out of the sky
-	pSkySphere->transform.SetPosition(pCurrentCamera->GetPosition());
+	pSkySphere->GetTransform().SetPosition(pCurrentCamera->GetPosition());
 	pSkySphere->Update(dt);
 }
 
 //E1
 void Application::SelectedObjectControl(float dt)
 {
-	XMFLOAT3 objectPosition = pSelectedObject->transform.GetPosition();
+	XMFLOAT3 objectPosition = pSelectedObject->GetTransform().GetPosition();
 
 	if (GetAsyncKeyState('W')) {
 		objectPosition.z += mObjectMovementSpeed * dt;
@@ -177,9 +177,9 @@ void Application::SelectedObjectControl(float dt)
 	}
 
 	//if the position of the selected object changed then update the new position
-	if (objectPosition.x != pSelectedObject->transform.GetPosition().x
-		|| objectPosition.z != pSelectedObject->transform.GetPosition().z) {
-		pSelectedObject->transform.SetPosition(objectPosition);
+	if (objectPosition.x != pSelectedObject->GetTransform().GetPosition().x
+		|| objectPosition.z != pSelectedObject->GetTransform().GetPosition().z) {
+		pSelectedObject->GetTransform().SetPosition(objectPosition);
 	}
 }
 
@@ -273,13 +273,13 @@ void Application::DrawGUI()
 			
 			//Object Position
 			float pos[3] = {
-				pSelectedObject->transform.GetPosition().x,
-				pSelectedObject->transform.GetPosition().y,
-				pSelectedObject->transform.GetPosition().z,
+				pSelectedObject->GetTransform().GetPosition().x,
+				pSelectedObject->GetTransform().GetPosition().y,
+				pSelectedObject->GetTransform().GetPosition().z,
 			};
 
 			ImGui::SliderFloat3("Position", pos, -100.0f, 100.0f);
-			pSelectedObject->transform.SetPosition(pos[0], pos[1], pos[2]);
+			pSelectedObject->GetTransform().SetPosition(pos[0], pos[1], pos[2]);
 		}
 
 		ImGui::End();

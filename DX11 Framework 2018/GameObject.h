@@ -34,20 +34,14 @@ public:
 	void SetShader(WCHAR* path);
 
 
-
-
-	void SetMaterialDiffuse(XMFLOAT4 color);
-	void SetMaterialAmbient(XMFLOAT4 color);
-	void SetMaterialSpecular(XMFLOAT4 color);
 	void SetName(std::string& name);
 
 
-	Material GetMaterial() const;
+	Material& GetMaterial();
+	Transform& GetTransform();
 	std::string GetName() const;
 
-	Transform transform;
-
-
+	
 private:
 	void Initialize();
 
@@ -71,5 +65,7 @@ protected:
 	std::string mName = "Gameobject";
 
 	Material mMaterial;
+	Transform mTransform;
+
 };
 

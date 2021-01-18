@@ -29,8 +29,8 @@ void GameObject::Update(float dt)
 {
 	//Stores the objects new world space location
 	//Updates the bounding spheres position
-	transform.Update();
-	mBoundingSphere.Center = transform.GetPosition();
+	mTransform.Update();
+	mBoundingSphere.Center = mTransform.GetPosition();
 }
 
 //Collision method may be different each type of object
@@ -57,7 +57,7 @@ void GameObject::Draw()
 	pGfx->SetConstantBuffer();
 
 	//Sends the objects material and transform to the graphics class for the updated constant buffer
-	pGfx->SetObjectBuffers(mMaterial, transform.GetTransform());
+	pGfx->SetObjectBuffers(mMaterial, mTransform.GetTransform());
 
 	//Draws the object
 	pGfx->Draw(pIndexBuffer->GetIndexCount());
@@ -79,7 +79,7 @@ void GameObject::CreateTexture(const wchar_t* path)
 void GameObject::Initialize()
 {
 	//Initializes the position and rotation to world origin
-	transform = Transform();
+	mTransform = Transform();
 	
 	//Sets sensible default values for the material
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
@@ -88,7 +88,7 @@ void GameObject::Initialize()
 
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
-	mBoundingSphere.Center = transform.GetPosition();
+	mBoundingSphere.Center = mTransform.GetPosition();
 
 	//Creates a temporary layout array for the vertex shader
 	D3D11_INPUT_ELEMENT_DESC layout[] =
@@ -109,11 +109,14 @@ std::string GameObject::GetName() const
 }
 
 
-Material GameObject::GetMaterial() const
+Material& GameObject::GetMaterial() 
 {
 	return mMaterial;
 }
 
+Transform& GameObject::GetTransform() {
+	return mTransform;
+}
 
 #pragma endregion
 
@@ -126,22 +129,4 @@ void GameObject::SetName(std::string& name)
 {
 	mName = name;
 }
-
-
-
-void GameObject::SetMaterialDiffuse(XMFLOAT4 color)
-{
-	mMaterial.Diffuse = color;
-}
-
-void GameObject::SetMaterialAmbient(XMFLOAT4 color)
-{
-	mMaterial.Ambient = color;
-}
-
-void GameObject::SetMaterialSpecular(XMFLOAT4 color)
-{
-	mMaterial.Specular = color;
-}
-
 #pragma endregion

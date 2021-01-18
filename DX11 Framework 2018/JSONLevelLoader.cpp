@@ -56,19 +56,19 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		//Checks for the position attribute and sets the objects position
 		if (HasAttribute(&jsonGo, "position")) {
 			std::vector<float> position = jsonGo["position"];
-			go->transform.SetPosition(position[0], position[1], position[2]);
+			go->GetTransform().SetPosition(position[0], position[1], position[2]);
 		}
 
 		//Checks for the rotation attribute and sets the objects rotation
 		if (HasAttribute(&jsonGo, "rotation")) {
 			std::vector<float> rotation = jsonGo["rotation"];
-			go->transform.SetRotation(rotation[0], rotation[1], rotation[2]);
+			go->GetTransform().SetRotation(rotation[0], rotation[1], rotation[2]);
 		}
 
 		//Checks for the scale attribute and sets the objects scale
 		if (HasAttribute(&jsonGo, "scale")) {
 			std::vector<float> scale = jsonGo["scale"];
-			go->transform.SetScale(scale[0], scale[1], scale[2]);
+			go->GetTransform().SetScale(scale[0], scale[1], scale[2]);
 		}
 
 		//Checks for the mesh path attribute and loads the mesh
@@ -107,19 +107,19 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		//Checks for the ambient attribute and sets the objects ambient material
 		if (HasAttribute(&jsonGo, "ambient")) {
 			std::vector<float> colorVals = jsonGo["ambient"];
-			go->SetMaterialAmbient(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+			go->GetMaterial().SetMaterialAmbient(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 
 		//Checks for the diffuse attribute and sets the objects diffuse material
 		if (HasAttribute(&jsonGo, "diffuse")) {
 			std::vector<float> colorVals = jsonGo["diffuse"];
-			go->SetMaterialDiffuse(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+			go->GetMaterial().SetMaterialDiffuse(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 
 		//Checks for the specular attribute and sets the objects specular material
 		if (HasAttribute(&jsonGo, "specular")) {
 			std::vector<float> colorVals = jsonGo["specular"];
-			go->SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+			go->GetMaterial().SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 		
 		//Checks for the bounding sphere attribute and initializes the sphere
