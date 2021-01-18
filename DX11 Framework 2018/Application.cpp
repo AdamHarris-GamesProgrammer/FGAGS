@@ -41,7 +41,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGroundPlane->Make(75.0, 75.0f, 8, 8);
 
 	//Sets default positions
-	pGroundPlane->SetPosition(0.0f, -1.6f, 0.0f);
+	pGroundPlane->transform.SetPosition(0.0f, -1.6f, 0.0f);
 
 	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
@@ -75,7 +75,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//C1
 	//Initializes the skysphere and scales it up
 	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
-	pSkySphere->SetScale(500.0f, 500.0f, 500.0f);
+	pSkySphere->transform.SetScale(500.0f, 500.0f, 500.0f);
 
 	//J1
 	//Loads the skybox texture and sets the shader
@@ -84,7 +84,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Initializes the transparent cube object, and positions it
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
-	pBlendedCube->SetPosition(4.0f, 1.2f, 3.0f);
+	pBlendedCube->transform.SetPosition(4.0f, 1.2f, 3.0f);
 
 	//Sets the material, texture and shader
 	pBlendedCube->SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
@@ -115,7 +115,7 @@ void Application::Update()
 	//Checks that a selected object is available and that Camera B is the current camera
 	if (pSelectedObject != nullptr && pCurrentCamera == pCameraB) {
 		//Gets the selected objects position
-		XMFLOAT3 selectedObjectPosition = pSelectedObject->GetPosition();
+		XMFLOAT3 selectedObjectPosition = pSelectedObject->transform.GetPosition();
 
 		//Calculates the camera position with the camera offset added to it
 		XMFLOAT3 newCameraBPos = XMFLOAT3
@@ -137,8 +137,8 @@ void Application::Update()
 	mObjectRotationValue += (mObjectRotationSpeed * dt);
 
 	//Sets the rotation of the cube and the donut game objects
-	pCube->SetRotation(10.0f, mObjectRotationValue, 0.0f);
-	pDonut->SetRotation(mObjectRotationValue, 0.0f, 0.0f);
+	pCube->transform.SetRotation(10.0f, mObjectRotationValue, 0.0f);
+	pDonut->transform.SetRotation(mObjectRotationValue, 0.0f, 0.0f);
 
 	//Updates the view matrix for the current camera
 	pCurrentCamera->UpdateViewMatrix();
@@ -154,14 +154,14 @@ void Application::Update()
 
 
 	//Sets the position of the sky sphere to the cameras position so that the camera cant fly out of the sky
-	pSkySphere->SetPosition(pCurrentCamera->GetPosition());
+	pSkySphere->transform.SetPosition(pCurrentCamera->GetPosition());
 	pSkySphere->Update(dt);
 }
 
 //E1
 void Application::SelectedObjectControl(float dt)
 {
-	XMFLOAT3 objectPosition = pSelectedObject->GetPosition();
+	XMFLOAT3 objectPosition = pSelectedObject->transform.GetPosition();
 
 	if (GetAsyncKeyState('W')) {
 		objectPosition.z += mObjectMovementSpeed * dt;
@@ -177,9 +177,9 @@ void Application::SelectedObjectControl(float dt)
 	}
 
 	//if the position of the selected object changed then update the new position
-	if (objectPosition.x != pSelectedObject->GetPosition().x
-		|| objectPosition.z != pSelectedObject->GetPosition().z) {
-		pSelectedObject->SetPosition(objectPosition);
+	if (objectPosition.x != pSelectedObject->transform.GetPosition().x
+		|| objectPosition.z != pSelectedObject->transform.GetPosition().z) {
+		pSelectedObject->transform.SetPosition(objectPosition);
 	}
 }
 
@@ -273,13 +273,13 @@ void Application::DrawGUI()
 			
 			//Object Position
 			float pos[3] = {
-				pSelectedObject->GetPosition().x,
-				pSelectedObject->GetPosition().y,
-				pSelectedObject->GetPosition().z,
+				pSelectedObject->transform.GetPosition().x,
+				pSelectedObject->transform.GetPosition().y,
+				pSelectedObject->transform.GetPosition().z,
 			};
 
 			ImGui::SliderFloat3("Position", pos, -100.0f, 100.0f);
-			pSelectedObject->SetPosition(pos[0], pos[1], pos[2]);
+			pSelectedObject->transform.SetPosition(pos[0], pos[1], pos[2]);
 		}
 
 		ImGui::End();

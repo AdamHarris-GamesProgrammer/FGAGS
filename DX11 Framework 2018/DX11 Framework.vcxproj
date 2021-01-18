@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>DX11 Framework</ProjectName>
+    <ProjectName>Project RedSky</ProjectName>
     <ProjectGuid>{B8FF81B5-9B26-4931-8353-07795FDC4043}</ProjectGuid>
     <RootNamespace>DX11 Framework</RootNamespace>
     <Keyword>Win32Proj</Keyword>
@@ -391,6 +391,7 @@
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -418,6 +419,7 @@
     <ClInclude Include="Plane.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
     <ResourceCompile Include="DX11 Framework.rc" />

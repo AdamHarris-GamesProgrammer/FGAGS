@@ -22,7 +22,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 	//Reads the data from the file into the json object
 	inFile >> jsonFile;
 
-	//Sets a seperate json object for the gameobjects collection  from the file
+	//Sets a separate json object for the gameobjects collection  from the file
 	json gameobjects = jsonFile["gameobjects"];
 	//Gets the size
 	int size = gameobjects.size();
@@ -56,19 +56,19 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		//Checks for the position attribute and sets the objects position
 		if (HasAttribute(&jsonGo, "position")) {
 			std::vector<float> position = jsonGo["position"];
-			go->SetPosition(position[0], position[1], position[2]);
+			go->transform.SetPosition(position[0], position[1], position[2]);
 		}
 
 		//Checks for the rotation attribute and sets the objects rotation
 		if (HasAttribute(&jsonGo, "rotation")) {
 			std::vector<float> rotation = jsonGo["rotation"];
-			go->SetRotation(rotation[0], rotation[1], rotation[2]);
+			go->transform.SetRotation(rotation[0], rotation[1], rotation[2]);
 		}
 
 		//Checks for the scale attribute and sets the objects scale
 		if (HasAttribute(&jsonGo, "scale")) {
 			std::vector<float> scale = jsonGo["scale"];
-			go->SetScale(scale[0], scale[1], scale[2]);
+			go->transform.SetScale(scale[0], scale[1], scale[2]);
 		}
 
 		//Checks for the mesh path attribute and loads the mesh

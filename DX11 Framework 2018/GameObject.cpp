@@ -29,8 +29,8 @@ void GameObject::Update(float dt)
 {
 	//Stores the objects new world space location
 	//Updates the bounding spheres position
-	CalculateTransform();
-	mBoundingSphere.Center = mPosition;
+	transform.Update();
+	mBoundingSphere.Center = transform.GetPosition();
 }
 
 //Collision method may be different each type of object
@@ -39,23 +39,6 @@ bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 	return false;
 }
 
-
-void GameObject::CalculateTransform()
-{
-	//Loads the transform matrix
-	XMMATRIX transformMatrix = XMLoadFloat4x4(&mTransform);
-
-	//Sets the scale, position and rotation matrices
-	XMMATRIX objectScale = XMMatrixScaling(mScale.x, mScale.y, mScale.z);
-	XMMATRIX objectPosition = XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z);
-	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z);
-
-	//Calculates the transform
-	XMMATRIX calculatedTransform = XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
-
-	//Stores the transform
-	XMStoreFloat4x4(&mTransform, calculatedTransform);
-}
 
 void GameObject::Draw()
 {
@@ -74,7 +57,7 @@ void GameObject::Draw()
 	pGfx->SetConstantBuffer();
 
 	//Sends the objects material and transform to the graphics class for the updated constant buffer
-	pGfx->SetObjectBuffers(mMaterial, mTransform);
+	pGfx->SetObjectBuffers(mMaterial, transform.GetTransform());
 
 	//Draws the object
 	pGfx->Draw(pIndexBuffer->GetIndexCount());
@@ -95,12 +78,8 @@ void GameObject::CreateTexture(const wchar_t* path)
 
 void GameObject::Initialize()
 {
-	XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
 	//Initializes the position and rotation to world origin
-	mPosition = XMFLOAT3(0.0f,0.0f,0.0f);
-	mRotation = XMFLOAT3(0.0f,0.0f,0.0f);
-	//Sets the default scale
-	mScale = XMFLOAT3(1.0f,1.0f,1.0f);
+	transform = Transform();
 	
 	//Sets sensible default values for the material
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
@@ -109,7 +88,7 @@ void GameObject::Initialize()
 
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
-	mBoundingSphere.Center = GetPosition();
+	mBoundingSphere.Center = transform.GetPosition();
 
 	//Creates a temporary layout array for the vertex shader
 	D3D11_INPUT_ELEMENT_DESC layout[] =
@@ -129,30 +108,13 @@ std::string GameObject::GetName() const
 	return mName;
 }
 
-DirectX::XMFLOAT3 GameObject::GetPosition() const
-{
-	return XMFLOAT3(mTransform._41, mTransform._42, mTransform._43);
-}
-
-DirectX::XMFLOAT3 GameObject::GetRotation() const
-{
-	return mRotation;
-}
-
-DirectX::XMFLOAT3 GameObject::GetScale() const
-{
-	return mScale;
-}
 
 Material GameObject::GetMaterial() const
 {
 	return mMaterial;
 }
 
-DirectX::XMFLOAT4X4 GameObject::GetTransform() const
-{
-	return mTransform;
-}
+
 #pragma endregion
 
 #pragma region Setters
@@ -165,30 +127,7 @@ void GameObject::SetName(std::string& name)
 	mName = name;
 }
 
-void GameObject::SetPosition(float x, float y, float z)
-{
-	mPosition = XMFLOAT3(x, y, z);
-}
 
-void GameObject::SetRotation(XMFLOAT3 rotation)
-{
-	mRotation = rotation;
-}
-
-void GameObject::SetRotation(float x, float y, float z)
-{
-	mRotation = XMFLOAT3(x, y, z);
-}
-
-void GameObject::SetScale(XMFLOAT3 scale)
-{
-	mScale = scale;
-}
-
-void GameObject::SetScale(float x, float y, float z)
-{
-	mScale = XMFLOAT3(x, y, z);
-}
 
 void GameObject::SetMaterialDiffuse(XMFLOAT4 color)
 {
@@ -203,21 +142,6 @@ void GameObject::SetMaterialAmbient(XMFLOAT4 color)
 void GameObject::SetMaterialSpecular(XMFLOAT4 color)
 {
 	mMaterial.Specular = color;
-}
-
-void GameObject::SetTransform(XMMATRIX transform)
-{
-	XMStoreFloat4x4(&mTransform, transform);
-}
-
-void GameObject::SetTransform(XMFLOAT4X4 transform)
-{
-	mTransform = transform;
-}
-
-void GameObject::SetPosition(XMFLOAT3 position)
-{
-	mPosition = position;
 }
 
 #pragma endregion
