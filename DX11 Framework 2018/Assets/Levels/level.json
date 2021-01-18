@@ -51,39 +51,6 @@
       "boundingSphere": "true"
     },
     {
-      "name": "BuildingA",
-      "position": [ 8.5, 0, -0.6 ],
-      "scale": [ 1.4, 1, 1.1 ],
-      "meshPath": "buildingA.obj",
-      "diffuseTexture": "Bricks_COLOR.dds",
-      "specularTexture": "Bricks_SPEC.dds",
-      "normalTexture": "Bricks_NRM.dds"
-    },
-    {
-      "name": "BuildingB",
-      "position": [ -5.0, 0, 20 ],
-      "meshPath": "buildingB.obj",
-      "diffuseTexture": "Bricks_COLOR.dds",
-      "specularTexture": "Bricks_SPEC.dds",
-      "normalTexture": "Bricks_NRM.dds"
-    },
-    {
-      "name": "BuildingC",
-      "position": [ 0, 0, -10 ],
-      "meshPath": "buildingC.obj",
-      "diffuseTexture": "Bricks_COLOR.dds",
-      "specularTexture": "Bricks_SPEC.dds",
-      "normalTexture": "Bricks_NRM.dds"
-    },
-    {
-      "name": "BuildingD",
-      "position": [ 0, 0, -10 ],
-      "meshPath": "buildingD.obj",
-      "diffuseTexture": "Bricks_COLOR.dds",
-      "specularTexture": "Bricks_SPEC.dds",
-      "normalTexture": "Bricks_NRM.dds"
-    },
-    {
       "name": "FuelBarrel",
       "position": [ 0, 0, -2 ],
       "rotation": [ 3.14, 0, 0 ],
