@@ -47,8 +47,6 @@ private:
 
 	
 protected:
-
-
 	VertexShader* pVertexShader;
 	PixelShader* pPixelShader;
 	VertexBuffer* pVertexBuffer;

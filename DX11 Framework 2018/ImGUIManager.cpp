@@ -1,10 +1,10 @@
 #include "ImGUIManager.h"
 
-ImGUIManager::ImGUIManager(Graphics* gfx)
+ImGUIManager::ImGUIManager(ID3D11Device* device, ID3D11DeviceContext* context, HWND& wnd)
 {
 	ImGui::CreateContext();
-	ImGui_ImplDX11_Init(gfx->GetDevice(), gfx->GetDeviceContext());
-	ImGui_ImplWin32_Init(gfx->GetWnd());
+	ImGui_ImplDX11_Init(device,context);
+	ImGui_ImplWin32_Init(wnd);
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.WantCaptureMouse = true;

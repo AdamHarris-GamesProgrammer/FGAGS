@@ -17,6 +17,7 @@
 #include "Time.h"
 #include "Camera.h"
 #include "Plane.h"
+#include "SkySphere.h"
 
 #include <memory>
 
@@ -63,8 +64,9 @@ private:
 
 	MeshedObject* pBlendedCube = nullptr;
 
-	MeshedObject* pSkySphere = nullptr;
 	GameObject* pSelectedObject = nullptr;
+
+	SkySphere* pSkySphere = nullptr;
 
 	std::vector<GameObject*> pGameObjects;
 
@@ -76,9 +78,6 @@ private:
 
 	//Current Camera is stored so only the update code for one camera is called 
 	std::shared_ptr<Camera> pCurrentCamera = nullptr;
-
-	//ImGuiManager object
-	ImGUIManager mImGuiManager;
 
 	//Level loader object 
 	JSONLevelLoader mJSONLevelLoader;

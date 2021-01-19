@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics.h"
+#include <d3d11.h>
 
 #include "Imgui/imgui.h"
 #include "Imgui/imgui_impl_dx11.h"
@@ -9,7 +9,7 @@ class ImGUIManager
 {
 public:
 	ImGUIManager() = default;
-	ImGUIManager(Graphics* gfx);
+	ImGUIManager(ID3D11Device* device, ID3D11DeviceContext* context, HWND& wnd);
 
 
 	void BeginFrame();

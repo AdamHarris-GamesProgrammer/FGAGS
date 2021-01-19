@@ -8,8 +8,7 @@ class VertexShader : public Bindable {
 
 public:
 	//Creates a Vertex Shader object
-	VertexShader(ID3D11Device* device, ID3D11DeviceContext* context, WCHAR* shaderPath,
-		D3D11_INPUT_ELEMENT_DESC* layoutArray, UINT layoutSize)
+	VertexShader(ID3D11Device* device, ID3D11DeviceContext* context)
 		: Bindable(device, context)
 	{
 		ID3DBlob* pVSBlob = nullptr;
@@ -17,7 +16,7 @@ public:
 		HRESULT hr;
 
 		// Compiles the vertex shader
-		hr = CompileShaderFromFile(shaderPath, &pVSBlob);
+		hr = CompileShaderFromFile(L"VertexShaderUtilities.fx", &pVSBlob);
 
 		if (FAILED(hr))
 		{
@@ -33,8 +32,16 @@ public:
 			pVSBlob->Release();
 		}
 
+		//Creates a temporary layout array for the vertex shader
+		D3D11_INPUT_ELEMENT_DESC layout[] =
+		{
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+
 		//Creates the Input layout 
-		pDevice->CreateInputLayout(layoutArray, layoutSize, pVSBlob->GetBufferPointer(),
+		pDevice->CreateInputLayout(layout, 3, pVSBlob->GetBufferPointer(),
 			pVSBlob->GetBufferSize(), &pLayout);
 		pVSBlob->Release();
 	}
@@ -44,7 +51,6 @@ public:
 	{
 		pDeviceContext->IASetInputLayout(pLayout);
 		pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
-
 	}
 
 	~VertexShader() {

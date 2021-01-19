@@ -90,16 +90,10 @@ void GameObject::Initialize()
 	mBoundingSphere.Radius = 0.0f;
 	mBoundingSphere.Center = mTransform.GetPosition();
 
-	//Creates a temporary layout array for the vertex shader
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
+
 
 	//Sets the vertex shader
-	pVertexShader = new VertexShader(pGfx->GetDevice(), pGfx->GetDeviceContext(), L"VertexShaderUtilities.fx", layout, 3);
+	pVertexShader = new VertexShader(pGfx->GetDevice(), pGfx->GetDeviceContext());
 }
 
 #pragma region Getters
@@ -107,8 +101,6 @@ std::string GameObject::GetName() const
 {
 	return mName;
 }
-
-
 Material& GameObject::GetMaterial() 
 {
 	return mMaterial;

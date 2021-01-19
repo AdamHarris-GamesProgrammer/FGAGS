@@ -24,6 +24,8 @@ Graphics::Graphics()
 	mfeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
 	gfx = this;
+
+	
 }
 
 Graphics::~Graphics() {
@@ -75,6 +77,8 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mSpotLight.Range = 10000.0f;
 	mSpotLight.Direction = XMFLOAT3(1.0f, 0.1f, 0.0f);
 	mSpotLight.Position = XMFLOAT3(0.0f, 1.0f, 0.0f);
+
+	mImGuiManager = ImGUIManager(pDevice, pDeviceContext, mWindow);
 
 	return S_OK;
 }
@@ -483,6 +487,21 @@ void Graphics::Present()
 	// Present our back buffer to our front buffer
 	pSwapChain->Present(0, 0);
 }
+
+void Graphics::BeginFrame()
+{
+	mImGuiManager.BeginFrame();
+	ClearBuffers();
+	SetConstantBuffer();
+	SetSolidBlend();
+}
+
+void Graphics::EndFrame()
+{
+	mImGuiManager.EndFrame();
+	Present();
+}
+
 #pragma endregion
 
 #pragma region Setters

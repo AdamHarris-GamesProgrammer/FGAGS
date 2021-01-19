@@ -23,7 +23,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGfx->Initialise(hInstance, nCmdShow);
 
 	//Initializes the ImGUIManager and the JSON level loader
-	mImGuiManager = ImGUIManager(pGfx);
 	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
 	//G1 
@@ -62,25 +61,16 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGfx->SetCurrentCamera(pCameraA);
 
 	//Sets the default positions and look at targets for the cameras
-	//I2
 	pCameraA->LookAt(XMFLOAT3(0.0f, 8.0f, -15.0f),XMFLOAT3(0.0f, 0.0f, 0.0f));
-	//I1
 	pCameraB->LookAt(XMFLOAT3(0.0f, 4.5f, -10.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
-	//H1
 	pCameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
-	//H2
 	pCameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
 
-	//C1
 	//Initializes the skysphere and scales it up
-	pSkySphere = new MeshedObject(pGfx, "Assets/Models/sphere.obj");
-	pSkySphere->GetTransform().SetScale(500.0f, 500.0f, 500.0f);
+	std::string filepath = "Assets/Textures/Skybox.dds";
+	pSkySphere = new SkySphere(pGfx, filepath);
 
-	//J1
-	//Loads the skybox texture and sets the shader
-	pSkySphere->CreateTexture(L"Assets/Textures/Skybox.dds");
-	pSkySphere->SetShader(L"Skybox.fx");
 
 	//Initializes the transparent cube object, and positions it
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
@@ -152,13 +142,9 @@ void Application::Update()
 	//Updates the blended cube object
 	pBlendedCube->Update(dt);
 
-
-	//Sets the position of the sky sphere to the cameras position so that the camera cant fly out of the sky
-	pSkySphere->GetTransform().SetPosition(pCurrentCamera->GetPosition());
 	pSkySphere->Update(dt);
 }
 
-//E1
 void Application::SelectedObjectControl(float dt)
 {
 	XMFLOAT3 objectPosition = pSelectedObject->GetTransform().GetPosition();
@@ -183,7 +169,6 @@ void Application::SelectedObjectControl(float dt)
 	}
 }
 
-//J4
 void Application::DrawGUI()
 {
 	//Simulation Settings Window
@@ -288,7 +273,7 @@ void Application::DrawGUI()
 	//Calls the lighting control panel method in the graphics class
 	pGfx->LightingWindow();
 }
-//J3
+
 void Application::Picking()
 {
 	int mouseX = pGfx->GetMouseX();
@@ -423,20 +408,9 @@ void Application::CameraControls(float dt)
 
 void Application::Draw()
 {
-	mImGuiManager.BeginFrame();
+	pGfx->BeginFrame();
 
-	pGfx->ClearBuffers();
-
-	pGfx->SetConstantBuffer();
-
-	pGfx->SetSolidBlend();
-
-	//J1
-	//Draw Sky sphere
-	pGfx->SetFrontFaceCulling();
 	pSkySphere->Draw();
-	pGfx->SetCurrentRSState();
-
 
 	for (auto& object : pGameObjects) {
 		object->Draw();
@@ -447,10 +421,7 @@ void Application::Draw()
 
 	DrawGUI();
 
-	mImGuiManager.EndFrame();
-
-	pGfx->Present();
-
+	pGfx->EndFrame();
 }
 
 GameObject* Application::FindGameObjectWithName(std::string name)

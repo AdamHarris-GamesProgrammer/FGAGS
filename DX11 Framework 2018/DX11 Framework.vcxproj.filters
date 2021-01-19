@@ -106,6 +106,7 @@
       <Filter>Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="SkySphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -159,6 +160,7 @@
       <Filter>Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="SkySphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

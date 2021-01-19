@@ -10,6 +10,7 @@
 #include <windowsx.h>
 
 #include "LightingStructs.h"
+#include "ImGUIManager.h"
 #include "Camera.h"
 #include "VertexStruct.h"
 #include "OBJLoader.h"
@@ -46,6 +47,8 @@ public:
 	void ClearBuffers();
 	void Draw(unsigned int indexCount);
 	void Present();
+	void BeginFrame();
+	void EndFrame();
 
 	//Light Control Window
 	void LightingWindow();
@@ -162,6 +165,8 @@ private:
 	DirectionalLight mDirectionalLight;
 	PointLight mPointLight;
 	SpotLight mSpotLight;
+
+	ImGUIManager mImGuiManager;
 
 };
 
