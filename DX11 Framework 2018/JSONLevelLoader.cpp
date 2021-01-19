@@ -1,7 +1,5 @@
 #include "JSONLevelLoader.h"
 
-//json is shorthand for nlohmann::json
-using json = nlohmann::json;
 
 JSONLevelLoader::JSONLevelLoader(Graphics* gfx) : pGfx(gfx) {}
 
@@ -13,26 +11,13 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 	//Checks the pGfx object has been set
 	if (pGfx == nullptr) return gameObjects;
 
-	//Opens the file
-	std::ifstream inFile("Assets/Levels/level.json");
-
-	//Creates the json reader
-	json jsonFile;
-	
-	//Reads the data from the file into the json object
-	inFile >> jsonFile;
+	//Loads the contents of the file into a JSON object
+	json jsonFile = LoadJSONFile(filename);
 
 	//Sets a separate json object for the gameobjects collection  from the file
 	json gameobjects = jsonFile["gameobjects"];
 	//Gets the size
 	int size = gameobjects.size();
-
-	//Lambda for checking if the json object contains the specified key
-	auto HasAttribute = [](json* file, std::string key) {
-		if (file->contains(key)) return true;
-
-		return false;
-	};
 
 
 	for (unsigned int i = 0; i < size; i++) {
@@ -144,6 +129,63 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 
 	//Return the gameobjects vector 
 	return gameObjects;
+}
+
+std::vector<std::shared_ptr<Camera>> JSONLevelLoader::LoadCamerasFromFile(const char* filename)
+{
+	std::vector<std::shared_ptr<Camera>> cameras;
+
+	json jsonFile = LoadJSONFile(filename);
+
+	json cameraGroup = jsonFile["cameras"];
+
+	int size = cameraGroup.size();
+	cameras.resize(size);
+
+	for (int i = 0; i < size; i++) {
+		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+		json cameraGo = cameraGroup.at(i);
+
+		if (HasAttribute(&cameraGo, "lookat")) {
+			std::vector<float> lookatVals = cameraGo["lookat"];
+			if (lookatVals.size() == 6) {
+				camera->LookAt(XMFLOAT3(lookatVals[0], lookatVals[1], lookatVals[2]), XMFLOAT3(lookatVals[3], lookatVals[4], lookatVals[5]));
+			}
+			else if(lookatVals.size() == 3)
+			{
+				camera->LookAt(XMFLOAT3(lookatVals[0], lookatVals[1], lookatVals[2]), XMFLOAT3(0.0f, 0.0f, 0.0f));
+			}
+			else
+			{
+				//TODO: Implement debug class
+			}
+		}
+
+		cameras[i] = camera;
+	}
+
+	return cameras;
+}
+
+json JSONLevelLoader::LoadJSONFile(const char* filename)
+{
+	//Opens the file
+	std::ifstream inFile(filename);
+
+	//Creates the json reader
+	json jsonFile;
+
+	//Reads the data from the file into the json object
+	inFile >> jsonFile;
+
+	return jsonFile;
+}
+
+bool JSONLevelLoader::HasAttribute(json* file, std::string key)
+{
+	if (file->contains(key)) return true;
+
+	return false;
 }
 
 wchar_t* JSONLevelLoader::ConvertString(std::string& str)

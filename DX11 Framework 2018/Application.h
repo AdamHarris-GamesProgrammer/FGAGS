@@ -79,6 +79,8 @@ private:
 	//Current Camera is stored so only the update code for one camera is called 
 	std::shared_ptr<Camera> pCurrentCamera = nullptr;
 
+	std::vector<std::shared_ptr<Camera>> pCameras;
+
 	//Level loader object 
 	JSONLevelLoader mJSONLevelLoader;
 
