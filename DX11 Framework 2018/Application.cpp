@@ -34,10 +34,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	pCameras = mJSONLevelLoader.LoadCamerasFromFile("Assets/Levels/level.json");
-
-	__debugbreak();
-
-
+	pCurrentCamera = pCameras[0];
+	pGfx->SetCurrentCamera(pCurrentCamera);
 
 	//Initializes the Ground Plane object and creates the geometry
 	pGroundPlane = new Plane(pGfx);
@@ -52,21 +50,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Adds the ground plane to the game objects vector so it will be rendered and updated
 	pGameObjects.push_back(pGroundPlane);
 
-	//Initializes all camera objects
-	pCameraA = std::make_shared<Camera>();
-	pCameraB = std::make_shared<Camera>();
-	pCameraC = std::make_shared<Camera>();
-	pCameraD = std::make_shared<Camera>();
 
-	//Sets the current camera and sends it to the graphics class
-	pCurrentCamera = pCameraA;
-	pGfx->SetCurrentCamera(pCameraA);
-
-	//Sets the default positions and look at targets for the cameras
-	pCameraA->LookAt(XMFLOAT3(0.0f, 8.0f, -15.0f),XMFLOAT3(0.0f, 0.0f, 0.0f));
-	pCameraB->LookAt(XMFLOAT3(0.0f, 4.5f, -10.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
-	pCameraC->LookAt(XMFLOAT3(0.0f, 25.0f, -0.1f), XMFLOAT3(0.0f, 0.0f, 0.0f));
-	pCameraD->LookAt(XMFLOAT3(-25.0f, 25.0f, -25.0f), XMFLOAT3(0.0f, 0.0f, 0.0f));
 
 
 	//Initializes the skysphere and scales it up
@@ -104,7 +88,7 @@ void Application::Update()
 
 	//Camera B Selected Object Tracking 
 	//Checks that a selected object is available and that Camera B is the current camera
-	if (pSelectedObject != nullptr && pCurrentCamera == pCameraB) {
+	if (pSelectedObject != nullptr && pCurrentCamera == pCameras[1]) {
 		//Gets the selected objects position
 		XMFLOAT3 selectedObjectPosition = pSelectedObject->GetTransform().GetPosition();
 
@@ -117,7 +101,7 @@ void Application::Update()
 		);
 
 		//Uses the look at method to reposition camera b and aim it at the selected object
-		pCameraB->LookAt
+		pCameras[1]->LookAt
 		(
 			newCameraBPos,
 			selectedObjectPosition
@@ -345,21 +329,21 @@ void Application::PollInput(float dt)
 	}
 
 	if (GetAsyncKeyState('1')) {
-		pCurrentCamera = pCameraA;
-		pGfx->SetCurrentCamera(pCameraA);
+		pCurrentCamera = pCameras[0];
+		pGfx->SetCurrentCamera(pCurrentCamera);
 	}
 	else if (GetAsyncKeyState('2')) {
-		pCurrentCamera = pCameraB;
+		pCurrentCamera = pCameras[1];
 		mFlyingEnabled = false;
-		pGfx->SetCurrentCamera(pCameraB);
+		pGfx->SetCurrentCamera(pCurrentCamera);
 	}
 	else if (GetAsyncKeyState('3')) {
-		pCurrentCamera = pCameraC;
-		pGfx->SetCurrentCamera(pCameraC);
+		pCurrentCamera = pCameras[2];
+		pGfx->SetCurrentCamera(pCurrentCamera);
 	}
 	else if (GetAsyncKeyState('4')) {
-		pCurrentCamera = pCameraD;
-		pGfx->SetCurrentCamera(pCameraD);
+		pCurrentCamera = pCameras[3];
+		pGfx->SetCurrentCamera(pCurrentCamera);
 	}
 
 	if (GetAsyncKeyState('H')) {
@@ -395,16 +379,16 @@ void Application::CursorControls(float dt)
 
 void Application::CameraControls(float dt)
 {
-	if (GetAsyncKeyState('W')) pCameraA->Walk(10.0f * dt);
-	else if (GetAsyncKeyState('S')) pCameraA->Walk(-10.0f * dt);
-	if (GetAsyncKeyState('A')) pCameraA->Strafe(-10.0f * dt);
-	else if (GetAsyncKeyState('D')) pCameraA->Strafe(10.0f * dt);
+	if (GetAsyncKeyState('W')) pCameras[0]->Walk(10.0f * dt);
+	else if (GetAsyncKeyState('S')) pCameras[0]->Walk(-10.0f * dt);
+	if (GetAsyncKeyState('A')) pCameras[0]->Strafe(-10.0f * dt);
+	else if (GetAsyncKeyState('D')) pCameras[0]->Strafe(10.0f * dt);
 
-	if (GetAsyncKeyState('Q')) pCameraA->RotateY(-1.0f * dt);
-	else if (GetAsyncKeyState('E')) pCameraA->RotateY(1.0f * dt);
+	if (GetAsyncKeyState('Q')) pCameras[0]->RotateY(-1.0f * dt);
+	else if (GetAsyncKeyState('E')) pCameras[0]->RotateY(1.0f * dt);
 
-	if (GetAsyncKeyState('R')) pCameraA->Pitch(-1.0f * dt);
-	else if (GetAsyncKeyState('F')) pCameraA->Pitch(1.0f * dt);
+	if (GetAsyncKeyState('R')) pCameras[0]->Pitch(-1.0f * dt);
+	else if (GetAsyncKeyState('F')) pCameras[0]->Pitch(1.0f * dt);
 }
 
 void Application::Draw()

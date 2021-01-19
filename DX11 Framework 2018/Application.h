@@ -71,10 +71,7 @@ private:
 	std::vector<GameObject*> pGameObjects;
 
 	//Camera member variables
-	std::shared_ptr<Camera> pCameraA = nullptr;
-	std::shared_ptr<Camera> pCameraB = nullptr;
-	std::shared_ptr<Camera> pCameraC = nullptr;
-	std::shared_ptr<Camera> pCameraD = nullptr;
+
 
 	//Current Camera is stored so only the update code for one camera is called 
 	std::shared_ptr<Camera> pCurrentCamera = nullptr;
