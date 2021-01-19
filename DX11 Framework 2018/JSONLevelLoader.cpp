@@ -15,7 +15,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 	json jsonFile = LoadJSONFile(filename);
 
 	//Sets a separate json object for the gameobjects collection  from the file
-	json gameobjects = jsonFile["gameobjects"];
+	json gameobjects = jsonFile["meshedObjects"];
 	//Gets the size
 	int size = gameobjects.size();
 

@@ -20,8 +20,7 @@ public:
 	void Load(const char* filepath);
 	void Load(std::string& filepath);
 
-	//Initializes the bounding sphere with the radius of the model
-	void InitializeBoundingSphere();
+	void InitializeBoundingSphere() override;
 
 private:
 	MeshData mMesh;

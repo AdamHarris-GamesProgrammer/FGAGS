@@ -36,6 +36,8 @@ public:
 
 	void SetName(std::string& name);
 
+	//Initializes the bounding sphere with the radius of the model
+	virtual void InitializeBoundingSphere();
 
 	Material& GetMaterial();
 	Transform& GetTransform();

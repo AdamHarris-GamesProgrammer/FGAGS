@@ -121,4 +121,10 @@ void GameObject::SetName(std::string& name)
 {
 	mName = name;
 }
+
+void GameObject::InitializeBoundingSphere()
+{
+	mBoundingSphere.Radius = 1.0f;
+}
+
 #pragma endregion

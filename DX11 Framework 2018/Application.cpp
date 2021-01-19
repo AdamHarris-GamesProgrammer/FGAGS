@@ -33,9 +33,17 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pDonut = FindGameObjectWithName("Donut");
 
 
+
 	pCameras = mJSONLevelLoader.LoadCamerasFromFile("Assets/Levels/level.json");
 	pCurrentCamera = pCameras[0];
 	pGfx->SetCurrentCamera(pCurrentCamera);
+
+
+	//Initializes the skysphere and scales it up
+	std::string filepath = "Assets/Textures/Skybox.dds";
+	pSkySphere = new SkySphere(pGfx, filepath);
+
+
 
 	//Initializes the Ground Plane object and creates the geometry
 	pGroundPlane = new Plane(pGfx);
@@ -49,13 +57,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Adds the ground plane to the game objects vector so it will be rendered and updated
 	pGameObjects.push_back(pGroundPlane);
-
-
-
-
-	//Initializes the skysphere and scales it up
-	std::string filepath = "Assets/Textures/Skybox.dds";
-	pSkySphere = new SkySphere(pGfx, filepath);
 
 	//Initializes the transparent cube object, and positions it
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");

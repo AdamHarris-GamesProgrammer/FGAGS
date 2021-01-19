@@ -1,5 +1,5 @@
 {
-  "gameobjects": [
+  "meshedObjects": [
     {
       "name": "StationaryCube",
       "position": [ -8.0, 0, 0 ],
@@ -57,6 +57,11 @@
       "meshPath": "fuelBarrel.obj",
       "diffuseTexture": "Fuel_COLOR.dds",
       "boundingSphere": "true"
+    }
+  ],
+  "gameObjects": [
+    {
+
     }
   ],
   "cameras": [
