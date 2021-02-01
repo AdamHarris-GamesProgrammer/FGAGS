@@ -418,10 +418,12 @@
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="Precision.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="SkySphere.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
