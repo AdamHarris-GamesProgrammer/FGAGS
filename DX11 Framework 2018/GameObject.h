@@ -6,6 +6,7 @@
 #include "DDSTextureLoader.h"
 #include "BindableHeaders.h"
 #include "Transform.h"
+#include "Particle.h"
 
 //K1
 class GameObject
@@ -41,6 +42,7 @@ public:
 
 	Material& GetMaterial();
 	Transform& GetTransform();
+	Particle* GetParticle() const { return mParticle; }
 	std::string GetName() const;
 
 	
@@ -53,6 +55,7 @@ protected:
 	PixelShader* pPixelShader;
 	VertexBuffer* pVertexBuffer;
 	IndexBuffer* pIndexBuffer;
+	
 
 	BoundingSphere mBoundingSphere;
 
@@ -66,6 +69,7 @@ protected:
 
 	Material mMaterial;
 	Transform mTransform;
+	Particle* mParticle;
 
 };
 

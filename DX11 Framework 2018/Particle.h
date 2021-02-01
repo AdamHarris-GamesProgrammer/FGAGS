@@ -39,20 +39,26 @@ public:
 
 
 
-	real Mass() const;
-	void Mass(const real mass);
+	real GetMass() const;
+	void SetMass(const real mass);
 	bool HasFiniteMass() const {
 		return _inverseMass >= 0.0f;
 	}
-	real InverseMass() const { return _inverseMass; }
-	void InverseMass(real val) { _inverseMass = val; }
-	real Damping() const { return _damping; }
-	void Damping(real val) { _damping = val; }
-	Vector3 Acceleration() const { return _acceleration; }
-	void Acceleration(Vector3 val) { _acceleration = val; }
-	Vector3 Velocity() const { return _velocity; }
-	void Velocity(Vector3 val) { _velocity = val; }
-	Vector3 Position() const { return _position; }
-	void Position(Vector3 val) { _position = val; }
+	
+	real GetInverseMass() const { return _inverseMass; }
+	void SetInverseMass(real val) { _inverseMass = val; }
+	
+	real GetDamping() const { return _damping; }
+	void SetDamping(real val) { _damping = val; }
+	
+	Vector3 GetAcceleration() const { return _acceleration; }
+	void SetAcceleration(Vector3 val) { _acceleration = val; }
+	void SetAcceleration(float x, float y, float z) { _acceleration.x = x; _acceleration.y = y; _acceleration.z = z; }
+	Vector3 GetVelocity() const { return _velocity; }
+	void SetVelocity(Vector3 val) { _velocity = val; }
+	void SetVelocity(float x, float y, float z) { _velocity.x = x; _velocity.y = y; _velocity.z = z; }
+	Vector3 GetPosition() const { return _position; }
+	void SetPosition(Vector3 val) { _transform->SetPosition(val); }
+	void SetPosition(float x, float y, float z) { _transform->SetPosition(x, y, z); }
 };
 

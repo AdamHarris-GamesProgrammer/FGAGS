@@ -64,12 +64,13 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	//Sets the material, texture and shader
-	pBlendedCube->GetMaterial().SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
+	pBlendedCube->GetMaterial().SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.9f));
 	pBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
 	pBlendedCube->SetShader(L"PhongDif.fx");
 
 	//Initializes the bounding sphere collider
 	pBlendedCube->InitializeBoundingSphere();
+
 
 
 	//Initializes and resets the Timer object
@@ -343,6 +344,21 @@ void Application::PollInput(float dt)
 	else if (GetAsyncKeyState('4')) {
 		pCurrentCamera = pCameras[3];
 		pGfx->SetCurrentCamera(pCurrentCamera);
+	}
+
+	if (GetAsyncKeyState('5'))
+	{
+		pBlendedCube->GetParticle()->SetVelocity(Vector3(0.0, 30.0, 40.0));
+		pBlendedCube->GetParticle()->SetAcceleration(Vector3(0.0, -20.0, 0.0));
+		pBlendedCube->GetParticle()->SetMass(20.0);
+		pBlendedCube->GetParticle()->SetDamping(0.9);
+	}
+	if (GetAsyncKeyState('6')) {
+		pBlendedCube->GetParticle()->SetVelocity(Vector3());
+		pBlendedCube->GetParticle()->SetAcceleration(Vector3());
+		pBlendedCube->GetParticle()->SetMass(0.1);
+		pBlendedCube->GetParticle()->SetDamping(1.0);
+		pBlendedCube->GetTransform().SetPosition(4.0f, 1.2f, 0.0f);
 	}
 
 	if (GetAsyncKeyState('H')) {

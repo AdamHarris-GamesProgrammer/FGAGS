@@ -9,6 +9,11 @@ GameObject::GameObject()
 GameObject::GameObject(Graphics* gfx)
 {
 	this->pGfx = gfx;
+
+	//Initializes the position and rotation to world origin
+	mTransform = Transform();
+	mParticle = new Particle(&mTransform);
+
 	Initialize();
 }
 
@@ -29,6 +34,10 @@ void GameObject::Update(float dt)
 {
 	//Stores the objects new world space location
 	//Updates the bounding spheres position
+
+	mParticle->Integrate(dt);
+
+
 	mTransform.Update();
 	Vector3 pos = mTransform.GetPosition();
 	mBoundingSphere.Center = XMFLOAT3(pos.x, pos.y, pos.z);
@@ -79,8 +88,7 @@ void GameObject::CreateTexture(const wchar_t* path)
 
 void GameObject::Initialize()
 {
-	//Initializes the position and rotation to world origin
-	mTransform = Transform();
+
 	
 	//Sets sensible default values for the material
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
