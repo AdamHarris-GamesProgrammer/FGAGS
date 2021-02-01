@@ -30,7 +30,8 @@ void GameObject::Update(float dt)
 	//Stores the objects new world space location
 	//Updates the bounding spheres position
 	mTransform.Update();
-	mBoundingSphere.Center = mTransform.GetPosition();
+	Vector3 pos = mTransform.GetPosition();
+	mBoundingSphere.Center = XMFLOAT3(pos.x, pos.y, pos.z);
 }
 
 //Collision method may be different each type of object
@@ -88,7 +89,8 @@ void GameObject::Initialize()
 
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
-	mBoundingSphere.Center = mTransform.GetPosition();
+	Vector3 pos = mTransform.GetPosition();
+	mBoundingSphere.Center = XMFLOAT3(pos.x, pos.y, pos.z);
 
 
 

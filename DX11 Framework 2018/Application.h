@@ -95,7 +95,7 @@ private:
 	float mObjectMovementSpeed = 5.0f;
 
 	//Offset variable for positioning camera B around a object
-	XMFLOAT3 mCameraBOffset = XMFLOAT3(0.0f, 4.5f, -10.0f);
+	Vector3 mCameraBOffset = Vector3(0.0f, 4.5f, -10.0f);
 
 	//Boolean member variables
 	bool mWireframeEnabled = false;

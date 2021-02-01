@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "Precision.h"
 #include <assert.h>
+#include "Transform.h"
 
 
 class Particle
@@ -25,9 +26,11 @@ protected:
 	//Holds the inverse mass of the particle it is more useful to hold the inverse mass because integration is simpler
 	real _inverseMass;
 
-
+	Transform* _transform;
 
 public:
+	Particle(Transform* transform) : _transform(transform) {}
+
 	void Integrate(real dt);
 
 	void ClearAccumulator();

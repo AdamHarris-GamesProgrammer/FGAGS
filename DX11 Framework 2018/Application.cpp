@@ -62,6 +62,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
 	pBlendedCube->GetTransform().SetPosition(4.0f, 1.2f, 3.0f);
 
+
 	//Sets the material, texture and shader
 	pBlendedCube->GetMaterial().SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.5f));
 	pBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
@@ -91,21 +92,18 @@ void Application::Update()
 	//Checks that a selected object is available and that Camera B is the current camera
 	if (pSelectedObject != nullptr && pCurrentCamera == pCameras[1]) {
 		//Gets the selected objects position
-		XMFLOAT3 selectedObjectPosition = pSelectedObject->GetTransform().GetPosition();
+		Vector3 selectedObjectPosition = pSelectedObject->GetTransform().GetPosition();
+		XMFLOAT3 selectedPos = XMFLOAT3(selectedObjectPosition.x, selectedObjectPosition.y, selectedObjectPosition.z);
 
-		//Calculates the camera position with the camera offset added to it
-		XMFLOAT3 newCameraBPos = XMFLOAT3
-		(
-			selectedObjectPosition.x + mCameraBOffset.x,
-			selectedObjectPosition.y + mCameraBOffset.y,
-			selectedObjectPosition.z + mCameraBOffset.z
-		);
+		Vector3 newCamPos = selectedObjectPosition + mCameraBOffset;
+
+		XMFLOAT3 newPos = XMFLOAT3(newCamPos.x, newCamPos.y, newCamPos.z);
 
 		//Uses the look at method to reposition camera b and aim it at the selected object
 		pCameras[1]->LookAt
 		(
-			newCameraBPos,
-			selectedObjectPosition
+			newPos,
+			selectedPos
 		);
 	}
 
@@ -133,7 +131,7 @@ void Application::Update()
 
 void Application::SelectedObjectControl(float dt)
 {
-	XMFLOAT3 objectPosition = pSelectedObject->GetTransform().GetPosition();
+	Vector3 objectPosition = pSelectedObject->GetTransform().GetPosition();
 
 	if (GetAsyncKeyState('W')) {
 		objectPosition.z += mObjectMovementSpeed * dt;

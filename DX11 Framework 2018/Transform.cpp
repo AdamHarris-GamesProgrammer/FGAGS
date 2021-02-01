@@ -22,17 +22,17 @@ DirectX::XMFLOAT4X4 Transform::GetTransform() const
 	return mTransform;
 }
 
-DirectX::XMFLOAT3 Transform::GetPosition() const
+Vector3 Transform::GetPosition() const
 {
 	return mPosition;
 }
 
-DirectX::XMFLOAT3 Transform::GetRotation() const
+Vector3 Transform::GetRotation() const
 {
 	return mRotation;
 }
 
-DirectX::XMFLOAT3 Transform::GetScale() const
+Vector3 Transform::GetScale() const
 {
 	return mScale;
 }
@@ -42,32 +42,32 @@ void Transform::SetTransform(XMFLOAT4X4 transform)
 	mTransform = transform;
 }
 
-void Transform::SetPosition(XMFLOAT3 position)
+void Transform::SetPosition(Vector3 position)
 {
 	mPosition = position;
 }
 
 void Transform::SetPosition(float x, float y, float z)
 {
-	mPosition = XMFLOAT3(x, y, z);
+	mPosition = Vector3(x, y, z);
 }
 
-void Transform::SetRotation(XMFLOAT3 rotation)
+void Transform::SetRotation(Vector3 rotation)
 {
 	mRotation = rotation;
 }
 
 void Transform::SetRotation(float x, float y, float z)
 {
-	mRotation = XMFLOAT3(x, y, z);
+	mRotation = Vector3(x, y, z);
 }
 
 void Transform::SetScale(float x, float y, float z)
 {
-	mScale = XMFLOAT3(x, y, z);
+	mScale = Vector3(x, y, z);
 }
 
-void Transform::SetScale(XMFLOAT3 scale)
+void Transform::SetScale(Vector3 scale)
 {
 	mScale = scale;
 }

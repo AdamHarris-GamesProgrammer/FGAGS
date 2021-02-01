@@ -2,6 +2,8 @@
 
 void Particle::Integrate(real dt)
 {
+	_position = _transform->GetPosition();
+
 	if (InverseMass() <= 0.0) return;
 
 	assert(dt > 0.0);
@@ -13,6 +15,8 @@ void Particle::Integrate(real dt)
 	Velocity().AddScaledVector(resultingAcceleration, dt);
 
 	Velocity(_velocity * real_pow(_damping, dt));
+
+	_transform->SetPosition(_position);
 
 	ClearAccumulator();
 }

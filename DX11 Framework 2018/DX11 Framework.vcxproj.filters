@@ -27,6 +27,9 @@
     <Filter Include="Engine\Graphics">
       <UniqueIdentifier>{e8a3cdb5-62e0-4130-ada4-3f1266acc5f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Physics">
+      <UniqueIdentifier>{d05e48a3-42d0-4e3c-9129-518eecd13f2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="Transform.h" />
     <ClInclude Include="SkySphere.h" />
+    <ClInclude Include="Precision.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Particle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -161,6 +167,7 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="SkySphere.cpp" />
+    <ClCompile Include="Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
