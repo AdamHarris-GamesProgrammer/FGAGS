@@ -31,7 +31,7 @@ protected:
 public:
 	Particle(Transform* transform) : _transform(transform) {}
 
-	void Integrate(real dt);
+	void Update(real dt);
 
 	void ClearAccumulator();
 
@@ -52,13 +52,13 @@ public:
 	void SetDamping(real val) { _damping = val; }
 	
 	Vector3 GetAcceleration() const { return _acceleration; }
-	void SetAcceleration(Vector3 val) { _acceleration = val; }
+	void SetAcceleration(Vector3 val = Vector3()) { _acceleration = val; }
 	void SetAcceleration(float x, float y, float z) { _acceleration.x = x; _acceleration.y = y; _acceleration.z = z; }
 	Vector3 GetVelocity() const { return _velocity; }
-	void SetVelocity(Vector3 val) { _velocity = val; }
+	void SetVelocity(Vector3 val = Vector3()) { _velocity = val; }
 	void SetVelocity(float x, float y, float z) { _velocity.x = x; _velocity.y = y; _velocity.z = z; }
 	Vector3 GetPosition() const { return _position; }
-	void SetPosition(Vector3 val) { _transform->SetPosition(val); }
+	void SetPosition(Vector3 val = Vector3()) { _transform->SetPosition(val); }
 	void SetPosition(float x, float y, float z) { _transform->SetPosition(x, y, z); }
 };
 

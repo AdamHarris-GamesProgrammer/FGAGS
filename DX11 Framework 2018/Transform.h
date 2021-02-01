@@ -19,9 +19,6 @@ public:
 
 	XMFLOAT4X4 GetTransform() const;
 	Vector3 GetPosition() const;
-	void GetPosition(Vector3* pos) {
-		pos = &mPosition;
-	} 
 
 	Vector3 GetRotation() const;
 	Vector3 GetScale() const;

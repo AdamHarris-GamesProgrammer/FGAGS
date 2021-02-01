@@ -1,21 +1,27 @@
 #include "Particle.h"
 
-void Particle::Integrate(real dt)
+void Particle::Update(real dt)
 {
-	_position = _transform->GetPosition();
-
+	//Immovable object check
 	if (GetInverseMass() <= 0.0) return;
 
 	assert(dt > 0.0);
 
-	_position.AddScaledVector(_velocity, dt);
+	//Gets the position
+	_position = _transform->GetPosition();
+
+	//Update position
+	_position += _velocity * dt;
 
 	Vector3 resultingAcceleration = _acceleration;
 
-	_velocity.AddScaledVector(resultingAcceleration, dt);
+	//Update velocity with acceleration
+	_velocity += resultingAcceleration * dt;
 
+	//Apply damping force, basic version of drag
 	_velocity *= real_pow(_damping, dt);
 
+	//Sets position
 	_transform->SetPosition(_position);
 
 	ClearAccumulator();

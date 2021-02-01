@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Precision.h"
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 class Vector3 {
 public:
@@ -10,10 +13,10 @@ private:
 	real pad;
 
 public:
-	Vector3() : x(0), y(0), z(0) {}
+	Vector3() : x(0), y(0), z(0), pad(0) {}
 
 	Vector3(const real x, const real y, const real z)
-		: x(x), y(y), z(z) {}
+		: x(x), y(y), z(z), pad(0) {}
 
 	void Invert() {
 		x = -x;
@@ -112,5 +115,16 @@ public:
 		if (c->SquareMagnitude() == 0.0) return;
 		c->Normalize();
 		(*b) = (*c) % (*a);
+	}
+
+	real operator[](const int index) const{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+		if (index > 3) return REAL_MAX;
+	}
+
+	operator XMFLOAT3() const {
+		return XMFLOAT3(x, y, z);
 	}
 };

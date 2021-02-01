@@ -32,18 +32,16 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-	//Stores the objects new world space location
-	//Updates the bounding spheres position
+	//Apply physics
+	mParticle->Update(dt);
 
-	mParticle->Integrate(dt);
-
-
+	//Updates transform
 	mTransform.Update();
-	Vector3 pos = mTransform.GetPosition();
-	mBoundingSphere.Center = XMFLOAT3(pos.x, pos.y, pos.z);
+
+	//Updates bounding sphere location
+	mBoundingSphere.Center = mTransform.GetPosition();
 }
 
-//Collision method may be different each type of object
 bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 {
 	return false;
@@ -88,8 +86,6 @@ void GameObject::CreateTexture(const wchar_t* path)
 
 void GameObject::Initialize()
 {
-
-	
 	//Sets sensible default values for the material
 	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -97,9 +93,7 @@ void GameObject::Initialize()
 
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
-	Vector3 pos = mTransform.GetPosition();
-	mBoundingSphere.Center = XMFLOAT3(pos.x, pos.y, pos.z);
-
+	mBoundingSphere.Center = mTransform.GetPosition();
 
 
 	//Sets the vertex shader

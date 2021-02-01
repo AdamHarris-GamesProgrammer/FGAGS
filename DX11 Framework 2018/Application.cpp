@@ -33,7 +33,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pDonut = FindGameObjectWithName("Donut");
 
 
-
 	pCameras = mJSONLevelLoader.LoadCamerasFromFile("Assets/Levels/level.json");
 	pCurrentCamera = pCameras[0];
 	pGfx->SetCurrentCamera(pCurrentCamera);
@@ -71,8 +70,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Initializes the bounding sphere collider
 	pBlendedCube->InitializeBoundingSphere();
 
-
-
 	//Initializes and resets the Timer object
 	mTime = Time();
 	mTime.Reset();
@@ -94,17 +91,12 @@ void Application::Update()
 	if (pSelectedObject != nullptr && pCurrentCamera == pCameras[1]) {
 		//Gets the selected objects position
 		Vector3 selectedObjectPosition = pSelectedObject->GetTransform().GetPosition();
-		XMFLOAT3 selectedPos = XMFLOAT3(selectedObjectPosition.x, selectedObjectPosition.y, selectedObjectPosition.z);
-
-		Vector3 newCamPos = selectedObjectPosition + mCameraBOffset;
-
-		XMFLOAT3 newPos = XMFLOAT3(newCamPos.x, newCamPos.y, newCamPos.z);
 
 		//Uses the look at method to reposition camera b and aim it at the selected object
 		pCameras[1]->LookAt
 		(
-			newPos,
-			selectedPos
+			selectedObjectPosition + mCameraBOffset,
+			selectedObjectPosition
 		);
 	}
 
@@ -348,17 +340,17 @@ void Application::PollInput(float dt)
 
 	if (GetAsyncKeyState('5'))
 	{
-		pBlendedCube->GetParticle()->SetVelocity(Vector3(0.0, 30.0, 40.0));
-		pBlendedCube->GetParticle()->SetAcceleration(Vector3(0.0, -20.0, 0.0));
+		pBlendedCube->GetParticle()->SetVelocity(0.0, 30.0, 40.0);
+		pBlendedCube->GetParticle()->SetAcceleration(0.0, -20.0, 0.0);
 		pBlendedCube->GetParticle()->SetMass(20.0);
 		pBlendedCube->GetParticle()->SetDamping(0.9);
 	}
 	if (GetAsyncKeyState('6')) {
-		pBlendedCube->GetParticle()->SetVelocity(Vector3());
-		pBlendedCube->GetParticle()->SetAcceleration(Vector3());
+		pBlendedCube->GetParticle()->SetVelocity();
+		pBlendedCube->GetParticle()->SetAcceleration();
 		pBlendedCube->GetParticle()->SetMass(0.1);
 		pBlendedCube->GetParticle()->SetDamping(1.0);
-		pBlendedCube->GetTransform().SetPosition(4.0f, 1.2f, 0.0f);
+		pBlendedCube->GetTransform().SetPosition(4.0, 1.2, 0.0);
 	}
 
 	if (GetAsyncKeyState('H')) {
