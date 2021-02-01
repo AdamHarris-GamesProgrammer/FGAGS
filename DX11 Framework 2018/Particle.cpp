@@ -15,6 +15,9 @@ void Particle::Update(real dt)
 
 	Vector3 resultingAcceleration = _acceleration;
 
+	//Adds accumulated force from De Alemberts principle
+	resultingAcceleration += _forceAccumulator * _inverseMass;
+
 	//Update velocity with acceleration
 	_velocity += resultingAcceleration * dt;
 

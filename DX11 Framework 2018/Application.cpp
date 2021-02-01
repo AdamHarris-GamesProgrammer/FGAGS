@@ -340,8 +340,9 @@ void Application::PollInput(float dt)
 
 	if (GetAsyncKeyState('5'))
 	{
-		pBlendedCube->GetParticle()->SetVelocity(0.0, 30.0, 40.0);
-		pBlendedCube->GetParticle()->SetAcceleration(0.0, -20.0, 0.0);
+		/*pBlendedCube->GetParticle()->SetVelocity(0.0, 30.0, 40.0);
+		pBlendedCube->GetParticle()->SetAcceleration(0.0, -20.0, 0.0);*/
+		pBlendedCube->GetParticle()->AddForce(Vector3(0.0, 15.0, 0.0));
 		pBlendedCube->GetParticle()->SetMass(20.0);
 		pBlendedCube->GetParticle()->SetDamping(0.9);
 	}
