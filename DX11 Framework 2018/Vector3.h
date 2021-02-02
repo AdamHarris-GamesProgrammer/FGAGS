@@ -32,6 +32,18 @@ public:
 		return x * x + y * y + z * z;
 	}
 
+	real Distance(const Vector3& vec) {
+		return real_sqrt(real_pow(x - vec.x, 2) + real_pow(y - vec.y, 2) + real_pow(z - vec.z, 2));
+	}
+
+	real DistanceSquared(const Vector3& vec) {
+		return real_pow(x - vec.x, 2) + real_pow(y - vec.y, 2) + real_pow(z - vec.z, 2);
+	}
+
+	real XZDistance(const Vector3& vec) {
+		return real_sqrt(real_pow(x - vec.x, 2) + real_pow(z - vec.z, 2));
+	}
+
 	void Normalize() {
 		real mag = Magnitude();
 		if (mag > 0) {
@@ -126,5 +138,11 @@ public:
 
 	operator XMFLOAT3() const {
 		return XMFLOAT3(x, y, z);
+	}
+
+	void Zero() {
+		x = 0.0;
+		y = 0.0;
+		z = 0.0;
 	}
 };

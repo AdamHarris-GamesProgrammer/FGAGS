@@ -2,7 +2,11 @@
 
 void ParticleForceRegistry::Add(Particle* particle, ParticleForceGenerator* generator)
 {
-	_registrations.push_back({ particle, generator });
+	ParticleForceRegistration newForce;
+	newForce.particle = particle;
+	newForce.forceGenerator = generator;
+
+	_registrations.push_back(newForce);
 }
 
 

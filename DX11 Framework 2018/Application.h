@@ -21,6 +21,13 @@
 
 #include <memory>
 
+#include "ParticleForceGenerator.h"
+#include "ParticleForceRegistry.h"
+#include "ParticleUplift.h"
+#include "ParticleAirBrake.h"
+
+#include "Precision.h"
+
 using namespace DirectX;
 
 
@@ -70,7 +77,11 @@ private:
 
 	std::vector<GameObject*> pGameObjects;
 
-	//Camera member variables
+	//Particle Force Generator Test
+	ParticleForceRegistry _registry;
+	ParticleUplift* pUplift;
+	ParticleAirBrake* pAirbrake;
+
 
 
 	//Current Camera is stored so only the update code for one camera is called 

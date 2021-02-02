@@ -1,5 +1,8 @@
 #include "Particle.h"
 
+#include <string>
+#include <Windows.h>
+
 void Particle::Update(real dt)
 {
 	//Immovable object check
@@ -18,8 +21,14 @@ void Particle::Update(real dt)
 	//Adds accumulated force from De Alemberts principle
 	resultingAcceleration += _forceAccumulator * _inverseMass;
 
+	//char sz[1024] = { 0 };
+	//sprintf_s(sz, "Velocity: %f\n", _velocity.y);
+	//OutputDebugStringA(sz);
+
 	//Update velocity with acceleration
 	_velocity += resultingAcceleration * dt;
+
+
 
 	//Apply damping force, basic version of drag
 	_velocity *= real_pow(_damping, dt);
@@ -32,7 +41,7 @@ void Particle::Update(real dt)
 
 void Particle::ClearAccumulator()
 {
-	_forceAccumulator = Vector3();
+	_forceAccumulator.Zero();
 }
 
 void Particle::AddForce(const Vector3& force)

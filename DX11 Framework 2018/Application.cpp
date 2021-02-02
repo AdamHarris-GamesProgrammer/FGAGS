@@ -70,6 +70,25 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Initializes the bounding sphere collider
 	pBlendedCube->InitializeBoundingSphere();
 
+	pBlendedCube->GetParticle()->SetMass(0.1);
+	pBlendedCube->GetParticle()->SetDamping(1.0);
+
+
+	pGameObjects[0]->GetTransform().SetPosition(0.0, 10.0, 0.0);
+	pGameObjects[0]->GetParticle()->SetMass(10.0);
+	pGameObjects[0]->GetParticle()->SetDamping(1.0);
+
+
+	//Particle Engine Tests
+	pUplift = new ParticleUplift(Vector3(), 5.0, Vector3(0, 1.0, 0));
+	pAirbrake = new ParticleAirBrake(Vector3(0, -1.0, 0));
+
+
+	//_registry.Add(pBlendedCube->GetParticle(), pUplift);
+	//_registry.Add(pBlendedCube->GetParticle(), pAirbrake);
+
+
+
 	//Initializes and resets the Timer object
 	mTime = Time();
 	mTime.Reset();
@@ -82,6 +101,8 @@ void Application::Update()
 	//Ticks the Timer object and gets the new delta time value
 	mTime.Tick();
 	float dt = mTime.DeltaTime();
+
+	_registry.Update(dt);
 
 	//Polls the users input
 	PollInput(dt);
@@ -110,6 +131,8 @@ void Application::Update()
 	//Updates the view matrix for the current camera
 	pCurrentCamera->UpdateViewMatrix();
 
+
+	
 
 	//Loops through every game object and calls the update method
 	for (auto& object : pGameObjects) {
@@ -342,16 +365,20 @@ void Application::PollInput(float dt)
 	{
 		/*pBlendedCube->GetParticle()->SetVelocity(0.0, 30.0, 40.0);
 		pBlendedCube->GetParticle()->SetAcceleration(0.0, -20.0, 0.0);*/
-		pBlendedCube->GetParticle()->AddForce(Vector3(0.0, 15.0, 0.0));
+		/*pBlendedCube->GetParticle()->AddForce(Vector3(0.0, 15.0, 0.0));
 		pBlendedCube->GetParticle()->SetMass(20.0);
-		pBlendedCube->GetParticle()->SetDamping(0.9);
+		pBlendedCube->GetParticle()->SetDamping(0.9);*/
+		pAirbrake->SetActive(true);
 	}
 	if (GetAsyncKeyState('6')) {
-		pBlendedCube->GetParticle()->SetVelocity();
+		/*pBlendedCube->GetParticle()->SetVelocity();
 		pBlendedCube->GetParticle()->SetAcceleration();
 		pBlendedCube->GetParticle()->SetMass(0.1);
 		pBlendedCube->GetParticle()->SetDamping(1.0);
-		pBlendedCube->GetTransform().SetPosition(4.0, 1.2, 0.0);
+		pBlendedCube->GetTransform().SetPosition(4.0, 1.2, 0.0);*/
+
+		pAirbrake->SetActive(false);
+
 	}
 
 	if (GetAsyncKeyState('H')) {
