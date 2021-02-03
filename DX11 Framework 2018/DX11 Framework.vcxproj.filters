@@ -140,9 +140,8 @@
     <ClInclude Include="ParticleAirBrake.h">
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleGravitationalPull.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
-    </ClInclude>
+    <ClInclude Include="ParticleSpring.h" />
+    <ClInclude Include="Debug.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -203,6 +202,7 @@
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClCompile>
     <ClCompile Include="ParticleForceRegistry.cpp" />
+    <ClCompile Include="Debug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

@@ -2,6 +2,7 @@
 
 #include "Precision.h"
 #include <DirectXMath.h>
+#include "Debug.h"
 
 using namespace DirectX;
 
@@ -144,5 +145,12 @@ public:
 		x = 0.0;
 		y = 0.0;
 		z = 0.0;
+	}
+
+	void Print(std::string name) {
+		Debug::Print(name + "X: %f ", x);
+		Debug::Print("Y: %f ", y);
+		Debug::Print("Z: %f", z);
+		Debug::Print("\n");
 	}
 };

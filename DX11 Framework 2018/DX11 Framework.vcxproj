@@ -376,6 +376,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -402,6 +403,7 @@
     <ClInclude Include="BindableHeaders.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="ImGUIManager.h" />
@@ -423,8 +425,8 @@
     <ClInclude Include="ParticleDrag.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
     <ClInclude Include="ParticleForceRegistry.h" />
-    <ClInclude Include="ParticleGravitationalPull.h" />
     <ClInclude Include="ParticleGravity.h" />
+    <ClInclude Include="ParticleSpring.h" />
     <ClInclude Include="ParticleUplift.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <Windows.h>
+#include "Debug.h"
 
 void Particle::Update(real dt)
 {
@@ -18,17 +19,11 @@ void Particle::Update(real dt)
 
 	Vector3 resultingAcceleration = _acceleration;
 
-	//Adds accumulated force from De Alemberts principle
+	//Adds accumulated force from the De Alembert principle
 	resultingAcceleration += _forceAccumulator * _inverseMass;
-
-	//char sz[1024] = { 0 };
-	//sprintf_s(sz, "Velocity: %f\n", _velocity.y);
-	//OutputDebugStringA(sz);
 
 	//Update velocity with acceleration
 	_velocity += resultingAcceleration * dt;
-
-
 
 	//Apply damping force, basic version of drag
 	_velocity *= real_pow(_damping, dt);
@@ -36,6 +31,7 @@ void Particle::Update(real dt)
 	//Sets position
 	_transform->SetPosition(_position);
 
+	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
 	ClearAccumulator();
 }
 
