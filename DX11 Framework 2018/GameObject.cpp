@@ -12,7 +12,7 @@ GameObject::GameObject(Graphics* gfx)
 
 	//Initializes the position and rotation to world origin
 	mTransform = Transform();
-	mParticle = new Particle(&mTransform);
+	mParticle = new Particle();
 
 	Initialize();
 }
@@ -32,8 +32,12 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
+	mParticle->SetPosition(mTransform.GetPosition());
+
 	//Apply physics
 	mParticle->Update(dt);
+
+	mTransform.SetPosition(mParticle->GetPosition());
 
 	//Updates transform
 	mTransform.Update();
@@ -86,11 +90,6 @@ void GameObject::CreateTexture(const wchar_t* path)
 
 void GameObject::Initialize()
 {
-	//Sets sensible default values for the material
-	mMaterial.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mMaterial.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	mMaterial.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
-
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
 	mBoundingSphere.Center = mTransform.GetPosition();

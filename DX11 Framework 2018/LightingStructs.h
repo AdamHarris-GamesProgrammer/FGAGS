@@ -197,7 +197,13 @@ struct SpotLight : Light {
 /// A Material, represents a objects material 
 /// </summary>
 struct Material : Light {
-	Material() { ZeroMemory(this, sizeof(this)); }
+	Material() 
+	{
+		ZeroMemory(this, sizeof(this));
+		Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+		Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 10.0f);
+	}
 
 	void SetMaterialDiffuse(XMFLOAT4 color) {
 		Diffuse = color;

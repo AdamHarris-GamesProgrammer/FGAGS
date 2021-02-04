@@ -74,9 +74,23 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pBlendedCube->GetParticle()->SetDamping(1.0);
 
 
-	pGameObjects[0]->GetTransform().SetPosition(0.0, 10.0, 0.0);
+	pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
 	pGameObjects[0]->GetParticle()->SetMass(10.0);
 	pGameObjects[0]->GetParticle()->SetDamping(1.0);
+
+	
+	pDrag = new ParticleDrag(0.0,0.0);
+	_registry.Add(pGameObjects[0]->GetParticle(), pDrag);
+
+
+	pSpringA = new ParticleSpring(pGameObjects[0]->GetParticle(), 1.0, 2.0);
+	_registry.Add(pBlendedCube->GetParticle(), pSpringA);
+
+
+	pSpringB = new ParticleSpring(pBlendedCube->GetParticle(), 1.0, 2.0);
+	_registry.Add(pGameObjects[0]->GetParticle(), pSpringB);
+
+	
 
 
 	//Particle Engine Tests
@@ -363,14 +377,22 @@ void Application::PollInput(float dt)
 
 	if (GetAsyncKeyState('5'))
 	{
-		/*pBlendedCube->GetParticle()->SetVelocity(0.0, 30.0, 40.0);
-		pBlendedCube->GetParticle()->SetAcceleration(0.0, -20.0, 0.0);*/
+		pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
+		pGameObjects[0]->GetParticle()->SetVelocity(3.0, 0.0, 0.0);
+		pDrag->SetDrags(1.05, 1.05);
+
+
 		/*pBlendedCube->GetParticle()->AddForce(Vector3(0.0, 15.0, 0.0));
 		pBlendedCube->GetParticle()->SetMass(20.0);
 		pBlendedCube->GetParticle()->SetDamping(0.9);*/
 		pAirbrake->SetActive(true);
 	}
 	if (GetAsyncKeyState('6')) {
+		pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
+		pGameObjects[0]->GetParticle()->SetVelocity(3.0, 0.0, 0.0);
+		pDrag->SetDrags(0.0, 0.0);
+
+
 		/*pBlendedCube->GetParticle()->SetVelocity();
 		pBlendedCube->GetParticle()->SetAcceleration();
 		pBlendedCube->GetParticle()->SetMass(0.1);

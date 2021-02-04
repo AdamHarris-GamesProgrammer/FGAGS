@@ -26,6 +26,9 @@
 #include "ParticleUplift.h"
 #include "ParticleAirBrake.h"
 
+#include "ParticleDrag.h"
+#include "ParticleSpring.h"
+
 #include "Precision.h"
 
 using namespace DirectX;
@@ -81,8 +84,10 @@ private:
 	ParticleForceRegistry _registry;
 	ParticleUplift* pUplift;
 	ParticleAirBrake* pAirbrake;
+	ParticleSpring* pSpringA;
+	ParticleSpring* pSpringB;
 
-
+	ParticleDrag* pDrag;
 
 	//Current Camera is stored so only the update code for one camera is called 
 	std::shared_ptr<Camera> pCurrentCamera = nullptr;

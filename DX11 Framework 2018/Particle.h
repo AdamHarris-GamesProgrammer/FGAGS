@@ -26,11 +26,7 @@ protected:
 	//Holds the inverse mass of the particle it is more useful to hold the inverse mass because integration is simpler
 	real _inverseMass;
 
-	Transform* _transform;
-
 public:
-	Particle(Transform* transform) : _transform(transform) {}
-
 	void Update(real dt);
 
 	void ClearAccumulator();
@@ -58,7 +54,7 @@ public:
 	void SetVelocity(Vector3 val = Vector3()) { _velocity = val; }
 	void SetVelocity(float x, float y, float z) { _velocity.x = x; _velocity.y = y; _velocity.z = z; }
 	Vector3 GetPosition() const { return _position; }
-	void SetPosition(Vector3 val = Vector3()) { _transform->SetPosition(val); }
-	void SetPosition(float x, float y, float z) { _transform->SetPosition(x, y, z); }
+	void SetPosition(Vector3 val = Vector3()) { _position = val; }
+	void SetPosition(float x, float y, float z) { _position = Vector3(x, y, z); }
 };
 

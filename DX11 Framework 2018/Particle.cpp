@@ -11,8 +11,10 @@ void Particle::Update(real dt)
 
 	assert(dt > 0.0);
 
-	//Gets the position
-	_position = _transform->GetPosition();
+	//Stops moving at a certain point to reduce calculations required
+	//if (_velocity < 0.05) return;
+
+	//_velocity.Print("Velocity ");
 
 	//Update position
 	_position += _velocity * dt;
@@ -22,14 +24,13 @@ void Particle::Update(real dt)
 	//Adds accumulated force from the De Alembert principle
 	resultingAcceleration += _forceAccumulator * _inverseMass;
 
+	_forceAccumulator.Print("Spring Force Test: ");
+
 	//Update velocity with acceleration
 	_velocity += resultingAcceleration * dt;
 
 	//Apply damping force, basic version of drag
 	_velocity *= real_pow(_damping, dt);
-
-	//Sets position
-	_transform->SetPosition(_position);
 
 	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
 	ClearAccumulator();

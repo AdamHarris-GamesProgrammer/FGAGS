@@ -33,6 +33,9 @@
     <Filter Include="Engine\Physics\ParticleModel">
       <UniqueIdentifier>{e391cd58-1f7a-46e3-b7f5-970d19a1bb4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Physics\ParticleModel\Force Generators">
+      <UniqueIdentifier>{224ba795-79a7-4f52-8ba5-3894324b39d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -124,24 +127,28 @@
     <ClInclude Include="Particle.h">
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="ParticleForceRegistry.h">
+      <Filter>Engine\Physics\ParticleModel</Filter>
+    </ClInclude>
     <ClInclude Include="ParticleForceGenerator.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleForceRegistry.h" />
-    <ClInclude Include="ParticleGravity.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleDrag.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
+    <ClInclude Include="ParticleSpring.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
     <ClInclude Include="ParticleUplift.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleGravity.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleDrag.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
     <ClInclude Include="ParticleAirBrake.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSpring.h" />
-    <ClInclude Include="Debug.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -201,8 +208,10 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleForceRegistry.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="ParticleForceRegistry.cpp">
+      <Filter>Engine\Physics\ParticleModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

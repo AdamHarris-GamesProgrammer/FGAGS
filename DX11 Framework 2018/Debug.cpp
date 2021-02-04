@@ -1,5 +1,6 @@
 #include "Debug.h"
 
+//Prints a integer value
 void Debug::Print(std::string format, int val)
 {
 	char msg[1024] = { 0 };
@@ -7,6 +8,7 @@ void Debug::Print(std::string format, int val)
 	OutputDebugStringA(msg);
 }
 
+//Prints a string
 void Debug::Print(std::string format)
 {
 	char msg[1024] = { 0 };
@@ -14,6 +16,7 @@ void Debug::Print(std::string format)
 	OutputDebugStringA(msg);
 }
 
+//Prints a float value
 void Debug::Print(std::string format, float val)
 {
 	char msg[1024] = { 0 };
@@ -21,6 +24,7 @@ void Debug::Print(std::string format, float val)
 	OutputDebugStringA(msg);
 }
 
+//Prints a double value
 void Debug::Print(std::string format, double val)
 {
 	char msg[1024] = { 0 };

@@ -6,9 +6,9 @@
 class Debug
 {
 public:
-	static void Print(std::string message, float val);
-	static void Print(std::string message, double val);
-	static void Print(std::string message, int val);
-	static void Print(std::string message);
+	static void Print(std::string format, float val);
+	static void Print(std::string format, double val);
+	static void Print(std::string format, int val);
+	static void Print(std::string format);
 };
 

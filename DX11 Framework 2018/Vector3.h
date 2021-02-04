@@ -153,4 +153,16 @@ public:
 		Debug::Print("Z: %f", z);
 		Debug::Print("\n");
 	}
+
+	bool operator<(real val) {
+		return (x < val && y < val && z < val);
+	}
+
+	bool operator==(const Vector3& other) {
+		return(x == other.x && y == other.y && z == other.z);
+	}
+
+	bool operator <=(const Vector3& other) {
+		return(x <= other.x && y <= other.y && z <= other.z);
+	}
 };
