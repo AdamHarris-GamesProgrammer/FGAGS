@@ -17,7 +17,10 @@ void Particle::Update(real dt)
 	//_velocity.Print("Velocity ");
 
 	//Update position
-	_position += _velocity * dt;
+
+	if (_velocity > 0.05) {
+		_position += _velocity * dt;
+	}
 
 	Vector3 resultingAcceleration = _acceleration;
 

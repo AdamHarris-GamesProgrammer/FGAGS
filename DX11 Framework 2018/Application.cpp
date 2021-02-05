@@ -49,7 +49,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGroundPlane->Make(75.0, 75.0f, 8, 8);
 
 	//Sets default positions
-	pGroundPlane->GetTransform().SetPosition(0.0f, -1.6f, 0.0f);
+	pGroundPlane->GetTransform().SetPosition(0.0f, 0.0f, 0.0f);
 
 	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
@@ -59,7 +59,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Initializes the transparent cube object, and positions it
 	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
-	pBlendedCube->GetTransform().SetPosition(4.0f, 1.2f, 3.0f);
+	pBlendedCube->GetTransform().SetPosition(4.0f, 1.0f, 3.0f);
 
 
 	//Sets the material, texture and shader
@@ -70,36 +70,19 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Initializes the bounding sphere collider
 	pBlendedCube->InitializeBoundingSphere();
 
-	pBlendedCube->GetParticle()->SetMass(0.1);
-	pBlendedCube->GetParticle()->SetDamping(1.0);
+	pBlendedCube->GetParticle()->SetMass(110.1);
+	pBlendedCube->GetParticle()->SetDamping(0.99);
+
+	GameObject* pPhysicCube = pGameObjects[0];
 
 
-	pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
-	pGameObjects[0]->GetParticle()->SetMass(10.0);
-	pGameObjects[0]->GetParticle()->SetDamping(1.0);
+	pPhysicCube->GetTransform().SetPosition(4.0, 1.0, 3.0);
+	pPhysicCube->GetParticle()->SetMass(10.0);
+	pPhysicCube->GetParticle()->SetDamping(1.0);
 
 	
 	pDrag = new ParticleDrag(0.0,0.0);
-	_registry.Add(pGameObjects[0]->GetParticle(), pDrag);
-
-
-	pSpringA = new ParticleSpring(pGameObjects[0]->GetParticle(), 1.0, 2.0);
-	_registry.Add(pBlendedCube->GetParticle(), pSpringA);
-
-
-	pSpringB = new ParticleSpring(pBlendedCube->GetParticle(), 1.0, 2.0);
-	_registry.Add(pGameObjects[0]->GetParticle(), pSpringB);
-
-	
-
-
-	//Particle Engine Tests
-	pUplift = new ParticleUplift(Vector3(), 5.0, Vector3(0, 1.0, 0));
-	pAirbrake = new ParticleAirBrake(Vector3(0, -1.0, 0));
-
-
-	//_registry.Add(pBlendedCube->GetParticle(), pUplift);
-	//_registry.Add(pBlendedCube->GetParticle(), pAirbrake);
+	_registry.Add(pBlendedCube->GetParticle(), pDrag);
 
 
 
@@ -380,27 +363,11 @@ void Application::PollInput(float dt)
 		pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
 		pGameObjects[0]->GetParticle()->SetVelocity(3.0, 0.0, 0.0);
 		pDrag->SetDrags(1.05, 1.05);
-
-
-		/*pBlendedCube->GetParticle()->AddForce(Vector3(0.0, 15.0, 0.0));
-		pBlendedCube->GetParticle()->SetMass(20.0);
-		pBlendedCube->GetParticle()->SetDamping(0.9);*/
-		pAirbrake->SetActive(true);
 	}
 	if (GetAsyncKeyState('6')) {
 		pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
 		pGameObjects[0]->GetParticle()->SetVelocity(3.0, 0.0, 0.0);
 		pDrag->SetDrags(0.0, 0.0);
-
-
-		/*pBlendedCube->GetParticle()->SetVelocity();
-		pBlendedCube->GetParticle()->SetAcceleration();
-		pBlendedCube->GetParticle()->SetMass(0.1);
-		pBlendedCube->GetParticle()->SetDamping(1.0);
-		pBlendedCube->GetTransform().SetPosition(4.0, 1.2, 0.0);*/
-
-		pAirbrake->SetActive(false);
-
 	}
 
 	if (GetAsyncKeyState('H')) {

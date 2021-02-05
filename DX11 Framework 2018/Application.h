@@ -28,6 +28,9 @@
 
 #include "ParticleDrag.h"
 #include "ParticleSpring.h"
+#include "ParticleAnchoredSpring.h"
+#include "ParticleBungee.h"
+#include "ParticleBuoyancy.h"
 
 #include "Precision.h"
 
@@ -82,12 +85,9 @@ private:
 
 	//Particle Force Generator Test
 	ParticleForceRegistry _registry;
-	ParticleUplift* pUplift;
-	ParticleAirBrake* pAirbrake;
-	ParticleSpring* pSpringA;
-	ParticleSpring* pSpringB;
 
 	ParticleDrag* pDrag;
+
 
 	//Current Camera is stored so only the update code for one camera is called 
 	std::shared_ptr<Camera> pCurrentCamera = nullptr;

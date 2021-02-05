@@ -2,7 +2,7 @@
   "meshedObjects": [
     {
       "name": "StationaryCube",
-      "position": [ -8.0, 0, 0 ],
+      "position": [ -8.0, 1, 0 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
@@ -13,7 +13,7 @@
     },
     {
       "name": "Cube",
-      "position": [ -12.0, 0, 0 ],
+      "position": [ -12.0, 1, 0 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Marble_COLOR.dds",
       "specularTexture": "Marble_SPEC.dds",
@@ -21,7 +21,7 @@
     },
     {
       "name": "ChainLinkCube",
-      "position": [ -2.0, 0, -3 ],
+      "position": [ -2.0, 1, -3 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "ChainLink_COLOR.dds",
       "specularTexture": "ChainLink_SPEC.dds",
@@ -29,7 +29,7 @@
     },
     {
       "name": "Sphere",
-      "position": [ -4.0, 0, 0 ],
+      "position": [ -4.0, 1, 0 ],
       "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
@@ -38,24 +38,16 @@
     },
     {
       "name": "Cylinder",
-      "position": [ 0.0, 0, 0 ],
+      "position": [ 0.0, 1, 0 ],
       "meshPath": "cylinder.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "boundingSphere": "true"
     },
     {
       "name": "Donut",
-      "position": [ 4.0, 0, 0 ],
+      "position": [ 4.0, 1, 0 ],
       "meshPath": "donut.obj",
       "diffuseTexture": "Marble_COLOR.dds",
-      "boundingSphere": "true"
-    },
-    {
-      "name": "FuelBarrel",
-      "position": [ 0, 0, -2 ],
-      "rotation": [ 3.14, 0, 0 ],
-      "meshPath": "fuelBarrel.obj",
-      "diffuseTexture": "Fuel_COLOR.dds",
       "boundingSphere": "true"
     }
   ],

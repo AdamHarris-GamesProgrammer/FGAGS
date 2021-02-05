@@ -149,6 +149,18 @@
     <ClInclude Include="ParticleAirBrake.h">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleAnchoredSpring.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleBungee.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleFixedBungee.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleBuoyancy.h">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
