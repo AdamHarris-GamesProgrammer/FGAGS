@@ -391,6 +391,8 @@
     <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleContact.cpp" />
+    <ClCompile Include="ParticleContactResolver.cpp" />
     <ClCompile Include="ParticleForceRegistry.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="SkySphere.cpp" />
@@ -425,11 +427,17 @@
     <ClInclude Include="ParticleAnchoredSpring.h" />
     <ClInclude Include="ParticleBungee.h" />
     <ClInclude Include="ParticleBuoyancy.h" />
+    <ClInclude Include="ParticleCable.h" />
+    <ClInclude Include="ParticleContact.h" />
+    <ClInclude Include="ParticleContactGenerator.h" />
+    <ClInclude Include="ParticleContactResolver.h" />
     <ClInclude Include="ParticleDrag.h" />
     <ClInclude Include="ParticleFixedBungee.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
     <ClInclude Include="ParticleForceRegistry.h" />
     <ClInclude Include="ParticleGravity.h" />
+    <ClInclude Include="ParticleLink.h" />
+    <ClInclude Include="ParticleRods.h" />
     <ClInclude Include="ParticleSpring.h" />
     <ClInclude Include="ParticleUplift.h" />
     <ClInclude Include="PixelShader.h" />

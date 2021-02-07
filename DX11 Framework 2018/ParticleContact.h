@@ -3,6 +3,8 @@
 
 class ParticleContact
 {
+	friend class ParticleContactResolver;
+
 public:
 	//Holds the particles that are involved in this collision
 	Particle* _involvedParticles[2];
@@ -12,6 +14,9 @@ public:
 
 	//Holds the direction of the contact in World Space
 	Vector3 _contactNormal;
+
+	//Holds the movement of both particles
+	Vector3 _particleMovement[2];
 
 	//Holds the depth of penetration
 	real _penetrationDepth;

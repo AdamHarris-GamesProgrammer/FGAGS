@@ -23,11 +23,24 @@ void ParticleContact::ResolveVelocity(real dt)
 	real seperatingVelocity = CalculateSeperatingVelocity();
 
 	if (seperatingVelocity > 0) {
-		//The contact is either seperating or stationary, so no impulse required
+		//The contact is either separating or stationary, so no impulse required
 		return;
 	}
 
 	real newSeperatingVelocity = -seperatingVelocity * _restitutionCoefficient;
+
+
+	Vector3 accumulatedVelocity = _involvedParticles[0]->GetAcceleration();
+	if (_involvedParticles[1]) accumulatedVelocity -= _involvedParticles[1]->GetAcceleration();
+
+	real accumulatedSeperationVelocity = accumulatedVelocity * _contactNormal * dt;
+
+	if (accumulatedSeperationVelocity < 0) {
+		newSeperatingVelocity += _restitutionCoefficient * accumulatedSeperationVelocity;
+
+		if (newSeperatingVelocity < 0) newSeperatingVelocity = 0;
+	}
+
 
 	real deltaVelocity = newSeperatingVelocity - seperatingVelocity;
 
@@ -45,9 +58,11 @@ void ParticleContact::ResolveVelocity(real dt)
 	//Calculate the amount of impulse needed per unit of mass
 	Vector3 impulsePerMass = _contactNormal * impulse;
 
+	//Calculate particle A's new velocity and set the velocity 
 	_involvedParticles[0]->SetVelocity(_involvedParticles[0]->GetVelocity() + impulsePerMass * _involvedParticles[0]->GetInverseMass());
 
 	if (_involvedParticles[1]) {
+		//Particle B will go in the opposite direction as particle A
 		_involvedParticles[1]->SetVelocity(_involvedParticles[1]->GetVelocity() + impulsePerMass * -_involvedParticles[1]->GetInverseMass());
 	}
 
@@ -57,5 +72,31 @@ void ParticleContact::ResolveVelocity(real dt)
 
 void ParticleContact::ResolveInterpenetration(real dt)
 {
+	//If there is no penetration then skip this step
+	if (_penetrationDepth <= 0) return;
+
+	//Calculates the total inverse mass of both particles
+	real totalInverseMass = _involvedParticles[0]->GetInverseMass();
+	if (_involvedParticles[1]) totalInverseMass += _involvedParticles[1]->GetInverseMass();
+
+	//Objects have a infinite mass
+	if (totalInverseMass <= 0) return;
+
+	Vector3 movePerInverseMass = _contactNormal * (_penetrationDepth / totalInverseMass);
+
+	_particleMovement[0] = movePerInverseMass * _involvedParticles[0]->GetInverseMass();
+	if (_involvedParticles[1]) {
+		_particleMovement[1] = movePerInverseMass * -_involvedParticles[1]->GetInverseMass();
+	}
+	else {
+		_particleMovement[1].Zero();
+	}
+
+	_involvedParticles[0]->SetPosition(_involvedParticles[0]->GetPosition() + _particleMovement[0]);
+
+	if (_involvedParticles[1]) {
+		_involvedParticles[1]->SetPosition(_involvedParticles[1]->GetPosition() + _particleMovement[1]);
+	}
 	
+
 }

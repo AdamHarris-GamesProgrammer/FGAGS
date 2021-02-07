@@ -36,6 +36,12 @@
     <Filter Include="Engine\Physics\ParticleModel\Force Generators">
       <UniqueIdentifier>{224ba795-79a7-4f52-8ba5-3894324b39d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Physics\ParticleModel\Collisions">
+      <UniqueIdentifier>{96b28054-b9d2-4806-8201-19578926652f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\ParticleModel\Links">
+      <UniqueIdentifier>{ed82537a-a921-4764-a355-0f28acf3a4e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -161,6 +167,22 @@
     <ClInclude Include="ParticleBuoyancy.h">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleContact.h">
+      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactResolver.h" />
+    <ClInclude Include="ParticleLink.h">
+      <Filter>Engine\Physics\ParticleModel\Links</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactGenerator.h">
+      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleCable.h">
+      <Filter>Engine\Physics\ParticleModel\Links</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRods.h">
+      <Filter>Engine\Physics\ParticleModel\Links</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -224,6 +246,10 @@
     <ClCompile Include="ParticleForceRegistry.cpp">
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleContact.cpp">
+      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContactResolver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
