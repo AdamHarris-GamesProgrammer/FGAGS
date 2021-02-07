@@ -420,6 +420,8 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="JSONLevelLoader.h" />
     <ClInclude Include="LightingStructs.h" />
+    <ClInclude Include="Matrix3.h" />
+    <ClInclude Include="Matrix4.h" />
     <ClInclude Include="MeshedObject.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Particle.h" />
@@ -443,6 +445,7 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Precision.h" />
+    <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="SkySphere.h" />
     <ClInclude Include="Time.h" />

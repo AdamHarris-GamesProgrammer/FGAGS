@@ -183,6 +183,15 @@
     <ClInclude Include="ParticleRods.h">
       <Filter>Engine\Physics\ParticleModel\Links</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix3.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
