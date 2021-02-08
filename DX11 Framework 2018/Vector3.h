@@ -130,11 +130,18 @@ public:
 		(*b) = (*c) % (*a);
 	}
 
-	real operator[](const int index) const{
-		if (index == 0) return x;
-		if (index == 1) return y;
-		if (index == 2) return z;
-		if (index > 3) return REAL_MAX;
+	real operator[](unsigned i) const
+	{
+		if (i == 0) return x;
+		if (i == 1) return y;
+		return z;
+	}
+
+	real& operator[](unsigned i)
+	{
+		if (i == 0) return x;
+		if (i == 1) return y;
+		return z;
 	}
 
 	operator XMFLOAT3() const {

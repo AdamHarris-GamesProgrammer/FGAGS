@@ -224,6 +224,15 @@
     <ClInclude Include="BoundingSphere.h">
       <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionData.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitives.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetector.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -295,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="ParticleContactResolver.cpp">
       <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetector.cpp">
+      <Filter>Engine\Physics\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

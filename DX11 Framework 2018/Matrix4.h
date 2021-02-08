@@ -21,6 +21,10 @@ public:
 		return (*this) * vector;
 	}
 
+	Vector3 GetAxisVector(int i) const {
+		return Vector3(_data[i], _data[i + 4], _data[i + 8]);
+	}
+
 	Matrix4 operator*(const Matrix4& o) const {
 		Matrix4 result;
 		result._data[0] = o._data[0] * _data[0] + o._data[4] * _data[1] +

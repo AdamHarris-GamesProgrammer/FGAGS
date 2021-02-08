@@ -241,6 +241,10 @@ public:
 		return _acceleration;
 	}
 
+	bool GetAwake() const {
+		return _isAwake;
+	}
+
 	//Add Forces
 	void AddForce(const Vector3& force);
 	void AddForceAtPoint(const Vector3& force, const Vector3& point);

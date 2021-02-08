@@ -25,6 +25,40 @@ public:
 		_data[8] = e8;
 	}
 
+	void SetSkewSymmetric(const Vector3 vector) {
+		_data[0] = _data[4] = _data[8] = 0;
+		_data[1] = -vector.z;
+		_data[2] = vector.y;
+		_data[3] = vector.z;
+		_data[5] = -vector.x;
+		_data[6] = -vector.y;
+		_data[7] = vector.x;
+	}
+
+	void operator+=(const Matrix3& o)
+	{
+		_data[0] += o._data[0];
+		_data[1] += o._data[1];
+		_data[2] += o._data[2];
+		_data[3] += o._data[3];
+		_data[4] += o._data[4];
+		_data[5] += o._data[5];
+		_data[6] += o._data[6];
+		_data[7] += o._data[7]; 
+		_data[8] += o._data[8];
+	}
+
+	void operator*=(const real scalar) {
+		_data[0] *= scalar;
+		_data[1] *= scalar;
+		_data[2] *= scalar;
+		_data[3] *= scalar;
+		_data[4] *= scalar;
+		_data[5] *= scalar;
+		_data[6] *= scalar;
+		_data[7] *= scalar;
+		_data[8] *= scalar;
+	}
 
 	//Transforms a provided vector by this matrix
 	Vector3 operator*(const Vector3& vector) const {
@@ -38,6 +72,14 @@ public:
 	//Transform a provided vector by this matrix
 	Vector3 Transform(const Vector3& vector) const {
 		return (*this) * vector;
+	}
+
+	Vector3 TransformTranspose(const Vector3& vector) const {
+		return Vector3(
+			vector.x * _data[0] + vector.y * _data[3] + vector.z * _data[6],
+			vector.x * _data[1] + vector.y * _data[4] + vector.z * _data[7],
+			vector.x * _data[2] + vector.y * _data[5] + vector.z * _data[8]
+		);
 	}
 
 	Matrix3 operator*(const Matrix3& o) const {
