@@ -395,6 +395,7 @@
     <ClCompile Include="ParticleContactResolver.cpp" />
     <ClCompile Include="ParticleForceRegistry.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SkySphere.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -403,11 +404,16 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableHeaders.h" />
+    <ClInclude Include="BoundingVolumeHierarchy.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="BoundingSphere.h" />
+    <ClInclude Include="Contacts.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="ImGUIManager.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
@@ -447,7 +453,9 @@
     <ClInclude Include="Precision.h" />
     <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SkySphere.h" />
+    <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />

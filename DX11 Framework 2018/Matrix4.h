@@ -105,17 +105,17 @@ public:
 	}
 
 	void SetOrientationAndPosition(const Quaternion& q, const Vector3& pos) {
-		_data[0] = 1 - (2 * q._j * q.j + 2 * q._k * q._k);
-		_data[1] = 2 * q._i * q.j + 2 * q._k * q._r;
-		_data[2] = 2 * q._i * q._k - 2 * q.j * q._r;
+		_data[0] = 1 - (2 * q._j * q._j + 2 * q._k * q._k);
+		_data[1] = 2 * q._i * q._j + 2 * q._k * q._r;
+		_data[2] = 2 * q._i * q._k - 2 * q._j * q._r;
 		_data[3] = pos.x;
-		_data[4] = 2 * q._i * q.j - 2 * q._k * q._r;
+		_data[4] = 2 * q._i * q._j - 2 * q._k * q._r;
 		_data[5] = 1 - (2 * q._i * q._i + 2 * q._k * q._k);
-		_data[6] = 2 * q.j * q._k + 2 * q._i * q._r;
+		_data[6] = 2 * q._j * q._k + 2 * q._i * q._r;
 		_data[7] = pos.y;
-		_data[8] = 2 * q._i * q._k + 2 * q.j * q._r;
-		_data[9] = 2 * q.j * q._k - 2 * q._i * q._r;
-		_data[10] = 1 - (2 * q._i * q._i + 2 * q.j * q.j);
+		_data[8] = 2 * q._i * q._k + 2 * q._j * q._r;
+		_data[9] = 2 * q._j * q._k - 2 * q._i * q._r;
+		_data[10] = 1 - (2 * q._i * q._i + 2 * q._j * q._j);
 		_data[11] = pos.z;
 	}
 

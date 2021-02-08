@@ -42,6 +42,15 @@
     <Filter Include="Engine\Physics\ParticleModel\Links">
       <UniqueIdentifier>{ed82537a-a921-4764-a355-0f28acf3a4e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Physics\Rigidbody">
+      <UniqueIdentifier>{a8b38e53-b1fc-42b3-a253-8cc39782231f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\Rigidbody\Force Generators">
+      <UniqueIdentifier>{80e08c53-0b79-4b43-828e-9031cbe6d106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\Collision">
+      <UniqueIdentifier>{4b9f9e5e-927e-487c-aa53-f73f33178ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -170,7 +179,6 @@
     <ClInclude Include="ParticleContact.h">
       <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleContactResolver.h" />
     <ClInclude Include="ParticleLink.h">
       <Filter>Engine\Physics\ParticleModel\Links</Filter>
     </ClInclude>
@@ -191,6 +199,30 @@
     </ClInclude>
     <ClInclude Include="Quaternion.h">
       <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Engine\Physics\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleContactResolver.h">
+      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceGenerator.h">
+      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="SpringForceGenerator.h">
+      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingVolumeHierarchy.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Contacts.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingSphere.h">
+      <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +290,12 @@
     <ClCompile Include="ParticleContact.cpp">
       <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleContactResolver.cpp" />
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Engine\Physics\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContactResolver.cpp">
+      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

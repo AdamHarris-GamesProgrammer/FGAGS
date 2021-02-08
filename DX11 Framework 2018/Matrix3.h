@@ -133,14 +133,14 @@ public:
 	}
 
 	void SetOrientation(const Quaternion& q) {
-		_data[0] = 1 - (2 * q._j * q.j + 2 * q._k * q._k);
-		_data[1] = 2 * q._i * q.j + 2 * q._k * q._r;
-		_data[2] = 2 * q._i * q._k - 2 * q.j * q._r;
-		_data[3] = 2 * q._i * q.j - 2 * q._k * q._r;
+		_data[0] = 1 - (2 * q._j * q._j + 2 * q._k * q._k);
+		_data[1] = 2 * q._i * q._j + 2 * q._k * q._r;
+		_data[2] = 2 * q._i * q._k - 2 * q._j * q._r;
+		_data[3] = 2 * q._i * q._j - 2 * q._k * q._r;
 		_data[4] = 1 - (2 * q._i * q._i + 2 * q._k * q._k);
-		_data[5] = 2 * q.j * q._k + 2 * q._i * q._r;
-		_data[6] = 2 * q._i * q._k + 2 * q.j * q._r;
-		_data[7] = 2 * q.j * q._k - 2 * q._i * q._r;
-		_data[8] = 1 - (2 * q._i * q._i + 2 * q.j * q.j);
+		_data[5] = 2 * q._j * q._k + 2 * q._i * q._r;
+		_data[6] = 2 * q._i * q._k + 2 * q._j * q._r;
+		_data[7] = 2 * q._j * q._k - 2 * q._i * q._r;
+		_data[8] = 1 - (2 * q._i * q._i + 2 * q._j * q._j);
 	}
 };
