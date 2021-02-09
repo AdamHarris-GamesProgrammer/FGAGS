@@ -5,37 +5,37 @@
 class CollisionDetector
 {
 public:
-	unsigned SphereAndHalfSpace(
+	static unsigned SphereAndHalfSpace(
 		const Sphere& sphere,
-		const Plane& plane,
+		const CollisionPlane& plane,
 		CollisionData* data);
 
-	unsigned SphereAndTruePlane(
+	static unsigned SphereAndTruePlane(
 		const Sphere& sphere,
-		const Plane& plane,
+		const CollisionPlane& plane,
 		CollisionData* data);
 
-	unsigned SphereAndSphere(
+	static unsigned SphereAndSphere(
 		const Sphere& a,
 		const Sphere& b,
 		CollisionData* data);
 
-	unsigned BoxAndHalfSpace(
+	static unsigned BoxAndHalfSpace(
 		const Box& box,
-		const Plane& plane,
+		const CollisionPlane& plane,
 		CollisionData* data);
 
-	unsigned BoxAndBox(
+	static unsigned BoxAndBox(
 		const Box& a,
 		const Box& b,
 		CollisionData* data);
 
-	unsigned BoxAndPoint(
+	static unsigned BoxAndPoint(
 		const Box& box,
 		const Vector3& point,
 		CollisionData* data);
 
-	unsigned BoxAndSphere(
+	static unsigned BoxAndSphere(
 		const Box& box,
 		const Sphere& sphere,
 		CollisionData* data);
@@ -47,7 +47,7 @@ class IntersectionTests {
 public:
 	static bool SphereAndHalfSpace(
 		const Sphere& sphere,
-		const Plane& plane);
+		const CollisionPlane& plane);
 
 	static bool SphereAndSphere(
 		const Sphere& a,
@@ -59,6 +59,6 @@ public:
 
 	static bool BoxAndHalfSpace(
 		const Box& box,
-		const Plane& plane);
+		const CollisionPlane& plane);
 };
 

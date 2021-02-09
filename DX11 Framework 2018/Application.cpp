@@ -52,29 +52,36 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Adds the ground plane to the game objects vector so it will be rendered and updated
 	pGameObjects.push_back(pGroundPlane);
-
-	//Initializes the transparent cube object, and positions it
-	pBlendedCube = new MeshedObject(pGfx, "Assets/Models/cube.obj");
-	pBlendedCube->GetTransform().SetPosition(4.0f, 1.0f, 3.0f);
+	
 
 
-	//Sets the material, texture and shader
-	pBlendedCube->GetMaterial().SetMaterialDiffuse(XMFLOAT4(1.0f, 0.0f, 0.0f, 0.9f));
-	pBlendedCube->CreateTexture(L"Assets/Textures/Crate_COLOR.dds");
-	pBlendedCube->SetShader(L"PhongDif.fx");
-
-	//Initializes the bounding sphere collider
-	pBlendedCube->InitializeBoundingSphere();
-
-	pBlendedCube->GetParticle()->SetMass(110.1);
-	pBlendedCube->GetParticle()->SetDamping(0.99);
-
+	pBottomCube = new Box();
+	pBottomCube->_halfSize = Vector3(1.0,1.0,1.0);
+	pBottomCube->_body = pGameObjects[0]->GetBody();
+	pBottomCube->CalculateInternals();
 
 	
-	pDrag = new ParticleDrag(0.0,0.0);
-	_registry.Add(pBlendedCube->GetParticle(), pDrag);
+	pTopCube = new Box();
+	pTopCube->_halfSize = Vector3(1.0, 1.0,1.0);
+	pTopCube->_body = pGameObjects[1]->GetBody();
+	pTopCube->CalculateInternals();
 
 
+	pGround = new CollisionPlane();
+	pGround->_direction = Vector3(0, 1, 0);
+	pGround->_offset = 1;
+	
+
+	pGameObjects[0]->GetBody()->SetAwake();
+	pGameObjects[1]->GetBody()->SetAwake();
+
+	cResolver = new ContactResolver(MAX_CONTACTS);
+	cData._contactArray = contacts;
+	cData._friction = 0.9;
+	cData._restitution = 0.1;
+	cData._tolerance = 0.1;
+
+	
 
 	//Initializes and resets the Timer object
 	mTime = Time();
@@ -114,18 +121,32 @@ void Application::Update()
 	//Updates the view matrix for the current camera
 	pCurrentCamera->UpdateViewMatrix();
 
-
-	
-
 	//Loops through every game object and calls the update method
 	for (auto& object : pGameObjects) {
 		object->Update(dt);
 	}
 
 	//Updates the blended cube object
-	pBlendedCube->Update(dt);
+	//pBlendedCube->Update(dt);
 
 	pSkySphere->Update(dt);
+
+	pTopCube->CalculateInternals();
+	pBottomCube->CalculateInternals();
+	
+
+	cData.Reset(MAX_CONTACTS);
+	cData._friction = (real)0.9;
+	cData._restitution = (real)0.1;
+	cData._tolerance = (real)0.1;
+
+	if (!cData.HasMoreContacts()) return;
+
+	CollisionDetector::BoxAndHalfSpace(*pTopCube, *pGround, &cData);
+	CollisionDetector::BoxAndHalfSpace(*pBottomCube, *pGround, &cData);
+	CollisionDetector::BoxAndBox(*pTopCube, *pBottomCube, &cData);
+
+	cResolver->ResolveContacts(cData._contactArray, cData._contactCount, dt);
 }
 
 void Application::SelectedObjectControl(float dt)

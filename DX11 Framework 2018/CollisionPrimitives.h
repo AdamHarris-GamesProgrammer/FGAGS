@@ -28,7 +28,7 @@ public:
 	real _radius;
 };
 
-class Plane {
+class CollisionPlane {
 public:
 	Vector3 _direction;
 	real _offset;

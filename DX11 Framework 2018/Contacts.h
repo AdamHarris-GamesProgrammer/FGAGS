@@ -29,7 +29,7 @@ protected:
 	Vector3 _relativeContactPosition[2];
 
 	void CalculateInternals(real dt) {
-		if (_bodies[0]) SwapBodies();
+		if (!_bodies[0]) SwapBodies();
 		assert(_bodies[0]);
 
 		CalculateContactBasis();

@@ -25,6 +25,22 @@ public:
 		_data[8] = e8;
 	}
 
+	void SetBlockInertiaTensor(const Vector3& halfSizes, real mass) {
+		Vector3 squares = halfSizes.ComponentProduct(halfSizes);
+		SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z),
+			0.3f * mass * (squares.x + squares.y));
+	}
+
+	void SetInertiaTensorCoeffs(real ix, real iy, real iz,
+		real ixy = 0, real ixz = 0, real iyz = 0)
+	{
+		_data[0] = ix;
+		_data[1] = _data[3] = -ixy;
+		_data[2] = _data[6] = -ixz;
+		_data[4] = iy;
+		_data[5] = _data[7] = -iyz;
+		_data[8] = iz;
+	}
 
 	void SetComponents(const Vector3& a, const Vector3& b, const Vector3& c) {
 		_data[0] = a.x;

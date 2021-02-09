@@ -252,7 +252,7 @@ public:
 
 	void ClearAccumulators();
 
-	void Integrate(real dt);
+	void Update(real dt);
 
 protected:
 	Vector3 _forceAccumulator;

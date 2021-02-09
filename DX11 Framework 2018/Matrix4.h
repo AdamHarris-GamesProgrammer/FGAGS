@@ -17,6 +17,11 @@ public:
 		);
 	}
 
+	Matrix4() {
+		_data[1] = _data[2] = _data[3] = _data[4] = _data[6] = _data[7] = _data[8] = _data[9] = _data[11] = 0;
+		_data[0] = _data[5] = _data[10] = 1;
+	}
+
 	Vector3 Transform(const Vector3& vector) const {
 		return (*this) * vector;
 	}

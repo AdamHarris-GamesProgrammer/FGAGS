@@ -82,7 +82,7 @@ void Rigidbody::ClearAccumulators()
 	_torqueAccumulator.Zero();
 }
 
-void Rigidbody::Integrate(real dt)
+void Rigidbody::Update(real dt)
 {
 	//Calculate linear acceleration from the force inputs
 	_previousAcceleration = _acceleration;

@@ -32,10 +32,17 @@
 #include "ParticleBungee.h"
 #include "ParticleBuoyancy.h"
 
+
+
 #include "Precision.h"
+#include "CollisionPrimitives.h"
+#include "CollisionData.h"
+#include "CollisionDetector.h"
+#include "Contacts.h"
 
 using namespace DirectX;
 
+#define MAX_CONTACTS 10
 
 class Application
 {
@@ -64,6 +71,16 @@ private:
 	GameObject* FindGameObjectWithName(std::string name);
 
 private:
+	Box* pBottomCube;
+	Box* pTopCube;
+	CollisionPlane* pGround;
+
+
+	Contact contacts[MAX_CONTACTS];
+	CollisionData cData;
+	ContactResolver* cResolver;
+
+
 	//Time object used to track delta time for object translations
 	Time mTime;
 

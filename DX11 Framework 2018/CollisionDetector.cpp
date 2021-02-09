@@ -8,7 +8,7 @@ static inline real TransfromToAxis(
 		box._halfSize.z * real_abs(axis * box.GetAxis(2));
 }
 
-unsigned CollisionDetector::SphereAndHalfSpace(const Sphere& sphere, const Plane& plane, CollisionData* data)
+unsigned CollisionDetector::SphereAndHalfSpace(const Sphere& sphere, const CollisionPlane& plane, CollisionData* data)
 {
 	if (data->_contactsLeft <= 0) return 0;
 
@@ -28,7 +28,7 @@ unsigned CollisionDetector::SphereAndHalfSpace(const Sphere& sphere, const Plane
 	return 1;
 }
 
-unsigned CollisionDetector::SphereAndTruePlane(const Sphere& sphere, const Plane& plane, CollisionData* data)
+unsigned CollisionDetector::SphereAndTruePlane(const Sphere& sphere, const CollisionPlane& plane, CollisionData* data)
 {
 	if (data->_contactsLeft <= 0) return 0;
 
@@ -87,9 +87,9 @@ unsigned CollisionDetector::SphereAndSphere(const Sphere& a, const Sphere& b, Co
 
 }
 
-unsigned CollisionDetector::BoxAndHalfSpace(const Box& box, const Plane& plane, CollisionData* data)
+unsigned CollisionDetector::BoxAndHalfSpace(const Box& box, const CollisionPlane& plane, CollisionData* data)
 {
-	real projectedRadius = TransfromToAxis(box, plane._direction);
+	if (data->_contactsLeft <= 0) return 0;
 
 	if (!IntersectionTests::BoxAndHalfSpace(box, plane)) return 0;
 
@@ -213,6 +213,7 @@ static inline Vector3 ContactPoint(
 	}
 }
 
+
 unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData* data)
 {
 	Vector3 toCentre = b.GetAxis(3) - a.GetAxis(3);
@@ -220,25 +221,27 @@ unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData*
 	real pen = REAL_MAX;
 	unsigned best = 0xffffff;
 
+
 	if (!TryAxis(a, b, a.GetAxis(0), toCentre, 0, pen, best)) return 0;
 	if (!TryAxis(a, b, a.GetAxis(1), toCentre, 1, pen, best)) return 0;
 	if (!TryAxis(a, b, a.GetAxis(2), toCentre, 2, pen, best)) return 0;
 
-	if (!TryAxis(a, b, b.GetAxis(0), toCentre, 0, pen, best)) return 0;
-	if (!TryAxis(a, b, b.GetAxis(1), toCentre, 1, pen, best)) return 0;
-	if (!TryAxis(a, b, b.GetAxis(2), toCentre, 2, pen, best)) return 0;
+	if (!TryAxis(a, b, b.GetAxis(0), toCentre, 3, pen, best)) return 0;
+	if (!TryAxis(a, b, b.GetAxis(1), toCentre, 4, pen, best)) return 0;
+	if (!TryAxis(a, b, b.GetAxis(2), toCentre, 5, pen, best)) return 0;
 
 	unsigned bestSingleAxis = best;
 
-	if (!TryAxis(a, b, a.GetAxis(0) % b.GetAxis(0), toCentre, 6, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(0) % b.GetAxis(1), toCentre, 7, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(0) % b.GetAxis(2), toCentre, 8, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(1) % b.GetAxis(0), toCentre, 9, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(1) % b.GetAxis(1), toCentre, 10, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(1) % b.GetAxis(2), toCentre, 11, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(2) % b.GetAxis(0), toCentre, 12, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(2) % b.GetAxis(1), toCentre, 13, pen, best));
-	if (!TryAxis(a, b, a.GetAxis(2) % b.GetAxis(2), toCentre, 14, pen, best));
+	if (!TryAxis(a, b, a.GetAxis(0) % b.GetAxis(0), toCentre, 6, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(0) % b.GetAxis(1), toCentre, 7, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(0) % b.GetAxis(2), toCentre, 8, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(1) % b.GetAxis(0), toCentre, 9, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(1) % b.GetAxis(1), toCentre, 10, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(1) % b.GetAxis(2), toCentre, 11, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(2) % b.GetAxis(0), toCentre, 12, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(2) % b.GetAxis(1), toCentre, 13, pen, best))return 0;
+	if (!TryAxis(a, b, a.GetAxis(2) % b.GetAxis(2), toCentre, 14, pen, best))return 0;
+
 
 	assert(best != 0xffffff);
 
@@ -401,7 +404,7 @@ unsigned CollisionDetector::BoxAndSphere(const Box& box, const Sphere& sphere, C
 
 #pragma region Intersection Wrapper class
 
-bool IntersectionTests::SphereAndHalfSpace(const Sphere& sphere, const Plane& plane)
+bool IntersectionTests::SphereAndHalfSpace(const Sphere& sphere, const CollisionPlane& plane)
 {
 	real ballDistance = plane._direction * sphere.GetAxis(3) - sphere._radius;
 
@@ -452,7 +455,7 @@ bool IntersectionTests::BoxAndBox(const Box& a, const Box& b)
 		);
 }
 
-bool IntersectionTests::BoxAndHalfSpace(const Box& box, const Plane& plane)
+bool IntersectionTests::BoxAndHalfSpace(const Box& box, const CollisionPlane& plane)
 {
 	real projectedRadius = TransfromToAxis(box, plane._direction);
 

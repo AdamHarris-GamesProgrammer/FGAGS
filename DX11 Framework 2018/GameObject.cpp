@@ -12,7 +12,26 @@ GameObject::GameObject(Graphics* gfx)
 
 	//Initializes the position and rotation to world origin
 	mTransform = Transform();
-	mParticle = new Particle();
+	pRigidBody = new Rigidbody();
+
+	//TODO Remove temporary Rigidbody cube code
+	pRigidBody->SetMass(5.0);
+	pRigidBody->SetOrientation(1, 0, 0, 0);
+	pRigidBody->SetRotation(0.0, 0.0, 0.0);
+	pRigidBody->SetCanSleep(true);
+	pRigidBody->SetAwake(false);
+	pRigidBody->SetAngularDamping(0.8f);
+	pRigidBody->SetLinearDamping(0.95f);
+	pRigidBody->SetVelocity(0, 0, 0);
+	pRigidBody->SetAcceleration(0.0, -10.0, 0);
+
+	Matrix3 tensor;
+	tensor.SetBlockInertiaTensor(Vector3(1.0,1.0,1.0), 5.0);
+	pRigidBody->SetInertiaTensor(tensor);
+
+	pRigidBody->ClearAccumulators();
+	pRigidBody->CalculateDerivedData();
+
 
 	Initialize();
 }
@@ -32,12 +51,11 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-	mParticle->SetPosition(mTransform.GetPosition());
+	pRigidBody->SetPosition(mTransform.GetPosition());
+	pRigidBody->Update(dt);
 
-	//Apply physics
-	mParticle->Update(dt);
-
-	mTransform.SetPosition(mParticle->GetPosition());
+	
+	mTransform.SetPosition(pRigidBody->GetPosition());
 
 	//Updates transform
 	mTransform.Update();

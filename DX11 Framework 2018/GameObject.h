@@ -7,6 +7,7 @@
 #include "BindableHeaders.h"
 #include "Transform.h"
 #include "Particle.h"
+#include "Rigidbody.h"
 
 //K1
 class GameObject
@@ -42,7 +43,8 @@ public:
 
 	Material& GetMaterial();
 	Transform& GetTransform();
-	Particle* GetParticle() const { return mParticle; }
+	//Particle* GetParticle() const { return mParticle; }
+	Rigidbody* GetBody() { return pRigidBody; }
 	std::string GetName() const;
 
 	
@@ -57,6 +59,8 @@ protected:
 	IndexBuffer* pIndexBuffer;
 	
 
+	
+
 	BoundingSphere mBoundingSphere;
 
 	Graphics* pGfx;
@@ -69,7 +73,8 @@ protected:
 
 	Material mMaterial;
 	Transform mTransform;
-	Particle* mParticle;
+	//Particle* mParticle;
+	Rigidbody* pRigidBody;
 
 };
 
