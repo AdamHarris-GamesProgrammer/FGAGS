@@ -25,6 +25,19 @@ public:
 		_data[8] = e8;
 	}
 
+
+	void SetComponents(const Vector3& a, const Vector3& b, const Vector3& c) {
+		_data[0] = a.x;
+		_data[1] = b.x;
+		_data[2] = c.x;
+		_data[3] = a.y;
+		_data[4] = b.y;
+		_data[5] = c.y;
+		_data[6] = a.z;
+		_data[7] = b.z;
+		_data[8] = c.z;
+	}
+
 	void SetSkewSymmetric(const Vector3 vector) {
 		_data[0] = _data[4] = _data[8] = 0;
 		_data[1] = -vector.z;
