@@ -71,8 +71,6 @@ private:
 
 
 	//GameObject member variables
-	GameObject* pCube = nullptr;
-	GameObject* pDonut = nullptr;
 	Plane* pGroundPlane = nullptr;
 
 	MeshedObject* pBlendedCube = nullptr;

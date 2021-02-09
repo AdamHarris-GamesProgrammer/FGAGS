@@ -26,14 +26,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
 	//Sets the game objects vector and loads the objects from the json file
-	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile("Assets/Levels/level.json");
-
-	//Finds the cube and donut objects from the game objects array, used so these can be referenced in code
-	pCube = FindGameObjectWithName("Cube");
-	pDonut = FindGameObjectWithName("Donut");
+	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile("Assets/Levels/physicsTest.json");
 
 
-	pCameras = mJSONLevelLoader.LoadCamerasFromFile("Assets/Levels/level.json");
+	pCameras = mJSONLevelLoader.LoadCamerasFromFile("Assets/Levels/physicsTest.json");
 	pCurrentCamera = pCameras[0];
 	pGfx->SetCurrentCamera(pCurrentCamera);
 
@@ -73,12 +69,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pBlendedCube->GetParticle()->SetMass(110.1);
 	pBlendedCube->GetParticle()->SetDamping(0.99);
 
-	GameObject* pPhysicCube = pGameObjects[0];
-
-
-	pPhysicCube->GetTransform().SetPosition(4.0, 1.0, 3.0);
-	pPhysicCube->GetParticle()->SetMass(10.0);
-	pPhysicCube->GetParticle()->SetDamping(1.0);
 
 	
 	pDrag = new ParticleDrag(0.0,0.0);
@@ -120,10 +110,6 @@ void Application::Update()
 
 	//Calculates the new rotation value 
 	mObjectRotationValue += (mObjectRotationSpeed * dt);
-
-	//Sets the rotation of the cube and the donut game objects
-	pCube->GetTransform().SetRotation(10.0f, mObjectRotationValue, 0.0f);
-	pDonut->GetTransform().SetRotation(mObjectRotationValue, 0.0f, 0.0f);
 
 	//Updates the view matrix for the current camera
 	pCurrentCamera->UpdateViewMatrix();
@@ -358,18 +344,6 @@ void Application::PollInput(float dt)
 		pGfx->SetCurrentCamera(pCurrentCamera);
 	}
 
-	if (GetAsyncKeyState('5'))
-	{
-		pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
-		pGameObjects[0]->GetParticle()->SetVelocity(3.0, 0.0, 0.0);
-		pDrag->SetDrags(1.05, 1.05);
-	}
-	if (GetAsyncKeyState('6')) {
-		pGameObjects[0]->GetTransform().SetPosition(-5.0, 1.2, 0.0);
-		pGameObjects[0]->GetParticle()->SetVelocity(3.0, 0.0, 0.0);
-		pDrag->SetDrags(0.0, 0.0);
-	}
-
 	if (GetAsyncKeyState('H')) {
 		Picking();
 	}
@@ -426,7 +400,7 @@ void Application::Draw()
 	}
 
 	pGfx->SetTransparentBlend();
-	pBlendedCube->Draw();
+	//pBlendedCube->Draw();
 
 	DrawGUI();
 
