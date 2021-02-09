@@ -329,161 +329,159 @@ protected:
 		return impulseContact;
 	}
 
+};
+
+class ContactResolver {
+protected:
+	unsigned velocityIterations;
+	unsigned positionIterations;
+
+	real velocityEpsilon = 0.01;
+	real positionEpsilon = 0.01;
+
+public:
+	unsigned velocityIterationsUsed;
+	unsigned positionIterationsUsed;
+
 private:
+	bool validSettings;
+
+public:
+	ContactResolver(unsigned iterations, real velocityEps = (real)0.01, real positionEps = (real)0.01) {
+		SetIterations(iterations);
+		SetEpsilon(velocityEps, positionEps);
+	}
+	ContactResolver(unsigned velocityIt, unsigned positionIt, real positionEp = (real)0.01, real velocityEp = (real)0.01) {
+		SetIterations(positionIterations, velocityIterations);
+		SetEpsilon(velocityEp, positionEp);
+	}
+
+	bool IsValid() {
+		return(velocityIterations > 0) && (positionIterations > 0) && (positionEpsilon >= 0.0f) && (velocityEpsilon >= 0.0f);
+	}
+
+	void SetIterations(unsigned velocityIt, unsigned positionIt) {
+		positionIterations = positionIt;
+		velocityIterations = velocityIt;
+	}
+
+	void SetIterations(unsigned iterations) {
+		positionIterations = iterations;
+		velocityIterations = iterations;
+	}
+
+	void SetEpsilon(real velocityEp, real positionEp) {
+		velocityEpsilon = velocityEp;
+		positionEpsilon = positionEp;
+	}
+
+	void ResolveContacts(Contact* contacts, unsigned numContacts, real dt) {
+		if (numContacts == 0) return;
+
+		PrepareContacts(contacts, numContacts, dt);
+
+		AdjustPositions(contacts, numContacts, dt);
+
+		AdjustVelocities(contacts, numContacts, dt);
+	}
 
 
-	class ContactResolver {
-	protected:
-		unsigned velocityIterations;
-		unsigned positionIterations;
+protected:
 
-		real velocityEpsilon = 0.01;
-		real positionEpsilon = 0.01;
+	void AdjustVelocities(Contact* contacts, unsigned numContacts, real dt)
+	{
+		Vector3 velocityChange[2], rotationChange[2];
+		Vector3 deltaVel;
 
-	public:
-		unsigned velocityIterationsUsed;
-		unsigned positionIterationsUsed;
+		velocityIterationsUsed = 0;
 
-	private:
-		bool validSettings;
-
-	public:
-		ContactResolver(unsigned iterations, real velocityEps = (real)0.01, real positionEps = (real)0.01) {
-			SetIterations(iterations);
-			SetEpsilon(velocityEps, positionEps);
-		}
-		ContactResolver(unsigned velocityIt, unsigned positionIt, real positionEp = (real)0.01, real velocityEp = (real)0.01) {
-			SetIterations(positionIterations, velocityIterations);
-			SetEpsilon(velocityEp, positionEp);
-		}
-
-		bool IsValid() {
-			return(velocityIterations > 0) && (positionIterations > 0) && (positionEpsilon >= 0.0f) && (velocityEpsilon >= 0.0f);
-		}
-
-		void SetIterations(unsigned velocityIt, unsigned positionIt) {
-			positionIterations = positionIt;
-			velocityIterations = velocityIt;
-		}
-
-		void SetIterations(unsigned iterations) {
-			positionIterations = iterations;
-			velocityIterations = iterations;
-		}
-
-		void SetEpsilon(real velocityEp, real positionEp) {
-			velocityEpsilon = velocityEp;
-			positionEpsilon = positionEp;
-		}
-
-		void ResolveContacts(Contact* contacts, unsigned numContacts, real dt) {
-			if (numContacts == 0) return;
-
-			PrepareContacts(contacts, numContacts, dt);
-
-			AdjustPositions(contacts, numContacts, dt);
-
-			AdjustVelocities(contacts, numContacts, dt);
-		}
-
-
-	protected:
-
-		void AdjustVelocities(Contact* contacts, unsigned numContacts, real dt)
+		while (velocityIterationsUsed < velocityIterations)
 		{
-			Vector3 velocityChange[2], rotationChange[2];
-			Vector3 deltaVel;
-
-			velocityIterationsUsed = 0;
-
-			while (velocityIterationsUsed < velocityIterations)
-			{
-				real max = velocityEpsilon;
-				unsigned index = numContacts;
-				for (unsigned i = 0; i < numContacts; i++) {
-					if (contacts[i]._desiredDeltaVelocity > max) {
-						max = contacts[i]._desiredDeltaVelocity;
-						index = i;
-					}
+			real max = velocityEpsilon;
+			unsigned index = numContacts;
+			for (unsigned i = 0; i < numContacts; i++) {
+				if (contacts[i]._desiredDeltaVelocity > max) {
+					max = contacts[i]._desiredDeltaVelocity;
+					index = i;
 				}
-				if (index == numContacts) break;
+			}
+			if (index == numContacts) break;
 
-				contacts[index].MatchAwakeState();
-				contacts[index].ApplyVelocityChange(velocityChange, rotationChange);
+			contacts[index].MatchAwakeState();
+			contacts[index].ApplyVelocityChange(velocityChange, rotationChange);
 
-				for (unsigned i = 0; i < numContacts; i++) {
-					for (unsigned j = 0; j < numContacts; j++) if (contacts[i]._bodies[j]) {
-						for (unsigned k = 0; k < numContacts; k++) {
-							if (contacts[i]._bodies[j] == contacts[index]._bodies[k]) {
-								deltaVel = velocityChange[k] + rotationChange[k].VectorProduct(contacts[i]._relativeContactPosition[j]);
+			for (unsigned i = 0; i < numContacts; i++) {
+				for (unsigned j = 0; j < numContacts; j++) if (contacts[i]._bodies[j]) {
+					for (unsigned k = 0; k < numContacts; k++) {
+						if (contacts[i]._bodies[j] == contacts[index]._bodies[k]) {
+							deltaVel = velocityChange[k] + rotationChange[k].VectorProduct(contacts[i]._relativeContactPosition[j]);
 
-								contacts[i]._contactVelocity += contacts[i]._contactToWorld.TransformTranspose(deltaVel) * (j ? -1 : 1);
-								contacts[i].CalculateDesiredDeltaVelocity(dt);
-							}
+							contacts[i]._contactVelocity += contacts[i]._contactToWorld.TransformTranspose(deltaVel) * (j ? -1 : 1);
+							contacts[i].CalculateDesiredDeltaVelocity(dt);
 						}
 					}
 				}
-				velocityIterationsUsed++;
 			}
-			
+			velocityIterationsUsed++;
 		}
 
+	}
 
 
-		void AdjustPositions(Contact* contacts, unsigned numContacts, real dt)
-		{
-			unsigned i, index;
-			Vector3 linearChange[2], angularChange[2];
-			real max;
-			Vector3 deltaPosition;
+
+	void AdjustPositions(Contact* contacts, unsigned numContacts, real dt)
+	{
+		unsigned i, index;
+		Vector3 linearChange[2], angularChange[2];
+		real max;
+		Vector3 deltaPosition;
 
 
-			positionIterationsUsed = 0;
-			while (positionIterationsUsed < positionIterations) {
+		positionIterationsUsed = 0;
+		while (positionIterationsUsed < positionIterations) {
 
-				//Find the biggest penetration
-				max = positionEpsilon;
-				index = numContacts;
-				for (i = 0; i < numContacts; i++) {
-					if (contacts[i]._penetration > max) {
-						max = contacts[i]._penetration;
-						index = i;
-					}
+			//Find the biggest penetration
+			max = positionEpsilon;
+			index = numContacts;
+			for (i = 0; i < numContacts; i++) {
+				if (contacts[i]._penetration > max) {
+					max = contacts[i]._penetration;
+					index = i;
 				}
+			}
 
-				if (index == numContacts) break;
+			if (index == numContacts) break;
 
-				contacts[index].MatchAwakeState();
+			contacts[index].MatchAwakeState();
 
-				contacts[index].ApplyPositionChange(linearChange, angularChange, max);
+			contacts[index].ApplyPositionChange(linearChange, angularChange, max);
 
-				for (i = 0; i < numContacts; i++) {
-					for (unsigned j = 0; j < 2; j++) if(contacts[i]._bodies[j]) {
-						for (unsigned k = 0; k < 2; k++)
-						{
-							if (contacts[i]._bodies[j] == contacts[index]._bodies[k]) {
-								deltaPosition = linearChange[k] + angularChange[k].VectorProduct(contacts[i]._relativeContactPosition[j]);
+			for (i = 0; i < numContacts; i++) {
+				for (unsigned j = 0; j < 2; j++) if (contacts[i]._bodies[j]) {
+					for (unsigned k = 0; k < 2; k++)
+					{
+						if (contacts[i]._bodies[j] == contacts[index]._bodies[k]) {
+							deltaPosition = linearChange[k] + angularChange[k].VectorProduct(contacts[i]._relativeContactPosition[j]);
 
-								contacts[i]._penetration += deltaPosition.ScalarProduct(contacts[i]._contactNormal) * (j ? 1 : -1);
-							}
+							contacts[i]._penetration += deltaPosition.ScalarProduct(contacts[i]._contactNormal) * (j ? 1 : -1);
 						}
 					}
 				}
-				positionIterationsUsed++;
 			}
+			positionIterationsUsed++;
 		}
+	}
 
 
 
-		void PrepareContacts(Contact* contacts, unsigned numContacts, real dt)
-		{
-			Contact* lastContact = contacts + numContacts;
+	void PrepareContacts(Contact* contacts, unsigned numContacts, real dt)
+	{
+		Contact* lastContact = contacts + numContacts;
 
-			for (Contact* contact = contacts; contact < lastContact; contact++) {
-				contact->CalculateInternals(dt);
-			}
+		for (Contact* contact = contacts; contact < lastContact; contact++) {
+			contact->CalculateInternals(dt);
 		}
+	}
 
 
-	};
 };
