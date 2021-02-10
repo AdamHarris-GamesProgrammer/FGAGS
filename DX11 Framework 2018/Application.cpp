@@ -371,6 +371,10 @@ void Application::PollInput(float dt)
 	if (GetAsyncKeyState('Y')) {
 		pSelectedObject = nullptr;
 	}
+
+	if (GetAsyncKeyState('U')) {
+		__debugbreak();
+	}
 }
 
 void Application::CursorControls(float dt)

@@ -14,7 +14,7 @@
     {
       "name": "FallingCube",
       "position": [ 1.0, 6, 1 ],
-      "rotation": [ 0.6, 0, 0 ],
+      "rotation": [ 0, 0, 0 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",

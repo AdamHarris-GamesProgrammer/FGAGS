@@ -222,6 +222,55 @@ protected:
 			// Keep track of the total inertia from all components
 			totalInertia += linearInertia[i] + angularInertia[i];
 		}
+
+		for (unsigned i = 0; i < 2; i++) if (_bodies[i]) {
+			real sign = (i == 0)? 1 : -1;
+			angularMove[i] = sign * penetration * (angularInertia[i] / totalInertia);
+			linearMove[i] = sign * penetration * (linearInertia[i] / totalInertia);
+
+			Vector3 projection = _relativeContactPosition[i];
+			projection.AddScaledVector(_contactNormal, -_relativeContactPosition[i].ScalarProduct(_contactNormal));
+
+			real maxMagnitude = angularLimit * projection.Magnitude();
+
+			if (angularMove[i] < -maxMagnitude) {
+				real totalMove = angularMove[i] + linearMove[i];
+				angularMove[i] = -maxMagnitude;
+				linearMove[i] = totalMove - angularMove[i];
+			}
+			else if (angularMove[i] > maxMagnitude) {
+				real totalMove = angularMove[i] + linearMove[i];
+				angularMove[i] = maxMagnitude;
+				linearMove[i] = totalMove - angularMove[i];
+			}
+
+			if (angularMove[i] == 0) {
+				angularChange[i].Zero();
+			}
+			else {
+				Vector3 targetAngularDirection = _relativeContactPosition[i].VectorProduct(_contactNormal);
+
+				Matrix3 inverseInertiaTensor;
+				_bodies[i]->GetInverseInertiaTensorWorld(&inverseInertiaTensor);
+
+				angularChange[i] = inverseInertiaTensor.Transform(targetAngularDirection) * (angularMove[i] / angularInertia[i]);
+			}
+
+			linearChange[i] = _contactNormal * linearMove[i];
+
+			Vector3 pos;
+
+			pos = _bodies[i]->GetPosition();
+			pos.AddScaledVector(_contactNormal, linearMove[i]);
+			_bodies[i]->SetPosition(pos);
+
+			Quaternion q;
+			_bodies[i]->GetOrientation(&q);
+			q.AddScaledVector(angularChange[i], ((real)1.0));
+			_bodies[i]->SetOrientation(q);
+
+			if (!_bodies[i]->GetAwake()) _bodies[i]->CalculateDerivedData();
+		}
 	}
 
 	Vector3 CalculateFrictionlessImpulse(Matrix3* inverseIntertiaTensor) {
@@ -377,6 +426,8 @@ public:
 
 	void ResolveContacts(Contact* contacts, unsigned numContacts, real dt) {
 		if (numContacts == 0) return;
+		if (!IsValid()) return;
+
 
 		PrepareContacts(contacts, numContacts, dt);
 
