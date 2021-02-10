@@ -60,6 +60,7 @@ void Transform::SetRotation(Vector3 rotation)
 void Transform::SetRotation(float x, float y, float z)
 {
 	mRotation = Vector3(x, y, z);
+	
 }
 
 void Transform::SetScale(float x, float y, float z)

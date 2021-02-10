@@ -51,6 +51,9 @@
     <Filter Include="Engine\Physics\Collision">
       <UniqueIdentifier>{4b9f9e5e-927e-487c-aa53-f73f33178ae4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Levels">
+      <UniqueIdentifier>{79bc7358-e579-4080-84b6-fd9c7e6e81e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -338,6 +341,12 @@
     </None>
     <None Include="ConstantBuffers.fx">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Assets\Levels\level.json">
+      <Filter>Levels</Filter>
+    </None>
+    <None Include="Assets\Levels\physicsTest.json">
+      <Filter>Levels</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

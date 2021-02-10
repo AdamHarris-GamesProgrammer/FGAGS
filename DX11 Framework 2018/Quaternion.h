@@ -64,4 +64,8 @@ public:
 		_j += q._j * ((real)0.5);
 		_k += q._k * ((real)0.5);
 	}
+
+	Vector3 Identity() {
+		return Vector3(_i, _j, _k);
+	}
 };

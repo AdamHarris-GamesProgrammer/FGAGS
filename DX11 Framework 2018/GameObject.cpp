@@ -52,16 +52,30 @@ GameObject::~GameObject()
 void GameObject::Update(float dt)
 {
 	pRigidBody->SetPosition(mTransform.GetPosition());
+	
 	pRigidBody->Update(dt);
 
 	
-	mTransform.SetPosition(pRigidBody->GetPosition());
+	UpdateTransforms();
 
-	//Updates transform
-	mTransform.Update();
 
 	//Updates bounding sphere location
 	mBoundingSphere.Center = mTransform.GetPosition();
+}
+
+void GameObject::UpdateTransforms()
+{
+	mTransform.SetPosition(pRigidBody->GetPosition());
+	mTransform.SetRotation(pRigidBody->GetOrientation().Identity());
+
+
+	float transform[16];
+	pRigidBody->GetTransform().DirectXArray(transform);
+
+	mTransform.SetTransform(XMFLOAT4X4(transform));
+
+	//Updates transform
+	//mTransform.Update();
 }
 
 bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)

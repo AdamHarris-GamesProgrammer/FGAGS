@@ -172,4 +172,26 @@ public:
 	Vector3 WorldToLocalDirection(const Vector3& world, const Matrix4& transform) {
 		return transform.TransformInverDirection(world);
 	}
+
+	void DirectXArray(float array[16]) const {
+		array[0] = (float)_data[0];
+		array[1] = (float)_data[4];
+		array[2] = (float)_data[8];
+		array[3] = (float)0;
+
+		array[4] = (float)_data[1];
+		array[5] = (float)_data[5];
+		array[6] = (float)_data[9];
+		array[7] = (float)0;
+
+		array[8] = (float)_data[2];
+		array[9] = (float)_data[6];
+		array[10] = (float)_data[10];
+		array[11] = (float)0;
+
+		array[12] = (float)_data[3];
+		array[13] = (float)_data[7];
+		array[14] = (float)_data[11];
+		array[15] = (float)1;
+	}
 };

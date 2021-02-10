@@ -69,7 +69,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	pGround = new CollisionPlane();
 	pGround->_direction = Vector3(0, 1, 0);
-	pGround->_offset = 1;
+	pGround->_offset = 0;
 	
 
 	pGameObjects[0]->GetBody()->SetAwake();
@@ -135,18 +135,25 @@ void Application::Update()
 	pBottomCube->CalculateInternals();
 	
 
+
 	cData.Reset(MAX_CONTACTS);
 	cData._friction = (real)0.9;
 	cData._restitution = (real)0.1;
 	cData._tolerance = (real)0.1;
 
-	if (!cData.HasMoreContacts()) return;
+	if (cData.HasMoreContacts()) {
+		CollisionDetector::BoxAndHalfSpace(*pTopCube, *pGround, &cData);
+		CollisionDetector::BoxAndHalfSpace(*pBottomCube, *pGround, &cData);
+		//CollisionDetector::BoxAndBox(*pTopCube, *pBottomCube, &cData);
 
-	CollisionDetector::BoxAndHalfSpace(*pTopCube, *pGround, &cData);
-	CollisionDetector::BoxAndHalfSpace(*pBottomCube, *pGround, &cData);
-	CollisionDetector::BoxAndBox(*pTopCube, *pBottomCube, &cData);
+		cResolver->ResolveContacts(cData._contactArray, cData._contactCount, dt);
+	}
 
-	cResolver->ResolveContacts(cData._contactArray, cData._contactCount, dt);
+
+
+	for (auto& object : pGameObjects) {
+		object->UpdateTransforms();
+	}
 }
 
 void Application::SelectedObjectControl(float dt)
@@ -377,8 +384,8 @@ void Application::PollInput(float dt)
 	}
 
 	if (GetAsyncKeyState('R')) {
-		pGameObjects[0]->GetTransform().SetPosition(0, 6, 0);
-		pGameObjects[1]->GetTransform().SetPosition(0, 1, 0);
+		pGameObjects[0]->GetTransform().SetPosition(5, 1, 0);
+		pGameObjects[1]->GetTransform().SetPosition(0, 6, 0);
 		pTopCube->_body->ClearAccumulators();
 		pBottomCube->_body->ClearAccumulators();
 	}

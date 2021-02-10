@@ -16,7 +16,6 @@ static inline void CalculateTransformMatrix(
 	transformMatrix._data[9] = 2 * orientation._j * orientation._k + 2 * orientation._r * orientation._i;
 	transformMatrix._data[10] = 1 - 2 * orientation._i * orientation._i - 2 * orientation._j * orientation._j;
 	transformMatrix._data[11] = position.z;
-	transformMatrix._data[11] = position.z;
 
 }
 

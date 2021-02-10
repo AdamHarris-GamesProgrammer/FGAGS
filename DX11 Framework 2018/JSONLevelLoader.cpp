@@ -48,6 +48,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		if (HasAttribute(&jsonGo, "rotation")) {
 			std::vector<float> rotation = jsonGo["rotation"];
 			go->GetTransform().SetRotation(rotation[0], rotation[1], rotation[2]);
+			go->GetBody()->SetRotation(rotation[0], rotation[1], rotation[2]);
 		}
 
 		//Checks for the scale attribute and sets the objects scale

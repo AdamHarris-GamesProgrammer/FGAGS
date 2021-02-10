@@ -23,6 +23,8 @@ public:
 	//Update method for the object
 	virtual void Update(float dt);
 
+	void UpdateTransforms();
+
 	//TestCollision with a ray, used for picking 
 	virtual bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection);
 
