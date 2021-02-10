@@ -375,6 +375,13 @@ void Application::PollInput(float dt)
 	if (GetAsyncKeyState('U')) {
 		__debugbreak();
 	}
+
+	if (GetAsyncKeyState('R')) {
+		pGameObjects[0]->GetTransform().SetPosition(0, 6, 0);
+		pGameObjects[1]->GetTransform().SetPosition(0, 1, 0);
+		pTopCube->_body->ClearAccumulators();
+		pBottomCube->_body->ClearAccumulators();
+	}
 }
 
 void Application::CursorControls(float dt)

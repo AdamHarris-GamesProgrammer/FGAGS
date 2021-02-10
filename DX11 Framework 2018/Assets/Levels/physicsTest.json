@@ -7,9 +7,7 @@
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
       "normalTexture": "Crate_NRM.dds",
-      "ambient": [ 0.2, 0.2, 0.2, 1.0 ],
-      "diffuse": [ 1.0, 0.0, 0.0, 1.0 ],
-      "boundingSphere": "true"
+      "ambient": [ 0.2, 0.2, 0.2, 1.0 ]
     },
     {
       "name": "FallingCube",
@@ -19,9 +17,7 @@
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
       "normalTexture": "Crate_NRM.dds",
-      "ambient": [ 0.2, 0.2, 0.2, 1.0 ],
-      "diffuse": [ 1.0, 0.0, 0.0, 1.0 ],
-      "boundingSphere": "true"
+      "ambient": [ 0.2, 0.2, 0.2, 1.0 ]
     }
   ],
   "gameObjects": [
