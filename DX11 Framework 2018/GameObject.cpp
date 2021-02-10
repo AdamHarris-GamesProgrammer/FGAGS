@@ -75,7 +75,7 @@ void GameObject::UpdateTransforms()
 	mTransform.SetTransform(XMFLOAT4X4(transform));
 
 	//Updates transform
-	//mTransform.Update();
+	mTransform.Update();
 }
 
 bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)

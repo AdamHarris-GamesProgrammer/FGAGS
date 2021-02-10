@@ -384,9 +384,9 @@ void Application::PollInput(float dt)
 	}
 
 	if (GetAsyncKeyState('R')) {
-		pGameObjects[0]->GetTransform().SetPosition(5, 1, 0);
-		pGameObjects[1]->GetTransform().SetPosition(0, 6, 0);
-		pTopCube->_body->ClearAccumulators();
+		pGameObjects[0]->GetTransform().SetPosition(6, 1, 1);
+		pGameObjects[1]->GetTransform().SetPosition(1.0, 6, 1);
+		//pTopCube->_body->ClearAccumulators();
 		pBottomCube->_body->ClearAccumulators();
 	}
 }

@@ -11,7 +11,9 @@ void Transform::Update()
 	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(mRotation.x, mRotation.y, mRotation.z);
 
 	//Calculates the transform
-	XMMATRIX calculatedTransform = XMMatrixMultiply(objectScale, objectPosition) * objectRotation;
+	XMMATRIX calculatedTransform = XMMatrixMultiply(transformMatrix, objectScale);
+
+	
 
 	//Stores the transform
 	XMStoreFloat4x4(&mTransform, calculatedTransform);
