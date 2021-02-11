@@ -395,6 +395,7 @@
     <ClCompile Include="ParticleContact.cpp" />
     <ClCompile Include="ParticleContactResolver.cpp" />
     <ClCompile Include="ParticleForceRegistry.cpp" />
+    <ClCompile Include="PhysicsModel.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SkySphere.cpp" />
@@ -452,6 +453,7 @@
     <ClInclude Include="ParticleRods.h" />
     <ClInclude Include="ParticleSpring.h" />
     <ClInclude Include="ParticleUplift.h" />
+    <ClInclude Include="PhysicsModel.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Precision.h" />

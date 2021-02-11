@@ -236,6 +236,7 @@
     <ClInclude Include="CollisionDetector.h">
       <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -311,6 +312,7 @@
     <ClCompile Include="CollisionDetector.cpp">
       <Filter>Engine\Physics\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

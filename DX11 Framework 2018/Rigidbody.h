@@ -3,36 +3,18 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 
+#include "PhysicsModel.h"
+
 #include "Matrix3.h"
 #include "Matrix4.h"
 
-class Rigidbody
+class Rigidbody : public PhysicsModel
 {
 public:
 	void CalculateDerivedData();
 
 
 	void SetInertiaTensor(const Matrix3& inertiaTensor) { _inverseInertiaTensor.SetInverse(inertiaTensor); }
-	void SetMass(const real mass) 
-	{
-		assert(mass != 0);
-		_inverseMass = ((real)1.0) / mass;
-	}
-	real GetMass() const {
-		if (_inverseMass == 0) {
-			return REAL_MAX;
-		}
-		else {
-			return ((real)1.0) / _inverseMass;
-		}
-	}
-
-	void SetInverseMass(const real inverseMass) { _inverseMass = inverseMass; }
-	real GetInverseMass() { return _inverseMass; }
-
-	bool HasFiniteMass() const {
-		return _inverseMass > 0.0f;
-	}
 
 	void GetInertiaTensor(Matrix3* inertiaTensor) const {
 		inertiaTensor->SetInverse(_inverseInertiaTensorWorld);
@@ -80,23 +62,7 @@ public:
 		return _angularDamping;
 	}
 
-	real GetLinearDamping() {
-		return _linearDamping;
-	}
 
-	void SetPosition(const Vector3& position) {
-		_position = position;
-	}
-
-	void SetPosition(const real x, const real y, const real z) {
-		_position.x = x;
-		_position.y = y;
-		_position.z = z;
-	}
-	
-	Vector3 GetPosition() const {
-		return _position;
-	}
 
 	void SetOrientation(const Quaternion& orientation) {
 		_orientation = orientation;
@@ -162,20 +128,6 @@ public:
 		return _transformMatrix.TransformInverDirection(point);
 	}
 
-	void SetVelocity(const Vector3& velocity) {
-		_velocity = velocity;
-	}
-
-	void SetVelocity(const real x, const real y, const real z) {
-		_velocity.x = x;
-		_velocity.y = y;
-		_velocity.z = z;
-	}
-
-	Vector3 GetVelocity() const {
-		return _velocity;
-	}
-
 	void AddVelocity(const Vector3& deltaVelocity) {
 		_velocity += deltaVelocity;
 	}
@@ -227,56 +179,35 @@ public:
 		_isAwake = true;
 	}
 
-	void SetAcceleration(const Vector3& acceleration) {
-		_acceleration = acceleration;
-	}
-
-	void SetAcceleration(const real x, const real y, const real z) {
-		_acceleration.x = x;
-		_acceleration.y = y;
-		_acceleration.z = z;
-	}
-
-	Vector3 GetAcceleration() {
-		return _acceleration;
-	}
 
 	bool GetAwake() const {
 		return _isAwake;
 	}
 
 	//Add Forces
-	void AddForce(const Vector3& force);
+	void AddForce(const Vector3& force) override;
 	void AddForceAtPoint(const Vector3& force, const Vector3& point);
 	void AddForceAtBodyPoint(const Vector3& force, const Vector3& point);
 
-	void ClearAccumulators();
+	void ClearAccumulator() override;
 
 	void Update(real dt);
 
 protected:
-	Vector3 _forceAccumulator;
 	Vector3 _torqueAccumulator;
 
 	bool _isAwake;
 
 
-	real _inverseMass;
-
-	real _linearDamping;
 	real _angularDamping;
 
-	Vector3 _position;
 
 	Quaternion _orientation;
 
-	Vector3 _velocity;
 
 	Vector3 _rotation;
 
 	Matrix4 _transformMatrix;
-
-	Vector3 _acceleration;
 
 	Vector3 _previousAcceleration;
 
@@ -286,8 +217,6 @@ protected:
 
 	Matrix3 _inverseInertiaTensor;
 	Matrix3 _inverseInertiaTensorWorld;
-
-
 
 	//TODO: Abstract sleeping stuff out
 	real _sleepEpsilon = 0.1;

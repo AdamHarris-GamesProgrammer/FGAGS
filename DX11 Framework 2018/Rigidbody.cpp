@@ -53,7 +53,7 @@ void Rigidbody::CalculateDerivedData()
 
 void Rigidbody::AddForce(const Vector3& force)
 {
-	_forceAccumulator += force;
+	PhysicsModel::AddForce(force);
 	_isAwake = true;
 }
 
@@ -75,9 +75,9 @@ void Rigidbody::AddForceAtBodyPoint(const Vector3& force, const Vector3& point)
 	_isAwake = true;
 }
 
-void Rigidbody::ClearAccumulators()
+void Rigidbody::ClearAccumulator()
 {
-	_forceAccumulator.Zero();
+	PhysicsModel::ClearAccumulator();
 	_torqueAccumulator.Zero();
 }
 
@@ -110,7 +110,7 @@ void Rigidbody::Update(real dt)
 	CalculateDerivedData();
 
 	//Clear the force accumulators
-	ClearAccumulators();
+	ClearAccumulator();
 
 	if (_canSleep) {
 		real currentMotion = _velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation);

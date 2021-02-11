@@ -400,7 +400,7 @@ void Application::Reset()
 {
 	pGameObjects[0]->GetTransform().SetPosition(1, 1, 1);
 	pGameObjects[1]->GetTransform().SetPosition(1.0, 6, 1);
-	pBottomCube->_body->ClearAccumulators();
+	pBottomCube->_body->ClearAccumulator();
 }
 
 void Application::CursorControls(float dt)
