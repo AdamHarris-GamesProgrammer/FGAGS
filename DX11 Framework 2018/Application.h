@@ -38,7 +38,8 @@
 #include "CollisionPrimitives.h"
 #include "CollisionData.h"
 #include "CollisionDetector.h"
-#include "Contacts.h"
+#include "Contact.h"
+#include "ContactResolver.h"
 
 using namespace DirectX;
 

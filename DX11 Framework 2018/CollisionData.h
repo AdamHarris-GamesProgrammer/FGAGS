@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector3.h"
-#include "Contacts.h"
+#include "Contact.h"
 
 struct CollisionData {
 	Contact* _contacts;

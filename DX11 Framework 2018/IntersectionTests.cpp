@@ -1,0 +1,69 @@
+#include "IntersectionTests.h"
+
+static inline real TransfromToAxis(
+	const Box& box, const Vector3& axis) {
+	return
+		box._halfSize.x * real_abs(axis * box.GetAxis(0)) +
+		box._halfSize.y * real_abs(axis * box.GetAxis(1)) +
+		box._halfSize.z * real_abs(axis * box.GetAxis(2));
+}
+
+bool IntersectionTests::SphereAndHalfSpace(const Sphere& sphere, const CollisionPlane& plane)
+{
+	real ballDistance = plane._direction * sphere.GetAxis(3) - sphere._radius;
+
+	return ballDistance <= plane._offset;
+}
+
+bool IntersectionTests::SphereAndSphere(const Sphere& a, const Sphere& b)
+{
+	Vector3 midline = a.GetAxis(3) - b.GetAxis(3);
+
+	return midline.SquareMagnitude() < (a._radius + b._radius) * (a._radius + b._radius);
+}
+
+
+static inline bool OverlapOnAxis(const Box& a, const Box& b, const Vector3& axis, const Vector3& centre) {
+	real aProject = TransfromToAxis(a, axis);
+	real bProject = TransfromToAxis(b, axis);
+
+	real distance = real_abs(centre * axis);
+
+	return(distance < aProject + bProject);
+}
+
+bool IntersectionTests::BoxAndBox(const Box& a, const Box& b)
+{
+	Vector3 toCentre = a.GetAxis(3) - a.GetAxis(3);
+
+	return (
+		//Box A
+		OverlapOnAxis(a, b, a.GetAxis(0), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(1), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(2), toCentre) &&
+		//Box B
+		OverlapOnAxis(a, b, b.GetAxis(0), toCentre) &&
+		OverlapOnAxis(a, b, b.GetAxis(1), toCentre) &&
+		OverlapOnAxis(a, b, b.GetAxis(2), toCentre) &&
+
+		//Cross products
+		OverlapOnAxis(a, b, a.GetAxis(0) % b.GetAxis(0), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(0) % b.GetAxis(1), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(0) % b.GetAxis(2), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(1) % b.GetAxis(0), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(1) % b.GetAxis(1), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(1) % b.GetAxis(2), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(2) % b.GetAxis(0), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(2) % b.GetAxis(1), toCentre) &&
+		OverlapOnAxis(a, b, a.GetAxis(2) % b.GetAxis(2), toCentre)
+		);
+}
+
+bool IntersectionTests::BoxAndHalfSpace(const Box& box, const CollisionPlane& plane)
+{
+	real projectedRadius = TransfromToAxis(box, plane._direction);
+
+	real boxDistance = plane._direction * box.GetAxis(3) - projectedRadius;
+
+	return boxDistance <= plane._offset;
+}

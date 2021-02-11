@@ -221,9 +221,6 @@
     <ClInclude Include="BoundingVolumeHierarchy.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Contacts.h">
-      <Filter>Engine\Physics\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="BoundingSphere.h">
       <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
@@ -237,6 +234,15 @@
       <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsModel.h" />
+    <ClInclude Include="IntersectionTests.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactResolver.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -313,6 +319,15 @@
       <Filter>Engine\Physics\Collision</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsModel.cpp" />
+    <ClCompile Include="IntersectionTests.cpp">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactResolver.cpp">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Contact.cpp">
+      <Filter>Engine\Physics\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

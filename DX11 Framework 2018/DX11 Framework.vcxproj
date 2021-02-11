@@ -376,6 +376,8 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
+    <ClCompile Include="ContactResolver.cpp" />
+    <ClCompile Include="Contact.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
@@ -388,6 +390,7 @@
     <ClCompile Include="Imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="IntersectionTests.cpp" />
     <ClCompile Include="JSONLevelLoader.cpp" />
     <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
@@ -412,7 +415,8 @@
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="CollisionPrimitives.h" />
-    <ClInclude Include="Contacts.h" />
+    <ClInclude Include="ContactResolver.h" />
+    <ClInclude Include="Contact.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="ForceGenerator.h" />
@@ -429,6 +433,7 @@
     <ClInclude Include="Imgui\imstb_textedit.h" />
     <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="IntersectionTests.h" />
     <ClInclude Include="JSONLevelLoader.h" />
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="Matrix3.h" />
