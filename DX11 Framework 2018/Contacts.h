@@ -461,13 +461,26 @@ protected:
 			contacts[index].MatchAwakeState();
 			contacts[index].ApplyVelocityChange(velocityChange, rotationChange);
 
-			for (unsigned i = 0; i < numContacts; i++) {
-				for (unsigned j = 0; j < numContacts; j++) if (contacts[i]._bodies[j]) {
-					for (unsigned k = 0; k < numContacts; k++) {
-						if (contacts[i]._bodies[j] == contacts[index]._bodies[k]) {
-							deltaVel = velocityChange[k] + rotationChange[k].VectorProduct(contacts[i]._relativeContactPosition[j]);
+			for (unsigned i = 0; i < numContacts; i++)
+			{
+				// Check each body in the contact
+				for (unsigned b = 0; b < 2; b++) if (contacts[i]._bodies[b])
+				{
+					// Check for a match with each body in the newly
+					// resolved contact
+					for (unsigned d = 0; d < 2; d++)
+					{
+						if (contacts[i]._bodies[b] == contacts[index]._bodies[d])
+						{
+							deltaVel = velocityChange[d] +
+								rotationChange[d].VectorProduct(
+									contacts[i]._relativeContactPosition[b]);
 
-							contacts[i]._contactVelocity += contacts[i]._contactToWorld.TransformTranspose(deltaVel) * (j ? -1 : 1);
+							// The sign of the change is negative if we're dealing
+							// with the second body in a contact.
+							contacts[i]._contactVelocity +=
+								contacts[i]._contactToWorld.TransformTranspose(deltaVel)
+								* (b ? -1 : 1);
 							contacts[i].CalculateDesiredDeltaVelocity(dt);
 						}
 					}
@@ -507,14 +520,28 @@ protected:
 
 			contacts[index].ApplyPositionChange(linearChange, angularChange, max);
 
-			for (i = 0; i < numContacts; i++) {
-				for (unsigned j = 0; j < 2; j++) if (contacts[i]._bodies[j]) {
-					for (unsigned k = 0; k < 2; k++)
+			for (i = 0; i < numContacts; i++)
+			{
+				// Check each _bodies in the contact
+				for (unsigned b = 0; b < 2; b++) if (contacts[i]._bodies[b])
+				{
+					// Check for a match with each _bodies in the newly
+					// resolved contact
+					for (unsigned d = 0; d < 2; d++)
 					{
-						if (contacts[i]._bodies[j] == contacts[index]._bodies[k]) {
-							deltaPosition = linearChange[k] + angularChange[k].VectorProduct(contacts[i]._relativeContactPosition[j]);
+						if (contacts[i]._bodies[b] == contacts[index]._bodies[d])
+						{
+							deltaPosition = linearChange[d] +
+								angularChange[d].VectorProduct(
+									contacts[i]._relativeContactPosition[b]);
 
-							contacts[i]._penetration += deltaPosition.ScalarProduct(contacts[i]._contactNormal) * (j ? 1 : -1);
+							// The sign of the change is positive if we're
+							// dealing with the second _bodies in a contact
+							// and negative otherwise (because we're
+							// subtracting the resolution)..
+							contacts[i]._penetration +=
+								deltaPosition.ScalarProduct(contacts[i]._contactNormal)
+								* (b ? 1 : -1);
 						}
 					}
 				}

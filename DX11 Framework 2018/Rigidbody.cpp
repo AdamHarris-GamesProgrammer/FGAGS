@@ -83,6 +83,8 @@ void Rigidbody::ClearAccumulators()
 
 void Rigidbody::Update(real dt)
 {
+	if (!_isAwake) return;
+
 	//Calculate linear acceleration from the force inputs
 	_previousAcceleration = _acceleration;
 	_previousAcceleration.AddScaledVector(_forceAccumulator, _inverseMass);

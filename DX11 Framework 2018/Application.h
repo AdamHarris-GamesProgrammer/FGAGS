@@ -61,6 +61,9 @@ public:
 private:
 	void Picking();
 	void PollInput(float dt);
+
+	void Reset();
+
 	void DrawGUI();
 	void SelectedObjectControl(float dt);
 

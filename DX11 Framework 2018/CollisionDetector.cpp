@@ -303,6 +303,7 @@ unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData*
 		data->AddContacts(1);
 		return 1;
 	}
+	return 0;
 }
 
 unsigned CollisionDetector::BoxAndPoint(const Box& box, const Vector3& point, CollisionData* data)

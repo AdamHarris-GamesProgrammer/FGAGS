@@ -144,7 +144,7 @@ void Application::Update()
 	if (cData.HasMoreContacts()) {
 		CollisionDetector::BoxAndHalfSpace(*pTopCube, *pGround, &cData);
 		CollisionDetector::BoxAndHalfSpace(*pBottomCube, *pGround, &cData);
-		//CollisionDetector::BoxAndBox(*pTopCube, *pBottomCube, &cData);
+		CollisionDetector::BoxAndBox(*pTopCube, *pBottomCube, &cData);
 
 		cResolver->ResolveContacts(cData._contactArray, cData._contactCount, dt);
 	}
@@ -281,6 +281,14 @@ void Application::DrawGUI()
 		ImGui::End();
 	}
 
+	ImGui::Begin("Reset");
+
+	if (ImGui::Button("Reset Simulation", ImVec2(100, 60))) {
+		Reset();
+	}
+
+	ImGui::End();
+
 	//Calls the lighting control panel method in the graphics class
 	pGfx->LightingWindow();
 }
@@ -384,11 +392,15 @@ void Application::PollInput(float dt)
 	}
 
 	if (GetAsyncKeyState('R')) {
-		pGameObjects[0]->GetTransform().SetPosition(6, 1, 1);
-		pGameObjects[1]->GetTransform().SetPosition(1.0, 6, 1);
-		//pTopCube->_body->ClearAccumulators();
-		pBottomCube->_body->ClearAccumulators();
+		Reset();
 	}
+}
+
+void Application::Reset()
+{
+	pGameObjects[0]->GetTransform().SetPosition(1, 1, 1);
+	pGameObjects[1]->GetTransform().SetPosition(1.0, 6, 1);
+	pBottomCube->_body->ClearAccumulators();
 }
 
 void Application::CursorControls(float dt)
