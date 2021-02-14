@@ -5,20 +5,20 @@
 
 class ParticleFixedBungee : public ParticleForceGenerator {
 public:
-	ParticleFixedBungee(Vector3* other, real springConstant, real restLength) {
+	ParticleFixedBungee(Vector3* other, float springConstant, float restLength) {
 		_other = other;
 		_springConstant = springConstant;
 		_restLength = restLength;
 	}
 
-	virtual void Update(Particle* particle, real duration) {
+	virtual void Update(Particle* particle, float duration) {
 		//Calculate the vector of the spring
 		Vector3 force;
 		force = particle->GetPosition();
 		force -= *_other;
 
 		//Calculate the magnitude of the force vector
-		real magnitude = force.Magnitude();
+		float magnitude = force.Magnitude();
 
 		//if the magnitude is less than the rest length then dont add any force
 		if (magnitude <= _restLength) return;
@@ -36,7 +36,7 @@ public:
 private:
 	Vector3* _other;
 
-	real _springConstant;
+	float _springConstant;
 
-	real _restLength;
+	float _restLength;
 };

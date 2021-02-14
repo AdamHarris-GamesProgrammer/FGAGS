@@ -1,5 +1,4 @@
 #pragma once
-#include "Precision.h"
 #include "Vector3.h"
 
 class Quaternion {
@@ -8,22 +7,22 @@ public:
 	{
 		struct 
 		{
-			real _r;
-			real _i;
-			real _j;
-			real _k;
+			float _r;
+			float _i;
+			float _j;
+			float _k;
 		};
 
-		real _data[4];
+		float _data[4];
 	};
 
 	Quaternion() : _r(0), _i(0), _j(0), _k(0) {}
 
-	Quaternion(const real r, const real i, const real j, const real k) : _r(r), _i(i), _j(j), _k(k) {}
+	Quaternion(const float r, const float i, const float j, const float k) : _r(r), _i(i), _j(j), _k(k) {}
 
 
 	void Normalize() {
-		real d = _r * _r + _i * _i + _j * _j + _k * _k;
+		float d = _r * _r + _i * _i + _j * _j + _k * _k;
 
 		//Check for 0 length
 		if (d == 0) {
@@ -31,7 +30,7 @@ public:
 			return;
 		}
 
-		d = ((real)1.0) / real_sqrt(d);
+		d = ((float)1.0) / sqrtf(d);
 		_r *= d;
 		_i *= d;
 		_j *= d;
@@ -55,14 +54,14 @@ public:
 		(*this) *= q;
 	}
 
-	void AddScaledVector(const Vector3& vector, real scale) {
+	void AddScaledVector(const Vector3& vector, float scale) {
 		Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
 		q *= *this;
 
-		_r += q._r * ((real)0.5);
-		_i += q._i * ((real)0.5);
-		_j += q._j * ((real)0.5);
-		_k += q._k * ((real)0.5);
+		_r += q._r * ((float)0.5);
+		_i += q._i * ((float)0.5);
+		_j += q._j * ((float)0.5);
+		_k += q._k * ((float)0.5);
 	}
 
 	Vector3 Identity() {

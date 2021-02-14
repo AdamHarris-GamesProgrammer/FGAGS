@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Precision.h"
 #include "ParticleForceGenerator.h"
 #include "Particle.h"
 #include <algorithm>
@@ -23,6 +22,6 @@ public:
 
 	void Clear();
 
-	void Update(real dt);
+	void Update(float dt);
 };
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "Precision.h"
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
 
@@ -9,28 +8,28 @@ public:
 
 private:
 	//The maxinum submersion depth of the object
-	real _maxDepth;
+	float _maxDepth;
 
 	//The volume of the object
-	real _volume;
+	float _volume;
 
 	//The height of the water plane above y = 0. The plane in this engine is parallel to the XZ plane
-	real _waterHeight;
+	float _waterHeight;
 
 	//The liquid density, pure water has a density of 1000kg per cubic meter
-	real _liquidDensity;
+	float _liquidDensity;
 
 public:
-	ParticleBuoyancy(real maxDepth, real volume, real waterHeight, real liquidDensity = 1000.0) {
+	ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity = 1000.0) {
 		_maxDepth = maxDepth;
 		_volume = volume;
 		_waterHeight = waterHeight;
 		_liquidDensity = liquidDensity;
 	}
 
-	virtual void Update(Particle* particle, real duration) {
+	virtual void Update(Particle* particle, float duration) {
 		//Calculate the submersion depth
-		real submersionDepth = particle->GetPosition().y;
+		float submersionDepth = particle->GetPosition().y;
 
 		//if the submersion depth is greater than the water height + the max depth then our object is out of water
 		if (submersionDepth >= _waterHeight + _maxDepth) return;

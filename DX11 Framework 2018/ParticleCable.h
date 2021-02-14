@@ -3,12 +3,12 @@
 
 class ParticleCable : public ParticleLink {
 public:
-	real _maxLength;
+	float _maxLength;
 
-	real _restitution;
+	float _restitution;
 
 	virtual unsigned AddContact(ParticleContact* contact, unsigned limit) const {
-		real length = CurrentLength();
+		float length = CurrentLength();
 
 		if (length < _maxLength) {
 			return 0;

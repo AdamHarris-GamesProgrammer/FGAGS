@@ -10,38 +10,38 @@ void PhysicsModel::ClearAccumulator()
 	_forceAccumulator.Zero();
 }
 
-real PhysicsModel::GetMass() const
+float PhysicsModel::GetMass() const
 {
 	if (_inverseMass == 0) {
-		return REAL_MAX;
+		return FLT_MAX;
 	}
 	else {
-		return ((real)1.0) / _inverseMass;
+		return ((float)1.0) / _inverseMass;
 	}
 }
 
-void PhysicsModel::SetMass(const real mass)
+void PhysicsModel::SetMass(const float mass)
 {
 	assert(mass != 0);
-	_inverseMass = ((real)1.0) / mass;
+	_inverseMass = ((float)1.0) / mass;
 }
 
-real PhysicsModel::GetInverseMass() const
+float PhysicsModel::GetInverseMass() const
 {
 	return _inverseMass;
 }
 
-void PhysicsModel::SetInverseMass(real val)
+void PhysicsModel::SetInverseMass(float val)
 {
 	_inverseMass = val;
 }
 
-real PhysicsModel::GetDamping() const
+float PhysicsModel::GetDamping() const
 {
 	return _linearDamping;
 }
 
-void PhysicsModel::SetDamping(real val)
+void PhysicsModel::SetDamping(float val)
 {
 	_linearDamping = val;
 }

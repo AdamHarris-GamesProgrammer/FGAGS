@@ -11,7 +11,7 @@ public:
 
 protected:
 	//Current Length of the link
-	real CurrentLength() const {
+	float CurrentLength() const {
 		//Works out the direction vector
 		Vector3 relativePos = _particles[0]->GetPosition() - _particles[1]->GetPosition();
 

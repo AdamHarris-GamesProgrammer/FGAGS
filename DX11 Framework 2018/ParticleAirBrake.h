@@ -1,7 +1,6 @@
 #pragma once
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
-#include "Precision.h"
 
 class ParticleAirBrake : public ParticleForceGenerator {
 public:
@@ -10,7 +9,7 @@ public:
 		_brakingForce = force;
 	}
 
-	virtual void Update(Particle* particle, real duration) {
+	virtual void Update(Particle* particle, float duration) {
 		if (isActivated) {
 			particle->AddForce(_brakingForce - particle->GetVelocity());
 		}

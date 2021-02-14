@@ -8,7 +8,7 @@ public:
 
 	void SetIterations(unsigned iterations) { _iterations = iterations; }
 
-	void ResolveContacts(ParticleContact* contactsArray, unsigned numContacts, real dt);
+	void ResolveContacts(ParticleContact* contactsArray, unsigned numContacts, float dt);
 
 protected:
 	//Holds the number of iterations allowed per frame

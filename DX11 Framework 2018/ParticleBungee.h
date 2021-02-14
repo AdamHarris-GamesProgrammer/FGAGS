@@ -1,24 +1,23 @@
 #pragma once
-#include "Precision.h"
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
 
 class ParticleBungee : public ParticleForceGenerator {
 public:
-	ParticleBungee(Particle* other, real springConstant, real restLength) {
+	ParticleBungee(Particle* other, float springConstant, float restLength) {
 		_other = other;
 		_springConstant = springConstant;
 		_restLength = restLength;
 	}
 
-	virtual void Update(Particle* particle, real duration) {
+	virtual void Update(Particle* particle, float duration) {
 		//Calculate the vector of the spring
 		Vector3 force;
 		force = particle->GetPosition();
 		force -= _other->GetPosition();
 
 		//Calculate the magnitude of the force vector
-		real magnitude = force.Magnitude();
+		float magnitude = force.Magnitude();
 
 		//if the magnitude is less than the rest length then dont add any force
 		if (magnitude <= _restLength) return;
@@ -36,7 +35,7 @@ public:
 private:
 	Particle* _other;
 
-	real _springConstant;
+	float _springConstant;
 
-	real _restLength;
+	float _restLength;
 };

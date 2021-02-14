@@ -1,6 +1,6 @@
 #include "Contact.h"
 
-void Contact::CalculateInternals(real dt)
+void Contact::CalculateInternals(float dt)
 {
 	if (!_bodies[0]) SwapBodies();
 	assert(_bodies[0]);
@@ -43,11 +43,11 @@ void Contact::MatchAwakeState()
 	}
 }
 
-void Contact::CalculateDesiredDeltaVelocity(real dt)
+void Contact::CalculateDesiredDeltaVelocity(float dt)
 {
-	const static real velocityLimit = (real)0.25f;
+	const static float velocityLimit = (float)0.25f;
 
-	real velocityFromAcc = 0;
+	float velocityFromAcc = 0;
 
 	if (_bodies[0]->GetAwake()) {
 		velocityFromAcc += _bodies[0]->GetLastFrameAcceleration() * dt * _contactNormal;
@@ -57,15 +57,15 @@ void Contact::CalculateDesiredDeltaVelocity(real dt)
 		velocityFromAcc -= _bodies[1]->GetLastFrameAcceleration() * dt * _contactNormal;
 	}
 
-	real thisRestitution = _restitution;
-	if (real_abs(_contactVelocity.x) < velocityLimit) {
-		thisRestitution = (real)0.0f;
+	float thisRestitution = _restitution;
+	if (fabsf(_contactVelocity.x) < velocityLimit) {
+		thisRestitution = (float)0.0f;
 	}
 
 	_desiredDeltaVelocity = -_contactVelocity.x - thisRestitution * (_contactVelocity.x - velocityFromAcc);
 }
 
-Vector3 Contact::CalculateLocalVelocity(unsigned bodyIndex, real dt)
+Vector3 Contact::CalculateLocalVelocity(unsigned bodyIndex, float dt)
 {
 	Rigidbody* thisBody = _bodies[bodyIndex];
 
@@ -89,9 +89,9 @@ void Contact::CalculateContactBasis()
 {
 	Vector3 contactTangent[2];
 
-	if (real_abs(_contactNormal.x) > real_abs(_contactNormal.y)) {
+	if (fabsf(_contactNormal.x) > fabsf(_contactNormal.y)) {
 		//Scaling factor
-		const real s = (real)1.0f / real_sqrt(_contactNormal.x * _contactNormal.x);
+		const float s = (float)1.0f / sqrtf(_contactNormal.x * _contactNormal.x);
 
 		//The new x-axis is at right angles to the world Y-axis
 		contactTangent[0].x = _contactNormal.z * s;
@@ -103,7 +103,7 @@ void Contact::CalculateContactBasis()
 		contactTangent[1].z = -_contactNormal.y * contactTangent[0].x;
 	}
 	else {
-		const real s = (real)1.0 / real_sqrt(_contactNormal.z * _contactNormal.z + _contactNormal.y * _contactNormal.y);
+		const float s = (float)1.0 / sqrtf(_contactNormal.z * _contactNormal.z + _contactNormal.y * _contactNormal.y);
 
 		contactTangent[0].x = 0;
 		contactTangent[0].y = -_contactNormal.z * s;
@@ -129,7 +129,7 @@ void Contact::ApplyVelocityChange(Vector3 velocityChange[2], Vector3 rotationCha
 	// We will calculate the impulse for each contact axis
 	Vector3 impulseContact;
 
-	if (_friction == (real)0.0)
+	if (_friction == (float)0.0)
 	{
 		// Use the short format for frictionless contacts
 		impulseContact = CalculateFrictionlessImpulse(inverseInertiaTensor);
@@ -168,15 +168,15 @@ void Contact::ApplyVelocityChange(Vector3 velocityChange[2], Vector3 rotationCha
 	}
 }
 
-void Contact::ApplyPositionChange(Vector3 linearChange[2], Vector3 angularChange[2], real penetration)
+void Contact::ApplyPositionChange(Vector3 linearChange[2], Vector3 angularChange[2], float penetration)
 {
-	const real angularLimit = (real)0.2f;
-	real angularMove[2];
-	real linearMove[2];
+	const float angularLimit = (float)0.2f;
+	float angularMove[2];
+	float linearMove[2];
 
-	real totalInertia = 0;
-	real linearInertia[2];
-	real angularInertia[2];
+	float totalInertia = 0;
+	float linearInertia[2];
+	float angularInertia[2];
 
 	// We need to work out the inertia of each object in the direction
 	// of the contact normal, due to angular inertia only.
@@ -204,22 +204,22 @@ void Contact::ApplyPositionChange(Vector3 linearChange[2], Vector3 angularChange
 	}
 
 	for (unsigned i = 0; i < 2; i++) if (_bodies[i]) {
-		real sign = (i == 0) ? 1 : -1;
+		float sign = (i == 0) ? 1 : -1;
 		angularMove[i] = sign * penetration * (angularInertia[i] / totalInertia);
 		linearMove[i] = sign * penetration * (linearInertia[i] / totalInertia);
 
 		Vector3 projection = _relativeContactPosition[i];
 		projection.AddScaledVector(_contactNormal, -_relativeContactPosition[i].ScalarProduct(_contactNormal));
 
-		real maxMagnitude = angularLimit * projection.Magnitude();
+		float maxMagnitude = angularLimit * projection.Magnitude();
 
 		if (angularMove[i] < -maxMagnitude) {
-			real totalMove = angularMove[i] + linearMove[i];
+			float totalMove = angularMove[i] + linearMove[i];
 			angularMove[i] = -maxMagnitude;
 			linearMove[i] = totalMove - angularMove[i];
 		}
 		else if (angularMove[i] > maxMagnitude) {
-			real totalMove = angularMove[i] + linearMove[i];
+			float totalMove = angularMove[i] + linearMove[i];
 			angularMove[i] = maxMagnitude;
 			linearMove[i] = totalMove - angularMove[i];
 		}
@@ -246,7 +246,7 @@ void Contact::ApplyPositionChange(Vector3 linearChange[2], Vector3 angularChange
 
 		Quaternion q;
 		_bodies[i]->GetOrientation(&q);
-		q.AddScaledVector(angularChange[i], ((real)1.0));
+		q.AddScaledVector(angularChange[i], ((float)1.0));
 		_bodies[i]->SetOrientation(q);
 
 		if (!_bodies[i]->GetAwake()) _bodies[i]->CalculateDerivedData();
@@ -261,7 +261,7 @@ Vector3 Contact::CalculateFrictionlessImpulse(Matrix3* inverseIntertiaTensor)
 	deltaVelWorld = inverseIntertiaTensor[0].Transform(deltaVelWorld);
 	deltaVelWorld = deltaVelWorld % _relativeContactPosition[0];
 
-	real deltaVelocity = deltaVelWorld * _contactNormal;
+	float deltaVelocity = deltaVelWorld * _contactNormal;
 
 	deltaVelocity += _bodies[0]->GetInverseMass();
 
@@ -284,7 +284,7 @@ Vector3 Contact::CalculateFrictionlessImpulse(Matrix3* inverseIntertiaTensor)
 Vector3 Contact::CalculateFrictionImpulse(Matrix3* inverseInertiaTensor)
 {
 	Vector3 impulseContact;
-	real inverseMass = _bodies[0]->GetInverseMass();
+	float inverseMass = _bodies[0]->GetInverseMass();
 
 	// The equivalent of a cross product in matrices is multiplication
 	// by a skew symmetric matrix - we build the matrix for converting
@@ -340,7 +340,7 @@ Vector3 Contact::CalculateFrictionImpulse(Matrix3* inverseInertiaTensor)
 	impulseContact = impulseMatrix.Transform(velKill);
 
 	// Check for exceeding friction
-	real planarImpulse = real_sqrt(
+	float planarImpulse = sqrtf(
 		impulseContact.y * impulseContact.y +
 		impulseContact.z * impulseContact.z
 	);

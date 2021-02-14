@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector3.h"
-#include "Precision.h"
 #include "ContactResolver.h"
 #include "Rigidbody.h"
 #include "Matrix3.h"
@@ -13,15 +12,15 @@ class Contact {
 public:
 	Rigidbody* _bodies[2];
 
-	real _friction;
-	real _restitution;
+	float _friction;
+	float _restitution;
 
 
 	Vector3 _contactPoint;
 	Vector3 _contactNormal;
-	real _penetration;
+	float _penetration;
 
-	void SetBodyData(Rigidbody* a, Rigidbody* b, real friction, real restitution) {
+	void SetBodyData(Rigidbody* a, Rigidbody* b, float friction, float restitution) {
 		_bodies[0] = a;
 		_bodies[1] = b;
 		_friction = friction;
@@ -31,24 +30,24 @@ public:
 protected:
 	Matrix3 _contactToWorld;
 	Vector3 _contactVelocity;
-	real _desiredDeltaVelocity;
+	float _desiredDeltaVelocity;
 	Vector3 _relativeContactPosition[2];
 
-	void CalculateInternals(real dt);
+	void CalculateInternals(float dt);
 
 	void SwapBodies();
 
 	void MatchAwakeState();
 
-	void CalculateDesiredDeltaVelocity(real dt);
+	void CalculateDesiredDeltaVelocity(float dt);
 
-	Vector3 CalculateLocalVelocity(unsigned bodyIndex, real dt);
+	Vector3 CalculateLocalVelocity(unsigned bodyIndex, float dt);
 
 	void CalculateContactBasis();
 
 	void ApplyVelocityChange(Vector3 velocityChange[2], Vector3 rotationChange[2]);
 
-	void ApplyPositionChange(Vector3 linearChange[2], Vector3 angularChange[2], real penetration);
+	void ApplyPositionChange(Vector3 linearChange[2], Vector3 angularChange[2], float penetration);
 
 	Vector3 CalculateFrictionlessImpulse(Matrix3* inverseIntertiaTensor);
 

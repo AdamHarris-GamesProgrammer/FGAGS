@@ -7,10 +7,10 @@ struct BoundingSphere {
 	Vector3 _centre;
 
 	//Holds the radius of the object
-	real _radius;
+	float _radius;
 
 	//Basic constructor for creating a single bounding sphere
-	BoundingSphere(const Vector3& centre, const real radius) {
+	BoundingSphere(const Vector3& centre, const float radius) {
 		_centre = centre;
 		_radius = radius;
 	}
@@ -21,10 +21,10 @@ struct BoundingSphere {
 		Vector3 centerOffset = b._centre - a._centre;
 
 		//Gets the distance as a scalar value
-		real distance = centerOffset.Magnitude();
+		float distance = centerOffset.Magnitude();
 
 		//Calculates the radius difference between the two spheres
-		real radiusDifference = b._radius - a._radius;
+		float radiusDifference = b._radius - a._radius;
 		//if radius^2 >= distance
 		if (radiusDifference * radiusDifference >= distance) {
 			//if A is the larger sphere
@@ -44,10 +44,10 @@ struct BoundingSphere {
 		else
 		{
 			//calculate the new radius for the spheres
-			distance = real_sqrt(distance);
+			distance = sqrtf(distance);
 
 			//Calculate the radius
-			_radius = (distance + a._radius + b._radius) * ((real)0.5);
+			_radius = (distance + a._radius + b._radius) * ((float)0.5);
 
 			//Set the new center for the sphere
 			_centre = a._centre;
@@ -63,18 +63,18 @@ struct BoundingSphere {
 		if the distance between the spheres squared is less than the radius of the two spheres squared
 		then there is a collision
 		*/
-		real distanceSquared = (_centre - other->_centre).SquareMagnitude();
+		float distanceSquared = (_centre - other->_centre).SquareMagnitude();
 		return distanceSquared < (_radius + other->_radius) * (_radius + other->_radius);
 	}
 
-	real GetGrowth(const BoundingSphere& other) const {
+	float GetGrowth(const BoundingSphere& other) const {
 		BoundingSphere newSpere(*this, other);
 
 		return newSpere._radius * newSpere._radius - _radius * _radius;
 	}
 
-	real GetVolume() const {
-		return ((real)1.333333) * R_PI * _radius * _radius * _radius;
+	float GetVolume() const {
+		return ((float)1.333333) * 3.1459 * _radius * _radius * _radius;
 	}
 
 	struct PotentialContact

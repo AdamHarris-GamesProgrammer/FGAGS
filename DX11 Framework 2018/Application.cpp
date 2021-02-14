@@ -137,9 +137,9 @@ void Application::Update()
 
 
 	cData.Reset(MAX_CONTACTS);
-	cData._friction = (real)0.9;
-	cData._restitution = (real)0.1;
-	cData._tolerance = (real)0.1;
+	cData._friction = (float)0.9;
+	cData._restitution = (float)0.1;
+	cData._tolerance = (float)0.1;
 
 	if (cData.HasMoreContacts()) {
 		CollisionDetector::BoxAndHalfSpace(*pTopCube, *pGround, &cData);

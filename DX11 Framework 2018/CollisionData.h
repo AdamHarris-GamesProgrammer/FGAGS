@@ -10,9 +10,9 @@ struct CollisionData {
 
 	unsigned _contactCount;
 
-	real _friction;
-	real _restitution;
-	real _tolerance;
+	float _friction;
+	float _restitution;
+	float _tolerance;
 
 	bool HasMoreContacts() {
 		return _contactsLeft > 0;

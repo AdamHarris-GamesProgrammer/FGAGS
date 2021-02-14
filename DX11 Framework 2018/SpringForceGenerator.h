@@ -5,7 +5,7 @@
 class SpringForceGenerator : public ForceGenerator {
 public:
 	SpringForceGenerator(const Vector3& localConnectionPoint, Rigidbody* other,
-		const Vector3& otherConnectionPoint, real springConstant, real restLength) {
+		const Vector3& otherConnectionPoint, float springConstant, float restLength) {
 		_connectionPoint = localConnectionPoint;
 		_otherConnectionPoint = otherConnectionPoint;
 		_other = other;
@@ -13,7 +13,7 @@ public:
 		_springConstant = springConstant;
 	}
 
-	virtual void Update(Rigidbody* body, real dt) {
+	virtual void Update(Rigidbody* body, float dt) {
 		//Local world space and Other World Space
 		//Used to hold the points in space of the connections
 		Vector3 lws = body->GetPointInWorldSpace(_connectionPoint);
@@ -21,8 +21,8 @@ public:
 
 		Vector3 force = lws - ows;
 
-		real magnitude = force.Magnitude();
-		magnitude = real_abs(magnitude - _restLength);
+		float magnitude = force.Magnitude();
+		magnitude = fabsf(magnitude - _restLength);
 		magnitude *= _springConstant;
 
 		
@@ -39,6 +39,6 @@ private:
 
 	Rigidbody* _other;
 
-	real _springConstant;
-	real _restLength;
+	float _springConstant;
+	float _restLength;
 };

@@ -25,13 +25,13 @@ protected:
 
 class Sphere : public Primitive {
 public:
-	real _radius;
+	float _radius;
 };
 
 class CollisionPlane {
 public:
 	Vector3 _direction;
-	real _offset;
+	float _offset;
 };
 
 class Box : public Primitive {

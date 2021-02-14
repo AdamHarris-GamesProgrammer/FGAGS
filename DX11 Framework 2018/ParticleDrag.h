@@ -1,27 +1,26 @@
 #pragma once
 #include "Particle.h"
 #include "ParticleForceGenerator.h"
-#include "Precision.h"
 
 class ParticleDrag : public ParticleForceGenerator {
 	//Velocity drag coefficient
-	real _dragCoefficient;
+	float _dragCoefficient;
 
 	//Velocity squared drag coefficient
-	real _squaredDragCoefficient;
+	float _squaredDragCoefficient;
 
 public:
-	ParticleDrag(real coefficient, real squaredCoefficient) {
+	ParticleDrag(float coefficient, float squaredCoefficient) {
 		_dragCoefficient = coefficient;
 		_squaredDragCoefficient = squaredCoefficient;
 	}
 
-	virtual void Update(Particle* particle, real duration) {
+	virtual void Update(Particle* particle, float duration) {
 		Vector3 totalDrag;
 		totalDrag = particle->GetVelocity();
 
 		//Calculate drag factor
-		real dragFactor = totalDrag.Magnitude();
+		float dragFactor = totalDrag.Magnitude();
 		dragFactor = _dragCoefficient * dragFactor + _squaredDragCoefficient * dragFactor * dragFactor;
 
 		//Calculate total drag
@@ -32,16 +31,16 @@ public:
 		particle->AddForce(totalDrag);
 	}
 
-	void SetDrags(real drag, real squaredDrag) {
+	void SetDrags(float drag, float squaredDrag) {
 		_dragCoefficient = drag;
 		_squaredDragCoefficient = squaredDrag;
 	}
 
-	void SetDragCoefficient(real drag) {
+	void SetDragCoefficient(float drag) {
 		_dragCoefficient = drag;
 	}
 
-	void SetSquaredDragCoefficient(real drag) {
+	void SetSquaredDragCoefficient(float drag) {
 		_squaredDragCoefficient = drag;
 	}
 };

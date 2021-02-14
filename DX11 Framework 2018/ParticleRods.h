@@ -3,10 +3,10 @@
 
 class ParticleRod : public ParticleLink {
 public:
-	real _length;
+	float _length;
 
 	virtual unsigned AddContact(ParticleContact* contact, unsigned limit) const {
-		real currentLength = CurrentLength();
+		float currentLength = CurrentLength();
 
 		if (currentLength == _length) {
 			return 0;

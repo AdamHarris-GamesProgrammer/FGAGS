@@ -1,12 +1,12 @@
 #include "ContactResolver.h"
 
-ContactResolver::ContactResolver(unsigned iterations, real velocityEps /*= (real)0.01*/, real positionEps /*= (real)0.01*/)
+ContactResolver::ContactResolver(unsigned iterations, float velocityEps /*= (float)0.01*/, float positionEps /*= (float)0.01*/)
 {
 	SetIterations(iterations);
 	SetEpsilon(velocityEps, positionEps);
 }
 
-ContactResolver::ContactResolver(unsigned velocityIt, unsigned positionIt, real positionEp /*= (real)0.01*/, real velocityEp /*= (real)0.01*/)
+ContactResolver::ContactResolver(unsigned velocityIt, unsigned positionIt, float positionEp /*= (float)0.01*/, float velocityEp /*= (float)0.01*/)
 {
 	SetIterations(positionIterations, velocityIterations);
 	SetEpsilon(velocityEp, positionEp);
@@ -29,13 +29,13 @@ void ContactResolver::SetIterations(unsigned iterations)
 	velocityIterations = iterations;
 }
 
-void ContactResolver::SetEpsilon(real velocityEp, real positionEp)
+void ContactResolver::SetEpsilon(float velocityEp, float positionEp)
 {
 	velocityEpsilon = velocityEp;
 	positionEpsilon = positionEp;
 }
 
-void ContactResolver::ResolveContacts(Contact* contacts, unsigned numContacts, real dt)
+void ContactResolver::ResolveContacts(Contact* contacts, unsigned numContacts, float dt)
 {
 	if (numContacts == 0) return;
 	if (!IsValid()) return;
@@ -48,7 +48,7 @@ void ContactResolver::ResolveContacts(Contact* contacts, unsigned numContacts, r
 	AdjustVelocities(contacts, numContacts, dt);
 }
 
-void ContactResolver::AdjustVelocities(Contact* contacts, unsigned numContacts, real dt)
+void ContactResolver::AdjustVelocities(Contact* contacts, unsigned numContacts, float dt)
 {
 	Vector3 velocityChange[2], rotationChange[2];
 	Vector3 deltaVel;
@@ -57,7 +57,7 @@ void ContactResolver::AdjustVelocities(Contact* contacts, unsigned numContacts, 
 
 	while (velocityIterationsUsed < velocityIterations)
 	{
-		real max = velocityEpsilon;
+		float max = velocityEpsilon;
 		unsigned index = numContacts;
 		for (unsigned i = 0; i < numContacts; i++) {
 			if (contacts[i]._desiredDeltaVelocity > max) {
@@ -99,11 +99,11 @@ void ContactResolver::AdjustVelocities(Contact* contacts, unsigned numContacts, 
 	}
 }
 
-void ContactResolver::AdjustPositions(Contact* contacts, unsigned numContacts, real dt)
+void ContactResolver::AdjustPositions(Contact* contacts, unsigned numContacts, float dt)
 {
 	unsigned i, index;
 	Vector3 linearChange[2], angularChange[2];
-	real max;
+	float max;
 	Vector3 deltaPosition;
 
 
@@ -156,7 +156,7 @@ void ContactResolver::AdjustPositions(Contact* contacts, unsigned numContacts, r
 	}
 }
 
-void ContactResolver::PrepareContacts(Contact* contacts, unsigned numContacts, real dt)
+void ContactResolver::PrepareContacts(Contact* contacts, unsigned numContacts, float dt)
 {
 	Contact* lastContact = contacts + numContacts;
 

@@ -20,15 +20,15 @@ static inline void CalculateTransformMatrix(
 }
 
 static inline void CalculateInertiaTensor(Matrix3& iitWorld, const Quaternion& q, const Matrix3& iitBody, const Matrix4& rotmat) {
-	real t4 = rotmat._data[0] * iitBody._data[0] + rotmat._data[1] * iitBody._data[3] + rotmat._data[2] * iitBody._data[6];
-	real t9 = rotmat._data[0] * iitBody._data[1] + rotmat._data[1] * iitBody._data[4] + rotmat._data[2] * iitBody._data[7];
-	real t14 = rotmat._data[0] * iitBody._data[2] + rotmat._data[1] * iitBody._data[5] + rotmat._data[2] * iitBody._data[8];
-	real t28 = rotmat._data[4] * iitBody._data[0] + rotmat._data[5] * iitBody._data[3] + rotmat._data[6] * iitBody._data[6];
-	real t33 = rotmat._data[4] * iitBody._data[1] + rotmat._data[5] * iitBody._data[4] + rotmat._data[6] * iitBody._data[7];
-	real t38 = rotmat._data[4] * iitBody._data[2] + rotmat._data[5] * iitBody._data[5] + rotmat._data[6] * iitBody._data[8];
-	real t52 = rotmat._data[8] * iitBody._data[0] + rotmat._data[9] * iitBody._data[3] + rotmat._data[10] * iitBody._data[6];
-	real t57 = rotmat._data[8] * iitBody._data[1] + rotmat._data[9] * iitBody._data[4] + rotmat._data[10] * iitBody._data[7];
-	real t62 = rotmat._data[8] * iitBody._data[2] + rotmat._data[9] * iitBody._data[5] + rotmat._data[10] * iitBody._data[8];
+	float t4 = rotmat._data[0] * iitBody._data[0] + rotmat._data[1] * iitBody._data[3] + rotmat._data[2] * iitBody._data[6];
+	float t9 = rotmat._data[0] * iitBody._data[1] + rotmat._data[1] * iitBody._data[4] + rotmat._data[2] * iitBody._data[7];
+	float t14 = rotmat._data[0] * iitBody._data[2] + rotmat._data[1] * iitBody._data[5] + rotmat._data[2] * iitBody._data[8];
+	float t28 = rotmat._data[4] * iitBody._data[0] + rotmat._data[5] * iitBody._data[3] + rotmat._data[6] * iitBody._data[6];
+	float t33 = rotmat._data[4] * iitBody._data[1] + rotmat._data[5] * iitBody._data[4] + rotmat._data[6] * iitBody._data[7];
+	float t38 = rotmat._data[4] * iitBody._data[2] + rotmat._data[5] * iitBody._data[5] + rotmat._data[6] * iitBody._data[8];
+	float t52 = rotmat._data[8] * iitBody._data[0] + rotmat._data[9] * iitBody._data[3] + rotmat._data[10] * iitBody._data[6];
+	float t57 = rotmat._data[8] * iitBody._data[1] + rotmat._data[9] * iitBody._data[4] + rotmat._data[10] * iitBody._data[7];
+	float t62 = rotmat._data[8] * iitBody._data[2] + rotmat._data[9] * iitBody._data[5] + rotmat._data[10] * iitBody._data[8];
 
 
 	iitWorld._data[0] = t4 * rotmat._data[0] + t9 * rotmat._data[1] + t14 * rotmat._data[2];
@@ -81,7 +81,7 @@ void Rigidbody::ClearAccumulator()
 	_torqueAccumulator.Zero();
 }
 
-void Rigidbody::Update(real dt)
+void Rigidbody::Update(float dt)
 {
 	if (!_isAwake) return;
 
@@ -97,8 +97,8 @@ void Rigidbody::Update(real dt)
 	_rotation.AddScaledVector(angularAcceleration, dt);
 
 	//Applies damping to velocity a
-	_velocity *= real_pow(_linearDamping, dt);
-	_rotation *= real_pow(_angularDamping, dt);
+	_velocity *= powf(_linearDamping, dt);
+	_rotation *= powf(_angularDamping, dt);
 
 	//Updates position
 	_position.AddScaledVector(_velocity, dt);
@@ -113,8 +113,8 @@ void Rigidbody::Update(real dt)
 	ClearAccumulator();
 
 	if (_canSleep) {
-		real currentMotion = _velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation);
-		real bias = real_pow(0.5, dt);
+		float currentMotion = _velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation);
+		float bias = powf(0.5, dt);
 
 		_motion = bias * _motion + (1 - bias) * currentMotion;
 

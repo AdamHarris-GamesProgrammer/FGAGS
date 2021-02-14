@@ -11,7 +11,7 @@ public:
 		_gravity = gravity;
 	}
 
-	virtual void Update(Particle* particle, real duration) {
+	virtual void Update(Particle* particle, float duration) {
 		if (!particle->HasFiniteMass()) return;
 
 		particle->AddForce(_gravity * particle->GetMass());

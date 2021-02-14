@@ -1,5 +1,4 @@
 #pragma once
-#include "Precision.h"
 #include "Vector3.h"
 #include "Quaternion.h"
 
@@ -45,20 +44,20 @@ public:
 		return _inverseInertiaTensorWorld;
 	}
 
-	void SetDamping(const real linearDamping, const real angularDamping) {
+	void SetDamping(const float linearDamping, const float angularDamping) {
 		_angularDamping = angularDamping;
 		_linearDamping = linearDamping;
 	}
 
-	void SetLinearDamping(const real linearDamping) {
+	void SetLinearDamping(const float linearDamping) {
 		_linearDamping = linearDamping;
 	}
 
-	void SetAngularDamping(const real angularDamping) {
+	void SetAngularDamping(const float angularDamping) {
 		_angularDamping = angularDamping;
 	}
 
-	real GetAngularDamping() {
+	float GetAngularDamping() {
 		return _angularDamping;
 	}
 
@@ -69,7 +68,7 @@ public:
 		_orientation.Normalize();
 	}
 
-	void SetOrientation(const real r, const real i, const real j, const real k) {
+	void SetOrientation(const float r, const float i, const float j, const float k) {
 		_orientation._r = r;
 		_orientation._i = i;
 		_orientation._j = j;
@@ -88,7 +87,7 @@ public:
 		GetOrientation(matrix->_data);
 	}
 
-	void GetOrientation(real matrix[9]) const {
+	void GetOrientation(float matrix[9]) const {
 		matrix[0] = _transformMatrix._data[0];
 		matrix[1] = _transformMatrix._data[1];
 		matrix[2] = _transformMatrix._data[2];
@@ -103,11 +102,11 @@ public:
 	}
  
 	void GetTransform(Matrix4* transform) const {
-		memcpy(transform, &_transformMatrix._data, sizeof(real) * 12);
+		memcpy(transform, &_transformMatrix._data, sizeof(float) * 12);
 	}
 
-	void GetTransform(real matrix[16]) const {
-		memcpy(matrix, _transformMatrix._data, sizeof(real) * 12);
+	void GetTransform(float matrix[16]) const {
+		memcpy(matrix, _transformMatrix._data, sizeof(float) * 12);
 		matrix[12] = matrix[13] = matrix[14] = 0;
 		matrix[15] = 1;
 	}
@@ -136,7 +135,7 @@ public:
 		_rotation = rotation;
 	}
 
-	void SetRotation(const real x, const real y, const real z) {
+	void SetRotation(const float x, const float y, const float z) {
 		_rotation.x = x;
 		_rotation.y = y;
 		_rotation.z = z;
@@ -191,7 +190,7 @@ public:
 
 	void ClearAccumulator() override;
 
-	void Update(real dt);
+	void Update(float dt);
 
 protected:
 	Vector3 _torqueAccumulator;
@@ -199,7 +198,7 @@ protected:
 	bool _isAwake;
 
 
-	real _angularDamping;
+	float _angularDamping;
 
 
 	Quaternion _orientation;
@@ -211,7 +210,7 @@ protected:
 
 	Vector3 _previousAcceleration;
 
-	real _motion;
+	float _motion;
 
 	bool _canSleep;
 
@@ -219,11 +218,11 @@ protected:
 	Matrix3 _inverseInertiaTensorWorld;
 
 	//TODO: Abstract sleeping stuff out
-	real _sleepEpsilon = 0.1;
+	float _sleepEpsilon = 0.1;
 
-	void SetSleepEpsilon(real value) { _sleepEpsilon = value; }
+	void SetSleepEpsilon(float value) { _sleepEpsilon = value; }
 
-	real GetSleepEpsilon() { return _sleepEpsilon; }
+	float GetSleepEpsilon() { return _sleepEpsilon; }
 private:
 
 

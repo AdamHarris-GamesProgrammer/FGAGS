@@ -461,7 +461,6 @@
     <ClInclude Include="PhysicsModel.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="Precision.h" />
     <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Rigidbody.h" />

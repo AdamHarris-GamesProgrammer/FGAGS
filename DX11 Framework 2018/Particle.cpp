@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include "Debug.h"
 
-void Particle::Update(real dt)
+void Particle::Update(float dt)
 {
 	//Immovable object check
 	if (GetInverseMass() <= 0.0) return;
@@ -31,7 +31,7 @@ void Particle::Update(real dt)
 	_velocity += resultingAcceleration * dt;
 
 	//Apply damping force, basic version of drag
-	_velocity *= real_pow(_linearDamping, dt);
+	_velocity *= powf(_linearDamping, dt);
 
 	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
 	ClearAccumulator();

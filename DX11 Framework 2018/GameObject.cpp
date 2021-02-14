@@ -27,7 +27,7 @@ GameObject::GameObject(Graphics* gfx)
 
 	Matrix3 tensor;
 
-	real coeff = 0.4 * pRigidBody->GetMass() * 1.0 * 1.0;
+	float coeff = 0.4 * pRigidBody->GetMass() * 1.0 * 1.0;
 	tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
 	tensor.SetBlockInertiaTensor(Vector3(1.0,1.0,1.0), 5.0);
 	pRigidBody->SetInertiaTensor(tensor);

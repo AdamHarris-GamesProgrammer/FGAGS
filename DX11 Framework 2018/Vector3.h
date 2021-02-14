@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Precision.h"
 #include <DirectXMath.h>
 #include "Debug.h"
 
@@ -8,15 +7,15 @@ using namespace DirectX;
 
 class Vector3 {
 public:
-	real x, y, z;
+	float x, y, z;
 
 private:
-	real pad;
+	float pad;
 
 public:
 	Vector3() : x(0), y(0), z(0), pad(0) {}
 
-	Vector3(const real x, const real y, const real z)
+	Vector3(const float x, const float y, const float z)
 		: x(x), y(y), z(z), pad(0) {}
 
 	void Invert() {
@@ -25,40 +24,40 @@ public:
 		z = -z;
 	}
 
-	real Magnitude() const {
-		return real_sqrt(x * x + y * y + z * z);
+	float Magnitude() const {
+		return sqrtf(x * x + y * y + z * z);
 	}
 
-	real SquareMagnitude() const {
+	float SquareMagnitude() const {
 		return x * x + y * y + z * z;
 	}
 
-	real Distance(const Vector3& vec) {
-		return real_sqrt(real_pow(x - vec.x, 2) + real_pow(y - vec.y, 2) + real_pow(z - vec.z, 2));
+	float Distance(const Vector3& vec) {
+		return sqrtf(powf(x - vec.x, 2) + powf(y - vec.y, 2) + powf(z - vec.z, 2));
 	}
 
-	real DistanceSquared(const Vector3& vec) {
-		return real_pow(x - vec.x, 2) + real_pow(y - vec.y, 2) + real_pow(z - vec.z, 2);
+	float DistanceSquared(const Vector3& vec) {
+		return powf(x - vec.x, 2) + powf(y - vec.y, 2) + powf(z - vec.z, 2);
 	}
 
-	real XZDistance(const Vector3& vec) {
-		return real_sqrt(real_pow(x - vec.x, 2) + real_pow(z - vec.z, 2));
+	float XZDistance(const Vector3& vec) {
+		return sqrtf(powf(x - vec.x, 2) + powf(z - vec.z, 2));
 	}
 
 	void Normalize() {
-		real mag = Magnitude();
+		float mag = Magnitude();
 		if (mag > 0) {
-			(*this) *= ((real)1) / mag;
+			(*this) *= ((float)1) / mag;
 		}
 	}
 
-	void operator*=(const real val) {
+	void operator*=(const float val) {
 		x *= val;
 		y *= val;
 		z *= val;
 	}
 
-	Vector3 operator*(const real val) const{
+	Vector3 operator*(const float val) const{
 		return Vector3(x * val, y * val, z * val);
 	}
 
@@ -82,7 +81,7 @@ public:
 		return Vector3(x - vec.x, y - vec.y, z - vec.z);
 	}
 
-	void AddScaledVector(const Vector3& vec, real scale) {
+	void AddScaledVector(const Vector3& vec, float scale) {
 		x += vec.x * scale;
 		y += vec.y * scale;
 		z += vec.z * scale;
@@ -98,11 +97,11 @@ public:
 		z *= vec.z;
 	}
 
-	real ScalarProduct(const Vector3& vec) const {
+	float ScalarProduct(const Vector3& vec) const {
 		return x * vec.x + y * vec.y + z * vec.z;
 	}
 
-	real operator*(const Vector3& vec) const {
+	float operator*(const Vector3& vec) const {
 		return x * vec.x + y * vec.y + z * vec.z;
 	}
 
@@ -130,14 +129,14 @@ public:
 		(*b) = (*c) % (*a);
 	}
 
-	real operator[](unsigned i) const
+	float operator[](unsigned i) const
 	{
 		if (i == 0) return x;
 		if (i == 1) return y;
 		return z;
 	}
 
-	real& operator[](unsigned i)
+	float& operator[](unsigned i)
 	{
 		if (i == 0) return x;
 		if (i == 1) return y;
@@ -161,11 +160,11 @@ public:
 		Debug::Print("\n");
 	}
 
-	bool operator<(real val) {
+	bool operator<(float val) {
 		return (x < val && y < val && z < val);
 	}
 
-	bool operator>(real val) {
+	bool operator>(float val) {
 		return (x > val && y > val && z > val);
 	}
 

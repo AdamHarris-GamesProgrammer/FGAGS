@@ -8,20 +8,20 @@ public:
 
 
 	virtual void AddForce(const Vector3& force);
-	virtual void Update(real dt) = 0;
+	virtual void Update(float dt) = 0;
 	virtual void ClearAccumulator();
 
-	real GetMass() const;
-	void SetMass(const real mass);
+	float GetMass() const;
+	void SetMass(const float mass);
 	bool HasFiniteMass() const {
 		return _inverseMass >= 0.0f;
 	}
 
-	real GetInverseMass() const;
-	void SetInverseMass(real val);
+	float GetInverseMass() const;
+	void SetInverseMass(float val);
 
-	real GetDamping() const;
-	void SetDamping(real val);
+	float GetDamping() const;
+	void SetDamping(float val);
 
 	Vector3 GetAcceleration() const;
 	void SetAcceleration(Vector3 val = Vector3());
@@ -40,8 +40,8 @@ protected:
 	
 	Vector3 _forceAccumulator;
 
-	real _inverseMass;
-	real _linearDamping;
+	float _inverseMass;
+	float _linearDamping;
 
 
 

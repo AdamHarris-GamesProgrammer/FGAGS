@@ -1,12 +1,12 @@
 #include "ParticleContact.h"
 
-void ParticleContact::Resolve(real dt)
+void ParticleContact::Resolve(float dt)
 {
 	ResolveVelocity(dt);
 	ResolveInterpenetration(dt);
 }
 
-real ParticleContact::CalculateSeperatingVelocity() const
+float ParticleContact::CalculateSeperatingVelocity() const
 {
 	//Gets the velocity of particle A
 	Vector3 relativeVelocity = _involvedParticles[0]->GetVelocity();
@@ -18,22 +18,22 @@ real ParticleContact::CalculateSeperatingVelocity() const
 	return relativeVelocity * _contactNormal;
 }
 
-void ParticleContact::ResolveVelocity(real dt)
+void ParticleContact::ResolveVelocity(float dt)
 {
-	real seperatingVelocity = CalculateSeperatingVelocity();
+	float seperatingVelocity = CalculateSeperatingVelocity();
 
 	if (seperatingVelocity > 0) {
 		//The contact is either separating or stationary, so no impulse required
 		return;
 	}
 
-	real newSeperatingVelocity = -seperatingVelocity * _restitutionCoefficient;
+	float newSeperatingVelocity = -seperatingVelocity * _restitutionCoefficient;
 
 
 	Vector3 accumulatedVelocity = _involvedParticles[0]->GetAcceleration();
 	if (_involvedParticles[1]) accumulatedVelocity -= _involvedParticles[1]->GetAcceleration();
 
-	real accumulatedSeperationVelocity = accumulatedVelocity * _contactNormal * dt;
+	float accumulatedSeperationVelocity = accumulatedVelocity * _contactNormal * dt;
 
 	if (accumulatedSeperationVelocity < 0) {
 		newSeperatingVelocity += _restitutionCoefficient * accumulatedSeperationVelocity;
@@ -42,18 +42,18 @@ void ParticleContact::ResolveVelocity(real dt)
 	}
 
 
-	real deltaVelocity = newSeperatingVelocity - seperatingVelocity;
+	float deltaVelocity = newSeperatingVelocity - seperatingVelocity;
 
 
 	//To calculate an accurate repulsion force, the inverse mass of each object is needed
-	real totalInverseMass = _involvedParticles[0]->GetInverseMass();
+	float totalInverseMass = _involvedParticles[0]->GetInverseMass();
 	if (_involvedParticles[1]) totalInverseMass += _involvedParticles[1]->GetInverseMass();
 
 	//if the particles have infinite mass then a impulse is not required
 	if(totalInverseMass <= 0) return;
 
 	//Calculate the required impulse
-	real impulse = deltaVelocity / totalInverseMass;
+	float impulse = deltaVelocity / totalInverseMass;
 
 	//Calculate the amount of impulse needed per unit of mass
 	Vector3 impulsePerMass = _contactNormal * impulse;
@@ -70,13 +70,13 @@ void ParticleContact::ResolveVelocity(real dt)
 
 }
 
-void ParticleContact::ResolveInterpenetration(real dt)
+void ParticleContact::ResolveInterpenetration(float dt)
 {
 	//If there is no penetration then skip this step
 	if (_penetrationDepth <= 0) return;
 
 	//Calculates the total inverse mass of both particles
-	real totalInverseMass = _involvedParticles[0]->GetInverseMass();
+	float totalInverseMass = _involvedParticles[0]->GetInverseMass();
 	if (_involvedParticles[1]) totalInverseMass += _involvedParticles[1]->GetInverseMass();
 
 	//Objects have a infinite mass

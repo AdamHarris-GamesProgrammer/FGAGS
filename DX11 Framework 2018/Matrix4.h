@@ -1,5 +1,4 @@
 #pragma once
-#include "Precision.h"
 #include "Vector3.h"
 #include "Quaternion.h"
 
@@ -7,7 +6,7 @@
 class Matrix4 {
 public:
 	//Holds the data for the matrix in array form
-	real _data[12];
+	float _data[12];
 
 	Vector3 operator*(const Vector3& vector) const {
 		return Vector3(
@@ -61,7 +60,7 @@ public:
 	}
 
 
-	real GetDeterminant() const {
+	float GetDeterminant() const {
 		return _data[8] * _data[5] * _data[2] +
 			_data[4] * _data[9] * _data[2] +
 			_data[8] * _data[1] * _data[6] -
@@ -71,9 +70,9 @@ public:
 	}
 
 	void SetInverse(const Matrix4& m) {
-		real det = GetDeterminant();
+		float det = GetDeterminant();
 		if (det == 0) return;
-		det = ((real)1.0f) / det;
+		det = ((float)1.0f) / det;
 		_data[0] = (-m._data[9] * m._data[6] + m._data[5] * m._data[10]) * det;
 		_data[4] = (m._data[8] * m._data[6] - m._data[4] * m._data[10]) * det;
 		_data[8] = (-m._data[8] * m._data[5] + m._data[4] * m._data[9] * m._data[15]) * det;

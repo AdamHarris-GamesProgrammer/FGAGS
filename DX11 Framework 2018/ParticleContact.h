@@ -10,7 +10,7 @@ public:
 	Particle* _involvedParticles[2];
 
 	//Holds the normal restitution coefficient at the point of contact
-	real _restitutionCoefficient;
+	float _restitutionCoefficient;
 
 	//Holds the direction of the contact in World Space
 	Vector3 _contactNormal;
@@ -19,19 +19,19 @@ public:
 	Vector3 _particleMovement[2];
 
 	//Holds the depth of penetration
-	real _penetrationDepth;
+	float _penetrationDepth;
 	
 protected:
 	//Resolves the contact for both the velocity and inter penetration
-	void Resolve(real dt);
+	void Resolve(float dt);
 
 	//Calculates the separating velocity
-	real CalculateSeperatingVelocity() const;
+	float CalculateSeperatingVelocity() const;
 
 private:
 	//Calculates impulses for this collision
-	void ResolveVelocity(real dt);
+	void ResolveVelocity(float dt);
 
-	void ResolveInterpenetration(real dt);
+	void ResolveInterpenetration(float dt);
 };
 

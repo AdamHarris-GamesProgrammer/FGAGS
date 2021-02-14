@@ -1,16 +1,16 @@
 #include "IntersectionTests.h"
 
-static inline real TransfromToAxis(
+static inline float TransfromToAxis(
 	const Box& box, const Vector3& axis) {
 	return
-		box._halfSize.x * real_abs(axis * box.GetAxis(0)) +
-		box._halfSize.y * real_abs(axis * box.GetAxis(1)) +
-		box._halfSize.z * real_abs(axis * box.GetAxis(2));
+		box._halfSize.x * fabsf(axis * box.GetAxis(0)) +
+		box._halfSize.y * fabsf(axis * box.GetAxis(1)) +
+		box._halfSize.z * fabsf(axis * box.GetAxis(2));
 }
 
 bool IntersectionTests::SphereAndHalfSpace(const Sphere& sphere, const CollisionPlane& plane)
 {
-	real ballDistance = plane._direction * sphere.GetAxis(3) - sphere._radius;
+	float ballDistance = plane._direction * sphere.GetAxis(3) - sphere._radius;
 
 	return ballDistance <= plane._offset;
 }
@@ -24,10 +24,10 @@ bool IntersectionTests::SphereAndSphere(const Sphere& a, const Sphere& b)
 
 
 static inline bool OverlapOnAxis(const Box& a, const Box& b, const Vector3& axis, const Vector3& centre) {
-	real aProject = TransfromToAxis(a, axis);
-	real bProject = TransfromToAxis(b, axis);
+	float aProject = TransfromToAxis(a, axis);
+	float bProject = TransfromToAxis(b, axis);
 
-	real distance = real_abs(centre * axis);
+	float distance = fabsf(centre * axis);
 
 	return(distance < aProject + bProject);
 }
@@ -61,9 +61,9 @@ bool IntersectionTests::BoxAndBox(const Box& a, const Box& b)
 
 bool IntersectionTests::BoxAndHalfSpace(const Box& box, const CollisionPlane& plane)
 {
-	real projectedRadius = TransfromToAxis(box, plane._direction);
+	float projectedRadius = TransfromToAxis(box, plane._direction);
 
-	real boxDistance = plane._direction * box.GetAxis(3) - projectedRadius;
+	float boxDistance = plane._direction * box.GetAxis(3) - projectedRadius;
 
 	return boxDistance <= plane._offset;
 }

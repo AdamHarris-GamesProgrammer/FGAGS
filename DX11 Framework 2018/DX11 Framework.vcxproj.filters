@@ -133,9 +133,6 @@
       <Filter>Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="SkySphere.h" />
-    <ClInclude Include="Precision.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>

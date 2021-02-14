@@ -1,5 +1,4 @@
 #pragma once
-#include "Precision.h"
 #include "Vector3.h"
 #include "Quaternion.h"
 
@@ -7,13 +6,13 @@
 class Matrix3 {
 public:
 	//Holds the matrix data in array form
-	real _data[9];
+	float _data[9];
 
 	Matrix3() {
 		_data[0] = _data[1] = _data[2] = _data[3] = _data[4] = _data[5] = _data[6] = _data[7] = _data[8] = 0;
 	}
 
-	Matrix3(real e0, real e1, real e2, real e3, real e4, real e5, real e6, real e7, real e8) {
+	Matrix3(float e0, float e1, float e2, float e3, float e4, float e5, float e6, float e7, float e8) {
 		_data[0] = e0;
 		_data[1] = e1;
 		_data[2] = e2;
@@ -25,14 +24,14 @@ public:
 		_data[8] = e8;
 	}
 
-	void SetBlockInertiaTensor(const Vector3& halfSizes, real mass) {
+	void SetBlockInertiaTensor(const Vector3& halfSizes, float mass) {
 		Vector3 squares = halfSizes.ComponentProduct(halfSizes);
 		SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z),
 			0.3f * mass * (squares.x + squares.y));
 	}
 
-	void SetInertiaTensorCoeffs(real ix, real iy, real iz,
-		real ixy = 0, real ixz = 0, real iyz = 0)
+	void SetInertiaTensorCoeffs(float ix, float iy, float iz,
+		float ixy = 0, float ixz = 0, float iyz = 0)
 	{
 		_data[0] = ix;
 		_data[1] = _data[3] = -ixy;
@@ -77,7 +76,7 @@ public:
 		_data[8] += o._data[8];
 	}
 
-	void operator*=(const real scalar) {
+	void operator*=(const float scalar) {
 		_data[0] *= scalar;
 		_data[1] *= scalar;
 		_data[2] *= scalar;
@@ -126,9 +125,9 @@ public:
 	}
 
 	void operator*=(const Matrix3& o) {
-		real t1;
-		real t2;
-		real t3;
+		float t1;
+		float t2;
+		float t3;
 		t1 = _data[0] * o._data[0] + _data[1] * o._data[3] + _data[2] * o._data[6];
 		t2 = _data[0] * o._data[1] + _data[1] * o._data[4] + _data[2] * o._data[7];
 		t3 = _data[0] * o._data[2] + _data[1] * o._data[5] + _data[2] * o._data[8];
@@ -150,19 +149,19 @@ public:
 	}
 
 	void SetInverse(const Matrix3& m) {
-		real e1 = m._data[0] * m._data[4];
-		real e2 = m._data[0] * m._data[5];
-		real e3 = m._data[1] * m._data[3];
-		real e4 = m._data[2] * m._data[3];
-		real e5 = m._data[1] * m._data[6];
-		real e6 = m._data[2] * m._data[6];
+		float e1 = m._data[0] * m._data[4];
+		float e2 = m._data[0] * m._data[5];
+		float e3 = m._data[1] * m._data[3];
+		float e4 = m._data[2] * m._data[3];
+		float e5 = m._data[1] * m._data[6];
+		float e6 = m._data[2] * m._data[6];
 
 		//Get the determinant
-		real det = (e1 * m._data[8] - e2 * m._data[7] - e3 * m._data[8] + 
+		float det = (e1 * m._data[8] - e2 * m._data[7] - e3 * m._data[8] + 
 					e4 * m._data[7] + e5 * m._data[5] - e6 * m._data[4]);
 
-		if (det == (real)0.0f) return;
-		real inverseDet = (real)1.0f / det;
+		if (det == (float)0.0f) return;
+		float inverseDet = (float)1.0f / det;
 
 		_data[0] = (m._data[4] * m._data[8] - m._data[5] * m._data[7]) * inverseDet;
 		_data[1] = -(m._data[1] * m._data[8] - m._data[2] * m._data[7]) * inverseDet;
