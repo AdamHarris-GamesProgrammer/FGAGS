@@ -13,7 +13,7 @@ struct MeshData
 {
 	std::vector<SimpleVertex> Vertices;
 	std::vector<unsigned short> Indices;
-	float Radius;
+	float Radius = 1.0f;
 };
 
 //B2
@@ -23,7 +23,7 @@ namespace OBJLoader
 	MeshData Load(const char* filename, ID3D11Device* pDevice, ID3D11DeviceContext* deviceContext, bool invertTexCoords = true);
 
 	//Helper methods for the above method
-	//Searhes to see if a similar vertex already exists in the buffer -- if true, we re-use that index
+	//Searches to see if a similar vertex already exists in the buffer -- if true, we re-use that index
 	bool FindSimilarVertex(const SimpleVertex& vertex, std::map<SimpleVertex, unsigned short>& vertToIndexMap, unsigned short& index);
 
 	//Re-creates a single index buffer from the 3 given in the OBJ file

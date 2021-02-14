@@ -233,7 +233,6 @@
     <ClInclude Include="CollisionDetector.h">
       <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsModel.h" />
     <ClInclude Include="IntersectionTests.h">
       <Filter>Engine\Physics\Collision</Filter>
     </ClInclude>
@@ -242,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="Contact.h">
       <Filter>Engine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsModel.h">
+      <Filter>Engine\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,7 +320,6 @@
     <ClCompile Include="CollisionDetector.cpp">
       <Filter>Engine\Physics\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsModel.cpp" />
     <ClCompile Include="IntersectionTests.cpp">
       <Filter>Engine\Physics\Collision</Filter>
     </ClCompile>
@@ -327,6 +328,9 @@
     </ClCompile>
     <ClCompile Include="Contact.cpp">
       <Filter>Engine\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsModel.cpp">
+      <Filter>Engine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

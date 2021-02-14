@@ -24,7 +24,7 @@ typedef float real;
 
 #define DOUBLE_PRECISION
 
-typedef double real;
+//typedef double real;
 
 #define REAL_MAX DBL_MAX
 #define real_sqrt sqrt
