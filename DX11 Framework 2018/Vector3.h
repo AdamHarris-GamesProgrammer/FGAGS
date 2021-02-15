@@ -153,6 +153,12 @@ public:
 		z = 0.0;
 	}
 
+	void Set(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+
 	void Print(std::string name) {
 		Debug::Print(name + "X: %f ", x);
 		Debug::Print("Y: %f ", y);

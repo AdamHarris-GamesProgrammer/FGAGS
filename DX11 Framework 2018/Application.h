@@ -17,6 +17,7 @@
 #include "Time.h"
 #include "Camera.h"
 #include "Plane.h"
+#include "TerrainPlane.h"
 #include "SkySphere.h"
 
 #include <memory>
@@ -93,7 +94,7 @@ private:
 
 
 	//GameObject member variables
-	Plane* pGroundPlane = nullptr;
+	TerrainPlane* pGroundPlane = nullptr;
 
 	MeshedObject* pBlendedCube = nullptr;
 

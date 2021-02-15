@@ -242,6 +242,7 @@
     <ClInclude Include="PhysicsModel.h">
       <Filter>Engine\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="TerrainPlane.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -329,6 +330,7 @@
     <ClCompile Include="PhysicsModel.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainPlane.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

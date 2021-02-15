@@ -40,11 +40,11 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	//Initializes the Ground Plane object and creates the geometry
-	pGroundPlane = new Plane(pGfx);
-	pGroundPlane->Make(75.0, 75.0f, 8, 8);
+	pGroundPlane = new TerrainPlane(pGfx);
+	pGroundPlane->Make(75.0f, 150.0f, 513, 513, "Assets/Terrain/Heightmap513x513.raw");
 
 	//Sets default positions
-	pGroundPlane->GetTransform().SetPosition(0.0f, 0.0f, 0.0f);
+	pGroundPlane->GetTransform().SetPosition(30.0f, 100.0f, -300.0f);
 
 	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
@@ -59,13 +59,11 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGameObjects.push_back(pGroundPlane);
 	
 
-
 	pBottomCube = new Box();
 	pBottomCube->_halfSize = Vector3(1.0,1.0,1.0);
 	pBottomCube->_body = pGameObjects[0]->GetBody();
 	pBottomCube->CalculateInternals();
 
-	
 	pTopCube = new Box();
 	pTopCube->_halfSize = Vector3(1.0, 1.0,1.0);
 	pTopCube->_body = pGameObjects[1]->GetBody();
@@ -466,7 +464,6 @@ void Application::Draw()
 	}
 
 	pGfx->SetTransparentBlend();
-	//pBlendedCube->Draw();
 
 	DrawGUI();
 

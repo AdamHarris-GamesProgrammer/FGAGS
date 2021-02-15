@@ -51,7 +51,7 @@ void Transform::SetPosition(Vector3 position)
 
 void Transform::SetPosition(float x, float y, float z)
 {
-	mPosition = Vector3(x, y, z);
+	mPosition.Set(x, y, z);
 }
 
 void Transform::SetRotation(Vector3 rotation)
@@ -61,13 +61,13 @@ void Transform::SetRotation(Vector3 rotation)
 
 void Transform::SetRotation(float x, float y, float z)
 {
-	mRotation = Vector3(x, y, z);
+	mRotation.Set(x,y,z);
 	
 }
 
 void Transform::SetScale(float x, float y, float z)
 {
-	mScale = Vector3(x, y, z);
+	mScale.Set(x, y, z);
 }
 
 void Transform::SetScale(Vector3 scale)

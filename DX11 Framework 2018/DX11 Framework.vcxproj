@@ -402,6 +402,7 @@
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SkySphere.cpp" />
+    <ClCompile Include="TerrainPlane.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -466,6 +467,7 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SkySphere.h" />
     <ClInclude Include="SpringForceGenerator.h" />
+    <ClInclude Include="TerrainPlane.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
