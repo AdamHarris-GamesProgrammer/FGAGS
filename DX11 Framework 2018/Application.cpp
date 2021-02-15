@@ -4,6 +4,8 @@
 
 #include "Imgui/imgui.h"
 
+#include <thread>
+#include <string>
 
 Application::~Application() 
 {
@@ -25,18 +27,15 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	//Initializes the ImGUIManager and the JSON level loader
 	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
-	//Sets the game objects vector and loads the objects from the json file
-	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile("Assets/Levels/physicsTest.json");
+	std::thread objectLoader(&Application::LoadObjectsFromFile, this, "Assets/Levels/physicsTest.json");
+	std::thread cameraLoader(&Application::LoadCameraObjectsFromFile, this, "Assets/Levels/physicsTest.json");
 
 
-	pCameras = mJSONLevelLoader.LoadCamerasFromFile("Assets/Levels/physicsTest.json");
-	pCurrentCamera = pCameras[0];
-	pGfx->SetCurrentCamera(pCurrentCamera);
 
 
 	//Initializes the skysphere and scales it up
-	std::string filepath = "Assets/Textures/Skybox.dds";
-	pSkySphere = new SkySphere(pGfx, filepath);
+	std::string skysphereTexture = "Assets/Textures/Skybox.dds";
+	pSkySphere = new SkySphere(pGfx, skysphereTexture);
 
 
 
@@ -49,6 +48,12 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
+
+	cameraLoader.join();
+	pCurrentCamera = pCameras[0];
+	pGfx->SetCurrentCamera(pCurrentCamera);
+
+	objectLoader.join();
 
 	//Adds the ground plane to the game objects vector so it will be rendered and updated
 	pGameObjects.push_back(pGroundPlane);
@@ -88,6 +93,16 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	mTime.Reset();
 
 	return S_OK;
+}
+
+void Application::LoadObjectsFromFile(const char* filename)
+{
+	pGameObjects = mJSONLevelLoader.LoadObjectsFromFile(filename);
+}
+
+void Application::LoadCameraObjectsFromFile(const char* filename)
+{
+	pCameras = mJSONLevelLoader.LoadCamerasFromFile(filename);
 }
 
 void Application::Update()
@@ -395,6 +410,8 @@ void Application::PollInput(float dt)
 		Reset();
 	}
 }
+
+
 
 void Application::Reset()
 {

@@ -5,8 +5,6 @@
 class PhysicsModel
 {
 public:
-
-
 	virtual void AddForce(const Vector3& force);
 	virtual void Update(float dt) = 0;
 	virtual void ClearAccumulator();
@@ -42,13 +40,5 @@ protected:
 
 	float _inverseMass;
 	float _linearDamping;
-
-
-
-
-private:
-
-
-
 };
 

@@ -31,7 +31,7 @@ public:
 class CollisionPlane {
 public:
 	Vector3 _direction;
-	float _offset;
+	float _offset = 0.0f;
 };
 
 class Box : public Primitive {

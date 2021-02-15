@@ -60,6 +60,10 @@ private:
 	void Picking();
 	void PollInput(float dt);
 
+
+	void LoadObjectsFromFile(const char* filename);
+	void LoadCameraObjectsFromFile(const char* filename);
+
 	void Reset();
 
 	void DrawGUI();
