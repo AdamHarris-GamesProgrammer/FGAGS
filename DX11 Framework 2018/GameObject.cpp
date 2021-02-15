@@ -58,9 +58,6 @@ void GameObject::Update(float dt)
 	
 	pRigidBody->Update(dt);
 
-	
-	UpdateTransforms();
-
 
 	//Updates bounding sphere location
 	mBoundingSphere.Center = mTransform.GetPosition();

@@ -141,9 +141,6 @@ void Application::Update()
 		object->Update(dt);
 	}
 
-	//Updates the blended cube object
-	//pBlendedCube->Update(dt);
-
 	pSkySphere->Update(dt);
 
 	pTopCube->CalculateInternals();
@@ -169,6 +166,7 @@ void Application::Update()
 	for (auto& object : pGameObjects) {
 		object->UpdateTransforms();
 	}
+	pSkySphere->UpdateTransforms();
 }
 
 void Application::SelectedObjectControl(float dt)
@@ -416,7 +414,7 @@ void Application::PollInput(float dt)
 void Application::Reset()
 {
 	pGameObjects[0]->GetTransform().SetPosition(1, 1, 1);
-	pGameObjects[1]->GetTransform().SetPosition(1.0, 6, 1);
+	pGameObjects[1]->GetTransform().SetPosition(1.5, 6, 1);
 	pBottomCube->_body->ClearAccumulator();
 }
 
