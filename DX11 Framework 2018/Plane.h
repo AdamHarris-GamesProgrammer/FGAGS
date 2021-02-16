@@ -5,7 +5,9 @@
 
 class Plane : public GameObject {
 public:
-	Plane(Graphics* gfx) : GameObject(gfx) {}
+	Plane(Graphics* gfx) : GameObject(gfx) {
+		_name = "Plane";
+	}
 
 	//B3
 	//Calculates the vertices and indices needed for the model

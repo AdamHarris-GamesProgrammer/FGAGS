@@ -3,9 +3,10 @@
 SkySphere::SkySphere(Graphics* gfx, std::string& texturePath)
 	: MeshedObject(gfx, "Assets/Models/sphere.obj")
 {
-	mTransform.SetScale(500.0f, 500.0f, 500.0f);
+	_transform.SetScale(500.0f, 500.0f, 500.0f);
 	CreateTexture(ConvertString(texturePath));
 	SetShader(L"Skybox.fx");
+	_name = "SkySphere";
 }
 
 void SkySphere::Update(float dt)

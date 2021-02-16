@@ -5,6 +5,7 @@ MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 	: GameObject(gfx)
 {
 	Load(filepath);
+	_name = "MeshedObject";
 }
 
 MeshedObject::MeshedObject(Graphics* gfx) : GameObject(gfx) {}

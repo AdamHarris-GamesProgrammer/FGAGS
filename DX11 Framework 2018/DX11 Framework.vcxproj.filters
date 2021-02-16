@@ -243,6 +243,9 @@
       <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="TerrainPlane.h" />
+    <ClInclude Include="Object.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -331,6 +334,9 @@
       <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="TerrainPlane.cpp" />
+    <ClCompile Include="Object.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

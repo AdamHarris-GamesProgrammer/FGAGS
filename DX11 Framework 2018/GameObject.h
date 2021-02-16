@@ -8,9 +8,10 @@
 #include "Transform.h"
 #include "Particle.h"
 #include "Rigidbody.h"
+#include "Object.h"
 
 //K1
-class GameObject
+class GameObject : public Object
 {
 public:
 	GameObject();
@@ -38,16 +39,11 @@ public:
 	void SetShader(WCHAR* path);
 
 
-	void SetName(std::string& name);
-
 	//Initializes the bounding sphere with the radius of the model
 	virtual void InitializeBoundingSphere();
 
 	Material& GetMaterial();
-	Transform& GetTransform();
-	//Particle* GetParticle() const { return mParticle; }
 	Rigidbody* GetBody() { return pRigidBody; }
-	std::string GetName() const;
 
 	
 private:
@@ -60,9 +56,6 @@ protected:
 	VertexBuffer* pVertexBuffer;
 	IndexBuffer* pIndexBuffer;
 	
-
-	
-
 	BoundingSphere mBoundingSphere;
 
 	Graphics* pGfx;
@@ -71,11 +64,8 @@ protected:
 
 	bool mHasTextures = false;
 
-	std::string mName = "Gameobject";
 
 	Material mMaterial;
-	Transform mTransform;
-	//Particle* mParticle;
 	Rigidbody* pRigidBody;
 
 };

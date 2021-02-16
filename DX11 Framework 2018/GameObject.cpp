@@ -1,17 +1,16 @@
 #include "GameObject.h"
 
-GameObject::GameObject()
+GameObject::GameObject() 
 {
 	Initialize();
 }
 
 
+
 GameObject::GameObject(Graphics* gfx)
 {
 	this->pGfx = gfx;
-
 	//Initializes the position and rotation to world origin
-	mTransform = Transform();
 	pRigidBody = new Rigidbody();
 
 	//TODO Remove temporary Rigidbody cube code
@@ -29,12 +28,13 @@ GameObject::GameObject(Graphics* gfx)
 
 	float coeff = 0.4 * pRigidBody->GetMass() * 1.0 * 1.0;
 	tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
-	tensor.SetBlockInertiaTensor(Vector3(1.0,1.0,1.0), 5.0);
+	tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
 	pRigidBody->SetInertiaTensor(tensor);
 
 	pRigidBody->ClearAccumulator();
 	pRigidBody->CalculateDerivedData();
 
+	_name = "GameObject";
 
 	Initialize();
 }
@@ -54,28 +54,28 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-	pRigidBody->SetPosition(mTransform.GetPosition());
+	pRigidBody->SetPosition(_transform.GetPosition());
 	
 	pRigidBody->Update(dt);
 
 
 	//Updates bounding sphere location
-	mBoundingSphere.Center = mTransform.GetPosition();
+	mBoundingSphere.Center = _transform.GetPosition();
 }
 
 void GameObject::UpdateTransforms()
 {
-	mTransform.SetPosition(pRigidBody->GetPosition());
-	mTransform.SetRotation(pRigidBody->GetOrientation().Identity());
+	_transform.SetPosition(pRigidBody->GetPosition());
+	_transform.SetRotation(pRigidBody->GetOrientation().Identity());
 
 
 	float transform[16];
 	pRigidBody->GetTransform().DirectXArray(transform);
 
-	mTransform.SetTransform(XMFLOAT4X4(transform));
+	_transform.SetTransform(XMFLOAT4X4(transform));
 
 	//Updates transform
-	mTransform.Update();
+	_transform.Update();
 }
 
 bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
@@ -101,7 +101,7 @@ void GameObject::Draw()
 	pGfx->SetConstantBuffer();
 
 	//Sends the objects material and transform to the graphics class for the updated constant buffer
-	pGfx->SetObjectBuffers(mMaterial, mTransform.GetTransform());
+	pGfx->SetObjectBuffers(mMaterial, _transform.GetTransform());
 
 	//Draws the object
 	pGfx->Draw(pIndexBuffer->GetIndexCount());
@@ -124,7 +124,7 @@ void GameObject::Initialize()
 {
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
-	mBoundingSphere.Center = mTransform.GetPosition();
+	mBoundingSphere.Center = _transform.GetPosition();
 
 
 	//Sets the vertex shader
@@ -132,17 +132,9 @@ void GameObject::Initialize()
 }
 
 #pragma region Getters
-std::string GameObject::GetName() const
-{
-	return mName;
-}
 Material& GameObject::GetMaterial() 
 {
 	return mMaterial;
-}
-
-Transform& GameObject::GetTransform() {
-	return mTransform;
 }
 
 #pragma endregion
@@ -151,10 +143,6 @@ Transform& GameObject::GetTransform() {
 void GameObject::SetShader(WCHAR* path)
 {
 	pPixelShader = new PixelShader(pGfx->GetDevice(), pGfx->GetDeviceContext(), path);
-}
-void GameObject::SetName(std::string& name)
-{
-	mName = name;
 }
 
 void GameObject::InitializeBoundingSphere()
