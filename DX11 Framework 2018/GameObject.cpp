@@ -60,7 +60,7 @@ void GameObject::Update(float dt)
 
 
 	//Updates bounding sphere location
-	mBoundingSphere.Center = _transform.GetPosition();
+	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
 }
 
 void GameObject::UpdateTransforms()
@@ -124,7 +124,7 @@ void GameObject::Initialize()
 {
 	//Sets the radius and position of the bounding sphere
 	mBoundingSphere.Radius = 0.0f;
-	mBoundingSphere.Center = _transform.GetPosition();
+	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
 
 
 	//Sets the vertex shader

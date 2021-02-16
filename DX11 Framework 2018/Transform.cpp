@@ -54,6 +54,11 @@ void Transform::SetPosition(float x, float y, float z)
 	mPosition.Set(x, y, z);
 }
 
+void Transform::SetPosition(XMFLOAT3 position)
+{
+	mPosition.Set(position.x, position.y, position.z);
+}
+
 void Transform::SetRotation(Vector3 rotation)
 {
 	mRotation = rotation;

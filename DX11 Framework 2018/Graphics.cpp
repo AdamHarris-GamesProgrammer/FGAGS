@@ -565,7 +565,7 @@ void Graphics::SetObjectBuffers(Material mat, XMFLOAT4X4& position)
 	cb.SpotLight = mSpotLight;
 
 	//Camera Position
-	cb.EyePosW = pCurrentCamera->GetPosition();
+	cb.EyePosW = (XMFLOAT3)pCurrentCamera->GetTransform().GetPosition();
 
 	//Updates the constant buffer with the new values
 	pDeviceContext->UpdateSubresource(pConstantBuffer, 0, nullptr, &cb, 0, 0);

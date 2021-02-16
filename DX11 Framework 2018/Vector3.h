@@ -147,6 +147,10 @@ public:
 		return XMFLOAT3(x, y, z);
 	}
 
+	operator XMFLOAT3&() const {
+		return XMFLOAT3(x, y, z);
+	}
+
 	void Zero() {
 		x = 0.0;
 		y = 0.0;

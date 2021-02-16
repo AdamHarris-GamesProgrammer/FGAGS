@@ -2,18 +2,17 @@
 
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include "Object.h"
 
 using namespace DirectX;
 
-class Camera {
+class Camera : public Object {
 public:
 	Camera();
 
-	//Get/Set World Position
-	XMVECTOR GetPositionXM() const;
-	XMFLOAT3 GetPosition() const;
-	void SetPosition(float x, float y, float z);
-	void SetPosition(const XMFLOAT3& val);
+	void Initialize() override {
+
+	}
 
 	//Get Camera basis vectors
 	XMVECTOR GetRightXM() const;
@@ -60,7 +59,6 @@ public:
 	void UpdateViewMatrix();
 
 private:
-	XMFLOAT3 mPosition;
 	XMFLOAT3 mRight;
 	XMFLOAT3 mUp;
 	XMFLOAT3 mLook;

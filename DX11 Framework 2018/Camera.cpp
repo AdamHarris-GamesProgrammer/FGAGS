@@ -2,7 +2,7 @@
 
 //Initializes all variables to sensible values and sets the lens
 Camera::Camera()
-	: mPosition(0.0f,0.0f,0.0f),
+	: 
 	mRight(1.0f,0.0f,0.0f),
 	mUp(0.0,1.0f,0.0f),
 	mLook(0.0f,0.0f,1.0f)
@@ -23,8 +23,11 @@ void Camera::LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp)
 	XMVECTOR r = XMVector3Normalize(XMVector3Cross(worldUp, l));
 	XMVECTOR u = XMVector3Cross(l, r);
 
+	Vector3 tPos = _transform.GetPosition();
+	XMFLOAT3 fPos = tPos;
 	//Stores the position, look, right and up vectors
-	XMStoreFloat3(&mPosition, pos);
+	XMStoreFloat3(&fPos, pos);
+	_transform.SetPosition(fPos);
 	XMStoreFloat3(&mLook, l);
 	XMStoreFloat3(&mRight, r);
 	XMStoreFloat3(&mUp, u);
@@ -45,8 +48,13 @@ void Camera::Strafe(float d)
 {
 	XMVECTOR s = XMVectorReplicate(d);
 	XMVECTOR r = XMLoadFloat3(&mRight);
-	XMVECTOR p = XMLoadFloat3(&mPosition);
-	XMStoreFloat3(&mPosition, XMVectorMultiplyAdd(s, r, p));
+
+	Vector3 vPos = _transform.GetPosition();
+	XMFLOAT3 fPos = vPos;
+
+	XMVECTOR p = XMLoadFloat3(&fPos);
+	XMStoreFloat3(&fPos, XMVectorMultiplyAdd(s, r, p));
+	_transform.SetPosition(fPos);
 }
 
 //Walks the camera forwards and backwards based on the look vector
@@ -54,8 +62,13 @@ void Camera::Walk(float d)
 {
 	XMVECTOR s = XMVectorReplicate(d);
 	XMVECTOR i = XMLoadFloat3(&mLook);
-	XMVECTOR p = XMLoadFloat3(&mPosition);
-	XMStoreFloat3(&mPosition, XMVectorMultiplyAdd(s, i, p));
+
+	Vector3 vPos = _transform.GetPosition();
+	XMFLOAT3 fPos = vPos;
+
+	XMVECTOR p = XMLoadFloat3(&fPos);
+	XMStoreFloat3(&fPos, XMVectorMultiplyAdd(s, i, p));
+	_transform.SetPosition(fPos);
 }
 
 //Pitches the camera up and down
@@ -84,7 +97,11 @@ void Camera::UpdateViewMatrix()
 	XMVECTOR r = XMLoadFloat3(&mRight);
 	XMVECTOR u = XMLoadFloat3(&mUp);
 	XMVECTOR l = XMLoadFloat3(&mLook);
-	XMVECTOR p = XMLoadFloat3(&mPosition);
+
+	Vector3 vPos = _transform.GetPosition();
+	XMFLOAT3 fPos = vPos;
+
+	XMVECTOR p = XMLoadFloat3(&fPos);
 
 	//normalizes the look vector
 	l = XMVector3Normalize(l);
@@ -220,28 +237,9 @@ DirectX::XMMATRIX Camera::ViewProj() const
 	return XMMatrixMultiply(View(), Proj());
 }
 
-DirectX::XMVECTOR Camera::GetPositionXM() const
-{
-	return XMLoadFloat3(&mPosition);
-}
-
-DirectX::XMFLOAT3 Camera::GetPosition() const
-{
-	return mPosition;
-}
 #pragma endregion
 
 #pragma region Setters
-void Camera::SetPosition(float x, float y, float z)
-{
-	mPosition = { x,y,z };
-}
-
-void Camera::SetPosition(const XMFLOAT3& val)
-{
-	mPosition = val;
-}
-
 void Camera::SetLens(float fovY, float aspect, float zn, float zf)
 {
 	mFovY = fovY;

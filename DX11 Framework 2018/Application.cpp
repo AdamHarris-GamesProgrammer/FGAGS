@@ -327,7 +327,7 @@ void Application::Picking()
 	rayOrigin = XMVector3Transform(rayOrigin, invView);
 
 	//Calculates the direction of the ray
-	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&pCurrentCamera->GetPosition());
+	XMVECTOR rayDirection = rayOrigin - XMLoadFloat3(&(XMFLOAT3)pCurrentCamera->GetTransform().GetPosition());
 
 	//Normalizes the direction
 	rayDirection = XMVector3Normalize(rayDirection);

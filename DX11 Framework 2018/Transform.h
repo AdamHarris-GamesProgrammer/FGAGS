@@ -24,6 +24,7 @@ public:
 	Vector3 GetScale() const;
 	void SetTransform(XMFLOAT4X4 transform);
 	void SetPosition(Vector3 position);
+	void SetPosition(XMFLOAT3 position);
 	void SetRotation(Vector3 rotation);
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
