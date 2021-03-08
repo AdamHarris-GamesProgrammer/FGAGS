@@ -56,7 +56,7 @@ public:
 	void RotateY(float angle);
 
 	//After modifying any camera aspects you need to update the view matrix
-	void UpdateViewMatrix();
+	void Update(float dt) override;
 
 private:
 	XMFLOAT3 mRight;

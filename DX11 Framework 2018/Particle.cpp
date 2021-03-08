@@ -11,13 +11,7 @@ void Particle::Update(float dt)
 
 	assert(dt > 0.0);
 
-	//Stops moving at a certain point to reduce calculations required
-	//if (_velocity < 0.05) return;
-
-	//_velocity.Print("Velocity ");
-
 	//Update position
-
 	if (_velocity > 0.05) {
 		_position += _velocity * dt;
 	}

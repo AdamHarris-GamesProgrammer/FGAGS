@@ -24,13 +24,34 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	pGfx = new Graphics();
 	pGfx->Initialise(hInstance, nCmdShow);
 
+	Reset("Assets/Levels/physicsTest.json");
+	
+	pGround = new CollisionPlane();
+	pGround->_direction = Vector3(0, 1, 0);
+	pGround->_offset = 0;
+
+	cResolver = new ContactResolver(MAX_CONTACTS);
+	cData._contactArray = contacts;
+	cData._friction = 0.9;
+	cData._restitution = 0.1;
+	cData._tolerance = 0.1;
+
+	
+
+	//Initializes and resets the Timer object
+	mTime = Time();
+	mTime.Reset();
+
+	return S_OK;
+}
+
+void Application::LoadLevel(const char* filename)
+{
 	//Initializes the ImGUIManager and the JSON level loader
 	mJSONLevelLoader = JSONLevelLoader(pGfx);
 
-	std::thread objectLoader(&Application::LoadObjectsFromFile, this, "Assets/Levels/physicsTest.json");
-	std::thread cameraLoader(&Application::LoadCameraObjectsFromFile, this, "Assets/Levels/physicsTest.json");
-
-
+	std::thread objectLoader(&Application::LoadObjectsFromFile, this, filename);
+	std::thread cameraLoader(&Application::LoadCameraObjectsFromFile, this, filename);
 
 
 	//Initializes the skysphere and scales it up
@@ -40,8 +61,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	//Initializes the Ground Plane object and creates the geometry
-	pGroundPlane = new TerrainPlane(pGfx);
-	pGroundPlane->Make(75.0f, 150.0f, 513, 513, "Assets/Terrain/Heightmap513x513.raw");
+	pGroundPlane = new Plane(pGfx);
+	pGroundPlane->Make(20.0f, 20.0f, 8, 8);
 
 	//Sets default positions
 	pGroundPlane->GetTransform().SetPosition(30.0f, 100.0f, -300.0f);
@@ -57,40 +78,6 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Adds the ground plane to the game objects vector so it will be rendered and updated
 	pGameObjects.push_back(pGroundPlane);
-	
-
-	pBottomCube = new Box();
-	pBottomCube->_halfSize = Vector3(1.0,1.0,1.0);
-	pBottomCube->_body = pGameObjects[0]->GetBody();
-	pBottomCube->CalculateInternals();
-
-	pTopCube = new Box();
-	pTopCube->_halfSize = Vector3(1.0, 1.0,1.0);
-	pTopCube->_body = pGameObjects[1]->GetBody();
-	pTopCube->CalculateInternals();
-
-
-	pGround = new CollisionPlane();
-	pGround->_direction = Vector3(0, 1, 0);
-	pGround->_offset = 0;
-	
-
-	pGameObjects[0]->GetBody()->SetAwake();
-	pGameObjects[1]->GetBody()->SetAwake();
-
-	cResolver = new ContactResolver(MAX_CONTACTS);
-	cData._contactArray = contacts;
-	cData._friction = 0.9;
-	cData._restitution = 0.1;
-	cData._tolerance = 0.1;
-
-	
-
-	//Initializes and resets the Timer object
-	mTime = Time();
-	mTime.Reset();
-
-	return S_OK;
 }
 
 void Application::LoadObjectsFromFile(const char* filename)
@@ -132,7 +119,7 @@ void Application::Update()
 	mObjectRotationValue += (mObjectRotationSpeed * dt);
 
 	//Updates the view matrix for the current camera
-	pCurrentCamera->UpdateViewMatrix();
+	pCurrentCamera->Update(dt);
 
 	//Loops through every game object and calls the update method
 	for (auto& object : pGameObjects) {
@@ -295,7 +282,7 @@ void Application::DrawGUI()
 	ImGui::Begin("Reset");
 
 	if (ImGui::Button("Reset Simulation", ImVec2(100, 60))) {
-		Reset();
+		Reset("Assets/Levels/physicsTest.json");
 	}
 
 	ImGui::End();
@@ -374,21 +361,16 @@ void Application::PollInput(float dt)
 	}
 
 	if (GetAsyncKeyState('1')) {
-		pCurrentCamera = pCameras[0];
-		pGfx->SetCurrentCamera(pCurrentCamera);
+
 	}
 	else if (GetAsyncKeyState('2')) {
-		pCurrentCamera = pCameras[1];
-		mFlyingEnabled = false;
-		pGfx->SetCurrentCamera(pCurrentCamera);
+
 	}
 	else if (GetAsyncKeyState('3')) {
-		pCurrentCamera = pCameras[2];
-		pGfx->SetCurrentCamera(pCurrentCamera);
+
 	}
 	else if (GetAsyncKeyState('4')) {
-		pCurrentCamera = pCameras[3];
-		pGfx->SetCurrentCamera(pCurrentCamera);
+
 	}
 
 	if (GetAsyncKeyState('H')) {
@@ -403,17 +385,28 @@ void Application::PollInput(float dt)
 	}
 
 	if (GetAsyncKeyState('R')) {
-		Reset();
+		Reset("Assets/Levels/physicsTest.json");
 	}
 }
 
 
 
-void Application::Reset()
+void Application::Reset(const char* filename)
 {
-	pGameObjects[0]->GetTransform().SetPosition(1, 1, 1);
-	pGameObjects[1]->GetTransform().SetPosition(1.5, 6, 1);
-	pBottomCube->_body->ClearAccumulator();
+	LoadLevel("Assets/Levels/physicsTest.json");
+
+	pBottomCube = new Box();
+	pBottomCube->_halfSize = Vector3(1.0, 1.0, 1.0);
+	pBottomCube->_body = pGameObjects[0]->GetBody();
+	pBottomCube->CalculateInternals();
+
+	pTopCube = new Box();
+	pTopCube->_halfSize = Vector3(1.0, 1.0, 1.0);
+	pTopCube->_body = pGameObjects[1]->GetBody();
+	pTopCube->CalculateInternals();
+
+	pGameObjects[0]->GetBody()->SetAwake();
+	pGameObjects[1]->GetBody()->SetAwake();
 }
 
 void Application::CursorControls(float dt)

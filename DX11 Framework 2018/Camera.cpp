@@ -91,7 +91,7 @@ void Camera::RotateY(float angle)
 }
 
 //Updates the cameras view matrix 
-void Camera::UpdateViewMatrix()
+void Camera::Update(float dt)
 {
 	//Loads all the needed vectors
 	XMVECTOR r = XMLoadFloat3(&mRight);

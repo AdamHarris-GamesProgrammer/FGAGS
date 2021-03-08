@@ -51,6 +51,8 @@ public:
 
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
+	void LoadLevel(const char* filename);
+
 	void Update();
 
 	void Draw();
@@ -65,7 +67,7 @@ private:
 	void LoadObjectsFromFile(const char* filename);
 	void LoadCameraObjectsFromFile(const char* filename);
 
-	void Reset();
+	void Reset(const char* filename);
 
 	void DrawGUI();
 	void SelectedObjectControl(float dt);
@@ -94,7 +96,7 @@ private:
 
 
 	//GameObject member variables
-	TerrainPlane* pGroundPlane = nullptr;
+	Plane* pGroundPlane = nullptr;
 
 	MeshedObject* pBlendedCube = nullptr;
 
@@ -138,5 +140,7 @@ private:
 	bool mWireframeEnabled = false;
 	bool mFlyingEnabled = false;
 	bool mCursorClipped = false;
+
+	unsigned int currentTest = 1;
 };
 

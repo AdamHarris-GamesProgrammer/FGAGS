@@ -2,7 +2,7 @@
 #include "Vector3.h"
 #include "Rigidbody.h"
 
-class Primitive {
+class CollisionPrimitive {
 public:
 	Rigidbody* _body;
 	Matrix4 _offset;
@@ -23,7 +23,7 @@ protected:
 	Matrix4 _transform;
 };
 
-class Sphere : public Primitive {
+class Sphere : public CollisionPrimitive {
 public:
 	float _radius;
 };
@@ -34,7 +34,7 @@ public:
 	float _offset = 0.0f;
 };
 
-class Box : public Primitive {
+class Box : public CollisionPrimitive {
 public:
 	Vector3 _halfSize;
 };
