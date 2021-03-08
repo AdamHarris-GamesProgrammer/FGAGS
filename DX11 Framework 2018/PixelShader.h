@@ -27,6 +27,7 @@ public:
 	}
 
 	~PixelShader() {
+		if (pPixelShader) pPixelShader->Release();
 	}
 
 	//Overrides the base Bind function and sets the pixel shader that needs to be used

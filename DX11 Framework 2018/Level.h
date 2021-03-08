@@ -34,8 +34,12 @@ public:
 		Initialize();
 	}
 
-	virtual void LoadLevel();
+	~Level() {
+		delete _pLevelFile;
+	}
 
+	virtual void LoadLevel();
+	virtual void ExitLevel();
 	virtual void PollInput(float dt) {}
 
 	void BeginUpdate(float dt);

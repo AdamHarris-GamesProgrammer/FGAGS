@@ -247,6 +247,7 @@
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Level5.h" />
     <ClInclude Include="Level1.h" />
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +341,7 @@
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Level5.cpp" />
     <ClCompile Include="Level1.cpp" />
   </ItemGroup>
   <ItemGroup>

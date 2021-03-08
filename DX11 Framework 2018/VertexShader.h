@@ -54,6 +54,8 @@ public:
 	}
 
 	~VertexShader() {
+		if (pVertexShader) pVertexShader->Release();
+		if (pLayout) pLayout->Release();
 	}
 
 private:

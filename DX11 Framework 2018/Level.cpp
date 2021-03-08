@@ -4,6 +4,7 @@
 void Level::LoadLevel()
 {
 	_pGameObjects.clear();
+	_pCameras.clear();
 
 	std::thread objectLoader(&Level::LoadObjectsFromFile, this, _pLevelFile);
 	std::thread cameraLoader(&Level::LoadCameraObjectsFromFile, this, _pLevelFile);
@@ -13,6 +14,11 @@ void Level::LoadLevel()
 	_pGfx->SetCurrentCamera(_pCurrentCamera);
 
 	objectLoader.join();
+}
+
+void Level::ExitLevel()
+{
+
 }
 
 void Level::BeginUpdate(float dt)

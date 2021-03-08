@@ -2,8 +2,7 @@
   "meshedObjects": [
     {
       "name": "FallingCube",
-      "position": [ 1.0, 6, 1 ],
-      "rotation": [ 2.5, 0.5, 0 ],
+      "position": [ -6.0, 1, 1 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",

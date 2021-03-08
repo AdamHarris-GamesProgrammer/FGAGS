@@ -9,8 +9,13 @@
 
 Application::~Application() 
 {
-	delete pGfx;
+	delete _pLevel1;
+	_pLevel1 = nullptr;
 
+	delete _pLevel5;
+	_pLevel5 = nullptr;
+
+	delete pGfx;
 	pGfx = nullptr;
 }
 
@@ -27,7 +32,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	pGfx->SetClearColor(mClearColor);
 
-	_pLevel = new Level1(pGfx, "Assets/Levels/physicsTest.json");
+	_pLevel5 = new Level5(pGfx, "Assets/Levels/physicsTest.json");
+	_pLevel1 = new Level1(pGfx, "Assets/Levels/test1.json");
+
+	_pCurrentLevel = _pLevel1;
 
 	return S_OK;
 }
@@ -38,9 +46,15 @@ void Application::Update()
 	mTime.Tick();
 	float dt = mTime.DeltaTime();
 
-	_pLevel->PollInput(dt);
+	PollInput(dt);
 
-	_pLevel->Update(dt);
+	_pCurrentLevel->PollInput(dt);
+
+	_pCurrentLevel->BeginUpdate(dt);
+
+	_pCurrentLevel->Update(dt);
+
+	_pCurrentLevel->EndUpdate(dt);
 }
 
 void Application::DrawGUI()
@@ -173,6 +187,9 @@ void Application::PollInput(float dt)
 	CursorControls(dt);
 
 	if (GetAsyncKeyState('1')) {
+		_pCurrentLevel->ExitLevel();
+		_pCurrentLevel = _pLevel1;
+		_pCurrentLevel->Reset();
 
 	}
 	else if (GetAsyncKeyState('2')) {
@@ -182,6 +199,12 @@ void Application::PollInput(float dt)
 
 	}
 	else if (GetAsyncKeyState('4')) {
+
+	}
+	else if (GetAsyncKeyState('5')) {
+		_pCurrentLevel->ExitLevel();
+		_pCurrentLevel = _pLevel5;
+		_pCurrentLevel->Reset();
 
 	}
 
@@ -216,5 +239,5 @@ void Application::CursorControls(float dt)
 
 void Application::Draw()
 {
-	_pLevel->Render();
+	_pCurrentLevel->Render();
 }

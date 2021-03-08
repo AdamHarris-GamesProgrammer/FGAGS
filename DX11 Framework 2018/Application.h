@@ -30,6 +30,7 @@
 
 #include "Level.h"
 #include "Level1.h"
+#include "Level5.h"
 
 using namespace DirectX;
 
@@ -59,7 +60,11 @@ private:
 	void CursorControls(float dt);
 
 private:
-	Level1* _pLevel;
+	Level* _pCurrentLevel;
+	Level1* _pLevel1;
+	Level5* _pLevel5;
+	
+
 
 	//Time object used to track delta time for object translations
 	Time mTime;

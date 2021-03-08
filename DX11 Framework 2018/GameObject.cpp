@@ -50,6 +50,12 @@ GameObject::~GameObject()
 	pVertexShader = nullptr;
 	pPixelShader = nullptr;
 	pIndexBuffer = nullptr;
+
+	pTextures.clear();
+	
+
+	delete pRigidBody;
+	pRigidBody = nullptr;
 }
 
 void GameObject::Update(float dt)
