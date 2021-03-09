@@ -64,7 +64,6 @@ void GameObject::Update(float dt)
 	
 	pRigidBody->Update(dt);
 
-
 	//Updates bounding sphere location
 	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
 }

@@ -252,6 +252,9 @@
     <ClInclude Include="Level2.h" />
     <ClInclude Include="Level3.h" />
     <ClInclude Include="Level4.h" />
+    <ClInclude Include="RestingForceGenerator.h">
+      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

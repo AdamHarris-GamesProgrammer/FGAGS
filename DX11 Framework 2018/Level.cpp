@@ -71,6 +71,18 @@ void Level::ResetButton()
 	}
 }
 
+void Level::LoadGround()
+{
+	if (_pGroundPlane != nullptr) delete _pGroundPlane;
+
+	_pGroundPlane = new Plane(_pGfx);
+	_pGroundPlane->Make(20.f, 20.0f, 7, 7);
+
+	_pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
+
+	_pGameObjects.push_back(_pGroundPlane);
+}
+
 void Level::Initialize()
 {
 	_levelLoader = JSONLevelLoader(_pGfx);

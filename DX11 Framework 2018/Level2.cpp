@@ -4,13 +4,12 @@ void Level2::LoadLevel()
 {
 	Level::LoadLevel();
 
-	pGroundPlane = new Plane(_pGfx);
-	pGroundPlane->Make(20.0f, 20.0f, 8, 8);
+	LoadGround();
 
-	//Loads the texture for the ground plane
-	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
+	_pGameObjects[0]->GetBody()->SetAwake();
 
-	_pGameObjects.push_back(pGroundPlane);
+	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
+	_pRestingGenerator = new RestingForceGenerator(1.0f);
 }
 
 void Level2::ExitLevel()
@@ -25,7 +24,8 @@ void Level2::PollInput(float dt)
 
 void Level2::Update(float dt)
 {
-
+	_pGravityGenerator->Update(_pGameObjects[0]->GetBody(), dt);
+	_pRestingGenerator->Update(_pGameObjects[0]->GetBody(), dt);
 }
 
 void Level2::Reset()

@@ -21,6 +21,8 @@
 #include "Contact.h"
 #include "ContactResolver.h"
 
+#include "Plane.h"
+
 using namespace DirectX;
 
 typedef std::vector<std::shared_ptr<Camera>> Cameras;
@@ -53,12 +55,15 @@ public:
 protected:
 	void FlyCamera(float dt);
 	void ResetButton();
+	void LoadGround();
 protected:
 	std::shared_ptr<Camera> _pCurrentCamera;
 	Cameras _pCameras;
 	GameObjects _pGameObjects;
 
 	Graphics* _pGfx = nullptr;
+
+	Plane* _pGroundPlane = nullptr;
 private:
 	virtual void DrawUI() = 0;
 

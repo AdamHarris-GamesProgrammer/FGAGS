@@ -10,13 +10,11 @@ void Level5::ExitLevel()
 	delete pBottomCube;
 	delete pTopCube;
 	delete pGround;
-	delete pGroundPlane;
 	delete cResolver;
 
 	pBottomCube = nullptr;
 	pTopCube = nullptr;
 	pGround = nullptr;
-	pGroundPlane = nullptr;
 	cResolver = nullptr;
 
 	_pCameras.clear();
@@ -79,13 +77,7 @@ void Level5::LoadLevel()
 	cData._restitution = 0.1;
 	cData._tolerance = 0.1;
 
-	pGroundPlane = new Plane(_pGfx);
-	pGroundPlane->Make(20.0f, 20.0f, 8, 8);
-
-	//Loads the texture for the ground plane
-	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
-
-	_pGameObjects.push_back(pGroundPlane);
+	LoadGround();
 }
 
 void Level5::DrawUI()

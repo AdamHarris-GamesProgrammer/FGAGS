@@ -27,8 +27,6 @@ private:
 	CollisionData cData;
 	ContactResolver* cResolver;
 
-	Plane* pGroundPlane = nullptr;
-
 	Box* pBottomCube;
 	Box* pTopCube;
 	CollisionPlane* pGround;

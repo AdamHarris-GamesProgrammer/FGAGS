@@ -6,6 +6,8 @@ void Level1::LoadLevel()
 
 	_pGameObjects[0]->GetBody()->SetAwake();
 	_pGameObjects[0]->GetBody()->SetAcceleration(10, 0, 0);
+
+	LoadGround();
 }
 
 void Level1::PollInput(float dt)

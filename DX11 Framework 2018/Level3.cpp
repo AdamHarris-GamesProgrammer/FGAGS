@@ -3,6 +3,8 @@
 void Level3::LoadLevel()
 {
 	Level::LoadLevel();
+
+	LoadGround();
 }
 
 void Level3::ExitLevel()

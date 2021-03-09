@@ -1,6 +1,7 @@
 #pragma once
 #include "Level.h"
-#include "Plane.h"
+#include "GravityForceGenerator.h"
+#include "RestingForceGenerator.h"
 
 class Level2 : public Level
 {
@@ -25,7 +26,8 @@ public:
 	void Reset() override;
 
 private:
-	Plane* pGroundPlane = nullptr;
+	GravityForceGenerator* _pGravityGenerator = nullptr;
+	RestingForceGenerator* _pRestingGenerator = nullptr;
 
 	void DrawUI() override;
 

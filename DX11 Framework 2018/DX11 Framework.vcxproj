@@ -478,6 +478,7 @@
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="RestingForceGenerator.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SkySphere.h" />
     <ClInclude Include="SpringForceGenerator.h" />
