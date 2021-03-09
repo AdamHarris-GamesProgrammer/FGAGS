@@ -133,12 +133,18 @@ public:
 
 	void SetRotation(const Vector3& rotation) {
 		_rotation = rotation;
+		_orientation._i = rotation.x;
+		_orientation._j = rotation.y;
+		_orientation._k = rotation.z;
 	}
 
 	void SetRotation(const float x, const float y, const float z) {
 		_rotation.x = x;
 		_rotation.y = y;
 		_rotation.z = z;
+		_orientation._i = x;
+		_orientation._j = y;
+		_orientation._k = z;
 	}
 
 	Vector3 GetRotation() const {

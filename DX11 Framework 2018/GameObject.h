@@ -32,7 +32,17 @@ public:
 	//Creates a texture based off the designated path and adds it to the textures vector
 	void CreateTexture(const wchar_t* path);
 
+	void SetPosition(float x, float y, float z) {
+		_transform.SetPosition(x, y, z);
+		pRigidBody->SetPosition(x, y, z);
+		pRigidBody->CalculateDerivedData();
+	}
 
+	void SetRotation(float x, float y, float z) {
+		_transform.SetRotation(x, y, z);
+		pRigidBody->SetRotation(x, y, z);
+		pRigidBody->CalculateDerivedData();
+	}
 
 	//Setters
 	//Set Shader function calls the loading logic for the shader

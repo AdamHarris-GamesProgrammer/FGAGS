@@ -9,7 +9,7 @@ GameObject::GameObject()
 
 GameObject::GameObject(Graphics* gfx)
 {
-	this->pGfx = gfx;
+	pGfx = gfx;
 	//Initializes the position and rotation to world origin
 	pRigidBody = new Rigidbody();
 
