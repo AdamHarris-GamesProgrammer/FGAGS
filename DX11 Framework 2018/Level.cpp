@@ -21,6 +21,13 @@ void Level::ExitLevel()
 
 }
 
+void Level::PollInput(float dt)
+{
+	if (GetAsyncKeyState('R')) {
+		Reset();
+	}
+}
+
 void Level::BeginUpdate(float dt)
 {
 	_pCurrentCamera->Update(dt);

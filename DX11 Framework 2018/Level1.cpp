@@ -12,7 +12,7 @@ void Level1::LoadLevel()
 
 void Level1::PollInput(float dt)
 {
-
+	Level::PollInput(dt);
 }
 
 void Level1::Update(float dt)

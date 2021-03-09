@@ -42,7 +42,7 @@ public:
 
 	virtual void LoadLevel();
 	virtual void ExitLevel();
-	virtual void PollInput(float dt) {}
+	virtual void PollInput(float dt);
 
 	void BeginUpdate(float dt);
 	void EndUpdate(float dt);

@@ -19,7 +19,7 @@ void Level2::ExitLevel()
 
 void Level2::PollInput(float dt)
 {
-
+	Level::PollInput(dt);
 }
 
 void Level2::Update(float dt)
@@ -30,8 +30,6 @@ void Level2::Update(float dt)
 
 void Level2::Reset()
 {
-	delete pGroundPlane;
-
 	LoadLevel();
 }
 

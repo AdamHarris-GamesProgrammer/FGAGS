@@ -23,17 +23,13 @@ void Level5::ExitLevel()
 
 void Level5::PollInput(float dt)
 {
-	if (GetAsyncKeyState('R')) {
-		Reset();
-	}
+	Level::PollInput(dt);
 }
 
 void Level5::Update(float dt)
 {
 	pTopCube->CalculateInternals();
 	pBottomCube->CalculateInternals();
-
-
 
 	cData.Reset(MAX_CONTACTS);
 	cData._friction = (float)0.9;

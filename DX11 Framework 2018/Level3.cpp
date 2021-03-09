@@ -13,6 +13,7 @@ void Level3::ExitLevel()
 
 void Level3::PollInput(float dt)
 {
+	Level::PollInput(dt);
 }
 
 void Level3::Update(float dt)
