@@ -30,6 +30,9 @@
 
 #include "Level.h"
 #include "Level1.h"
+#include "Level2.h"
+#include "Level3.h"
+#include "Level4.h"
 #include "Level5.h"
 
 using namespace DirectX;
@@ -54,15 +57,20 @@ private:
 	void Picking();
 	void PollInput(float dt);
 
+	void ChangeLevel(Level* newLevel);
+
 
 	void DrawGUI();
 
 	void CursorControls(float dt);
 
 private:
-	Level* _pCurrentLevel;
-	Level1* _pLevel1;
-	Level5* _pLevel5;
+	Level* _pCurrentLevel = nullptr;
+	Level1* _pLevel1 = nullptr;
+	Level2* _pLevel2 = nullptr;
+	Level3* _pLevel3 = nullptr;
+	Level4* _pLevel4 = nullptr;
+	Level5* _pLevel5 = nullptr;
 	
 
 

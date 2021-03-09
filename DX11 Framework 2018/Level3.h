@@ -1,14 +1,16 @@
 #pragma once
 #include "Level.h"
-class Level1 : public Level
+class Level3 : public Level
 {
 public:
-	Level1(Graphics* gfx, const char* levelName) : Level(gfx, levelName)
-	{
+	Level3(Graphics* gfx, const char* filename) : Level(gfx, filename) {
 		LoadLevel();
 	}
 
 	void LoadLevel() override;
+
+
+	void ExitLevel() override;
 
 
 	void PollInput(float dt) override;

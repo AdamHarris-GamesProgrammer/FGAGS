@@ -4,7 +4,6 @@ void Level1::LoadLevel()
 {
 	Level::LoadLevel();
 
-	//_pGameObjects[0]->GetBody()->SetAcceleration(10, 0, 0);
 	_pGameObjects[0]->GetBody()->SetAwake();
 	_pGameObjects[0]->GetBody()->SetAcceleration(10, 0, 0);
 }
@@ -24,4 +23,15 @@ void Level1::Update(float dt)
 void Level1::Reset()
 {
 	LoadLevel();
+}
+
+void Level1::DrawUI()
+{
+	ImGui::Begin("Test 1");
+
+	ImGui::Text("Test 1");
+
+	ResetButton();
+
+	ImGui::End();
 }

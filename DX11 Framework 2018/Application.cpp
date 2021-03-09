@@ -7,10 +7,19 @@
 #include <thread>
 #include <string>
 
-Application::~Application() 
+Application::~Application()
 {
 	delete _pLevel1;
 	_pLevel1 = nullptr;
+
+	delete _pLevel2;
+	_pLevel2 = nullptr;
+
+	delete _pLevel3;
+	_pLevel3 = nullptr;
+
+	delete _pLevel4;
+	_pLevel4 = nullptr;
 
 	delete _pLevel5;
 	_pLevel5 = nullptr;
@@ -32,10 +41,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	pGfx->SetClearColor(mClearColor);
 
-	_pLevel5 = new Level5(pGfx, "Assets/Levels/physicsTest.json");
 	_pLevel1 = new Level1(pGfx, "Assets/Levels/test1.json");
+	_pLevel2 = new Level2(pGfx, "Assets/Levels/test2.json");
+	_pLevel3 = new Level3(pGfx, "Assets/Levels/test3.json");
+	_pLevel4 = new Level4(pGfx, "Assets/Levels/test4.json");
+	_pLevel5 = new Level5(pGfx, "Assets/Levels/test5.json");
 
-	_pCurrentLevel = _pLevel1;
+
+	ChangeLevel(_pLevel1);
 
 	return S_OK;
 }
@@ -121,7 +134,7 @@ void Application::DrawGUI()
 
 		ImGui::End();
 	}
-	
+
 	//Selected Object Window
 
 	//Calls the lighting control panel method in the graphics class
@@ -187,31 +200,37 @@ void Application::PollInput(float dt)
 	CursorControls(dt);
 
 	if (GetAsyncKeyState('1')) {
-		_pCurrentLevel->ExitLevel();
-		_pCurrentLevel = _pLevel1;
-		_pCurrentLevel->Reset();
-
+		ChangeLevel(_pLevel1);
 	}
 	else if (GetAsyncKeyState('2')) {
-
+		ChangeLevel(_pLevel2);
 	}
 	else if (GetAsyncKeyState('3')) {
-
+		ChangeLevel(_pLevel3);
 	}
 	else if (GetAsyncKeyState('4')) {
-
+		ChangeLevel(_pLevel4);
 	}
 	else if (GetAsyncKeyState('5')) {
-		_pCurrentLevel->ExitLevel();
-		_pCurrentLevel = _pLevel5;
-		_pCurrentLevel->Reset();
-
+		ChangeLevel(_pLevel5);
 	}
 
 
 	if (GetAsyncKeyState('U')) {
 		__debugbreak();
 	}
+}
+
+void Application::ChangeLevel(Level* newLevel)
+{
+	//if we have a current level exit it
+	if (_pCurrentLevel != nullptr)_pCurrentLevel->ExitLevel();
+
+	//load the new level
+	_pCurrentLevel = newLevel;
+
+	//reset the new level
+	_pCurrentLevel->Reset();
 }
 
 void Application::CursorControls(float dt)

@@ -82,11 +82,19 @@ void Level5::LoadLevel()
 	pGroundPlane = new Plane(_pGfx);
 	pGroundPlane->Make(20.0f, 20.0f, 8, 8);
 
-	//Sets default positions
-	pGroundPlane->GetTransform().SetPosition(30.0f, 100.0f, -300.0f);
-
 	//Loads the texture for the ground plane
 	pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
 
 	_pGameObjects.push_back(pGroundPlane);
+}
+
+void Level5::DrawUI()
+{
+	ImGui::Begin("Test 5");
+
+	ImGui::Text("Test 5");
+
+	ResetButton();
+
+	ImGui::End();
 }

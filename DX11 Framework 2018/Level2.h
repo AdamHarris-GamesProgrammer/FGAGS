@@ -1,14 +1,19 @@
 #pragma once
 #include "Level.h"
-class Level1 : public Level
+#include "Plane.h"
+
+class Level2 : public Level
 {
 public:
-	Level1(Graphics* gfx, const char* levelName) : Level(gfx, levelName)
+	Level2(Graphics* gfx, const char* filename) : Level(gfx, filename)
 	{
 		LoadLevel();
 	}
 
 	void LoadLevel() override;
+
+
+	void ExitLevel() override;
 
 
 	void PollInput(float dt) override;
@@ -20,6 +25,8 @@ public:
 	void Reset() override;
 
 private:
+	Plane* pGroundPlane = nullptr;
+
 	void DrawUI() override;
 
 };

@@ -64,9 +64,11 @@ void Level::FlyCamera(float dt)
 	else if (GetAsyncKeyState('F')) _pCameras[0]->Pitch(1.0f * dt);
 }
 
-void Level::DrawUI()
+void Level::ResetButton()
 {
-
+	if (ImGui::Button("Reset Simulation")) {
+		Reset();
+	}
 }
 
 void Level::Initialize()

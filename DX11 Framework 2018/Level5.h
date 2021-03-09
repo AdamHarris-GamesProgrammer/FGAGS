@@ -32,5 +32,8 @@ private:
 	Box* pBottomCube;
 	Box* pTopCube;
 	CollisionPlane* pGround;
+
+	void DrawUI() override;
+
 };
 

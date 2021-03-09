@@ -52,7 +52,7 @@ public:
 
 protected:
 	void FlyCamera(float dt);
-
+	void ResetButton();
 protected:
 	std::shared_ptr<Camera> _pCurrentCamera;
 	Cameras _pCameras;
@@ -60,7 +60,9 @@ protected:
 
 	Graphics* _pGfx = nullptr;
 private:
-	void DrawUI();
+	virtual void DrawUI() = 0;
+
+	
 
 	void Initialize();
 
