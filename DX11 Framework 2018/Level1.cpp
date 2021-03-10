@@ -35,9 +35,10 @@ void Level1::DrawUI()
 	Vector3 objVel = _pGameObjects[0]->GetBody()->GetVelocity();
 	Vector3 objAcc = _pGameObjects[0]->GetBody()->GetAcceleration();
 
-	ImGui::Text("Object Position: {X: %f, Y: %f, Z: %f}", objPos.x, objPos.y, objPos.z);
-	ImGui::Text("Object Velocity: {X: %f, Y: %f, Z: %f}", objVel.x, objVel.y, objVel.z);
-	ImGui::Text("Object Acceleration: {X: %f, Y: %f, Z: %f}", objAcc.x, objAcc.y, objAcc.z);
+	//Format the vectors into text using a 2 decimal place float value
+	ImGui::Text("Object Position: {X: %.2f, Y: %.2f, Z: %.2f}", objPos.x, objPos.y, objPos.z);
+	ImGui::Text("Object Velocity: {X: %.2f, Y: %.2f, Z: %.2f}", objVel.x, objVel.y, objVel.z);
+	ImGui::Text("Object Acceleration: {X: %.2f, Y: %.2f, Z: %.2f}", objAcc.x, objAcc.y, objAcc.z);
 
 	ResetButton();
 

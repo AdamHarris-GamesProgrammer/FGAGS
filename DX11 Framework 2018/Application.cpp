@@ -48,7 +48,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pLevel5 = new Level5(pGfx, "Assets/Levels/test5.json");
 
 
-	ChangeLevel(_pLevel1);
+	ChangeLevel(_pLevel3);
 
 	return S_OK;
 }
@@ -216,9 +216,9 @@ void Application::PollInput(float dt)
 	}
 
 
-	if (GetAsyncKeyState('U')) {
-		__debugbreak();
-	}
+	//if (GetAsyncKeyState('U')) {
+	//	__debugbreak();
+	//}
 }
 
 void Application::ChangeLevel(Level* newLevel)

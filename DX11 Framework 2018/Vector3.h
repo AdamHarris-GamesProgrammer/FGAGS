@@ -71,6 +71,10 @@ public:
 		return Vector3(x + vec.x, y + vec.y, z + vec.z);
 	}
 
+	bool operator!=(const Vector3& vec) const {
+		return (x != vec.x || y != vec.y || z != vec.z);
+	}
+
 	void operator-=(const Vector3 & vec) {
 		x -= vec.x;
 		y -= vec.y;

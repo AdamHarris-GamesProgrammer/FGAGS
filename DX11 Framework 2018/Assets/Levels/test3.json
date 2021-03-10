@@ -2,17 +2,7 @@
   "meshedObjects": [
     {
       "name": "StationaryCube",
-      "position": [ 5.0, 2, -1 ],
-      "meshPath": "cube.obj",
-      "diffuseTexture": "Crate_COLOR.dds",
-      "specularTexture": "Crate_SPEC.dds",
-      "normalTexture": "Crate_NRM.dds",
-      "ambient": [ 0.2, 0.2, 0.2, 1.0 ]
-    },
-    {
-      "name": "FallingCube",
-      "position": [ 1.0, 6, 1 ],
-      "rotation": [ 2.5, 0.5, 0 ],
+      "position": [ 0.0, 3, 0 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
