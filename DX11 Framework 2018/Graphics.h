@@ -87,6 +87,11 @@ public:
 	int GetMouseX() const;
 	int GetMouseY() const;
 
+	int GetMouseClickX() const;
+	int GetMouseClickY() const;
+
+	bool IsLeftMouseDown() const;
+
 	HWND& GetWnd();
 
 	ID3D11Device* GetDevice() const;
@@ -157,6 +162,11 @@ private:
 	//Mouse Position
 	int mMouseX = 0;
 	int mMouseY = 0;
+
+	int _mouseClickX = 0;
+	int _mouseClickY = 0;
+
+	bool _isLeftMouseDown = false;
 
 	//Render Clear Colour
 	float mClearColor[4] = { 0.5f,0.5f,0.5f,1.0f };

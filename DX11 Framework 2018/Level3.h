@@ -24,5 +24,9 @@ public:
 private:
 	void DrawUI() override;
 
+private:
+	float _rotationPower = 10.0f;
+	float _normalizedCoords[2];
+
 };
 

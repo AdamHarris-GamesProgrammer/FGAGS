@@ -112,6 +112,15 @@ LRESULT Graphics::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		return 0;
+	case WM_LBUTTONDOWN:
+		_isLeftMouseDown = true;
+		const POINTS pt = MAKEPOINTS(lParam);
+		_mouseClickX = pt.x;
+		_mouseClickY = pt.y;
+		break;
+	case  WM_LBUTTONUP:
+		_isLeftMouseDown = false;
+		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -599,6 +608,21 @@ int Graphics::GetMouseX() const
 int Graphics::GetMouseY() const
 {
 	return mMouseY;
+}
+
+int Graphics::GetMouseClickX() const
+{
+	return _mouseClickX;
+}
+
+int Graphics::GetMouseClickY() const
+{
+	return _mouseClickY;
+}
+
+bool Graphics::IsLeftMouseDown() const
+{
+	return _isLeftMouseDown;
 }
 
 ID3D11Device* Graphics::GetDevice() const
