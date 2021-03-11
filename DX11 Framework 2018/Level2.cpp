@@ -37,8 +37,7 @@ void Level2::DrawUI()
 {
 	ImGui::Begin("Test 2");
 
-	ImGui::Text("Test 2");
-
+	OutputVelocity(_pGameObjects[0]);
 
 	ResetButton();
 

@@ -54,7 +54,13 @@ public:
 
 protected:
 	void FlyCamera(float dt);
+	
+	
 	void ResetButton();
+	void OutputVelocity(GameObject* obj);
+	void OutputPosition(GameObject* obj);
+	void OutputAcceleration(GameObject* obj);
+
 	void LoadGround();
 protected:
 	std::shared_ptr<Camera> _pCurrentCamera;

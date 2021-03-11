@@ -78,6 +78,24 @@ void Level::ResetButton()
 	}
 }
 
+void Level::OutputVelocity(GameObject* obj)
+{
+	Vector3 objVel = obj->GetBody()->GetVelocity();
+	ImGui::Text("Object Velocity: {X: %.2f, Y: %.2f, Z: %.2f}", objVel.x, objVel.y, objVel.z);
+}
+
+void Level::OutputPosition(GameObject* obj)
+{
+	Vector3 objPos = obj->GetTransform().GetPosition();
+	ImGui::Text("Object Position: {X: %.2f, Y: %.2f, Z: %.2f}", objPos.x, objPos.y, objPos.z);
+}
+
+void Level::OutputAcceleration(GameObject* obj)
+{
+	Vector3 objAcc = obj->GetBody()->GetAcceleration();
+	ImGui::Text("Object Acceleration: {X: %.2f, Y: %.2f, Z: %.2f}", objAcc.x, objAcc.y, objAcc.z);
+}
+
 void Level::LoadGround()
 {
 	if (_pGroundPlane != nullptr) delete _pGroundPlane;

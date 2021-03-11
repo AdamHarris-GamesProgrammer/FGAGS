@@ -13,6 +13,13 @@ public:
 		body->AddForce(_gravity * body->GetMass());
 	}
 
+	void SetGravity(Vector3 val) {
+		_gravity = val;
+	}
+
+	Vector3 GetGravity() const {
+		return _gravity;
+	}
 private:
 	Vector3 _gravity;
 

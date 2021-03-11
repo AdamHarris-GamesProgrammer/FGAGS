@@ -31,14 +31,11 @@ void Level1::DrawUI()
 {
 	ImGui::Begin("Test 1");
 
-	Vector3 objPos = _pGameObjects[0]->GetTransform().GetPosition();
-	Vector3 objVel = _pGameObjects[0]->GetBody()->GetVelocity();
-	Vector3 objAcc = _pGameObjects[0]->GetBody()->GetAcceleration();
-
-	//Format the vectors into text using a 2 decimal place float value
-	ImGui::Text("Object Position: {X: %.2f, Y: %.2f, Z: %.2f}", objPos.x, objPos.y, objPos.z);
-	ImGui::Text("Object Velocity: {X: %.2f, Y: %.2f, Z: %.2f}", objVel.x, objVel.y, objVel.z);
-	ImGui::Text("Object Acceleration: {X: %.2f, Y: %.2f, Z: %.2f}", objAcc.x, objAcc.y, objAcc.z);
+	//Print Movement Information about our cube.
+	OutputPosition(_pGameObjects[0]);
+	OutputVelocity(_pGameObjects[0]);
+	OutputAcceleration(_pGameObjects[0]);
+	
 
 	ResetButton();
 

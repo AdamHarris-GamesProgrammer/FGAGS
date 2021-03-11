@@ -27,13 +27,13 @@ private:
 	void DrawUI() override;
 
 private:
-	Contact contacts[MAX_CONTACTS];
-	CollisionData cData;
-	ContactResolver* cResolver;
+	Contact _contactsArray[MAX_CONTACTS];
+	CollisionData _contactData;
+	ContactResolver* _contactResolver;
 
-	Box* pBottomCube;
-	Box* pTopCube;
-	CollisionPlane* pGround;
+	Box* _pBottomCube;
+	Box* _pTopCube;
+	CollisionPlane* _pGround;
 
 };
 

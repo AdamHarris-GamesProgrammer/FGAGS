@@ -65,7 +65,7 @@ void Level3::DrawUI()
 {
 	ImGui::Begin("Test 3");
 
-	ImGui::Text("NDC: %f %f", _normalizedCoords[0], _normalizedCoords[1]);
+	ImGui::Text("NDC: %.2f %.2f", _normalizedCoords[0], _normalizedCoords[1]);
 	ImGui::SliderFloat("Rotation Power: ", &_rotationPower, 0.0f, 100.0f, "%.2f", 1.0f);
 
 	ResetButton();

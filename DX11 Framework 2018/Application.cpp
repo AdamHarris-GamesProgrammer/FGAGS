@@ -48,7 +48,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pLevel5 = new Level5(pGfx, "Assets/Levels/test5.json");
 
 
-	ChangeLevel(_pLevel3);
+	ChangeLevel(_pLevel2);
 
 	return S_OK;
 }
