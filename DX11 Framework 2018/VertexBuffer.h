@@ -21,7 +21,7 @@ public:
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = vertices.data();
 
-		pDevice->CreateBuffer(&bd, &InitData, &pVertexBuffer);
+		_pDevice->CreateBuffer(&bd, &InitData, &pVertexBuffer);
 	}
 
 	~VertexBuffer() {
@@ -31,7 +31,7 @@ public:
 	//Overrides the base Bind function  to set the Vertex Buffer for the current object
 	void Bind() override
 	{
-		pDeviceContext->IASetVertexBuffers(0, 1, &pVertexBuffer, &mStride, &mOffset);
+		_pDeviceContext->IASetVertexBuffers(0, 1, &pVertexBuffer, &mStride, &mOffset);
 	}
 
 private:

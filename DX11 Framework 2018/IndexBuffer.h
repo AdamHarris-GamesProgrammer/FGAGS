@@ -22,7 +22,7 @@ public:
 		D3D11_SUBRESOURCE_DATA InitData;
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = indices.data();
-		pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer);
+		_pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer);
 	}
 
 	~IndexBuffer() {
@@ -32,7 +32,7 @@ public:
 	//Overrides the base Bind method so the index buffer can be bound to the pipeline
 	void Bind() override
 	{
-		pDeviceContext->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+		_pDeviceContext->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 	}
 
 	//Returns the index count, needed for rendering the object

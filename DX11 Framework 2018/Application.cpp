@@ -24,28 +24,28 @@ Application::~Application()
 	delete _pLevel5;
 	_pLevel5 = nullptr;
 
-	delete pGfx;
-	pGfx = nullptr;
+	delete _pGfx;
+	_pGfx = nullptr;
 }
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
 	//Initializes the Graphics object
-	pGfx = new Graphics();
-	pGfx->Initialise(hInstance, nCmdShow);
+	_pGfx = new Graphics();
+	_pGfx->Initialise(hInstance, nCmdShow);
 
 
 	//Initializes and resets the Timer object
-	mTime = Time();
-	mTime.Reset();
+	_time = Time();
+	_time.Reset();
 
-	pGfx->SetClearColor(mClearColor);
+	_pGfx->SetClearColor(_clearColor);
 
-	_pLevel1 = new Level1(pGfx, "Assets/Levels/test1.json");
-	_pLevel2 = new Level2(pGfx, "Assets/Levels/test2.json");
-	_pLevel3 = new Level3(pGfx, "Assets/Levels/test3.json");
-	_pLevel4 = new Level4(pGfx, "Assets/Levels/test4.json");
-	_pLevel5 = new Level5(pGfx, "Assets/Levels/test5.json");
+	_pLevel1 = new Level1(_pGfx, "Assets/Levels/test1.json");
+	_pLevel2 = new Level2(_pGfx, "Assets/Levels/test2.json");
+	_pLevel3 = new Level3(_pGfx, "Assets/Levels/test3.json");
+	_pLevel4 = new Level4(_pGfx, "Assets/Levels/test4.json");
+	_pLevel5 = new Level5(_pGfx, "Assets/Levels/test5.json");
 
 
 	ChangeLevel(_pLevel2);
@@ -56,8 +56,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 void Application::Update()
 {
 	//Ticks the Timer object and gets the new delta time value
-	mTime.Tick();
-	float dt = mTime.DeltaTime();
+	_time.Tick();
+	float dt = _time.DeltaTime();
 
 	PollInput(dt);
 
@@ -68,77 +68,6 @@ void Application::Update()
 	_pCurrentLevel->Update(dt);
 
 	_pCurrentLevel->EndUpdate(dt);
-}
-
-void Application::DrawGUI()
-{
-	//Simulation Settings Window
-	{
-		bool originalWireframe = mWireframeEnabled;
-
-		bool* open = new bool(true);
-
-		//Opens a Window called "Simulation Settings, which defaults to open and is non re sizable
-		ImGui::Begin("Simulation Settings", open, ImGuiWindowFlags_NoResize);
-
-		//C3
-		//Wireframe Checkbox
-		ImGui::Text("Wireframe Mode: ");
-		ImGui::SameLine();
-		ImGui::Checkbox("###", &mWireframeEnabled);
-		if (originalWireframe != mWireframeEnabled) pGfx->SetWireframe(mWireframeEnabled);
-
-		//Background Clear Color 
-		ImGui::Text("Background Clear Colour: ");
-		ImGui::NewLine();
-		ImGui::PushItemWidth(100.0f);
-		ImGui::ColorPicker4("####", mClearColor);
-		pGfx->SetClearColor(mClearColor);
-
-		ImGui::End();
-	}
-
-	//Controls Window
-	{
-		ImGui::Begin("Controls");
-
-		//Camera A Controls
-		ImGui::Text("Camera A (Debug Fly Cam): 1");
-		ImGui::Text("Camera A Enable Movement: G");
-		if (ImGui::TreeNode("Camera A Movement Controls")) {
-			ImGui::Text("Walk Forwards: W");
-			ImGui::Text("Walk Backwards: S");
-			ImGui::Text("Walk Left: A");
-			ImGui::Text("Walk Right: D");
-			ImGui::Text("Rotate Left: Q");
-			ImGui::Text("Rotate Right: E");
-			ImGui::Text("Pitch Up: R");
-			ImGui::Text("Pitch Down: F");
-			ImGui::TreePop();
-		}
-		ImGui::Text("Camera B (Third Person Cam): 2");
-		ImGui::Text("Camera C (Top Down Cam): 3");
-		ImGui::Text("Camera D (Level Overview): 4");
-
-		//Selected Object Controls
-		ImGui::Text("Select Object with Mouse Position: H");
-		if (ImGui::TreeNode("Selected Object Controls")) {
-			ImGui::Text("Move Forwards: W");
-			ImGui::Text("Move Backwards: S");
-			ImGui::Text("Move Left: A");
-			ImGui::Text("Move Right: D");
-			ImGui::Text("Press Y to deselect current object");
-			ImGui::TreePop();
-		}
-
-
-		ImGui::End();
-	}
-
-	//Selected Object Window
-
-	//Calls the lighting control panel method in the graphics class
-	pGfx->LightingWindow();
 }
 
 void Application::Picking()
@@ -197,8 +126,6 @@ void Application::Picking()
 
 void Application::PollInput(float dt)
 {
-	CursorControls(dt);
-
 	if (GetAsyncKeyState('1')) {
 		ChangeLevel(_pLevel1);
 	}
@@ -214,11 +141,6 @@ void Application::PollInput(float dt)
 	else if (GetAsyncKeyState('5')) {
 		ChangeLevel(_pLevel5);
 	}
-
-
-	//if (GetAsyncKeyState('U')) {
-	//	__debugbreak();
-	//}
 }
 
 void Application::ChangeLevel(Level* newLevel)
@@ -231,29 +153,6 @@ void Application::ChangeLevel(Level* newLevel)
 
 	//reset the new level
 	_pCurrentLevel->Reset();
-}
-
-void Application::CursorControls(float dt)
-{
-	mTimeSinceGPressed += dt;
-	if (GetAsyncKeyState('G')) {
-		if (mTimeSinceGPressed > mGKeyTimer) {
-			mTimeSinceGPressed = 0.0f;
-
-			mFlyingEnabled = !mFlyingEnabled;
-
-			mCursorClipped = !mCursorClipped;
-			if (mCursorClipped) {
-				pGfx->HideCursor();
-				ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-			}
-			else
-			{
-				pGfx->ShowCursor();
-				ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
-			}
-		}
-	}
 }
 
 void Application::Draw()

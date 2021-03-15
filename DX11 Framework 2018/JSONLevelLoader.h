@@ -22,7 +22,7 @@ public:
 	
 
 private:
-	Graphics* pGfx;
+	Graphics* _pGfx;
 
 	wchar_t* ConvertString(std::string& str);
 	json LoadJSONFile(const char* filename);

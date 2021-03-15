@@ -16,11 +16,11 @@ void SkySphere::Update(float dt)
 
 void SkySphere::Draw()
 {
-	pGfx->SetFrontFaceCulling();
+	_pGfx->SetFrontFaceCulling();
 
 	MeshedObject::Draw();
 
-	pGfx->SetCurrentRSState();
+	_pGfx->SetCurrentRSState();
 }
 
 wchar_t* SkySphere::ConvertString(std::string& str)

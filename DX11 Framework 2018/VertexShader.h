@@ -25,7 +25,7 @@ public:
 		}
 
 		// Create the vertex shader
-		hr = pDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
+		hr = _pDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
 
 		if (FAILED(hr))
 		{
@@ -41,7 +41,7 @@ public:
 		};
 
 		//Creates the Input layout 
-		pDevice->CreateInputLayout(layout, 3, pVSBlob->GetBufferPointer(),
+		_pDevice->CreateInputLayout(layout, 3, pVSBlob->GetBufferPointer(),
 			pVSBlob->GetBufferSize(), &pLayout);
 		pVSBlob->Release();
 	}
@@ -49,8 +49,8 @@ public:
 	//Binds the input layout and the vertex shader
 	void Bind() override
 	{
-		pDeviceContext->IASetInputLayout(pLayout);
-		pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
+		_pDeviceContext->IASetInputLayout(pLayout);
+		_pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
 	}
 
 	~VertexShader() {

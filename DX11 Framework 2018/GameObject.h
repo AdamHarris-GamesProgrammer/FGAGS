@@ -68,7 +68,7 @@ protected:
 	
 	BoundingSphere mBoundingSphere;
 
-	Graphics* pGfx;
+	Graphics* _pGfx;
 
 	std::vector<ID3D11ShaderResourceView*> pTextures;
 

@@ -9,7 +9,7 @@ GameObject::GameObject()
 
 GameObject::GameObject(Graphics* gfx)
 {
-	pGfx = gfx;
+	_pGfx = gfx;
 	//Initializes the position and rotation to world origin
 	pRigidBody = new Rigidbody();
 
@@ -99,17 +99,17 @@ void GameObject::Draw()
 
 	//Sets the textures for the shaders
 	if (mHasTextures) {
-		pGfx->GetDeviceContext()->PSSetShaderResources(0, pTextures.size(), &pTextures[0]);
+		_pGfx->GetDeviceContext()->PSSetShaderResources(0, pTextures.size(), &pTextures[0]);
 	}
 
 	//Sets the constant buffer
-	pGfx->SetConstantBuffer();
+	_pGfx->SetConstantBuffer();
 
 	//Sends the objects material and transform to the graphics class for the updated constant buffer
-	pGfx->SetObjectBuffers(mMaterial, _transform.GetTransform());
+	_pGfx->SetObjectBuffers(mMaterial, _transform.GetTransform());
 
 	//Draws the object
-	pGfx->Draw(pIndexBuffer->GetIndexCount());
+	_pGfx->Draw(pIndexBuffer->GetIndexCount());
 }
 
 
@@ -120,7 +120,7 @@ void GameObject::CreateTexture(const wchar_t* path)
 	mHasTextures = true;
 
 	//Creates and adds the texture to the texture vector
-	CreateDDSTextureFromFile(pGfx->GetDevice(), path, nullptr, &texture);
+	CreateDDSTextureFromFile(_pGfx->GetDevice(), path, nullptr, &texture);
 	pTextures.push_back(texture);
 }
 
@@ -133,7 +133,7 @@ void GameObject::Initialize()
 
 
 	//Sets the vertex shader
-	pVertexShader = new VertexShader(pGfx->GetDevice(), pGfx->GetDeviceContext());
+	pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
 }
 
 #pragma region Getters
@@ -147,7 +147,7 @@ Material& GameObject::GetMaterial()
 #pragma region Setters
 void GameObject::SetShader(WCHAR* path)
 {
-	pPixelShader = new PixelShader(pGfx->GetDevice(), pGfx->GetDeviceContext(), path);
+	pPixelShader = new PixelShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), path);
 }
 
 void GameObject::InitializeBoundingSphere()

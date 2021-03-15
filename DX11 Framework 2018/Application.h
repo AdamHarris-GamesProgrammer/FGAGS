@@ -51,21 +51,15 @@ public:
 
 	void Draw();
 
-	
-
 private:
 	void Picking();
 	void PollInput(float dt);
-
 	void ChangeLevel(Level* newLevel);
 
-
-	void DrawGUI();
-
-	void CursorControls(float dt);
-
 private:
+	//Stores the current level we are in so we only draw and update this scene
 	Level* _pCurrentLevel = nullptr;
+	//Stores all of our levels we have
 	Level1* _pLevel1 = nullptr;
 	Level2* _pLevel2 = nullptr;
 	Level3* _pLevel3 = nullptr;
@@ -73,26 +67,13 @@ private:
 	Level5* _pLevel5 = nullptr;
 	
 
-
 	//Time object used to track delta time for object translations
-	Time mTime;
+	Time _time;
 
-	Graphics* pGfx = nullptr;
+	Graphics* _pGfx = nullptr;
 
 
 	//Sets the default clear colour to a sky blue
-	float mClearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
-
-	//Key timing member variables
-	//Timers used to stop the code from rapid firing when key is pressed
-	float mTimeSinceGPressed = 0.0f;
-	float mGKeyTimer = 0.1f;
-
-	//Boolean member variables
-	bool mWireframeEnabled = false;
-	bool mFlyingEnabled = false;
-	bool mCursorClipped = false;
-
-	unsigned int currentTest = 1;
+	float _clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
 };
 

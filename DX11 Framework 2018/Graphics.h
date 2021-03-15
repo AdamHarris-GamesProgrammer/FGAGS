@@ -125,43 +125,43 @@ private:
 	bool CheckResult(int in);
 
 private:
-	ID3D11Device* pDevice = nullptr;
-	ID3D11DeviceContext* pDeviceContext = nullptr;
+	ID3D11Device* _pDevice = nullptr;
+	ID3D11DeviceContext* _pDeviceContext = nullptr;
 
 
-	HINSTANCE               mInstance = nullptr;
-	HWND                    mWindow = nullptr;
+	HINSTANCE               _instance = nullptr;
+	HWND                    _window = nullptr;
 
-	D3D_DRIVER_TYPE         mDriverType;
-	D3D_FEATURE_LEVEL       mfeatureLevel;
+	D3D_DRIVER_TYPE         _driverType;
+	D3D_FEATURE_LEVEL       _featureLevel;
 
-	IDXGISwapChain* pSwapChain = nullptr;
+	IDXGISwapChain* _pSwapChain = nullptr;
 
-	ID3D11RenderTargetView* pRenderTargetView = nullptr;
+	ID3D11RenderTargetView* _pRenderTargetView = nullptr;
 
-	ID3D11SamplerState* pLinearSampler = nullptr;
+	ID3D11SamplerState* _pLinearSampler = nullptr;
 
-	ID3D11Buffer* pConstantBuffer = nullptr;
+	ID3D11Buffer* _pConstantBuffer = nullptr;
 
-	ID3D11RasterizerState* pWireframeRSState = nullptr;
-	ID3D11RasterizerState* pSolidRSState = nullptr;
-	ID3D11RasterizerState* pFrontFaceRSState = nullptr;
-	ID3D11RasterizerState* pCurrentRSState = nullptr;
+	ID3D11RasterizerState* _pWireframeRSState = nullptr;
+	ID3D11RasterizerState* _pSolidRSState = nullptr;
+	ID3D11RasterizerState* _pFrontFaceRSState = nullptr;
+	ID3D11RasterizerState* _pCurrentRSState = nullptr;
 
-	ID3D11BlendState* pBlendState = nullptr;
+	ID3D11BlendState* _pBlendState = nullptr;
 
-	ID3D11DepthStencilView* pDepthStencilView = nullptr;
-	ID3D11Texture2D* pDepthStencilBuffer = nullptr;
+	ID3D11DepthStencilView* _pDepthStencilView = nullptr;
+	ID3D11Texture2D* _pDepthStencilBuffer = nullptr;
 
-	std::shared_ptr<Camera> pCurrentCamera;
+	std::shared_ptr<Camera> _pCurrentCamera;
 
 	//Window Size
-	UINT mWindowHeight;
-	UINT mWindowWidth;
+	UINT _windowHeight;
+	UINT _windowWidth;
 
 	//Mouse Position
-	int mMouseX = 0;
-	int mMouseY = 0;
+	int _mouseX = 0;
+	int _mouseY = 0;
 
 	int _mouseClickX = 0;
 	int _mouseClickY = 0;
@@ -169,14 +169,14 @@ private:
 	bool _isLeftMouseDown = false;
 
 	//Render Clear Colour
-	float mClearColor[4] = { 0.5f,0.5f,0.5f,1.0f };
+	float _clearColor[4] = { 0.5f,0.5f,0.5f,1.0f };
 
 	//Scene Lighting Variables
-	DirectionalLight mDirectionalLight;
-	PointLight mPointLight;
-	SpotLight mSpotLight;
+	DirectionalLight _directionalLight;
+	PointLight _pointLight;
+	SpotLight _spotLight;
 
-	ImGUIManager mImGuiManager;
+	ImGUIManager _ImGuiManager;
 
 };
 

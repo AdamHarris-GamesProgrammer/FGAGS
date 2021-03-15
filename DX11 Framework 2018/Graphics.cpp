@@ -20,8 +20,8 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 Graphics::Graphics()
 {
-	mDriverType = D3D_DRIVER_TYPE_NULL;
-	mfeatureLevel = D3D_FEATURE_LEVEL_11_0;
+	_driverType = D3D_DRIVER_TYPE_NULL;
+	_featureLevel = D3D_FEATURE_LEVEL_11_0;
 
 	gfx = this;
 
@@ -42,9 +42,9 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//defines the window size
 	RECT rc;
-	GetClientRect(mWindow, &rc);
-	mWindowWidth = rc.right - rc.left;
-	mWindowHeight = rc.bottom - rc.top;
+	GetClientRect(_window, &rc);
+	_windowWidth = rc.right - rc.left;
+	_windowHeight = rc.bottom - rc.top;
 
 	//if failed to init the window return a fail
 	if (FAILED(InitDevice()))
@@ -55,30 +55,30 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	//Sets Directional light properties
-	mDirectionalLight.Direction = XMFLOAT3(0.577f, -0.577f, 0.577f);
-	mDirectionalLight.Diffuse = XMFLOAT4(0.99f, 0.92f, 0.8f, 1.0f);
-	mDirectionalLight.Ambient = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
-	mDirectionalLight.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f);
+	_directionalLight.Direction = XMFLOAT3(0.577f, -0.577f, 0.577f);
+	_directionalLight.Diffuse = XMFLOAT4(0.99f, 0.92f, 0.8f, 1.0f);
+	_directionalLight.Ambient = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	_directionalLight.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 0.7f);
 
 	//Sets point light properties
-	mPointLight.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	mPointLight.Diffuse = XMFLOAT4(0.7f, 0.0f, 0.0f, 1.0f);
-	mPointLight.Specular = XMFLOAT4(0.7f, 0.7f, 0.7f, 0.6f);
-	mPointLight.Position = XMFLOAT3(0.0f, 3.0f, 0.0f);
-	mPointLight.Attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
-	mPointLight.Range = 8.0f;
+	_pointLight.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+	_pointLight.Diffuse = XMFLOAT4(0.7f, 0.0f, 0.0f, 1.0f);
+	_pointLight.Specular = XMFLOAT4(0.7f, 0.7f, 0.7f, 0.6f);
+	_pointLight.Position = XMFLOAT3(0.0f, 3.0f, 0.0f);
+	_pointLight.Attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
+	_pointLight.Range = 8.0f;
 
 	//Sets spot light properties
-	mSpotLight.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
-	mSpotLight.Diffuse = XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
-	mSpotLight.Specular = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	mSpotLight.Attenuation = XMFLOAT3(1.0f, 0.0f, 0.0f);
-	mSpotLight.Spot = 96.0f;
-	mSpotLight.Range = 10000.0f;
-	mSpotLight.Direction = XMFLOAT3(1.0f, 0.1f, 0.0f);
-	mSpotLight.Position = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	_spotLight.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	_spotLight.Diffuse = XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
+	_spotLight.Specular = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	_spotLight.Attenuation = XMFLOAT3(1.0f, 0.0f, 0.0f);
+	_spotLight.Spot = 96.0f;
+	_spotLight.Range = 10000.0f;
+	_spotLight.Direction = XMFLOAT3(1.0f, 0.1f, 0.0f);
+	_spotLight.Position = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-	mImGuiManager = ImGUIManager(pDevice, pDeviceContext, mWindow);
+	_ImGuiManager = ImGUIManager(_pDevice, _pDeviceContext, _window);
 
 	return S_OK;
 }
@@ -135,15 +135,15 @@ void Graphics::LightingWindow()
 	ImGui::Text("Directional Light");
 
 	if (ImGui::TreeNode("Directional Light")) {
-		mDirectionalLight.Controls();
+		_directionalLight.Controls();
 	}
 
 	if (ImGui::TreeNode("Point Light")) {
-		mPointLight.Controls();
+		_pointLight.Controls();
 	}
 
 	if (ImGui::TreeNode("Spot Light")) {
-		mSpotLight.Controls();
+		_spotLight.Controls();
 	}
 
 	ImGui::End();
@@ -153,25 +153,25 @@ void Graphics::LightingWindow()
 void Graphics::Cleanup()
 {
 	//Releases all memory associated with DirectX Member variables
-	if (pDeviceContext) pDeviceContext->ClearState();
-	if (pDeviceContext) pDeviceContext->Release();
-	if (pDevice) pDevice->Release();
+	if (_pDeviceContext) _pDeviceContext->ClearState();
+	if (_pDeviceContext) _pDeviceContext->Release();
+	if (_pDevice) _pDevice->Release();
 
-	if (pSwapChain) pSwapChain->Release();
+	if (_pSwapChain) _pSwapChain->Release();
 
-	if (pRenderTargetView) pRenderTargetView->Release();
-	if (pLinearSampler) pLinearSampler->Release();
+	if (_pRenderTargetView) _pRenderTargetView->Release();
+	if (_pLinearSampler) _pLinearSampler->Release();
 
-	if (pConstantBuffer) pConstantBuffer->Release();
+	if (_pConstantBuffer) _pConstantBuffer->Release();
 
-	if (pWireframeRSState) pWireframeRSState->Release();
-	if (pSolidRSState) pSolidRSState->Release();
-	if (pFrontFaceRSState) pFrontFaceRSState->Release();
+	if (_pWireframeRSState) _pWireframeRSState->Release();
+	if (_pSolidRSState) _pSolidRSState->Release();
+	if (_pFrontFaceRSState) _pFrontFaceRSState->Release();
 
-	if (pBlendState) pBlendState->Release();
+	if (_pBlendState) _pBlendState->Release();
 
-	if (pDepthStencilView) pDepthStencilView->Release();
-	if (pDepthStencilBuffer) pDepthStencilBuffer->Release();
+	if (_pDepthStencilView) _pDepthStencilView->Release();
+	if (_pDepthStencilBuffer) _pDepthStencilBuffer->Release();
 }
 
 #pragma region InitializationFunctions
@@ -195,18 +195,18 @@ HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 		return E_FAIL;
 
 	// Create window
-	mInstance = hInstance;
+	_instance = hInstance;
 	//sets window size
 	RECT rc = { 0, 0, 1280, 720 };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-	mWindow = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
+	_window = CreateWindow(L"TutorialWindowClass", L"DX11 Framework", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
 		nullptr);
-	if (!mWindow)
+	if (!_window)
 		return E_FAIL;
 
 	//display the window on the screen
-	ShowWindow(mWindow, nCmdShow);
+	ShowWindow(_window, nCmdShow);
 
 
 	return S_OK;
@@ -215,28 +215,28 @@ HRESULT Graphics::InitWindow(HINSTANCE hInstance, int nCmdShow)
 HRESULT Graphics::InitDevice()
 {
 	if (!(CheckResult(InitSwapChain()) && CheckResult(InitDepthBuffer()) && CheckResult(InitRenderTarget()))) {
-		MessageBox(mWindow, L"Initialization of device failed", L"Error", MB_ICONERROR);
+		MessageBox(_window, L"Initialization of device failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
 
 	if (!(CheckResult(InitWireframeView()) && CheckResult(InitSolidView()) && CheckResult(InitFrontCulling()))) {
-		MessageBox(mWindow, L"Initialization of rasterizer states failed", L"Error", MB_ICONERROR);
+		MessageBox(_window, L"Initialization of rasterizer states failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
 
 	if (!(CheckResult(InitConstantBuffer()) && CheckResult(InitSampler()))) {
-		MessageBox(mWindow, L"Initialization of Constant Buffer or Sampler Failed", L"Error", MB_ICONERROR);
+		MessageBox(_window, L"Initialization of Constant Buffer or Sampler Failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
 
 	if (!CheckResult(InitBlendState())) {
-		MessageBox(mWindow, L"Initialization of Blend State Failed", L"Error", MB_ICONERROR);
+		MessageBox(_window, L"Initialization of Blend State Failed", L"Error", MB_ICONERROR);
 		return S_FALSE;
 	}
 
 	InitViewport();
 
-	pCurrentRSState = pSolidRSState;
+	_pCurrentRSState = _pSolidRSState;
 
 	return S_OK;
 }
@@ -256,7 +256,7 @@ HRESULT Graphics::InitSampler()
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-	hr = pDevice->CreateSamplerState(&sampDesc, &pLinearSampler);
+	hr = _pDevice->CreateSamplerState(&sampDesc, &_pLinearSampler);
 
 	return hr;
 }
@@ -283,7 +283,7 @@ HRESULT Graphics::InitBlendState()
 	blendDesc.AlphaToCoverageEnable = FALSE;
 	blendDesc.RenderTarget[0] = rtbd;
 
-	hr = pDevice->CreateBlendState(&blendDesc, &pBlendState);
+	hr = _pDevice->CreateBlendState(&blendDesc, &_pBlendState);
 
 	return hr;
 }
@@ -294,29 +294,29 @@ HRESULT Graphics::InitRenderTarget()
 
 	// Create a render target view
 	ID3D11Texture2D* pBackBuffer = nullptr;
-	hr = pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	hr = _pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
 	if (FAILED(hr))
 		return hr;
 
-	hr = pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &pRenderTargetView);
+	hr = _pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &_pRenderTargetView);
 	pBackBuffer->Release();
 
 	if (FAILED(hr))
 		return hr;
 
-	pDeviceContext->OMSetRenderTargets(1, &pRenderTargetView, pDepthStencilView);
+	_pDeviceContext->OMSetRenderTargets(1, &_pRenderTargetView, _pDepthStencilView);
 
 	// Set primitive topology
-	pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 //C4
 HRESULT Graphics::InitDepthBuffer()
 {
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
-	depthStencilDesc.Width = mWindowWidth;
-	depthStencilDesc.Height = mWindowHeight;
+	depthStencilDesc.Width = _windowWidth;
+	depthStencilDesc.Height = _windowHeight;
 	depthStencilDesc.MipLevels = 1;
 	depthStencilDesc.ArraySize = 1;
 	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -327,8 +327,8 @@ HRESULT Graphics::InitDepthBuffer()
 	depthStencilDesc.CPUAccessFlags = 0;
 	depthStencilDesc.MiscFlags = 0;
 
-	pDevice->CreateTexture2D(&depthStencilDesc, nullptr, &pDepthStencilBuffer);
-	return pDevice->CreateDepthStencilView(pDepthStencilBuffer, nullptr, &pDepthStencilView);
+	_pDevice->CreateTexture2D(&depthStencilDesc, nullptr, &_pDepthStencilBuffer);
+	return _pDevice->CreateDepthStencilView(_pDepthStencilBuffer, nullptr, &_pDepthStencilView);
 }
 
 HRESULT Graphics::InitSwapChain()
@@ -362,22 +362,22 @@ HRESULT Graphics::InitSwapChain()
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
 	sd.BufferCount = 1;
-	sd.BufferDesc.Width = mWindowWidth;
-	sd.BufferDesc.Height = mWindowHeight;
+	sd.BufferDesc.Width = _windowWidth;
+	sd.BufferDesc.Height = _windowHeight;
 	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 60;
 	sd.BufferDesc.RefreshRate.Denominator = 1;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.OutputWindow = mWindow;
+	sd.OutputWindow = _window;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
 
 	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
 	{
-		mDriverType = driverTypes[driverTypeIndex];
-		hr = D3D11CreateDeviceAndSwapChain(nullptr, mDriverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, &sd, &pSwapChain, &pDevice, &mfeatureLevel, &pDeviceContext);
+		_driverType = driverTypes[driverTypeIndex];
+		hr = D3D11CreateDeviceAndSwapChain(nullptr, _driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
+			D3D11_SDK_VERSION, &sd, &_pSwapChain, &_pDevice, &_featureLevel, &_pDeviceContext);
 		if (SUCCEEDED(hr))
 			break;
 	}
@@ -392,7 +392,7 @@ HRESULT Graphics::InitWireframeView()
 	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
 	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
 	wfdesc.CullMode = D3D11_CULL_NONE;
-	return pDevice->CreateRasterizerState(&wfdesc, &pWireframeRSState);
+	return _pDevice->CreateRasterizerState(&wfdesc, &_pWireframeRSState);
 }
 
 HRESULT Graphics::InitSolidView()
@@ -401,7 +401,7 @@ HRESULT Graphics::InitSolidView()
 	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
 	sodesc.FillMode = D3D11_FILL_SOLID;
 	sodesc.CullMode = D3D11_CULL_BACK;
-	return pDevice->CreateRasterizerState(&sodesc, &pSolidRSState);
+	return _pDevice->CreateRasterizerState(&sodesc, &_pSolidRSState);
 }
 
 HRESULT Graphics::InitFrontCulling()
@@ -410,7 +410,7 @@ HRESULT Graphics::InitFrontCulling()
 	ZeroMemory(&sodesc, sizeof(D3D11_RASTERIZER_DESC));
 	sodesc.FillMode = D3D11_FILL_SOLID;
 	sodesc.CullMode = D3D11_CULL_FRONT;
-	return pDevice->CreateRasterizerState(&sodesc, &pFrontFaceRSState);
+	return _pDevice->CreateRasterizerState(&sodesc, &_pFrontFaceRSState);
 }
 
 HRESULT Graphics::InitConstantBuffer()
@@ -422,20 +422,20 @@ HRESULT Graphics::InitConstantBuffer()
 	bd.ByteWidth = sizeof(ConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
-	return pDevice->CreateBuffer(&bd, nullptr, &pConstantBuffer);
+	return _pDevice->CreateBuffer(&bd, nullptr, &_pConstantBuffer);
 }
 
 void Graphics::InitViewport()
 {
 	// Setup the viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)mWindowWidth;
-	vp.Height = (FLOAT)mWindowHeight;
+	vp.Width = (FLOAT)_windowWidth;
+	vp.Height = (FLOAT)_windowHeight;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
-	pDeviceContext->RSSetViewports(1, &vp);
+	_pDeviceContext->RSSetViewports(1, &vp);
 }
 
 bool Graphics::CheckResult(int in)
@@ -448,8 +448,8 @@ bool Graphics::CheckResult(int in)
 #pragma region MouseFunctions
 void Graphics::OnMouseMove(WPARAM btnState, int x, int y)
 {
-	mMouseX = x;
-	mMouseY = y;
+	_mouseX = x;
+	_mouseY = y;
 }
 
 void Graphics::HideCursor()
@@ -465,8 +465,8 @@ void Graphics::ShowCursor()
 void Graphics::ConfineCursor()
 {
 	RECT rect;
-	GetClientRect(mWindow, &rect);
-	MapWindowPoints(mWindow, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+	GetClientRect(_window, &rect);
+	MapWindowPoints(_window, nullptr, reinterpret_cast<POINT*>(&rect), 2);
 	ClipCursor(&rect);
 }
 
@@ -479,27 +479,27 @@ void Graphics::FreeCursor()
 #pragma region Drawing Related Functions
 void Graphics::ClearBuffers()
 {
-	pDeviceContext->ClearRenderTargetView(pRenderTargetView, mClearColor);
+	_pDeviceContext->ClearRenderTargetView(_pRenderTargetView, _clearColor);
 
 	//C4
-	pDeviceContext->ClearDepthStencilView(pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	_pDeviceContext->ClearDepthStencilView(_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void Graphics::Draw(unsigned int indexCount)
 {
 	//Draws object to swap chain buffer
-	pDeviceContext->DrawIndexed(indexCount, 0, 0);
+	_pDeviceContext->DrawIndexed(indexCount, 0, 0);
 }
 
 void Graphics::Present()
 {
 	// Present our back buffer to our front buffer
-	pSwapChain->Present(0, 0);
+	_pSwapChain->Present(0, 0);
 }
 
 void Graphics::BeginFrame()
 {
-	mImGuiManager.BeginFrame();
+	_ImGuiManager.BeginFrame();
 	ClearBuffers();
 	SetConstantBuffer();
 	SetSolidBlend();
@@ -507,7 +507,7 @@ void Graphics::BeginFrame()
 
 void Graphics::EndFrame()
 {
-	mImGuiManager.EndFrame();
+	_ImGuiManager.EndFrame();
 	Present();
 }
 
@@ -516,44 +516,44 @@ void Graphics::EndFrame()
 #pragma region Setters
 void Graphics::SetCurrentCamera(std::shared_ptr<Camera> newCamera)
 {
-	pCurrentCamera = newCamera;
+	_pCurrentCamera = newCamera;
 }
 
 void Graphics::SetWireframe(bool enabled)
 {
 	ID3D11RasterizerState* renderState;
-	enabled ? renderState = pWireframeRSState : renderState = pSolidRSState;
-	pDeviceContext->RSSetState(renderState);
-	pCurrentRSState = renderState;
+	enabled ? renderState = _pWireframeRSState : renderState = _pSolidRSState;
+	_pDeviceContext->RSSetState(renderState);
+	_pCurrentRSState = renderState;
 }
 
 void Graphics::SetConstantBuffer()
 {
-	pDeviceContext->VSSetConstantBuffers(0, 1, &pConstantBuffer);
-	pDeviceContext->PSSetConstantBuffers(0, 1, &pConstantBuffer);
-	pDeviceContext->PSSetSamplers(0, 1, &pLinearSampler);
+	_pDeviceContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	_pDeviceContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	_pDeviceContext->PSSetSamplers(0, 1, &_pLinearSampler);
 }
 
 void Graphics::SetFrontFaceCulling()
 {
-	pDeviceContext->RSSetState(pFrontFaceRSState);
+	_pDeviceContext->RSSetState(_pFrontFaceRSState);
 }
 
 void Graphics::SetCurrentRSState()
 {
-	pDeviceContext->RSSetState(pCurrentRSState);
+	_pDeviceContext->RSSetState(_pCurrentRSState);
 }
 
 void Graphics::SetSolidBlend()
 {
-	pDeviceContext->OMSetBlendState(0, 0, 0xFFFFFFFF);
+	_pDeviceContext->OMSetBlendState(0, 0, 0xFFFFFFFF);
 }
 
 void Graphics::SetTransparentBlend()
 {
 	float blendFactor[] = { 0.75f,0.75f,0.75f,1.0f };
 
-	pDeviceContext->OMSetBlendState(pBlendState, blendFactor, 0xFFFFFFFF);
+	_pDeviceContext->OMSetBlendState(_pBlendState, blendFactor, 0xFFFFFFFF);
 }
 
 void Graphics::SetObjectBuffers(Material mat, XMFLOAT4X4& position)
@@ -561,53 +561,53 @@ void Graphics::SetObjectBuffers(Material mat, XMFLOAT4X4& position)
 	ConstantBuffer cb;
 
 	//Sets the View, Projection, and World Matrices
-	cb.mView = XMMatrixTranspose(pCurrentCamera->View());
-	cb.mProjection = XMMatrixTranspose(pCurrentCamera->Proj());
+	cb.mView = XMMatrixTranspose(_pCurrentCamera->View());
+	cb.mProjection = XMMatrixTranspose(_pCurrentCamera->Proj());
 	cb.mWorld = XMMatrixTranspose(XMLoadFloat4x4(&position));
 
 	//Material Constant Buffers
 	cb.ObjectMaterial = mat;
 
 	//Light Constant Buffers
-	cb.DirectionalLight = mDirectionalLight;
-	cb.PointLight = mPointLight;
-	cb.SpotLight = mSpotLight;
+	cb.DirectionalLight = _directionalLight;
+	cb.PointLight = _pointLight;
+	cb.SpotLight = _spotLight;
 
 	//Camera Position
-	cb.EyePosW = (XMFLOAT3)pCurrentCamera->GetTransform().GetPosition();
+	cb.EyePosW = (XMFLOAT3)_pCurrentCamera->GetTransform().GetPosition();
 
 	//Updates the constant buffer with the new values
-	pDeviceContext->UpdateSubresource(pConstantBuffer, 0, nullptr, &cb, 0, 0);
+	_pDeviceContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 }
 
 void Graphics::SetClearColor(float* color)
 {
-	mClearColor[0] = color[0];
-	mClearColor[1] = color[1];
-	mClearColor[2] = color[2];
-	mClearColor[3] = color[3];
+	_clearColor[0] = color[0];
+	_clearColor[1] = color[1];
+	_clearColor[2] = color[2];
+	_clearColor[3] = color[3];
 }
 #pragma endregion
 
 #pragma region Getters
 UINT Graphics::GetWindowWidth() const
 {
-	return mWindowWidth;
+	return _windowWidth;
 }
 
 UINT Graphics::GetWindowHeight() const
 {
-	return mWindowHeight;
+	return _windowHeight;
 }
 
 int Graphics::GetMouseX() const
 {
-	return mMouseX;
+	return _mouseX;
 }
 
 int Graphics::GetMouseY() const
 {
-	return mMouseY;
+	return _mouseY;
 }
 
 int Graphics::GetMouseClickX() const
@@ -627,16 +627,16 @@ bool Graphics::IsLeftMouseDown() const
 
 ID3D11Device* Graphics::GetDevice() const
 {
-	return pDevice;
+	return _pDevice;
 }
 
 ID3D11DeviceContext* Graphics::GetDeviceContext() const
 {
-	return pDeviceContext;
+	return _pDeviceContext;
 }
 
 HWND& Graphics::GetWnd()
 {
-	return mWindow;
+	return _window;
 }
 #pragma endregion

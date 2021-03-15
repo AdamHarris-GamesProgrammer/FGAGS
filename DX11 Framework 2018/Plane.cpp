@@ -47,7 +47,7 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 
-	pVertexBuffer = new VertexBuffer(pGfx->GetDevice(), pGfx->GetDeviceContext(), Vertices);
+	pVertexBuffer = new VertexBuffer(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), Vertices);
 
 	//Resizes the indices vector to avoid calling the copy constructor for every new index
 	Indices.resize(faceCount * 3); // 3 indices per face
@@ -70,7 +70,7 @@ void Plane::Make(float width, float depth, UINT m, UINT n)
 		}
 	}
 	//Creates the index buffer
-	pIndexBuffer = new IndexBuffer(pGfx->GetDevice(), pGfx->GetDeviceContext(), Indices);
+	pIndexBuffer = new IndexBuffer(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), Indices);
 
 	//Sets the shader
 	SetShader(L"PhongDif.fx");

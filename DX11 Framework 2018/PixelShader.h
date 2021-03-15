@@ -20,7 +20,7 @@ public:
 		}
 
 		// Creates the pixel shader
-		pDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
+		_pDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pPixelShader);
 
 		//Releases the memory associated with the blob
 		pPSBlob->Release();
@@ -32,7 +32,7 @@ public:
 
 	//Overrides the base Bind function and sets the pixel shader that needs to be used
 	void Bind() {
-		pDeviceContext->PSSetShader(pPixelShader, nullptr, 0);
+		_pDeviceContext->PSSetShader(pPixelShader, nullptr, 0);
 	}
 
 

@@ -8,7 +8,7 @@
 class Bindable
 {
 public:
-	Bindable(ID3D11Device* device, ID3D11DeviceContext* context) : pDevice(device), pDeviceContext(context) {}
+	Bindable(ID3D11Device* device, ID3D11DeviceContext* context) : _pDevice(device), _pDeviceContext(context) {}
 
 	/// <summary>
 	/// Binds the Desired object to the graphical pipeline
@@ -17,9 +17,9 @@ public:
 
 protected:
 	//Used for binding the object to the pipeline
-	ID3D11DeviceContext* pDeviceContext;
+	ID3D11DeviceContext* _pDeviceContext;
 
 	//Used for creating the object
-	ID3D11Device* pDevice;
+	ID3D11Device* _pDevice;
 };
 

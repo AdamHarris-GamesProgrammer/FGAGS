@@ -1,7 +1,7 @@
 #include "JSONLevelLoader.h"
 
 
-JSONLevelLoader::JSONLevelLoader(Graphics* gfx) : pGfx(gfx) {}
+JSONLevelLoader::JSONLevelLoader(Graphics* gfx) : _pGfx(gfx) {}
 
 std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
 {
@@ -9,7 +9,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 	std::vector<GameObject*> gameObjects;
 
 	//Checks the pGfx object has been set
-	if (pGfx == nullptr) return gameObjects;
+	if (_pGfx == nullptr) return gameObjects;
 
 	//Loads the contents of the file into a JSON object
 	json jsonFile = LoadJSONFile(filename);
@@ -27,7 +27,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		bool hasNrmTexture = false;
 
 		//Creates a meshed object 
-		MeshedObject* go = new MeshedObject(pGfx);
+		MeshedObject* go = new MeshedObject(_pGfx);
 
 		//Gets the current game object data
 		json jsonGo = gameobjects.at(i);

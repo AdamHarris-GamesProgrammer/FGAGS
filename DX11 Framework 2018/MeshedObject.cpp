@@ -28,11 +28,11 @@ bool MeshedObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
 void MeshedObject::Load(const char* filepath)
 {
 	//Loads the mesh data
-	mMesh = OBJLoader::Load(filepath, pGfx->GetDevice(),pGfx->GetDeviceContext(),false);
+	mMesh = OBJLoader::Load(filepath, _pGfx->GetDevice(),_pGfx->GetDeviceContext(),false);
 
 	//Sets the vertex and index buffers
-	pVertexBuffer = new VertexBuffer(pGfx->GetDevice(), pGfx->GetDeviceContext(), mMesh.Vertices);
-	pIndexBuffer = new IndexBuffer(pGfx->GetDevice(), pGfx->GetDeviceContext(), mMesh.Indices);
+	pVertexBuffer = new VertexBuffer(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), mMesh.Vertices);
+	pIndexBuffer = new IndexBuffer(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), mMesh.Indices);
 
 	//Clears the vertices and indices array in order to reduce memory overhead
 	mMesh.Vertices.clear();
