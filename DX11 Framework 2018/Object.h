@@ -17,7 +17,7 @@ public:
 
 	void AddComponent(Component* component);
 
-	TransformComponent* GetTransform();
+	TransformComponent& GetTransform();
 	std::string GetName() const;
 	void SetName(std::string& name);
 

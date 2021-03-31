@@ -29,7 +29,7 @@ private:
 private:
 	Contact _contactsArray[MAX_CONTACTS];
 	CollisionData _contactData;
-	ContactResolver* _contactResolver;
+	ContactResolver* _pContactResolver;
 
 	Box* _pBottomCube;
 	Box* _pTopCube;

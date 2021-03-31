@@ -2,7 +2,7 @@
   "meshedObjects": [
     {
       "name": "StationaryCube",
-      "position": [ 1.0, 1, 1 ],
+      "position": [ 1.0, 1.2, 1 ],
       "meshPath": "cube.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",

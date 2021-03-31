@@ -115,6 +115,13 @@ void RigidbodyComponent::Update(float dt)
 	//Clear the force accumulators
 	ClearAccumulator();
 
+	pTransformComponent->SetPosition(_position);
+	pTransformComponent->SetRotation(_orientation.Identity());
+
+	float transform[16];
+	_transformMatrix.DirectXArray(transform);
+	pTransformComponent->SetTransform(XMFLOAT4X4(transform));
+
 	if (_canSleep) {
 		float currentMotion = _velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation);
 		float bias = powf(0.5, dt);
@@ -124,13 +131,6 @@ void RigidbodyComponent::Update(float dt)
 		if (_motion < _sleepEpsilon) SetAwake(false);
 		else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
 	}
-
-	pTransformComponent->SetPosition(_position);
-	pTransformComponent->SetRotation(_orientation.Identity());
-
-	float transform[16];
-	_transformMatrix.DirectXArray(transform);
-	pTransformComponent->SetTransform(XMFLOAT4X4(transform));
 }
 
 

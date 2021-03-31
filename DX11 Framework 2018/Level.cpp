@@ -79,7 +79,7 @@ void Level::OutputVelocity(GameObject* obj)
 
 void Level::OutputPosition(GameObject* obj)
 {
-	Vector3 objPos = obj->GetTransform()->GetPosition();
+	Vector3 objPos = obj->GetTransform().GetPosition();
 	ImGui::Text("Object Position: {X: %.2f, Y: %.2f, Z: %.2f}", objPos.x, objPos.y, objPos.z);
 }
 

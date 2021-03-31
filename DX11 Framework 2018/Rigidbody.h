@@ -167,7 +167,6 @@ public:
 		if (awake) {
 			_isAwake = true;
 			_motion = _sleepEpsilon * 2.0f;
-
 		}
 		else
 		{

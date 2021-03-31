@@ -2,7 +2,7 @@
 
 void TransformComponent::Update(float dt)
 {
-		//Loads the transform matrix
+	//Loads the transform matrix
 	XMMATRIX transformMatrix = XMLoadFloat4x4(&mTransform);
 
 	//Sets the scale, position and rotation matrices
@@ -12,8 +12,6 @@ void TransformComponent::Update(float dt)
 
 	//Calculates the transform
 	XMMATRIX calculatedTransform = XMMatrixMultiply(transformMatrix, objectScale);
-
-	
 
 	//Stores the transform
 	XMStoreFloat4x4(&mTransform, calculatedTransform);
@@ -66,8 +64,8 @@ void TransformComponent::SetRotation(Vector3 rotation)
 
 void TransformComponent::SetRotation(float x, float y, float z)
 {
-	mRotation.Set(x,y,z);
-	
+	mRotation.Set(x, y, z);
+
 }
 
 void TransformComponent::SetScale(float x, float y, float z)

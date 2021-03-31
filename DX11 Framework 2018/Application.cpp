@@ -47,8 +47,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pLevel4 = new Level4(_pGfx, "Assets/Levels/test4.json");
 	_pLevel5 = new Level5(_pGfx, "Assets/Levels/test5.json");
 
-
-	ChangeLevel(_pLevel2);
+	ChangeLevel(_pLevel1);
 
 	return S_OK;
 }
@@ -64,7 +63,6 @@ void Application::Update()
 	_pCurrentLevel->PollInput(dt);
 
 	_pCurrentLevel->BeginUpdate(dt);
-
 	_pCurrentLevel->Update(dt);
 }
 

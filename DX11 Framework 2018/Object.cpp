@@ -42,9 +42,9 @@ void Object::AddComponent(Component* component)
 	std::sort(comp.begin(), comp.end(), sortByUpdate);
 }
 
-TransformComponent* Object::GetTransform()
+TransformComponent& Object::GetTransform()
 {
-	return _pTransform;
+	return *_pTransform;
 }
 
 std::string Object::GetName() const

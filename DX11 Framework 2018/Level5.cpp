@@ -84,6 +84,8 @@ void Level5::DrawUI()
 {
 	ImGui::Begin("Test 5");
 
+	ImGui::Text("Contacts this frame: %d", _contactData._contactCount);
+
 	ResetButton();
 
 	ImGui::End();
