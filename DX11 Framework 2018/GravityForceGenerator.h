@@ -7,7 +7,7 @@ public:
 		_gravity = gravity;
 	}
 
-	virtual void Update(Rigidbody* body, float dt) {
+	virtual void Update(RigidbodyComponent* body, float dt) {
 		if (!body->HasFiniteMass()) return;
 
 		body->AddForce(_gravity * body->GetMass());

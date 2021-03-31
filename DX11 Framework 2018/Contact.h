@@ -10,7 +10,7 @@
 class Contact {
 	friend class ContactResolver;
 public:
-	Rigidbody* _bodies[2];
+	RigidbodyComponent* _bodies[2];
 
 	float _friction;
 	float _restitution;
@@ -20,7 +20,7 @@ public:
 	Vector3 _contactNormal;
 	float _penetration;
 
-	void SetBodyData(Rigidbody* a, Rigidbody* b, float friction, float restitution) {
+	void SetBodyData(RigidbodyComponent* a, RigidbodyComponent* b, float friction, float restitution) {
 		_bodies[0] = a;
 		_bodies[1] = b;
 		_friction = friction;

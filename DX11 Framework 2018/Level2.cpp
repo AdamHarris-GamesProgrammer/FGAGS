@@ -6,7 +6,8 @@ void Level2::LoadLevel()
 
 	LoadGround();
 
-	_pGameObjects[0]->GetBody()->SetAwake();
+	_pRb = new RigidbodyComponent(_pGameObjects[0]);
+	_pRb->SetAwake();
 
 	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
 	_pRestingGenerator = new RestingForceGenerator(1.0f);
@@ -24,8 +25,8 @@ void Level2::PollInput(float dt)
 
 void Level2::Update(float dt)
 {
-	_pGravityGenerator->Update(_pGameObjects[0]->GetBody(), dt);
-	_pRestingGenerator->Update(_pGameObjects[0]->GetBody(), dt);
+	_pGravityGenerator->Update(_pRb, dt);
+	_pRestingGenerator->Update(_pRb, dt);
 }
 
 void Level2::Reset()

@@ -7,7 +7,7 @@ public:
 
 	}
 
-	void Update(Rigidbody* body, float dt) override
+	void Update(RigidbodyComponent* body, float dt) override
 	{
 		//Touching the floor
 		if (body->GetPosition().y <= _yVal) {

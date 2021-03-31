@@ -5,9 +5,11 @@
 #include "Transform.h"
 #include "PhysicsModel.h"
 
-class Particle : public PhysicsModel
+class ParticleComponent : public PhysicsModelComponent
 {
 public:
+	ParticleComponent(Object* owner) : PhysicsModelComponent(owner, ParticleModel, 50.0f) {}
+
 	void Update(float dt) override;
 };
 

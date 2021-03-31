@@ -7,7 +7,7 @@ class ParticleContact
 
 public:
 	//Holds the particles that are involved in this collision
-	Particle* _involvedParticles[2];
+	ParticleComponent* _involvedParticles[2];
 
 	//Holds the normal restitution coefficient at the point of contact
 	float _restitutionCoefficient;

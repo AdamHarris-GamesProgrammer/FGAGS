@@ -42,7 +42,7 @@ static inline void CalculateInertiaTensor(Matrix3& iitWorld, const Quaternion& q
 	iitWorld._data[8] = t52 * rotmat._data[8] + t57 * rotmat._data[9] + t62 * rotmat._data[10];
 }
 
-void Rigidbody::CalculateDerivedData()
+void RigidbodyComponent::CalculateDerivedData()
 {
 	_orientation.Normalize();
 
@@ -51,13 +51,13 @@ void Rigidbody::CalculateDerivedData()
 	CalculateInertiaTensor(_inverseInertiaTensorWorld, _orientation, _inverseInertiaTensor, _transformMatrix);
 }
 
-void Rigidbody::AddForce(const Vector3& force)
+void RigidbodyComponent::AddForce(const Vector3& force)
 {
-	PhysicsModel::AddForce(force);
+	PhysicsModelComponent::AddForce(force);
 	_isAwake = true;
 }
 
-void Rigidbody::AddForceAtPoint(const Vector3& force, const Vector3& point)
+void RigidbodyComponent::AddForceAtPoint(const Vector3& force, const Vector3& point)
 {
 	Vector3 pt = point;
 
@@ -67,7 +67,7 @@ void Rigidbody::AddForceAtPoint(const Vector3& force, const Vector3& point)
 	_isAwake = true;
 }
 
-void Rigidbody::AddForceAtBodyPoint(const Vector3& force, const Vector3& point)
+void RigidbodyComponent::AddForceAtBodyPoint(const Vector3& force, const Vector3& point)
 {
 	Vector3 pt = GetPointInWorldSpace(point);
 	AddForceAtPoint(force, pt);
@@ -75,13 +75,13 @@ void Rigidbody::AddForceAtBodyPoint(const Vector3& force, const Vector3& point)
 	_isAwake = true;
 }
 
-void Rigidbody::ClearAccumulator()
+void RigidbodyComponent::ClearAccumulator()
 {
-	PhysicsModel::ClearAccumulator();
+	PhysicsModelComponent::ClearAccumulator();
 	_torqueAccumulator.Zero();
 }
 
-void Rigidbody::Update(float dt)
+void RigidbodyComponent::Update(float dt)
 {
 	if (!_isAwake) return;
 

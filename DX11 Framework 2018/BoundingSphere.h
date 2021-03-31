@@ -79,6 +79,6 @@ struct BoundingSphere {
 
 	struct PotentialContact
 	{
-		Rigidbody* _bodies[2];
+		RigidbodyComponent* _bodies[2];
 	};
 };

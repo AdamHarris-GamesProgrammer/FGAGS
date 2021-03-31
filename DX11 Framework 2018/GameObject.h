@@ -34,14 +34,14 @@ public:
 
 	void SetPosition(float x, float y, float z) {
 		_transform.SetPosition(x, y, z);
-		pRigidBody->SetPosition(x, y, z);
-		pRigidBody->CalculateDerivedData();
+		//pRigidBody->SetPosition(x, y, z);
+		//pRigidBody->CalculateDerivedData();
 	}
 
 	void SetRotation(float x, float y, float z) {
 		_transform.SetRotation(x, y, z);
-		pRigidBody->SetRotation(x, y, z);
-		pRigidBody->CalculateDerivedData();
+		//pRigidBody->SetRotation(x, y, z);
+		//pRigidBody->CalculateDerivedData();
 	}
 
 	//Setters
@@ -53,7 +53,7 @@ public:
 	virtual void InitializeBoundingSphere();
 
 	Material& GetMaterial();
-	Rigidbody* GetBody() { return pRigidBody; }
+	//RigidbodyComponent* GetBody() { return pRigidBody; }
 
 	
 private:
@@ -74,9 +74,6 @@ protected:
 
 	bool mHasTextures = false;
 
-
 	Material mMaterial;
-	Rigidbody* pRigidBody;
-
 };
 

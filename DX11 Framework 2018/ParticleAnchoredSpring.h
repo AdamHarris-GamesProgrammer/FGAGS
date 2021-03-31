@@ -11,7 +11,7 @@ public:
 		_restLength = restLength;
 	}
 
-	virtual void Update(Particle* particle, float duration) {
+	virtual void Update(ParticleComponent* particle, float duration) {
 		//Calculate the direction between the spring and the anchor
 		Vector3 force;
 		force = particle->GetPosition();

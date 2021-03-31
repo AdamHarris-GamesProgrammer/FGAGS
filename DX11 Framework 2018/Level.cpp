@@ -80,7 +80,7 @@ void Level::ResetButton()
 
 void Level::OutputVelocity(GameObject* obj)
 {
-	Vector3 objVel = obj->GetBody()->GetVelocity();
+	Vector3 objVel = dynamic_cast<RigidbodyComponent*>(obj->GetComponent(Rigidbody))->GetVelocity();
 	ImGui::Text("Object Velocity: {X: %.2f, Y: %.2f, Z: %.2f}", objVel.x, objVel.y, objVel.z);
 }
 
@@ -92,7 +92,7 @@ void Level::OutputPosition(GameObject* obj)
 
 void Level::OutputAcceleration(GameObject* obj)
 {
-	Vector3 objAcc = obj->GetBody()->GetAcceleration();
+	Vector3 objAcc = dynamic_cast<RigidbodyComponent*>(obj->GetComponent(Rigidbody))->GetAcceleration();
 	ImGui::Text("Object Acceleration: {X: %.2f, Y: %.2f, Z: %.2f}", objAcc.x, objAcc.y, objAcc.z);
 }
 

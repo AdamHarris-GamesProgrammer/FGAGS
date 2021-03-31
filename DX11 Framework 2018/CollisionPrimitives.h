@@ -4,7 +4,7 @@
 
 class CollisionPrimitive {
 public:
-	Rigidbody* _body;
+	RigidbodyComponent* _body;
 	Matrix4 _offset;
 
 	void CalculateInternals() {

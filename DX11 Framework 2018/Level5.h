@@ -33,5 +33,8 @@ private:
 
 	void DrawUI() override;
 
+	RigidbodyComponent* _pTopRb;
+	RigidbodyComponent* _pBottomRb;
+
 };
 

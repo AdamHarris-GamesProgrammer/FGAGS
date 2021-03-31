@@ -31,5 +31,7 @@ private:
 
 	void DrawUI() override;
 
+
+	RigidbodyComponent* _pRb;
 };
 

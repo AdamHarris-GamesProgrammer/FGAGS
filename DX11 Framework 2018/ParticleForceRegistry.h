@@ -10,7 +10,7 @@ class ParticleForceRegistry
 protected:
 	struct ParticleForceRegistration
 	{
-		Particle* particle;
+		ParticleComponent* particle;
 		ParticleForceGenerator* forceGenerator;
 	};
 
@@ -18,7 +18,7 @@ protected:
 	Registry _registrations;
 
 public:
-	void Add(Particle* particle, ParticleForceGenerator* generator);
+	void Add(ParticleComponent* particle, ParticleForceGenerator* generator);
 
 	void Clear();
 

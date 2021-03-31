@@ -1,10 +1,14 @@
 #pragma once
 #include "Vector3.h"
+#include "Component.h"
+#include "ComponentIDs.h"
 
-
-class PhysicsModel
+class PhysicsModelComponent : public Component
 {
 public:
+	PhysicsModelComponent(Object* owner) : Component(owner, PhysicsModel, 50.0f) {}
+	PhysicsModelComponent(Object* owner, ComponentID id, float updatePriority) : Component(owner, id, updatePriority) {}
+
 	virtual void AddForce(const Vector3& force);
 	virtual void Update(float dt) = 0;
 	virtual void ClearAccumulator();

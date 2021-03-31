@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include "Debug.h"
 
-void Particle::Update(float dt)
+void ParticleComponent::Update(float dt)
 {
 	//Immovable object check
 	if (GetInverseMass() <= 0.0) return;

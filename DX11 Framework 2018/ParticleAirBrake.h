@@ -9,7 +9,7 @@ public:
 		_brakingForce = force;
 	}
 
-	virtual void Update(Particle* particle, float duration) {
+	virtual void Update(ParticleComponent* particle, float duration) {
 		if (isActivated) {
 			particle->AddForce(_brakingForce - particle->GetVelocity());
 		}

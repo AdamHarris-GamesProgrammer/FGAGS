@@ -11,28 +11,28 @@ GameObject::GameObject(Graphics* gfx)
 {
 	_pGfx = gfx;
 	//Initializes the position and rotation to world origin
-	pRigidBody = new Rigidbody();
+	//pRigidBody = new RigidbodyComponent();
 
-	//TODO Remove temporary Rigidbody cube code
-	pRigidBody->SetMass(5.0);
-	pRigidBody->SetOrientation(1, 0, 0, 0);
-	pRigidBody->SetRotation(0.0, 0.0, 0.0);
-	pRigidBody->SetCanSleep(true);
-	pRigidBody->SetAwake(false);
-	pRigidBody->SetAngularDamping(0.8f);
-	pRigidBody->SetLinearDamping(0.95f);
-	pRigidBody->SetVelocity(0, 0, 0);
-	pRigidBody->SetAcceleration(0.0, -10.0, 0);
+	////TODO Remove temporary Rigidbody cube code
+	//pRigidBody->SetMass(5.0);
+	//pRigidBody->SetOrientation(1, 0, 0, 0);
+	//pRigidBody->SetRotation(0.0, 0.0, 0.0);
+	//pRigidBody->SetCanSleep(true);
+	//pRigidBody->SetAwake(false);
+	//pRigidBody->SetAngularDamping(0.8f);
+	//pRigidBody->SetLinearDamping(0.95f);
+	//pRigidBody->SetVelocity(0, 0, 0);
+	//pRigidBody->SetAcceleration(0.0, -10.0, 0);
 
-	Matrix3 tensor;
+	//Matrix3 tensor;
 
-	float coeff = 0.4 * pRigidBody->GetMass() * 1.0 * 1.0;
-	tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
-	tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
-	pRigidBody->SetInertiaTensor(tensor);
+	//float coeff = 0.4 * pRigidBody->GetMass() * 1.0 * 1.0;
+	//tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
+	//tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
+	//pRigidBody->SetInertiaTensor(tensor);
 
-	pRigidBody->ClearAccumulator();
-	pRigidBody->CalculateDerivedData();
+	//pRigidBody->ClearAccumulator();
+	//pRigidBody->CalculateDerivedData();
 
 	_name = "GameObject";
 
@@ -54,15 +54,15 @@ GameObject::~GameObject()
 	pTextures.clear();
 	
 
-	delete pRigidBody;
-	pRigidBody = nullptr;
+	//delete pRigidBody;
+	//pRigidBody = nullptr;
 }
 
 void GameObject::Update(float dt)
 {
-	pRigidBody->SetPosition(_transform.GetPosition());
+	//pRigidBody->SetPosition(_transform.GetPosition());
 	
-	pRigidBody->Update(dt);
+	//pRigidBody->Update(dt);
 
 	//Updates bounding sphere location
 	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
@@ -70,14 +70,14 @@ void GameObject::Update(float dt)
 
 void GameObject::UpdateTransforms()
 {
-	_transform.SetPosition(pRigidBody->GetPosition());
-	_transform.SetRotation(pRigidBody->GetOrientation().Identity());
+	//_transform.SetPosition(pRigidBody->GetPosition());
+	//_transform.SetRotation(pRigidBody->GetOrientation().Identity());
 
 
-	float transform[16];
-	pRigidBody->GetTransform().DirectXArray(transform);
+	//float transform[16];
+	//pRigidBody->GetTransform().DirectXArray(transform);
 
-	_transform.SetTransform(XMFLOAT4X4(transform));
+	//_transform.SetTransform(XMFLOAT4X4(transform));
 
 	//Updates transform
 	_transform.Update();

@@ -7,9 +7,11 @@
 #include "Matrix3.h"
 #include "Matrix4.h"
 
-class Rigidbody : public PhysicsModel
+class RigidbodyComponent : public PhysicsModelComponent
 {
 public:
+	RigidbodyComponent(Object* owner) : PhysicsModelComponent(owner, Rigidbody, 50.0f) {}
+
 	void CalculateDerivedData();
 
 

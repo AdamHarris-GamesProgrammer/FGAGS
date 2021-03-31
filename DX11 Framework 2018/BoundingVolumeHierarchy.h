@@ -9,11 +9,11 @@ public:
 
 	BoundingVolumeClass _volume;
 
-	Rigidbody* _body;
+	RigidbodyComponent* _body;
 
 	BVHNode* _parent;
 
-	BVHNode(BVHNode* parent, const BoundingVolumeClass& volume, Rigidbody* body = NULL)
+	BVHNode(BVHNode* parent, const BoundingVolumeClass& volume, RigidbodyComponent* body = NULL)
 		: _parent(parent), _volume(volume), _body(body) {
 		_children[0] = _children[1] = NULL;
 	}
@@ -30,7 +30,7 @@ public:
 		return _children[0]->GetPotentialContacts(_children[1], contacts, limit);
 	}
 
-	void Insert(Rigidbody* body, const BoundingVolumeClass& volume) {
+	void Insert(RigidbodyComponent* body, const BoundingVolumeClass& volume) {
 		if (IsLeaf()) {
 			//Child one is a copy of us
 			_children[0] = new BVHNode<BoundingVolumeClass>(this, _volume, _body);

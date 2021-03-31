@@ -4,8 +4,10 @@ void Level1::LoadLevel()
 {
 	Level::LoadLevel();
 
-	_pGameObjects[0]->GetBody()->SetAwake();
-	_pGameObjects[0]->GetBody()->SetAcceleration(10, 0, 0);
+	//_pGameObjects[0]->GetBody()->SetAwake();
+	//_pGameObjects[0]->GetBody()->SetAcceleration(10, 0, 0);
+
+	_pRb = new RigidbodyComponent(_pGameObjects[0]);
 
 	LoadGround();
 }
@@ -17,9 +19,6 @@ void Level1::PollInput(float dt)
 
 void Level1::Update(float dt)
 {
-
-
-
 }
 
 void Level1::Reset()

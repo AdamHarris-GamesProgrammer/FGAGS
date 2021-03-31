@@ -4,11 +4,13 @@ void Level3::LoadLevel()
 {
 	Level::LoadLevel();
 
-	_pGameObjects[0]->GetBody()->SetAngularDamping(0.9);
-	_pGameObjects[0]->GetBody()->SetLinearDamping(1.0);
-	_pGameObjects[0]->GetBody()->SetInverseMass(0.0);
-	_pGameObjects[0]->GetBody()->SetAwake();
-	_pGameObjects[0]->GetBody()->SetCanSleep(false);
+	_pRb = new RigidbodyComponent(_pGameObjects[0]);
+
+	_pRb->SetAngularDamping(0.9);
+	_pRb->SetLinearDamping(1.0);
+	_pRb->SetInverseMass(0.0);
+	_pRb->SetAwake();
+	_pRb->SetCanSleep(false);
 }
 
 void Level3::ExitLevel()
@@ -23,7 +25,7 @@ void Level3::PollInput(float dt)
 void Level3::Update(float dt)
 {
 	//Stops object from falling down
-	_pGameObjects[0]->GetBody()->SetVelocity(Vector3());
+	_pRb->SetVelocity(Vector3());
 
 
 	if (_pGfx->IsLeftMouseDown()) {
@@ -51,7 +53,7 @@ void Level3::Update(float dt)
 		//Calculate force to add to object 
 		//using mouse Y for rotating on X axis and mouse X for rotating on Y axis. 
 		//Inverting the mouse Y NDC as DirectX goes from -1 
-		_pGameObjects[0]->GetBody()->AddTorque(Vector3(-_normalizedCoords[1] * rotationYScale, _normalizedCoords[0] * rotationXScale, 0) * _rotationPower);
+		_pRb->AddTorque(Vector3(-_normalizedCoords[1] * rotationYScale, _normalizedCoords[0] * rotationXScale, 0) * _rotationPower);
 	}
 }
 

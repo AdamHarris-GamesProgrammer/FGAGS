@@ -35,5 +35,8 @@ private:
 	Box* _pTopCube;
 	CollisionPlane* _pGround;
 
+	RigidbodyComponent* _pTopRb;
+	RigidbodyComponent* _pBottomRb;
+
 };
 

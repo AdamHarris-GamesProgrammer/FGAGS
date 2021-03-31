@@ -4,13 +4,13 @@
 
 class ParticleBungee : public ParticleForceGenerator {
 public:
-	ParticleBungee(Particle* other, float springConstant, float restLength) {
+	ParticleBungee(ParticleComponent* other, float springConstant, float restLength) {
 		_other = other;
 		_springConstant = springConstant;
 		_restLength = restLength;
 	}
 
-	virtual void Update(Particle* particle, float duration) {
+	virtual void Update(ParticleComponent* particle, float duration) {
 		//Calculate the vector of the spring
 		Vector3 force;
 		force = particle->GetPosition();
@@ -33,7 +33,7 @@ public:
 	}
 
 private:
-	Particle* _other;
+	ParticleComponent* _other;
 
 	float _springConstant;
 

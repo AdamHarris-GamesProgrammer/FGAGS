@@ -4,6 +4,6 @@
 class ForceGenerator
 {
 public:
-	virtual void Update(Rigidbody* body, float dt) = 0;
+	virtual void Update(RigidbodyComponent* body, float dt) = 0;
 };
 

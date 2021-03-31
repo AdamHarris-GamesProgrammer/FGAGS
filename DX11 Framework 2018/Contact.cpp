@@ -25,7 +25,7 @@ void Contact::SwapBodies()
 {
 	_contactNormal *= -1;
 
-	Rigidbody* temp = _bodies[0];
+	RigidbodyComponent* temp = _bodies[0];
 	_bodies[0] = _bodies[1];
 	_bodies[1] = temp;
 }
@@ -67,7 +67,7 @@ void Contact::CalculateDesiredDeltaVelocity(float dt)
 
 Vector3 Contact::CalculateLocalVelocity(unsigned bodyIndex, float dt)
 {
-	Rigidbody* thisBody = _bodies[bodyIndex];
+	RigidbodyComponent* thisBody = _bodies[bodyIndex];
 
 	Vector3 velocity = thisBody->GetRotation() % _relativeContactPosition[bodyIndex];
 	velocity += thisBody->GetVelocity();

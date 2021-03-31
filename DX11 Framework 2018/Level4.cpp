@@ -4,18 +4,22 @@ void Level4::LoadLevel()
 {
 	Level::LoadLevel();
 
+	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
+
 	_pBottomCube = new Box();
 	_pBottomCube->_halfSize = Vector3(1.0, 1.0, 1.0);
-	_pBottomCube->_body = _pGameObjects[0]->GetBody();
+	_pBottomCube->_body = _pBottomRb;
 	_pBottomCube->CalculateInternals();
+
+	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
 
 	_pTopCube = new Box();
 	_pTopCube->_halfSize = Vector3(1.0, 1.0, 1.0);
-	_pTopCube->_body = _pGameObjects[1]->GetBody();
+	_pTopCube->_body = _pTopRb;
 	_pTopCube->CalculateInternals();
 
-	_pGameObjects[0]->GetBody()->SetAwake();
-	_pGameObjects[1]->GetBody()->SetAwake();
+	_pBottomRb->SetAwake();
+	_pTopRb->SetAwake();
 
 	_pGround = new CollisionPlane();
 	_pGround->_direction = Vector3(0, 1, 0);
