@@ -36,7 +36,7 @@ void GameObject::Update(float dt)
 	RigidbodyComponent* rb = dynamic_cast<RigidbodyComponent*>(GetComponent(Rigidbody));
 
 	if (rb) {
-		rb->SetPosition(_transform.GetPosition());
+		rb->SetPosition(_pTransform->GetPosition());
 	}
 	else
 	{
@@ -51,20 +51,17 @@ void GameObject::UpdateTransforms()
 	RigidbodyComponent* rb = dynamic_cast<RigidbodyComponent*>(GetComponent(Rigidbody));
 
 	if (rb) {
-		_transform.SetPosition(rb->GetPosition());
-		_transform.SetRotation(rb->GetOrientation().Identity());
-
-
+		_pTransform->SetPosition(rb->GetPosition());
+		_pTransform->SetRotation(rb->GetOrientation().Identity());
 
 		float transform[16];
 		rb->GetTransform().DirectXArray(transform);
 
-		_transform.SetTransform(XMFLOAT4X4(transform));
+		_pTransform->SetTransform(XMFLOAT4X4(transform));
 	}
 
-
 	//Updates transform
-	_transform.Update();
+	//_pTransform.Update();
 }
 
 void GameObject::Draw()
@@ -84,7 +81,7 @@ void GameObject::Draw()
 	_pGfx->SetConstantBuffer();
 
 	//Sends the objects material and transform to the graphics class for the updated constant buffer
-	_pGfx->SetObjectBuffers(mMaterial, _transform.GetTransform());
+	_pGfx->SetObjectBuffers(mMaterial, _pTransform->GetTransform());
 
 	//Draws the object
 	_pGfx->Draw(pIndexBuffer->GetIndexCount());
@@ -114,7 +111,6 @@ Material& GameObject::GetMaterial()
 {
 	return mMaterial;
 }
-
 #pragma endregion
 
 #pragma region Setters

@@ -30,13 +30,13 @@ public:
 	void CreateTexture(const wchar_t* path);
 
 	void SetPosition(float x, float y, float z) {
-		_transform.SetPosition(x, y, z);
+		_pTransform->SetPosition(x, y, z);
 		//pRigidBody->SetPosition(x, y, z);
 		//pRigidBody->CalculateDerivedData();
 	}
 
 	void SetRotation(float x, float y, float z) {
-		_transform.SetRotation(x, y, z);
+		_pTransform->SetRotation(x, y, z);
 		//pRigidBody->SetRotation(x, y, z);
 		//pRigidBody->CalculateDerivedData();
 	}

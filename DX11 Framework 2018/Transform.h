@@ -2,20 +2,24 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include "Vector3.h"
+#include "Component.h"
+#include "ComponentIDs.h"
 
 using namespace DirectX;
 
-class Transform
+class TransformComponent : public Component
 {
 public:
-	Transform() {
+
+
+	TransformComponent(Object* owner) : Component(owner, ComponentID::Transform, 80.0f) {
 		XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
 		mPosition = Vector3(0.0f, 0.0f, 0.0f);
 		mRotation = Vector3(0.0f, 0.0f, 0.0f);
 		mScale = Vector3(1.0f, 1.0f, 1.0f);
 	}
 
-	void Update();
+	void Update(float dt) override;
 
 	XMFLOAT4X4 GetTransform() const;
 	Vector3 GetPosition() const;

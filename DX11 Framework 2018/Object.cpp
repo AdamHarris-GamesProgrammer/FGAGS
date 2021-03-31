@@ -2,7 +2,7 @@
 
 Object::Object()
 {
-	_transform = Transform();
+	_pTransform = new TransformComponent(this);
 	_name = "Object";
 }
 
@@ -11,11 +11,6 @@ void Object::Update(float dt)
 	for (auto& component : _components) {
 		component.second->Update(dt);
 	}
-}
-
-void Object::UpdateTransform()
-{
-	_transform.Update();
 }
 
 Component* Object::GetComponent(ComponentID id)
@@ -47,9 +42,9 @@ void Object::AddComponent(Component* component)
 	std::sort(comp.begin(), comp.end(), sortByUpdate);
 }
 
-Transform& Object::GetTransform()
+TransformComponent* Object::GetTransform()
 {
-	return _transform;
+	return _pTransform;
 }
 
 std::string Object::GetName() const

@@ -53,7 +53,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		//Checks for the scale attribute and sets the objects scale
 		if (HasAttribute(&jsonGo, "scale")) {
 			std::vector<float> scale = jsonGo["scale"];
-			go->GetTransform().SetScale(scale[0], scale[1], scale[2]);
+			go->GetTransform()->SetScale(scale[0], scale[1], scale[2]);
 		}
 
 		//Checks for the mesh path attribute and loads the mesh

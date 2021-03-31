@@ -12,13 +12,12 @@ public:
 	Object();
 
 	virtual void Update(float dt);
-	virtual void UpdateTransform();
 
 	Component* GetComponent(ComponentID id);
 
 	void AddComponent(Component* component);
 
-	Transform& GetTransform();
+	TransformComponent* GetTransform();
 	std::string GetName() const;
 	void SetName(std::string& name);
 
@@ -28,7 +27,7 @@ private:
 	std::map<ComponentID, Component*> _components;
 
 protected:
-	Transform _transform;
+	TransformComponent* _pTransform;
 	std::string _name = "Object";
 
 };

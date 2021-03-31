@@ -3,5 +3,6 @@
 enum ComponentID {
 	PhysicsModel,
 	ParticleModel,
-	Rigidbody
+	Rigidbody,
+	Transform
 };

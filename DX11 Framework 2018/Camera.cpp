@@ -23,11 +23,11 @@ void Camera::LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp)
 	XMVECTOR r = XMVector3Normalize(XMVector3Cross(worldUp, l));
 	XMVECTOR u = XMVector3Cross(l, r);
 
-	Vector3 tPos = _transform.GetPosition();
+	Vector3 tPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = tPos;
 	//Stores the position, look, right and up vectors
 	XMStoreFloat3(&fPos, pos);
-	_transform.SetPosition(fPos);
+	_pTransform->SetPosition(fPos);
 	XMStoreFloat3(&mLook, l);
 	XMStoreFloat3(&mRight, r);
 	XMStoreFloat3(&mUp, u);
@@ -49,12 +49,12 @@ void Camera::Strafe(float d)
 	XMVECTOR s = XMVectorReplicate(d);
 	XMVECTOR r = XMLoadFloat3(&mRight);
 
-	Vector3 vPos = _transform.GetPosition();
+	Vector3 vPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = vPos;
 
 	XMVECTOR p = XMLoadFloat3(&fPos);
 	XMStoreFloat3(&fPos, XMVectorMultiplyAdd(s, r, p));
-	_transform.SetPosition(fPos);
+	_pTransform->SetPosition(fPos);
 }
 
 //Walks the camera forwards and backwards based on the look vector
@@ -63,12 +63,12 @@ void Camera::Walk(float d)
 	XMVECTOR s = XMVectorReplicate(d);
 	XMVECTOR i = XMLoadFloat3(&mLook);
 
-	Vector3 vPos = _transform.GetPosition();
+	Vector3 vPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = vPos;
 
 	XMVECTOR p = XMLoadFloat3(&fPos);
 	XMStoreFloat3(&fPos, XMVectorMultiplyAdd(s, i, p));
-	_transform.SetPosition(fPos);
+	_pTransform->SetPosition(fPos);
 }
 
 //Pitches the camera up and down
@@ -98,7 +98,7 @@ void Camera::Update(float dt)
 	XMVECTOR u = XMLoadFloat3(&mUp);
 	XMVECTOR l = XMLoadFloat3(&mLook);
 
-	Vector3 vPos = _transform.GetPosition();
+	Vector3 vPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = vPos;
 
 	XMVECTOR p = XMLoadFloat3(&fPos);
