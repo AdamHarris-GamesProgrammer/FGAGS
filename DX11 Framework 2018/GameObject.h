@@ -26,9 +26,6 @@ public:
 
 	void UpdateTransforms();
 
-	//TestCollision with a ray, used for picking 
-	virtual bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection);
-
 	//Creates a texture based off the designated path and adds it to the textures vector
 	void CreateTexture(const wchar_t* path);
 
@@ -48,10 +45,6 @@ public:
 	//Set Shader function calls the loading logic for the shader
 	void SetShader(WCHAR* path);
 
-
-	//Initializes the bounding sphere with the radius of the model
-	virtual void InitializeBoundingSphere();
-
 	Material& GetMaterial();
 	//RigidbodyComponent* GetBody() { return pRigidBody; }
 
@@ -66,8 +59,6 @@ protected:
 	VertexBuffer* pVertexBuffer;
 	IndexBuffer* pIndexBuffer;
 	
-	BoundingSphere mBoundingSphere;
-
 	Graphics* _pGfx;
 
 	std::vector<ID3D11ShaderResourceView*> pTextures;

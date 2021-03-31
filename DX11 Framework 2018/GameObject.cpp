@@ -10,29 +10,6 @@ GameObject::GameObject()
 GameObject::GameObject(Graphics* gfx)
 {
 	_pGfx = gfx;
-	//Initializes the position and rotation to world origin
-	//pRigidBody = new RigidbodyComponent();
-
-	////TODO Remove temporary Rigidbody cube code
-	//pRigidBody->SetMass(5.0);
-	//pRigidBody->SetOrientation(1, 0, 0, 0);
-	//pRigidBody->SetRotation(0.0, 0.0, 0.0);
-	//pRigidBody->SetCanSleep(true);
-	//pRigidBody->SetAwake(false);
-	//pRigidBody->SetAngularDamping(0.8f);
-	//pRigidBody->SetLinearDamping(0.95f);
-	//pRigidBody->SetVelocity(0, 0, 0);
-	//pRigidBody->SetAcceleration(0.0, -10.0, 0);
-
-	//Matrix3 tensor;
-
-	//float coeff = 0.4 * pRigidBody->GetMass() * 1.0 * 1.0;
-	//tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
-	//tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
-	//pRigidBody->SetInertiaTensor(tensor);
-
-	//pRigidBody->ClearAccumulator();
-	//pRigidBody->CalculateDerivedData();
 
 	_name = "GameObject";
 
@@ -52,10 +29,6 @@ GameObject::~GameObject()
 	pIndexBuffer = nullptr;
 
 	pTextures.clear();
-	
-
-	//delete pRigidBody;
-	//pRigidBody = nullptr;
 }
 
 void GameObject::Update(float dt)
@@ -71,9 +44,6 @@ void GameObject::Update(float dt)
 	}
 
 	Object::Update(dt);
-
-	//Updates bounding sphere location
-	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
 }
 
 void GameObject::UpdateTransforms()
@@ -96,12 +66,6 @@ void GameObject::UpdateTransforms()
 	//Updates transform
 	_transform.Update();
 }
-
-bool GameObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
-{
-	return false;
-}
-
 
 void GameObject::Draw()
 {
@@ -141,11 +105,6 @@ void GameObject::CreateTexture(const wchar_t* path)
 
 void GameObject::Initialize()
 {
-	//Sets the radius and position of the bounding sphere
-	mBoundingSphere.Radius = 0.0f;
-	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
-
-
 	//Sets the vertex shader
 	pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
 }
@@ -162,11 +121,6 @@ Material& GameObject::GetMaterial()
 void GameObject::SetShader(WCHAR* path)
 {
 	pPixelShader = new PixelShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), path);
-}
-
-void GameObject::InitializeBoundingSphere()
-{
-	mBoundingSphere.Radius = 1.0f;
 }
 
 #pragma endregion

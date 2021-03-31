@@ -13,15 +13,10 @@ public:
 	MeshedObject(Graphics* gfx);
 	MeshedObject() {}
 
-	//Overrides the TestCollision method 
-	bool TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection) override;
 
 	//Loads the model based on the type of parameter passed in
 	void Load(const char* filepath);
 	void Load(std::string& filepath);
-
-	void InitializeBoundingSphere() override;
-
 private:
 	MeshData mMesh;
 };

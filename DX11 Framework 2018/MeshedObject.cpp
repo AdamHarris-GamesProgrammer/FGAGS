@@ -10,20 +10,6 @@ MeshedObject::MeshedObject(Graphics* gfx, const char* filepath)
 
 MeshedObject::MeshedObject(Graphics* gfx) : GameObject(gfx) {}
 
-bool MeshedObject::TestCollision(XMFLOAT4 rayOrigin, XMFLOAT4 rayDirection)
-{
-	float distance = 0.0f;
-
-	//If the bounding sphere has a radius of 0 then return false as the object does not detect collisions
-	if (mBoundingSphere.Radius == 0.0f) return false;
-
-	//Checks for a intersect
-	if (mBoundingSphere.Intersects(XMLoadFloat4(&rayOrigin), XMLoadFloat4(&rayDirection), distance)) {
-		return true;
-	}
-
-	return false;
-}
 
 void MeshedObject::Load(const char* filepath)
 {
@@ -45,7 +31,3 @@ void MeshedObject::Load(std::string& filepath)
 	Load(filepath.c_str());
 }
 
-void MeshedObject::InitializeBoundingSphere()
-{
-	mBoundingSphere.Radius = mMesh.Radius;
-}

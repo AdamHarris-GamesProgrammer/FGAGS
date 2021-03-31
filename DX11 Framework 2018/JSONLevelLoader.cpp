@@ -107,11 +107,6 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 			go->GetMaterial().SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 		
-		//Checks for the bounding sphere attribute and initializes the sphere
-		if (HasAttribute(&jsonGo, "boundingSphere")) {
-			go->InitializeBoundingSphere();
-		}
-
 		//Loads the required pixel shader based off the texture maps it has
 		if (hasNrmTexture) {
 			go->SetShader(L"PhongDifSpcNrm.fx");
