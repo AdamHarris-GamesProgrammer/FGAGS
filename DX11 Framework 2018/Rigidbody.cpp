@@ -1,5 +1,5 @@
 #include "Rigidbody.h"
-
+#include "Object.h"
 
 static inline void CalculateTransformMatrix(
 	Matrix4& transformMatrix, const Vector3& position, const Quaternion& orientation)
@@ -83,6 +83,9 @@ void RigidbodyComponent::ClearAccumulator()
 
 void RigidbodyComponent::Update(float dt)
 {
+	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
+	_position = pTransformComponent->GetPosition();
+
 	if (!_isAwake) return;
 
 	//Calculate linear acceleration from the force inputs
@@ -121,6 +124,13 @@ void RigidbodyComponent::Update(float dt)
 		if (_motion < _sleepEpsilon) SetAwake(false);
 		else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
 	}
+
+	pTransformComponent->SetPosition(_position);
+	pTransformComponent->SetRotation(_orientation.Identity());
+
+	float transform[16];
+	_transformMatrix.DirectXArray(transform);
+	pTransformComponent->SetTransform(XMFLOAT4X4(transform));
 }
 
 

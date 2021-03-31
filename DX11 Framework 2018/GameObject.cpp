@@ -31,39 +31,6 @@ GameObject::~GameObject()
 	pTextures.clear();
 }
 
-void GameObject::Update(float dt)
-{
-	RigidbodyComponent* rb = dynamic_cast<RigidbodyComponent*>(GetComponent(Rigidbody));
-
-	if (rb) {
-		rb->SetPosition(_pTransform->GetPosition());
-	}
-	else
-	{
-		Debug::Print("Rigidbody is null\n");
-	}
-
-	Object::Update(dt);
-}
-
-void GameObject::UpdateTransforms()
-{
-	RigidbodyComponent* rb = dynamic_cast<RigidbodyComponent*>(GetComponent(Rigidbody));
-
-	if (rb) {
-		_pTransform->SetPosition(rb->GetPosition());
-		_pTransform->SetRotation(rb->GetOrientation().Identity());
-
-		float transform[16];
-		rb->GetTransform().DirectXArray(transform);
-
-		_pTransform->SetTransform(XMFLOAT4X4(transform));
-	}
-
-	//Updates transform
-	//_pTransform.Update();
-}
-
 void GameObject::Draw()
 {
 	//Binds the shaders and buffers

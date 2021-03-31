@@ -21,24 +21,15 @@ public:
 	//Allows the object to be drawn
 	virtual void Draw();
 
-	//Update method for the object
-	virtual void Update(float dt);
-
-	void UpdateTransforms();
-
 	//Creates a texture based off the designated path and adds it to the textures vector
 	void CreateTexture(const wchar_t* path);
 
 	void SetPosition(float x, float y, float z) {
 		_pTransform->SetPosition(x, y, z);
-		//pRigidBody->SetPosition(x, y, z);
-		//pRigidBody->CalculateDerivedData();
 	}
 
 	void SetRotation(float x, float y, float z) {
 		_pTransform->SetRotation(x, y, z);
-		//pRigidBody->SetRotation(x, y, z);
-		//pRigidBody->CalculateDerivedData();
 	}
 
 	//Setters
@@ -46,8 +37,6 @@ public:
 	void SetShader(WCHAR* path);
 
 	Material& GetMaterial();
-	//RigidbodyComponent* GetBody() { return pRigidBody; }
-
 	
 private:
 	void Initialize();

@@ -18,9 +18,11 @@ public:
 	float GetUpdatePriority() const;
 
 private:
-	Object* _pOwner = nullptr;
 	ComponentID _id;
 	float _updatePriority;
+
+protected:
+	Object* _pOwner = nullptr;
 
 };
 

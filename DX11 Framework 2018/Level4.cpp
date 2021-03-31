@@ -10,6 +10,7 @@ void Level4::LoadLevel()
 	_pBottomCube->_halfSize = Vector3(1.0, 1.0, 1.0);
 	_pBottomCube->_body = _pBottomRb;
 	_pBottomCube->CalculateInternals();
+	_pBottomRb->SetAwake();
 
 	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
 
@@ -17,9 +18,8 @@ void Level4::LoadLevel()
 	_pTopCube->_halfSize = Vector3(1.0, 1.0, 1.0);
 	_pTopCube->_body = _pTopRb;
 	_pTopCube->CalculateInternals();
-
-	_pBottomRb->SetAwake();
 	_pTopRb->SetAwake();
+
 
 	_pGround = new CollisionPlane();
 	_pGround->_direction = Vector3(0, 1, 0);
@@ -74,7 +74,6 @@ void Level4::DrawUI()
 	
 	ImGui::Text("Contacts this frame: %d", _contactData._contactCount);
 	
-
 	ResetButton();
 
 	ImGui::End();

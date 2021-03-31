@@ -37,13 +37,6 @@ void Level::BeginUpdate(float dt)
 	}
 }
 
-void Level::EndUpdate(float dt)
-{
-	for (auto& object : _pGameObjects) {
-		object->UpdateTransforms();
-	}
-}
-
 void Level::Render()
 {
 	_pGfx->BeginFrame();

@@ -3,9 +3,12 @@
 #include "Quaternion.h"
 
 #include "PhysicsModel.h"
+#include "Transform.h"
 
 #include "Matrix3.h"
 #include "Matrix4.h"
+
+class Object;
 
 class RigidbodyComponent : public PhysicsModelComponent
 {

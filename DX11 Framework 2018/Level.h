@@ -45,7 +45,6 @@ public:
 	virtual void PollInput(float dt);
 
 	void BeginUpdate(float dt);
-	void EndUpdate(float dt);
 	virtual void Update(float dt) = 0;
 
 	void Render();

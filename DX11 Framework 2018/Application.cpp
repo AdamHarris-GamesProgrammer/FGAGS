@@ -66,8 +66,6 @@ void Application::Update()
 	_pCurrentLevel->BeginUpdate(dt);
 
 	_pCurrentLevel->Update(dt);
-
-	_pCurrentLevel->EndUpdate(dt);
 }
 
 void Application::Picking()
