@@ -60,9 +60,17 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-	//pRigidBody->SetPosition(_transform.GetPosition());
-	
-	//pRigidBody->Update(dt);
+	RigidbodyComponent* rb = dynamic_cast<RigidbodyComponent*>(GetComponent(Rigidbody));
+
+	if (rb) {
+		rb->SetPosition(_transform.GetPosition());
+	}
+	else
+	{
+		Debug::Print("Rigidbody is null\n");
+	}
+
+	Object::Update(dt);
 
 	//Updates bounding sphere location
 	mBoundingSphere.Center = (XMFLOAT3)_transform.GetPosition();
@@ -70,14 +78,20 @@ void GameObject::Update(float dt)
 
 void GameObject::UpdateTransforms()
 {
-	//_transform.SetPosition(pRigidBody->GetPosition());
-	//_transform.SetRotation(pRigidBody->GetOrientation().Identity());
+	RigidbodyComponent* rb = dynamic_cast<RigidbodyComponent*>(GetComponent(Rigidbody));
+
+	if (rb) {
+		_transform.SetPosition(rb->GetPosition());
+		_transform.SetRotation(rb->GetOrientation().Identity());
 
 
-	//float transform[16];
-	//pRigidBody->GetTransform().DirectXArray(transform);
 
-	//_transform.SetTransform(XMFLOAT4X4(transform));
+		float transform[16];
+		rb->GetTransform().DirectXArray(transform);
+
+		_transform.SetTransform(XMFLOAT4X4(transform));
+	}
+
 
 	//Updates transform
 	_transform.Update();

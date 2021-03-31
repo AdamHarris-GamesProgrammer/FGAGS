@@ -90,3 +90,12 @@ void PhysicsModelComponent::SetPosition(float x, float y, float z)
 {
 	_position = Vector3(x, y, z);
 }
+
+void PhysicsModelComponent::Initialize()
+{
+	SetMass(5.0);
+	SetVelocity(0, 0, 0);
+	SetAcceleration(0.0, -10.0, 0);
+
+
+}

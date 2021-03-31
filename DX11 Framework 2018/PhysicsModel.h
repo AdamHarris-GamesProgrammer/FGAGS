@@ -6,8 +6,14 @@
 class PhysicsModelComponent : public Component
 {
 public:
-	PhysicsModelComponent(Object* owner) : Component(owner, PhysicsModel, 50.0f) {}
-	PhysicsModelComponent(Object* owner, ComponentID id, float updatePriority) : Component(owner, id, updatePriority) {}
+	PhysicsModelComponent(Object* owner) : Component(owner, PhysicsModel, 50.0f) 
+	{
+		Initialize();
+	}
+	PhysicsModelComponent(Object* owner, ComponentID id, float updatePriority) : Component(owner, id, updatePriority) 
+	{
+		Initialize();
+	}
 
 	virtual void AddForce(const Vector3& force);
 	virtual void Update(float dt) = 0;
@@ -35,6 +41,9 @@ public:
 	void SetPosition(Vector3 val = Vector3());
 	void SetPosition(float x, float y, float z);
 
+private:
+	
+
 protected:
 	Vector3 _position;
 	Vector3 _velocity;
@@ -44,5 +53,7 @@ protected:
 
 	float _inverseMass;
 	float _linearDamping;
+
+	virtual void Initialize();
 };
 

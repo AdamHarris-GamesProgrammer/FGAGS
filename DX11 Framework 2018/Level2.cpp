@@ -4,7 +4,7 @@ void Level2::LoadLevel()
 {
 	Level::LoadLevel();
 
-	LoadGround();
+	//LoadGround();
 
 	_pRb = new RigidbodyComponent(_pGameObjects[0]);
 	_pRb->SetAwake();

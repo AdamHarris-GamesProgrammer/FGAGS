@@ -8,7 +8,9 @@ Object::Object()
 
 void Object::Update(float dt)
 {
-
+	for (auto& component : _components) {
+		component.second->Update(dt);
+	}
 }
 
 void Object::UpdateTransform()

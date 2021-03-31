@@ -10,7 +10,10 @@
 class RigidbodyComponent : public PhysicsModelComponent
 {
 public:
-	RigidbodyComponent(Object* owner) : PhysicsModelComponent(owner, Rigidbody, 50.0f) {}
+	RigidbodyComponent(Object* owner) : PhysicsModelComponent(owner, Rigidbody, 50.0f)
+	{
+		Initialize();
+	}
 
 	void CalculateDerivedData();
 
@@ -80,7 +83,7 @@ public:
 	Quaternion GetOrientation() const {
 		return _orientation;
 	}
-	 
+
 	void GetOrientation(Quaternion* orientation) const {
 		*orientation = _orientation;
 	}
@@ -102,7 +105,7 @@ public:
 		matrix[7] = _transformMatrix._data[9];
 		matrix[8] = _transformMatrix._data[10];
 	}
- 
+
 	void GetTransform(Matrix4* transform) const {
 		memcpy(transform, &_transformMatrix._data, sizeof(float) * 12);
 	}
@@ -161,7 +164,7 @@ public:
 		if (awake) {
 			_isAwake = true;
 			_motion = _sleepEpsilon * 2.0f;
-			
+
 		}
 		else
 		{
@@ -199,6 +202,30 @@ public:
 	void ClearAccumulator() override;
 
 	void Update(float dt);
+
+private:
+	void Initialize() override
+	{
+		PhysicsModelComponent::Initialize();
+
+
+		SetOrientation(1, 0, 0, 0);
+		SetRotation(0.0, 0.0, 0.0);
+		SetCanSleep(true);
+		SetAwake(false);
+		SetAngularDamping(0.8f);
+		SetLinearDamping(0.95f);
+
+		Matrix3 tensor;
+
+		float coeff = 0.4 * GetMass() * 1.0 * 1.0;
+		tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
+		tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
+		SetInertiaTensor(tensor);
+
+		ClearAccumulator();
+		CalculateDerivedData();
+	}
 
 protected:
 	Vector3 _torqueAccumulator;
