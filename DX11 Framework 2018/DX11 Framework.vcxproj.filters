@@ -54,6 +54,9 @@
     <Filter Include="Levels">
       <UniqueIdentifier>{79bc7358-e579-4080-84b6-fd9c7e6e81e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{125dcf8a-03b6-49dc-a12b-9e44343ec23e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -247,14 +250,26 @@
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Level.h" />
-    <ClInclude Include="Level5.h" />
-    <ClInclude Include="Level1.h" />
-    <ClInclude Include="Level2.h" />
-    <ClInclude Include="Level3.h" />
-    <ClInclude Include="Level4.h" />
     <ClInclude Include="RestingForceGenerator.h">
       <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
     </ClInclude>
+    <ClInclude Include="Level1.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level3.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level4.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level5.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentIDs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -347,11 +362,22 @@
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Level5.cpp" />
-    <ClCompile Include="Level1.cpp" />
-    <ClCompile Include="Level2.cpp" />
-    <ClCompile Include="Level3.cpp" />
-    <ClCompile Include="Level4.cpp" />
+    <ClCompile Include="Level1.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level3.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level4.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level5.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
