@@ -49,7 +49,9 @@ public:
 
 	void Render();
 
-	virtual void Reset() = 0;
+	virtual void Reset() {
+		LoadLevel();
+	}
 
 protected:
 	void FlyCamera(float dt);

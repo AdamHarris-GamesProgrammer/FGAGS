@@ -1,8 +1,31 @@
 #include "Level5.h"
 
-void Level5::Reset()
+void Level5::LoadLevel()
 {
-	LoadLevel();
+	Level::LoadLevel();
+
+	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
+
+	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
+
+	_pBottomCube = new Box(_pBottomRb);
+
+	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
+
+	_pTopCube = new Box(_pTopRb);
+
+	_pBottomRb->SetAwake();
+	_pTopRb->SetAwake();
+
+	_pGround = new CollisionPlane(Vector3(0, 1, 0), 0.0f);
+
+	_pContactResolver = new ContactResolver(MAX_CONTACTS);
+	_contactData._contactArray = _contactsArray;
+	_contactData._friction = 0.9;
+	_contactData._restitution = 0.1;
+	_contactData._tolerance = 0.1;
+
+	LoadGround();
 }
 
 void Level5::ExitLevel()
@@ -21,13 +44,12 @@ void Level5::ExitLevel()
 	
 }
 
-void Level5::PollInput(float dt)
-{
-	Level::PollInput(dt);
-}
-
 void Level5::Update(float dt)
 {
+	_pGravityGenerator->Update(_pTopRb,dt);
+	_pGravityGenerator->Update(_pBottomRb,dt);
+
+
 	_pTopCube->CalculateInternals();
 	_pBottomCube->CalculateInternals();
 
@@ -46,31 +68,6 @@ void Level5::Update(float dt)
 
 }
 
-void Level5::LoadLevel()
-{
-	Level::LoadLevel();
-
-	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
-
-	_pBottomCube = new Box(_pBottomRb);
-
-	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
-
-	_pTopCube = new Box(_pTopRb);
-
-	_pBottomRb->SetAwake();
-	_pTopRb->SetAwake();
-
-	_pGround = new CollisionPlane(Vector3::up, 0.0f);
-
-	_pContactResolver = new ContactResolver(MAX_CONTACTS);
-	_contactData._contactArray = _contactsArray;
-	_contactData._friction = 0.9;
-	_contactData._restitution = 0.1;
-	_contactData._tolerance = 0.1;
-
-	LoadGround();
-}
 
 void Level5::DrawUI()
 {

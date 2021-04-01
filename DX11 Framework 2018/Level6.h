@@ -4,19 +4,18 @@
 #include "Plane.h"
 #include "GravityForceGenerator.h"
 
-#define MAX_CONTACTS 10
-
-class Level5 :  public Level
+#define MAX_CONTACTS 20
+class Level6 : public Level
 {
 public:
-	Level5(Graphics* gfx, const char* levelName) : Level(gfx, levelName) 
-	{
+	Level6(Graphics* gfx, const char* levelName) : Level(gfx, levelName) {
 		LoadLevel();
 	}
 
 	void ExitLevel() override;
 
 	void Update(float dt) override;
+
 	void LoadLevel() override;
 
 private:
@@ -24,14 +23,17 @@ private:
 	CollisionData _contactData;
 	ContactResolver* _pContactResolver;
 
-	Box* _pBottomCube;
-	Box* _pTopCube;
-	CollisionPlane* _pGround;
+	CollisionPlane* _pGroundCollider;
+	Sphere* _pSphereCollider;
+	Box* _pBoxCollider;
+
 
 	void DrawUI() override;
 
-	RigidbodyComponent* _pTopRb;
-	RigidbodyComponent* _pBottomRb;
+	RigidbodyComponent* _pSphereRb;
+	RigidbodyComponent* _pCubeRb;
 	GravityForceGenerator* _pGravityGenerator;
+
+
 };
 

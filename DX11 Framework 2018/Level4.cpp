@@ -4,6 +4,8 @@ void Level4::LoadLevel()
 {
 	Level::LoadLevel();
 
+	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
+
 	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
 
 	_pBottomCube = new Box(_pBottomRb);
@@ -15,7 +17,7 @@ void Level4::LoadLevel()
 	_pBottomRb->SetAwake();
 	_pTopRb->SetAwake();
 
-	_pGround = new CollisionPlane(Vector3::up, 0.0f);
+	_pGround = new CollisionPlane(Vector3(0, 1, 0), 0.0f);
 
 	_pContactResolver = new ContactResolver(MAX_CONTACTS);
 	_contactData._contactArray = _contactsArray;
@@ -48,6 +50,9 @@ void Level4::PollInput(float dt)
 
 void Level4::Update(float dt)
 {
+	_pGravityGenerator->Update(_pTopRb, dt);
+	_pGravityGenerator->Update(_pBottomRb, dt);
+
 	_pTopCube->CalculateInternals();
 	_pBottomCube->CalculateInternals();
 

@@ -11,6 +11,8 @@ void Level3::LoadLevel()
 	_pRb->SetInverseMass(0.0);
 	_pRb->SetAwake();
 	_pRb->SetCanSleep(false);
+
+	_rotationPower = 100.0f;
 }
 
 void Level3::ExitLevel()

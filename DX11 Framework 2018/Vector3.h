@@ -5,20 +5,10 @@
 
 using namespace DirectX;
 
-const Vector3 Vector3::up = Vector3(0, 1, 0);
-const Vector3 Vector3::right = Vector3(1, 0, 0);
-const Vector3 Vector3::front = Vector3(0, 0, 1);
-
 class Vector3 {
-
-
 public:
 	float x, y, z;
 
-
-	const static Vector3 up;
-	const static Vector3 right;
-	const static Vector3 front;
 private:
 	float pad;
 

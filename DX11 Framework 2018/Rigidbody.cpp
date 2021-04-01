@@ -133,4 +133,27 @@ void RigidbodyComponent::Update(float dt)
 	}
 }
 
+void RigidbodyComponent::Initialize()
+{
+	PhysicsModelComponent::Initialize();
+	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
+
+
+	SetPosition(pTransformComponent->GetPosition());
+	SetRotation(pTransformComponent->GetRotation());
+	SetCanSleep(true);
+	SetAwake(false);
+	SetAngularDamping(0.8f);
+	SetLinearDamping(0.95f);
+
+	Matrix3 tensor;
+
+	float coeff = 0.4 * GetMass() * 1.0 * 1.0;
+	tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
+	tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
+	SetInertiaTensor(tensor);
+
+	ClearAccumulator();
+	CalculateDerivedData();
+}
 

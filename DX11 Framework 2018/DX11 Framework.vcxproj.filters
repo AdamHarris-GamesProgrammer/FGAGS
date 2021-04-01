@@ -270,6 +270,7 @@
     </ClInclude>
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentIDs.h" />
+    <ClInclude Include="Level6.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -378,6 +379,7 @@
       <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Level6.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

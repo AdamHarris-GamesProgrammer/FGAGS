@@ -1,5 +1,6 @@
 #pragma once
 #include "Level.h"
+#include "GravityForceGenerator.h"
 
 #define MAX_CONTACTS 10
 class Level4 : public Level
@@ -27,6 +28,8 @@ private:
 	void DrawUI() override;
 
 private:
+	GravityForceGenerator* _pGravityGenerator;
+
 	Contact _contactsArray[MAX_CONTACTS];
 	CollisionData _contactData;
 	ContactResolver* _pContactResolver;

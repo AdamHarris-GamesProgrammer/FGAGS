@@ -1,0 +1,33 @@
+{
+  "meshedObjects": [
+    {
+      "name": "Sphere",
+      "position": [ 1.2, 8.0, 1 ],
+      "meshPath": "sphere.obj",
+      "diffuseTexture": "Crate_COLOR.dds",
+      "specularTexture": "Crate_SPEC.dds",
+      "normalTexture": "Crate_NRM.dds",
+      "ambient": [ 0.2, 0.2, 0.2, 1.0 ]
+    },
+    {
+      "name": "FallingCube",
+      "position": [ 0.0, 1.2, 1 ],
+      "meshPath": "cube.obj",
+      "diffuseTexture": "Crate_COLOR.dds",
+      "specularTexture": "Crate_SPEC.dds",
+      "normalTexture": "Crate_NRM.dds",
+      "ambient": [ 0.2, 0.2, 0.2, 1.0 ]
+    }
+  ],
+  "gameObjects": [
+    {
+
+    }
+  ],
+  "cameras": [
+    {
+      "lookat": [0.0, 8.0, -15.0, 0.0, 3.0, 0.0]
+    }
+  ],
+  "version": "1.0"
+}

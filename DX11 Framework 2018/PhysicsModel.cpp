@@ -95,7 +95,4 @@ void PhysicsModelComponent::Initialize()
 {
 	SetMass(5.0);
 	SetVelocity(0, 0, 0);
-	SetAcceleration(0.0, -10.0, 0);
-
-
 }
