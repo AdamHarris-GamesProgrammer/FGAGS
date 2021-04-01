@@ -118,10 +118,6 @@ void RigidbodyComponent::Update(float dt)
 	pTransformComponent->SetPosition(_position);
 	pTransformComponent->SetRotation(_orientation.Identity());
 
-	float transform[16];
-	_transformMatrix.DirectXArray(transform);
-	pTransformComponent->SetTransform(XMFLOAT4X4(transform));
-
 	if (_canSleep) {
 		float currentMotion = _velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation);
 		float bias = powf(0.5, dt);

@@ -4,6 +4,8 @@
 #include "Vector3.h"
 #include "Component.h"
 #include "ComponentIDs.h"
+#include "Quaternion.h"
+#include "Matrix4.h"
 
 using namespace DirectX;
 
@@ -13,20 +15,22 @@ public:
 
 
 	TransformComponent(Object* owner) : Component(owner, ComponentID::Transform, 80.0f) {
-		XMStoreFloat4x4(&mTransform, XMMatrixIdentity());
-		mPosition = Vector3(0.0f, 0.0f, 0.0f);
-		mRotation = Vector3(0.0f, 0.0f, 0.0f);
-		mScale = Vector3(1.0f, 1.0f, 1.0f);
+		XMStoreFloat4x4(&_DirectXTransform, XMMatrixIdentity());
+		_position = Vector3(0.0f, 0.0f, 0.0f);
+		_rotation = Vector3(0.0f, 0.0f, 0.0f);
+		_scale = Vector3(1.0f, 1.0f, 1.0f);
 	}
 
 	void Update(float dt) override;
 
-	XMFLOAT4X4 GetTransform() const;
+	XMFLOAT4X4 GetDirectXTransform() const;
+	void SetDirectXTransform(XMFLOAT4X4 transform);
+
+
 	Vector3 GetPosition() const;
 
 	Vector3 GetRotation() const;
 	Vector3 GetScale() const;
-	void SetTransform(XMFLOAT4X4 transform);
 	void SetPosition(Vector3 position);
 	void SetPosition(XMFLOAT3 position);
 	void SetRotation(Vector3 rotation);
@@ -37,10 +41,20 @@ public:
 
 private:
 	//Transform Properties
-	XMFLOAT4X4 mTransform;
-	Vector3 mPosition;
-	Vector3 mRotation;
-	Vector3 mScale;
+	XMFLOAT4X4 _DirectXTransform;
+	Vector3 _position;
+	Vector3 _rotation;
+	Vector3 _scale;
+	Quaternion _orientation;
+	Matrix4 _transform;
 
+	/*
+	Vector3 rotation, positon and scale
+	XMFLOAT4X4 for DX
+	Matrix4 for calculation with quaternion
+	Quaternion orientation
+
+	
+	*/
 };
 

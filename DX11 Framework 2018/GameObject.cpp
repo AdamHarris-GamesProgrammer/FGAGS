@@ -48,7 +48,7 @@ void GameObject::Draw()
 	_pGfx->SetConstantBuffer();
 
 	//Sends the objects material and transform to the graphics class for the updated constant buffer
-	_pGfx->SetObjectBuffers(mMaterial, _pTransform->GetTransform());
+	_pGfx->SetObjectBuffers(mMaterial, _pTransform->GetDirectXTransform());
 
 	//Draws the object
 	_pGfx->Draw(pIndexBuffer->GetIndexCount());
