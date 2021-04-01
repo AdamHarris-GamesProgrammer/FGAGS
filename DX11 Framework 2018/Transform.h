@@ -47,14 +47,5 @@ private:
 	Vector3 _scale;
 	Quaternion _orientation;
 	Matrix4 _transform;
-
-	/*
-	Vector3 rotation, positon and scale
-	XMFLOAT4X4 for DX
-	Matrix4 for calculation with quaternion
-	Quaternion orientation
-
-	
-	*/
 };
 

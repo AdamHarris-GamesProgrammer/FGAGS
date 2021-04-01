@@ -3,7 +3,6 @@
 void TransformComponent::Update(float dt)
 {
 	//Loads the transform matrix
-	XMMATRIX transformMatrix = XMLoadFloat4x4(&_DirectXTransform);
 
 	_orientation.Normalize();
 
@@ -24,10 +23,11 @@ void TransformComponent::Update(float dt)
 	_transform.DirectXArray(transform);
 	SetDirectXTransform(XMFLOAT4X4(transform));
 
+
+	XMMATRIX transformMatrix = XMLoadFloat4x4(&_DirectXTransform);
+
 	//Sets the scale, position and rotation matrices
 	XMMATRIX objectScale = XMMatrixScaling(_scale.x, _scale.y, _scale.z);
-	XMMATRIX objectPosition = XMMatrixTranslation(_position.x, _position.y, _position.z);
-	XMMATRIX objectRotation = XMMatrixRotationRollPitchYaw(_rotation.x, _rotation.y, _rotation.z);
 
 	//Calculates the transform
 	XMMATRIX calculatedTransform = XMMatrixMultiply(transformMatrix, objectScale);

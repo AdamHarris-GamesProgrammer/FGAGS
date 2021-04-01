@@ -3,9 +3,13 @@
 #include <string>
 #include <Windows.h>
 #include "Debug.h"
+#include "Object.h"
 
 void ParticleComponent::Update(float dt)
 {
+	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
+	_position = pTransformComponent->GetPosition();
+
 	//Immovable object check
 	if (GetInverseMass() <= 0.0) return;
 
@@ -27,7 +31,11 @@ void ParticleComponent::Update(float dt)
 	//Apply damping force, basic version of drag
 	_velocity *= powf(_linearDamping, dt);
 
+	_position.AddScaledVector(_velocity, dt);
+
 	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
 	ClearAccumulator();
+
+	pTransformComponent->SetPosition(_position);
 }
 

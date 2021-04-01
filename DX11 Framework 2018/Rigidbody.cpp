@@ -47,7 +47,6 @@ void RigidbodyComponent::CalculateDerivedData()
 	_orientation.Normalize();
 
 	CalculateTransformMatrix(_transformMatrix, _position, _orientation);
-
 	CalculateInertiaTensor(_inverseInertiaTensorWorld, _orientation, _inverseInertiaTensor, _transformMatrix);
 }
 
