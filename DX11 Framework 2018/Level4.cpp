@@ -43,11 +43,6 @@ void Level4::ExitLevel()
 	_pCameras.clear();
 }
 
-void Level4::PollInput(float dt)
-{
-	Level::PollInput(dt);
-}
-
 void Level4::Update(float dt)
 {
 	_pGravityGenerator->Update(_pTopRb, dt);
@@ -69,11 +64,6 @@ void Level4::Update(float dt)
 
 		_pContactResolver->ResolveContacts(_contactData._contactArray, _contactData._contactCount, dt);
 	}
-}
-
-void Level4::Reset()
-{
-	LoadLevel();
 }
 
 void Level4::DrawUI()

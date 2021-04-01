@@ -18,20 +18,10 @@ void Level2::ExitLevel()
 
 }
 
-void Level2::PollInput(float dt)
-{
-	Level::PollInput(dt);
-}
-
 void Level2::Update(float dt)
 {
 	_pGravityGenerator->Update(_pRb, dt);
 	_pRestingGenerator->Update(_pRb, dt);
-}
-
-void Level2::Reset()
-{
-	LoadLevel();
 }
 
 void Level2::DrawUI()

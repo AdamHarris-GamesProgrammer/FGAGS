@@ -16,14 +16,7 @@ public:
 
 	void ExitLevel() override;
 
-
-	void PollInput(float dt) override;
-
-
 	void Update(float dt) override;
-
-
-	void Reset() override;
 
 private:
 	GravityForceGenerator* _pGravityGenerator = nullptr;

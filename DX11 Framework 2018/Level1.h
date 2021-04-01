@@ -1,5 +1,7 @@
 #pragma once
 #include "Level.h"
+#include "Particle.h"
+
 class Level1 : public Level
 {
 public:
@@ -11,15 +13,11 @@ public:
 	void LoadLevel() override;
 
 
-	void PollInput(float dt) override;
-
-
 	void Update(float dt) override;
 
-
-	void Reset() override;
-
 private:
+	ParticleComponent* _pParticleComponent;
+
 	void DrawUI() override;
 
 };

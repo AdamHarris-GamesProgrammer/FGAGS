@@ -4,21 +4,14 @@ void Level1::LoadLevel()
 {
 	Level::LoadLevel();
 
-	LoadGround();
-}
+	_pParticleComponent = new ParticleComponent(_pGameObjects[0]);
+	_pParticleComponent->SetAcceleration(Vector3(5.0f, 0.0f, 0.0f));
 
-void Level1::PollInput(float dt)
-{
-	Level::PollInput(dt);
+	LoadGround();
 }
 
 void Level1::Update(float dt)
 {
-}
-
-void Level1::Reset()
-{
-	LoadLevel();
 }
 
 void Level1::DrawUI()

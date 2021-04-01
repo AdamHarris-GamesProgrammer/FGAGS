@@ -19,11 +19,6 @@ void Level3::ExitLevel()
 {
 }
 
-void Level3::PollInput(float dt)
-{
-	Level::PollInput(dt);
-}
-
 void Level3::Update(float dt)
 {
 	//Stops object from falling down
@@ -57,12 +52,6 @@ void Level3::Update(float dt)
 		//Inverting the mouse Y NDC as DirectX goes from -1 
 		_pRb->AddTorque(Vector3(-_normalizedCoords[1] * rotationYScale, _normalizedCoords[0] * rotationXScale, 0) * _rotationPower);
 	}
-}
-
-void Level3::Reset()
-{
-	LoadLevel();
-
 }
 
 void Level3::DrawUI()
