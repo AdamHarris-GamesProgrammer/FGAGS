@@ -25,16 +25,39 @@ protected:
 
 class Sphere : public CollisionPrimitive {
 public:
+	Sphere(RigidbodyComponent* body, float radius = 1.0f) {
+		_body = body;
+		_radius = radius;
+		CalculateInternals();
+	}
+
 	float _radius;
 };
 
 class CollisionPlane {
 public:
+	CollisionPlane(Vector3 direction, float offset) {
+		_direction = direction;
+		_offset = offset;
+	}
+
 	Vector3 _direction;
 	float _offset = 0.0f;
 };
 
 class Box : public CollisionPrimitive {
 public:
+	Box(RigidbodyComponent* body, Vector3 halfSize) {
+		_body = body;
+		_halfSize = halfSize;
+		CalculateInternals();
+	}
+
+	Box(RigidbodyComponent* body) {
+		_body = body;
+		_halfSize = Vector3(1.0f, 1.0f, 1.0f);
+		CalculateInternals();
+	}
+
 	Vector3 _halfSize;
 };

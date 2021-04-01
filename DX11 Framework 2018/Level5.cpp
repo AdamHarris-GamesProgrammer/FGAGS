@@ -52,24 +52,16 @@ void Level5::LoadLevel()
 
 	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
 
-	_pBottomCube = new Box();
-	_pBottomCube->_halfSize = Vector3(1.0, 1.0, 1.0);
-	_pBottomCube->_body = _pBottomRb;
-	_pBottomCube->CalculateInternals();
+	_pBottomCube = new Box(_pBottomRb);
 
 	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
 
-	_pTopCube = new Box();
-	_pTopCube->_halfSize = Vector3(1.0, 1.0, 1.0);
-	_pTopCube->_body = _pTopRb;
-	_pTopCube->CalculateInternals();
+	_pTopCube = new Box(_pTopRb);
 
 	_pBottomRb->SetAwake();
 	_pTopRb->SetAwake();
 
-	_pGround = new CollisionPlane();
-	_pGround->_direction = Vector3(0, 1, 0);
-	_pGround->_offset = 0;
+	_pGround = new CollisionPlane(Vector3::up, 0.0f);
 
 	_pContactResolver = new ContactResolver(MAX_CONTACTS);
 	_contactData._contactArray = _contactsArray;
