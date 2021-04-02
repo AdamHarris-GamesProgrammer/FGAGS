@@ -13,6 +13,9 @@ void Level3::LoadLevel()
 	_pRb->SetCanSleep(false);
 
 	_rotationPower = 100.0f;
+
+	_normalizedCoords[0] = 0.0f;
+	_normalizedCoords[1] = 0.0f;
 }
 
 void Level3::ExitLevel()

@@ -31,6 +31,14 @@ public:
 
 	Vector3 GetRotation() const;
 	Vector3 GetScale() const;
+	Quaternion GetOrientation() const {
+		return _orientation;
+	}
+
+	void SetOrientation(Quaternion val) {
+		_orientation = val;
+	}
+	
 	void SetPosition(Vector3 position);
 	void SetPosition(XMFLOAT3 position);
 	void SetRotation(Vector3 rotation);

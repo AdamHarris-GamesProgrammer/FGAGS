@@ -115,7 +115,7 @@ void RigidbodyComponent::Update(float dt)
 	ClearAccumulator();
 
 	pTransformComponent->SetPosition(_position);
-	pTransformComponent->SetRotation(_orientation.Identity());
+	pTransformComponent->SetOrientation(_orientation);
 
 	CheckSleep(_velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation), dt);
 
