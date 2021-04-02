@@ -58,9 +58,7 @@ protected:
 	
 	
 	void ResetButton();
-	void OutputVelocity(GameObject* obj);
-	void OutputPosition(GameObject* obj);
-	void OutputAcceleration(GameObject* obj);
+	void OutputVector3(std::string label, Vector3 vec);
 
 	void LoadGround();
 protected:

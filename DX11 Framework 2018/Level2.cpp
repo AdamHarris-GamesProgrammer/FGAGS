@@ -28,7 +28,7 @@ void Level2::DrawUI()
 {
 	ImGui::Begin("Test 2");
 
-	OutputVelocity(_pGameObjects[0]);
+	OutputVector3("Object Velocity: ", _pRb->GetVelocity());
 
 	ResetButton();
 

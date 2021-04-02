@@ -22,13 +22,9 @@ void Level1::DrawUI()
 	ImGui::Begin("Test 1");
 
 	//Print Movement Information about our cube.
-	OutputPosition(_pGameObjects[0]);
-
-	ImGui::Text("RB Pos: %.2f", _pParticleComponent->GetPosition().x);
-
-	//OutputVelocity(_pGameObjects[0]);
-	//OutputAcceleration(_pGameObjects[0]);
-	
+	OutputVector3("Object Position: ", _pGameObjects[0]->GetTransform().GetPosition());
+	OutputVector3("Object Velocity: ", _pParticleComponent->GetVelocity());
+	OutputVector3("Object Acceleration", _pParticleComponent->GetAcceleration());
 
 	ResetButton();
 

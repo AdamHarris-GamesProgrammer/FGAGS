@@ -6,6 +6,7 @@ void TransformComponent::Update(float dt)
 
 	_orientation.Normalize();
 
+	//Calculate the transform matrix with position and orientation
 	_transform._data[0] = 1 - 2 * _orientation._j * _orientation._j - 2 * _orientation._k * _orientation._k;
 	_transform._data[1] = 2 * _orientation._i * _orientation._j - 2 * _orientation._r * _orientation._k;
 	_transform._data[2] = 2 * _orientation._i * _orientation._k + 2 * _orientation._r * _orientation._j;
@@ -23,7 +24,7 @@ void TransformComponent::Update(float dt)
 	_transform.DirectXArray(transform);
 	SetDirectXTransform(XMFLOAT4X4(transform));
 
-
+	//Perform the scaling operation
 	XMMATRIX transformMatrix = XMLoadFloat4x4(&_DirectXTransform);
 
 	//Sets the scale, position and rotation matrices
@@ -33,7 +34,7 @@ void TransformComponent::Update(float dt)
 	XMMATRIX calculatedTransform = XMMatrixMultiply(transformMatrix, objectScale);
 
 	//Stores the transform
-	//XMStoreFloat4x4(&_DirectXTransform, calculatedTransform);
+	XMStoreFloat4x4(&_DirectXTransform, calculatedTransform);
 }
 
 DirectX::XMFLOAT4X4 TransformComponent::GetDirectXTransform() const

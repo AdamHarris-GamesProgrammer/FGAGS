@@ -1,5 +1,6 @@
 #include "Level.h"
 #include <thread>
+#include <sstream>
 
 void Level::LoadLevel()
 {
@@ -71,22 +72,12 @@ void Level::ResetButton()
 	}
 }
 
-void Level::OutputVelocity(GameObject* obj)
+void Level::OutputVector3(std::string label, Vector3 vec)
 {
-	Vector3 objVel = dynamic_cast<RigidbodyComponent*>(obj->GetComponent(Rigidbody))->GetVelocity();
-	ImGui::Text("Object Velocity: {X: %.2f, Y: %.2f, Z: %.2f}", objVel.x, objVel.y, objVel.z);
-}
-
-void Level::OutputPosition(GameObject* obj)
-{
-	Vector3 objPos = obj->GetTransform().GetPosition();
-	ImGui::Text("Object Position: {X: %.2f, Y: %.2f, Z: %.2f}", objPos.x, objPos.y, objPos.z);
-}
-
-void Level::OutputAcceleration(GameObject* obj)
-{
-	Vector3 objAcc = dynamic_cast<RigidbodyComponent*>(obj->GetComponent(Rigidbody))->GetAcceleration();
-	ImGui::Text("Object Acceleration: {X: %.2f, Y: %.2f, Z: %.2f}", objAcc.x, objAcc.y, objAcc.z);
+	std::ostringstream output;
+	output.precision(6);
+	output << label << " {X: " << vec.x << " Y: " << vec.y << " Z: " << vec.z << "}";
+	ImGui::Text(output.str().c_str());
 }
 
 void Level::LoadGround()
