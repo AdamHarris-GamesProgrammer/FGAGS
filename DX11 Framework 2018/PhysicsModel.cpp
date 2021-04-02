@@ -93,6 +93,8 @@ void PhysicsModelComponent::SetPosition(float x, float y, float z)
 
 void PhysicsModelComponent::Initialize()
 {
+	SetCanSleep(true);
+	SetAwake(true);
 	SetMass(5.0);
 	SetVelocity(0, 0, 0);
 }

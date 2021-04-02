@@ -117,15 +117,8 @@ void RigidbodyComponent::Update(float dt)
 	pTransformComponent->SetPosition(_position);
 	pTransformComponent->SetRotation(_orientation.Identity());
 
-	if (_canSleep) {
-		float currentMotion = _velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation);
-		float bias = powf(0.5, dt);
+	CheckSleep(_velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation), dt);
 
-		_motion = bias * _motion + (1 - bias) * currentMotion;
-
-		if (_motion < _sleepEpsilon) SetAwake(false);
-		else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
-	}
 }
 
 void RigidbodyComponent::Initialize()

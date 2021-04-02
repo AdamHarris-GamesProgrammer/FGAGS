@@ -163,23 +163,16 @@ public:
 		_rotation += deltaRotation;
 	}
 
-	void SetAwake(const bool awake = true) {
+	void SetAwake(const bool awake = true) override {
+		PhysicsModelComponent::SetAwake(awake);
+
 		if (awake) {
-			_isAwake = true;
-			_motion = _sleepEpsilon * 2.0f;
+
 		}
 		else
 		{
-			_isAwake = false;
-			_velocity.Zero();
 			_rotation.Zero();
 		}
-	}
-
-	void SetCanSleep(const bool canSleep) {
-		_canSleep = canSleep;
-
-		if (!canSleep && !_isAwake) SetAwake();
 	}
 
 	Vector3 GetLastFrameAcceleration() const {
@@ -192,9 +185,7 @@ public:
 	}
 
 
-	bool GetAwake() const {
-		return _isAwake;
-	}
+
 
 	//Add Forces
 	void AddForce(const Vector3& force) override;
@@ -211,14 +202,9 @@ private:
 protected:
 	Vector3 _torqueAccumulator;
 
-	bool _isAwake;
-
-
 	float _angularDamping;
 
-
 	Quaternion _orientation;
-
 
 	Vector3 _rotation;
 
@@ -226,19 +212,10 @@ protected:
 
 	Vector3 _previousAcceleration;
 
-	float _motion;
-
-	bool _canSleep;
-
 	Matrix3 _inverseInertiaTensor;
 	Matrix3 _inverseInertiaTensorWorld;
 
-	//TODO: Abstract sleeping stuff out physics model class
-	float _sleepEpsilon = 0.1;
 
-	void SetSleepEpsilon(float value) { _sleepEpsilon = value; }
-
-	float GetSleepEpsilon() { return _sleepEpsilon; }
 private:
 
 

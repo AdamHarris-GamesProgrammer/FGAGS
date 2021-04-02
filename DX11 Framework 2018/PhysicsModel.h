@@ -41,6 +41,32 @@ public:
 	void SetPosition(Vector3 val = Vector3());
 	void SetPosition(float x, float y, float z);
 
+
+	void SetSleepEpsilon(float value) { _sleepEpsilon = value; }
+
+	float GetSleepEpsilon() { return _sleepEpsilon; }
+	bool GetAwake() const {
+		return _isAwake;
+	}
+
+	 virtual void SetAwake(const bool awake = true) {
+		if (awake) {
+			_isAwake = true;
+			_motion = _sleepEpsilon * 2.0f;
+		}
+		else
+		{
+			_isAwake = false;
+			_velocity.Zero();
+		}
+	}
+
+	void SetCanSleep(const bool canSleep) {
+		_canSleep = canSleep;
+
+		if (!canSleep && !_isAwake) SetAwake();
+	}
+
 private:
 	
 
@@ -54,6 +80,24 @@ protected:
 	float _inverseMass;
 	float _linearDamping;
 
+	bool _isAwake;
+	float _motion;
+	bool _canSleep;
+
+	float _sleepEpsilon = 0.1;
+
 	virtual void Initialize();
+
+	void CheckSleep(float currMot, float dt) {
+		if (_canSleep) {
+			float currentMotion = currMot;
+			float bias = powf(0.5, dt);
+
+			_motion = bias * _motion + (1 - bias) * currentMotion;
+
+			if (_motion < _sleepEpsilon) SetAwake(false);
+			else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
+		}
+	}
 };
 

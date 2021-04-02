@@ -37,5 +37,7 @@ void ParticleComponent::Update(float dt)
 	ClearAccumulator();
 
 	pTransformComponent->SetPosition(_position);
+
+	CheckSleep(_velocity.ScalarProduct(_velocity), dt);
 }
 
