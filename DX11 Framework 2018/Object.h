@@ -10,6 +10,7 @@ class Object
 {
 public:
 	Object();
+	~Object();
 
 	virtual void Update(float dt);
 

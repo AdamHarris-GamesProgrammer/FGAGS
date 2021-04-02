@@ -6,6 +6,11 @@ Object::Object()
 	_name = "Object";
 }
 
+Object::~Object()
+{
+	_components.clear();
+}
+
 void Object::Update(float dt)
 {
 	for (auto& component : _components) {

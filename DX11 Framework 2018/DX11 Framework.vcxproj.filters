@@ -331,9 +331,6 @@
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="ParticleForceRegistry.cpp">
-      <Filter>Engine\Physics\ParticleModel</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleContact.cpp">
       <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
     </ClCompile>
@@ -380,6 +377,9 @@
     </ClCompile>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Level6.cpp" />
+    <ClCompile Include="ParticleForceRegistry.cpp">
+      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

@@ -16,7 +16,7 @@ public:
 	void Update(float dt) override;
 
 private:
-	ParticleComponent* _pParticleComponent;
+	std::unique_ptr<ParticleComponent> _pParticleComponent;
 
 	void DrawUI() override;
 

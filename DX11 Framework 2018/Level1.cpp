@@ -4,10 +4,19 @@ void Level1::LoadLevel()
 {
 	Level::LoadLevel();
 
-	_pParticleComponent = new ParticleComponent(_pGameObjects[0]);
-	_pParticleComponent->SetAcceleration(Vector3(5.0f, 0.0f, 0.0f));
-	_pParticleComponent->SetInverseMass(3.0f);
-	_pParticleComponent->SetDamping(0.9f);
+	if (_pParticleComponent == nullptr) {
+		_pParticleComponent = std::make_unique<ParticleComponent>(_pGameObjects[0]);
+		_pParticleComponent->SetInverseMass(3.0f);
+		_pParticleComponent->SetDamping(0.9f);
+		_pParticleComponent->SetAcceleration(Vector3(5.0f, 0.0f, 0.0f));
+	}
+	else
+	{
+		_pParticleComponent->SetOwner(_pGameObjects[0]);
+	}
+
+	//Sets velocity to 0. This is needed as the same particle component is used for each reset
+	_pParticleComponent->SetVelocity(Vector3());
 
 	LoadGround();
 }

@@ -59,6 +59,7 @@ protected:
 	
 	void ResetButton();
 	void OutputVector3(std::string label, Vector3 vec);
+	
 
 	void LoadGround();
 protected:

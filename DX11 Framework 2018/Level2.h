@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "GravityForceGenerator.h"
 #include "RestingForceGenerator.h"
+#include <memory>
 
 class Level2 : public Level
 {
@@ -19,8 +20,8 @@ public:
 	void Update(float dt) override;
 
 private:
-	GravityForceGenerator* _pGravityGenerator = nullptr;
-	RestingForceGenerator* _pRestingGenerator = nullptr;
+	std::unique_ptr<GravityForceGenerator> _pGravityGenerator = nullptr;
+	std::unique_ptr<RestingForceGenerator> _pRestingGenerator = nullptr;
 
 	void DrawUI() override;
 

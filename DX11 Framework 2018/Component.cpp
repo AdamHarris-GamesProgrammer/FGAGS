@@ -12,6 +12,14 @@ ComponentID Component::GetID() const
 	return _id;
 }
 
+void Component::SetOwner(Object* newOwner)
+{
+	//TODO: Make a remove component method
+
+	_pOwner = newOwner;
+	_pOwner->AddComponent(this);
+}
+
 float Component::GetUpdatePriority() const
 {
 	return _updatePriority;

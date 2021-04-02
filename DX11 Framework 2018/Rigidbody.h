@@ -233,7 +233,7 @@ protected:
 	Matrix3 _inverseInertiaTensor;
 	Matrix3 _inverseInertiaTensorWorld;
 
-	//TODO: Abstract sleeping stuff out
+	//TODO: Abstract sleeping stuff out physics model class
 	float _sleepEpsilon = 0.1;
 
 	void SetSleepEpsilon(float value) { _sleepEpsilon = value; }
