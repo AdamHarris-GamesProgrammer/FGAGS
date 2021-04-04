@@ -27,8 +27,6 @@ void Level2::Update(float dt)
 {
 	_pGravityGenerator->Update(_pRb, dt);
 	_pRestingGenerator->Update(_pRb, dt);
-
-	FlyCamera(dt);
 }
 
 void Level2::DrawUI()

@@ -47,6 +47,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	_pGfx->SetClearColor(_clearColor);
 
+	_pLevel0 = new Level0(_pGfx, "Assets/Levels/test0.json");
 	_pLevel1 = new Level1(_pGfx, "Assets/Levels/test1.json");
 	_pLevel2 = new Level2(_pGfx, "Assets/Levels/test2.json");
 	_pLevel3 = new Level3(_pGfx, "Assets/Levels/test3.json");
@@ -55,7 +56,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pLevel6 = new Level6(_pGfx, "Assets/Levels/test6.json");
 	_pLevel7 = new Level7(_pGfx, "Assets/Levels/test7.json");
 
-	ChangeLevel(_pLevel7);
+	ChangeLevel(_pLevel0);
 
 	return S_OK;
 }
@@ -130,7 +131,10 @@ void Application::Picking()
 
 void Application::PollInput(float dt)
 {
-	if (GetAsyncKeyState('1')) {
+	if (GetAsyncKeyState('0')) {
+		ChangeLevel(_pLevel0);
+	}
+	else if (GetAsyncKeyState('1')) {
 		ChangeLevel(_pLevel1);
 	}
 	else if (GetAsyncKeyState('2')) {

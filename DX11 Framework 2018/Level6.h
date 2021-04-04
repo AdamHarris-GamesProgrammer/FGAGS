@@ -16,6 +16,8 @@ public:
 
 	void Update(float dt) override;
 
+	void PollInput(float dt) override;
+
 	void LoadLevel() override;
 
 private:

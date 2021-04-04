@@ -29,6 +29,7 @@
 #include "ContactResolver.h"
 
 #include "Level.h"
+#include "Level0.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
@@ -36,6 +37,7 @@
 #include "Level5.h"
 #include "Level6.h"
 #include "Level7.h"
+
 
 using namespace DirectX;
 
@@ -62,6 +64,7 @@ private:
 	//Stores the current level we are in so we only draw and update this scene
 	Level* _pCurrentLevel = nullptr;
 	//Stores all of our levels we have
+	Level0* _pLevel0 = nullptr;
 	Level1* _pLevel1 = nullptr;
 	Level2* _pLevel2 = nullptr;
 	Level3* _pLevel3 = nullptr;
