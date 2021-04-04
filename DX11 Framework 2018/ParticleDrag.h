@@ -21,6 +21,7 @@ public:
 
 		//Calculate drag factor
 		float dragFactor = totalDrag.Magnitude();
+		//				Laminar flow				Turbulent flow
 		dragFactor = _dragCoefficient * dragFactor + _squaredDragCoefficient * dragFactor * dragFactor;
 
 		//Calculate total drag
@@ -30,6 +31,9 @@ public:
 		//Add the drag to the particle
 		particle->AddForce(totalDrag);
 	}
+
+	float GetDrag() const { return _dragCoefficient; }
+	float GetSquaredDrag() const { return _squaredDragCoefficient; }
 
 	void SetDrags(float drag, float squaredDrag) {
 		_dragCoefficient = drag;

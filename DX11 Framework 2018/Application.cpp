@@ -27,6 +27,9 @@ Application::~Application()
 	delete _pLevel6;
 	_pLevel6 = nullptr;
 
+	delete _pLevel7;
+	_pLevel7 = nullptr;
+
 	delete _pGfx;
 	_pGfx = nullptr;
 }
@@ -50,8 +53,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pLevel4 = new Level4(_pGfx, "Assets/Levels/test4.json");
 	_pLevel5 = new Level5(_pGfx, "Assets/Levels/test5.json");
 	_pLevel6 = new Level6(_pGfx, "Assets/Levels/test6.json");
+	_pLevel7 = new Level7(_pGfx, "Assets/Levels/test7.json");
 
-	ChangeLevel(_pLevel1);
+	ChangeLevel(_pLevel7);
 
 	return S_OK;
 }
@@ -143,6 +147,9 @@ void Application::PollInput(float dt)
 	}
 	else if (GetAsyncKeyState('6')) {
 		ChangeLevel(_pLevel6);
+	}
+	else if (GetAsyncKeyState('7')) {
+		ChangeLevel(_pLevel7);
 	}
 }
 

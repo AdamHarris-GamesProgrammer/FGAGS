@@ -21,7 +21,7 @@ public:
 
 		//if the magnitude is less than the rest length then dont add any force
 		if (magnitude <= _restLength) return;
-
+		
 
 		magnitude = _springConstant * (_restLength - magnitude);
 
@@ -30,6 +30,22 @@ public:
 		force *= -magnitude;
 		particle->AddForce(force);
 
+	}
+
+	float GetSpringConstant() const {
+		return _springConstant;
+	}
+
+	float GetRestLength() const {
+		return _restLength;
+	}
+
+	void SetSpringConstant(float val) {
+		_springConstant = val;
+	}
+
+	void SetRestLength(float val) {
+		_restLength = val;
 	}
 
 private:

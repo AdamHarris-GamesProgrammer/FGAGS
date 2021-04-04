@@ -35,6 +35,7 @@
 #include "Level4.h"
 #include "Level5.h"
 #include "Level6.h"
+#include "Level7.h"
 
 using namespace DirectX;
 
@@ -67,6 +68,7 @@ private:
 	Level4* _pLevel4 = nullptr;
 	Level5* _pLevel5 = nullptr;
 	Level6* _pLevel6 = nullptr;
+	Level7* _pLevel7 = nullptr;
 	
 
 	//Time object used to track delta time for object translations

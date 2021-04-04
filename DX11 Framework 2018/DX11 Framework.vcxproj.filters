@@ -271,6 +271,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentIDs.h" />
     <ClInclude Include="Level6.h" />
+    <ClInclude Include="Level7.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -380,6 +381,7 @@
     <ClCompile Include="ParticleForceRegistry.cpp">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClCompile>
+    <ClCompile Include="Level7.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

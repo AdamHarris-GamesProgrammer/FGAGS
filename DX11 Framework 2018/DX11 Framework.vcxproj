@@ -400,6 +400,7 @@
     <ClCompile Include="Level4.cpp" />
     <ClCompile Include="Level5.cpp" />
     <ClCompile Include="Level6.cpp" />
+    <ClCompile Include="Level7.cpp" />
     <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
@@ -454,6 +455,7 @@
     <ClInclude Include="Level4.h" />
     <ClInclude Include="Level5.h" />
     <ClInclude Include="Level6.h" />
+    <ClInclude Include="Level7.h" />
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Matrix4.h" />
