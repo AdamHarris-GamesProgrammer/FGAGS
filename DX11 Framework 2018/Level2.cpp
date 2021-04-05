@@ -9,6 +9,7 @@ void Level2::LoadLevel()
 	_pRb = new RigidbodyComponent(_pGameObjects[0]);
 	_pRb->SetAwake();
 	_pRb->SetMass(10.0f);
+	_pRb->SetCubeInertiaTensor();
 
 	if(_pGravityGenerator == nullptr) _pGravityGenerator = std::make_unique<GravityForceGenerator>(Vector3(0.0f, -9.81f, 0.0f));
 	if(_pRestingGenerator == nullptr) _pRestingGenerator = std::make_unique<RestingForceGenerator>(1.0f);

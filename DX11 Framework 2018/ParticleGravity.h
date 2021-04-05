@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Particle.h"
-#include "ParticleForceGenerator.h"
 
-class ParticleGravity : public ParticleForceGenerator {
+class ParticleGravity {
 	Vector3 _gravity;
 
 public:
@@ -11,7 +10,7 @@ public:
 		_gravity = gravity;
 	}
 
-	virtual void Update(Particle* particle, float duration) {
+	void Update(ParticleComponent* particle, float duration) {
 		if (!particle->HasFiniteMass()) return;
 
 		particle->AddForce(_gravity * particle->GetMass());

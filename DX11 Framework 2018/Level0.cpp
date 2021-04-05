@@ -5,7 +5,7 @@ void Level0::DrawUI()
 	ImGui::Begin("Physics Assignment - Adam Harris");
 
 	ImGui::Text("Controls");
-	ImGui::Text("Use Keys 1 - 7 to load each level");
+	ImGui::Text("Use Keys 1 - 6 to load each level");
 	ImGui::Text("Use Key 0 to return to this screen at any time");
 	ImGui::Text("Use Key R to restart a level \nor press the \"Reset Simulation\" button in the ImGUI windows");
 	ImGui::End();
@@ -20,7 +20,6 @@ void Level0::DrawUI()
 	ImGui::Begin("Test 2 Information");
 	ImGui::Text("Test 2 is utilizing a Rigidbody model with a \"gravity force generator\" to apply a gravity force to a cube");
 	ImGui::Text("Then through a \"resting force generator\" the velocity is evened out so the object doesn't go below a certain point");
-	ImGui::Text("Gravity is also controllable in this test");
 	ImGui::End();
 
 	ImGui::Begin("Test 3 Information");

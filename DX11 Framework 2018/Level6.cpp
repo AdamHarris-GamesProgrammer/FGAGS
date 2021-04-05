@@ -14,10 +14,12 @@ void Level6::LoadLevel()
 	_pSphereRb = new RigidbodyComponent(_pGameObjects[0]);
 	_pSphereRb->SetAwake();
 	_pSphereRb->SetMass(20.0f);
+	_pSphereRb->SetSphereInertiaTensor();
 	_pSphereCollider = new Sphere(_pSphereRb);
 
 	_pCubeRb = new RigidbodyComponent(_pGameObjects[1]);
 	_pCubeRb->SetAwake();
+	_pCubeRb->SetCubeInertiaTensor();
 	_pBoxCollider = new Box(_pCubeRb, Vector3(1.0, 1.0, 1.0));
 	
 

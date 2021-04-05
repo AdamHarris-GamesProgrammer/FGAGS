@@ -1,13 +1,13 @@
 #pragma once
 #include "ForceGenerator.h"
 
-class RestingForceGenerator : public ForceGenerator {
+class RestingForceGenerator {
 public:
 	RestingForceGenerator(float yVal = 1.0f) : _yVal(yVal) {
 
 	}
 
-	void Update(RigidbodyComponent* body, float dt) override
+	void Update(PhysicsModelComponent* body, float dt)
 	{
 		//Touching the floor
 		if (body->GetPosition().y <= _yVal) {

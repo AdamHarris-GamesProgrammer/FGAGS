@@ -1,8 +1,7 @@
 #pragma once
 #include "Particle.h"
-#include "ParticleForceGenerator.h"
 
-class ParticleDrag : public ParticleForceGenerator {
+class ParticleDrag {
 	//Velocity drag coefficient
 	float _dragCoefficient;
 

@@ -1,13 +1,12 @@
 #pragma once
 #include "Particle.h"
-#include "ParticleForceGenerator.h"
 
-class ParticleBuoyancy : public ParticleForceGenerator {
+class ParticleBuoyancy {
 public:
 
 
 private:
-	//The maxinum submersion depth of the object
+	//The maximum submersion depth of the object
 	float _maxDepth;
 
 	//The volume of the object
@@ -32,12 +31,12 @@ public:
 		float submersionDepth = particle->GetPosition().y;
 
 		//if the submersion depth is greater than the water height + the max depth then our object is out of water
-		if (submersionDepth >= _waterHeight + _maxDepth) return;
+		if (submersionDepth >= _waterHeight) return;
 
 		Vector3 force = Vector3();
 
 		//We are fully submerged
-		if (submersionDepth <= _waterHeight - _maxDepth) {
+		if (submersionDepth <= _waterHeight) {
 			force.y = _liquidDensity * _volume;
 			particle->AddForce(force);
 			return;
@@ -45,7 +44,7 @@ public:
 
 		//We are partly submerged
 		force.y = _liquidDensity * _volume * 
-			(submersionDepth - _maxDepth - _waterHeight) / 2 * _maxDepth;
+			(submersionDepth - _maxDepth - _waterHeight) / (2 * _maxDepth);
 		particle->AddForce(force);
 	}
 };

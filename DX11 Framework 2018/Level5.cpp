@@ -7,10 +7,12 @@ void Level5::LoadLevel()
 	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
 
 	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
+	_pBottomRb->SetCubeInertiaTensor();
 
 	_pBottomCube = new Box(_pBottomRb);
 
 	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
+	_pTopRb->SetCubeInertiaTensor();
 
 	_pTopCube = new Box(_pTopRb);
 

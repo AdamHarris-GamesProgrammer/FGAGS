@@ -36,12 +36,6 @@
     <Filter Include="Engine\Physics\ParticleModel\Force Generators">
       <UniqueIdentifier>{224ba795-79a7-4f52-8ba5-3894324b39d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Physics\ParticleModel\Collisions">
-      <UniqueIdentifier>{96b28054-b9d2-4806-8201-19578926652f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Physics\ParticleModel\Links">
-      <UniqueIdentifier>{ed82537a-a921-4764-a355-0f28acf3a4e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Physics\Rigidbody">
       <UniqueIdentifier>{a8b38e53-b1fc-42b3-a253-8cc39782231f}</UniqueIdentifier>
     </Filter>
@@ -146,53 +140,14 @@
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="ParticleForceRegistry.h">
-      <Filter>Engine\Physics\ParticleModel</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleForceGenerator.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSpring.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleUplift.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleGravity.h">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
     <ClInclude Include="ParticleDrag.h">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleAirBrake.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleAnchoredSpring.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleBungee.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleFixedBungee.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleBuoyancy.h">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleContact.h">
-      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleLink.h">
-      <Filter>Engine\Physics\ParticleModel\Links</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleContactGenerator.h">
-      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleCable.h">
-      <Filter>Engine\Physics\ParticleModel\Links</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleRods.h">
-      <Filter>Engine\Physics\ParticleModel\Links</Filter>
     </ClInclude>
     <ClInclude Include="Matrix3.h">
       <Filter>Engine\Core</Filter>
@@ -205,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="Rigidbody.h">
       <Filter>Engine\Physics\Rigidbody</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleContactResolver.h">
-      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="ForceGenerator.h">
       <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
@@ -267,8 +219,6 @@
     <ClInclude Include="Level5.h">
       <Filter>Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentIDs.h" />
     <ClInclude Include="Level6.h">
       <Filter>Levels</Filter>
     </ClInclude>
@@ -278,6 +228,13 @@
     <ClInclude Include="Level0.h">
       <Filter>Levels</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentIDs.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Level7.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -338,14 +295,8 @@
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="ParticleContact.cpp">
-      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
-    </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Engine\Physics\Rigidbody</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleContactResolver.cpp">
-      <Filter>Engine\Physics\ParticleModel\Collisions</Filter>
     </ClCompile>
     <ClCompile Include="CollisionDetector.cpp">
       <Filter>Engine\Physics\Collision</Filter>
@@ -381,10 +332,6 @@
     <ClCompile Include="Level5.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ParticleForceRegistry.cpp">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClCompile>
     <ClCompile Include="Level6.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
@@ -394,6 +341,10 @@
     <ClCompile Include="Level0.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Level7.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
