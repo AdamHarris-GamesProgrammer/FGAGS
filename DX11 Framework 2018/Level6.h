@@ -3,14 +3,13 @@
 #include "CollisionPrimitives.h"
 #include "Plane.h"
 #include "GravityForceGenerator.h"
+#include <memory>
 
 #define MAX_CONTACTS 20
 class Level6 : public Level
 {
 public:
 	Level6(Graphics* gfx, const char* levelName) : Level(gfx, levelName) {}
-
-	void ExitLevel() override;
 
 	void Update(float dt) override;
 
@@ -21,14 +20,16 @@ private:
 
 	Contact _contactsArray[MAX_CONTACTS];
 	CollisionData _contactData;
-	ContactResolver* _pContactResolver;
+	std::unique_ptr<ContactResolver> _pContactResolver;
 
-	CollisionPlane* _pGroundCollider;
-	Sphere* _pSphereCollider;
-	Box* _pBoxCollider;
+	std::unique_ptr<CollisionPlane> _pGroundCollider;
+	std::unique_ptr<Sphere> _pSphereCollider;
+	std::unique_ptr<Box> _pBoxCollider;
 
-	RigidbodyComponent* _pSphereRb;
-	RigidbodyComponent* _pCubeRb;
-	GravityForceGenerator* _pGravityGenerator;
+	std::unique_ptr<RigidbodyComponent> _pSphereRb;
+	std::unique_ptr<RigidbodyComponent> _pCubeRb;
+	std::unique_ptr<GravityForceGenerator> _pGravityGenerator;
+
+	
 };
 

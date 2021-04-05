@@ -1,31 +1,60 @@
 #include "Level6.h"
 
-void Level6::ExitLevel()
-{
-
-}
-
 void Level6::LoadLevel()
 {
 	Level::LoadLevel();
 
-	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
+	if (_pGravityGenerator == nullptr) {
+		_pGravityGenerator = std::make_unique<GravityForceGenerator>(Vector3(0.0f, -9.81f, 0.0f));
+	}
 
-	_pSphereRb = new RigidbodyComponent(_pGameObjects[0]);
+	if (_pSphereRb == nullptr) {
+		_pSphereRb = std::make_unique<RigidbodyComponent>(_pGameObjects[0]);
+	}
+	else
+	{
+		_pSphereRb->SetOwner(_pGameObjects[0]);
+	}
+
 	_pSphereRb->SetAwake();
 	_pSphereRb->SetMass(20.0f);
 	_pSphereRb->SetSphereInertiaTensor();
-	_pSphereCollider = new Sphere(_pSphereRb);
 
-	_pCubeRb = new RigidbodyComponent(_pGameObjects[1]);
+	if (_pSphereCollider == nullptr) {
+		_pSphereCollider = std::make_unique<Sphere>(_pSphereRb.get());
+	}
+	else
+	{
+		_pSphereCollider->_body = _pSphereRb.get();
+	}
+
+	if (_pCubeRb == nullptr) {
+		_pCubeRb = std::make_unique<RigidbodyComponent>(_pGameObjects[1]);
+	}
+	else
+	{
+		_pCubeRb->SetOwner(_pGameObjects[1]);
+	}
+
 	_pCubeRb->SetAwake();
 	_pCubeRb->SetCubeInertiaTensor();
-	_pBoxCollider = new Box(_pCubeRb, Vector3(1.0, 1.0, 1.0));
-	
 
-	_pGroundCollider = new CollisionPlane(Vector3(0, 1, 0), 0.0f);
+	if (_pBoxCollider == nullptr) {
+		_pBoxCollider = std::make_unique<Box>(_pCubeRb.get(), Vector3(1.0, 1.0, 1.0));
+	}
+	else
+	{
+		_pBoxCollider->_body = _pCubeRb.get();
+	}
 
-	_pContactResolver = new ContactResolver(MAX_CONTACTS);
+	if (_pGroundCollider == nullptr) {
+		_pGroundCollider = std::make_unique<CollisionPlane>(Vector3(0, 1, 0), 0.0f);
+	}
+
+	if (_pContactResolver == nullptr) {
+		_pContactResolver = std::make_unique<ContactResolver>(MAX_CONTACTS);
+	}
+
 	_contactData._contactArray = _contactsArray;
 	_contactData._friction = 0.9;
 	_contactData._restitution = 0.1;
@@ -36,16 +65,13 @@ void Level6::LoadLevel()
 
 void Level6::Update(float dt)
 {
-	_pGravityGenerator->Update(_pCubeRb, dt);
-	_pGravityGenerator->Update(_pSphereRb, dt);
+	_pGravityGenerator->Update(_pCubeRb.get(), dt);
+	_pGravityGenerator->Update(_pSphereRb.get(), dt);
 
 	_pSphereCollider->CalculateInternals();
 	_pBoxCollider->CalculateInternals();
 
 	_contactData.Reset(MAX_CONTACTS);
-	_contactData._friction = (float)0.9;
-	_contactData._restitution = (float)0.1;
-	_contactData._tolerance = (float)0.1;
 
 	if (_contactData.HasMoreContacts()) {
 		CollisionDetector::BoxAndSphere(*_pBoxCollider, *_pSphereCollider, &_contactData);

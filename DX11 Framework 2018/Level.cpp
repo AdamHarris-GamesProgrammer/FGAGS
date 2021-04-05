@@ -19,7 +19,8 @@ void Level::LoadLevel()
 
 void Level::ExitLevel()
 {
-
+	_pGameObjects.clear();
+	_pCameras.clear();
 }
 
 void Level::PollInput(float dt)

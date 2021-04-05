@@ -4,61 +4,73 @@ void Level5::LoadLevel()
 {
 	Level::LoadLevel();
 
-	_pGravityGenerator = new GravityForceGenerator(Vector3(0.0f, -9.81f, 0.0f));
+	if (_pGravityGenerator == nullptr) {
+		_pGravityGenerator = std::make_unique<GravityForceGenerator>(Vector3(0.0f, -9.81f, 0.0f));
+	}
 
-	_pBottomRb = new RigidbodyComponent(_pGameObjects[0]);
+	if (_pBottomRb == nullptr) {
+		_pBottomRb = std::make_unique<RigidbodyComponent>(_pGameObjects[0]);
+		_pBottomRb->SetAwake();
+	}
+	else
+	{
+		_pBottomRb->SetOwner(_pGameObjects[0]);
+	}
 	_pBottomRb->SetCubeInertiaTensor();
 
-	_pBottomCube = new Box(_pBottomRb);
+	if (_pTopRb == nullptr) {
+		_pTopRb = std::make_unique<RigidbodyComponent>(_pGameObjects[1]);
+		_pTopRb->SetAwake();
+	}
+	else
+	{
+		_pTopRb->SetOwner(_pGameObjects[1]);
+	}
 
-	_pTopRb = new RigidbodyComponent(_pGameObjects[1]);
-	_pTopRb->SetCubeInertiaTensor();
+	if (_pTopCube == nullptr) {
+		_pTopCube = std::make_unique<Box>(_pTopRb.get());
+	}
+	else
+	{
+		_pTopCube->_body = _pTopRb.get();
+	}
 
-	_pTopCube = new Box(_pTopRb);
 
-	_pBottomRb->SetAwake();
-	_pTopRb->SetAwake();
+	if (_pBottomCube == nullptr) {
+		_pBottomCube = std::make_unique<Box>(_pBottomRb.get());
+	}
+	else
+	{
+		_pBottomCube->_body = _pBottomRb.get();
+	}
 
-	_pGround = new CollisionPlane(Vector3(0, 1, 0), 0.0f);
+	if (_pGround == nullptr) {
+		_pGround = std::make_unique<CollisionPlane>(Vector3(0, 1, 0), 0.0f);
+	}
 
-	_pContactResolver = new ContactResolver(MAX_CONTACTS);
+	if (_pContactResolver == nullptr) {
+		_pContactResolver = std::make_unique<ContactResolver>(MAX_CONTACTS);
+	}
+
 	_contactData._contactArray = _contactsArray;
-	_contactData._friction = 0.9;
-	_contactData._restitution = 0.1;
-	_contactData._tolerance = 0.1;
+	_contactData._friction = 0.9f;
+	_contactData._restitution = 0.1f;
+	_contactData._tolerance = 0.1f;
 
 	LoadGround();
 }
 
-void Level5::ExitLevel()
-{
-	delete _pBottomCube;
-	delete _pTopCube;
-	delete _pGround;
-	delete _pContactResolver;
-
-	_pBottomCube = nullptr;
-	_pTopCube = nullptr;
-	_pGround = nullptr;
-	_pContactResolver = nullptr;
-
-	_pCameras.clear();
-	
-}
 
 void Level5::Update(float dt)
 {
-	_pGravityGenerator->Update(_pTopRb,dt);
-	_pGravityGenerator->Update(_pBottomRb,dt);
+	_pGravityGenerator->Update(_pTopRb.get(),dt);
+	_pGravityGenerator->Update(_pBottomRb.get(),dt);
 
 
 	_pTopCube->CalculateInternals();
 	_pBottomCube->CalculateInternals();
 
 	_contactData.Reset(MAX_CONTACTS);
-	_contactData._friction = (float)0.9;
-	_contactData._restitution = (float)0.1;
-	_contactData._tolerance = (float)0.1;
 
 	if (_contactData.HasMoreContacts()) {
 		CollisionDetector::BoxAndHalfSpace(*_pTopCube, *_pGround, &_contactData);

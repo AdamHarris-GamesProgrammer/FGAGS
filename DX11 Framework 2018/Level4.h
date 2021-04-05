@@ -1,6 +1,7 @@
 #pragma once
 #include "Level.h"
 #include "GravityForceGenerator.h"
+#include <memory>
 
 #define MAX_CONTACTS 10
 class Level4 : public Level
@@ -19,18 +20,18 @@ private:
 	void DrawUI() override;
 
 private:
-	GravityForceGenerator* _pGravityGenerator;
+	std::unique_ptr<GravityForceGenerator> _pGravityGenerator;
 
 	Contact _contactsArray[MAX_CONTACTS];
 	CollisionData _contactData;
-	ContactResolver* _pContactResolver;
+	std::unique_ptr<ContactResolver> _pContactResolver;
 
-	Box* _pBottomCube;
-	Box* _pTopCube;
-	CollisionPlane* _pGround;
+	std::unique_ptr<Box> _pBottomCube;
+	std::unique_ptr<Box> _pTopCube;
+	std::unique_ptr<CollisionPlane> _pGround;
 
-	RigidbodyComponent* _pTopRb;
-	RigidbodyComponent* _pBottomRb;
+	std::unique_ptr<RigidbodyComponent> _pTopRb;
+	std::unique_ptr<RigidbodyComponent> _pBottomRb;
 
 };
 
