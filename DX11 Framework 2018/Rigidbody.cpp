@@ -115,9 +115,6 @@ void RigidbodyComponent::ClearAccumulator()
 
 void RigidbodyComponent::Update(float dt)
 {
-	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
-	_position = pTransformComponent->GetPosition();
-
 	if (!_isAwake) return;
 
 	//Calculate linear acceleration from the force inputs
@@ -147,8 +144,8 @@ void RigidbodyComponent::Update(float dt)
 	//Clear the force accumulators
 	ClearAccumulator();
 
-	pTransformComponent->SetPosition(_position);
-	pTransformComponent->SetOrientation(_orientation);
+	_pTransformComponent->SetPosition(_position);
+	_pTransformComponent->SetOrientation(_orientation);
 
 	CheckSleep(_velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation), dt);
 
@@ -157,11 +154,9 @@ void RigidbodyComponent::Update(float dt)
 void RigidbodyComponent::Initialize()
 {
 	PhysicsModelComponent::Initialize();
-	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
 
-
-	SetPosition(pTransformComponent->GetPosition());
-	SetRotation(pTransformComponent->GetRotation());
+	SetPosition(_pTransformComponent->GetPosition());
+	SetRotation(_pTransformComponent->GetRotation());
 	SetCanSleep(true);
 	SetAwake(false);
 	SetAngularDamping(0.8f);

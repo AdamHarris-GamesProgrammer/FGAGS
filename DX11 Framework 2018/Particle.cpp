@@ -7,8 +7,7 @@
 
 void ParticleComponent::Update(float dt)
 {
-	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
-	_position = pTransformComponent->GetPosition();
+	_position = _pTransformComponent->GetPosition();
 
 	//Immovable object check
 	if (GetInverseMass() <= 0.0) return;
@@ -36,7 +35,7 @@ void ParticleComponent::Update(float dt)
 	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
 	ClearAccumulator();
 
-	pTransformComponent->SetPosition(_position);
+	_pTransformComponent->SetPosition(_position);
 
 	CheckSleep(_velocity.ScalarProduct(_velocity), dt);
 }

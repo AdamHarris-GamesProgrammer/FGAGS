@@ -480,7 +480,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Levels\level.json" />
-    <None Include="Assets\Levels\physicsTest.json" />
     <None Include="PhongDif.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <FileType>Document</FileType>

@@ -8,8 +8,13 @@
 class ParticleComponent : public PhysicsModelComponent
 {
 public:
-	ParticleComponent(Object* owner) : PhysicsModelComponent(owner, ParticleModel, 50.0f) {}
+	ParticleComponent(Object* owner) : PhysicsModelComponent(owner, ParticleModel, 50.0f) 
+	{
+		Initialize();
+	}
 
 	void Update(float dt) override;
+
+
 };
 

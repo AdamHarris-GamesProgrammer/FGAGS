@@ -2,6 +2,8 @@
 #include "Vector3.h"
 #include "Component.h"
 #include "ComponentIDs.h"
+#include "Transform.h"
+#include "Object.h"
 
 class PhysicsModelComponent : public Component
 {
@@ -12,6 +14,11 @@ public:
 	}
 	PhysicsModelComponent(Object* owner, ComponentID id, float updatePriority) : Component(owner, id, updatePriority) 
 	{
+		Initialize();
+	}
+
+	void SetOwner(Object* newOwner) override {
+		Component::SetOwner(newOwner);
 		Initialize();
 	}
 
@@ -99,5 +106,7 @@ protected:
 			else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
 		}
 	}
+
+	TransformComponent* _pTransformComponent;
 };
 

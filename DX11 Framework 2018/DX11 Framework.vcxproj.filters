@@ -368,9 +368,6 @@
     <None Include="Assets\Levels\level.json">
       <Filter>Levels</Filter>
     </None>
-    <None Include="Assets\Levels\physicsTest.json">
-      <Filter>Levels</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX11 Framework.rc">

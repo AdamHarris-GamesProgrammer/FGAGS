@@ -15,7 +15,7 @@ public:
 
 	ComponentID GetID() const;
 
-	void SetOwner(Object* newOwner);
+	virtual void SetOwner(Object* newOwner);
 
 	float GetUpdatePriority() const;
 

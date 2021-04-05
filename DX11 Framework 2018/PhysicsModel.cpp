@@ -93,6 +93,8 @@ void PhysicsModelComponent::SetPosition(float x, float y, float z)
 
 void PhysicsModelComponent::Initialize()
 {
+	_pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(ComponentID::Transform));
+
 	SetCanSleep(true);
 	SetAwake(true);
 	SetMass(5.0);
