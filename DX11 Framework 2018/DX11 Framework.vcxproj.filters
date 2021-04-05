@@ -269,16 +269,15 @@
     </ClInclude>
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentIDs.h" />
-    <ClInclude Include="Level7.h">
-      <Filter>Levels</Filter>
-    </ClInclude>
     <ClInclude Include="Level6.h">
       <Filter>Levels</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Level0.h" />
+    <ClInclude Include="Level0.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -386,16 +385,15 @@
     <ClCompile Include="ParticleForceRegistry.cpp">
       <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
     </ClCompile>
-    <ClCompile Include="Level7.cpp">
-      <Filter>Levels</Filter>
-    </ClCompile>
     <ClCompile Include="Level6.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Level0.cpp" />
+    <ClCompile Include="Level0.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

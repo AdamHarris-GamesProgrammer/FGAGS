@@ -50,6 +50,39 @@ void RigidbodyComponent::CalculateDerivedData()
 	CalculateInertiaTensor(_inverseInertiaTensorWorld, _orientation, _inverseInertiaTensor, _transformMatrix);
 }
 
+void RigidbodyComponent::SetCubeInertiaTensor()
+{
+	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
+
+	Vector3 scale = pTransformComponent->GetScale();
+
+	//Calculate the extents from the center (half the scale)
+	scale.x /= 2.0f;
+	scale.y /= 2.0f;
+	scale.z /= 2.0f;
+
+	Matrix3 cubeTensor;
+	cubeTensor._data[0] = 1 / 12 * GetMass() * (scale.y * scale.y + scale.z * scale.z);
+	cubeTensor._data[4] = 1 / 12 * GetMass() * (scale.x * scale.x + scale.z * scale.z);
+	cubeTensor._data[8] = 1 / 12 * GetMass() * (scale.x * scale.x + scale.y * scale.y);
+	
+	SetInertiaTensor(cubeTensor);
+}
+
+void RigidbodyComponent::SetSphereInertiaTensor()
+{
+	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
+
+	float radius = pTransformComponent->GetScale().x;
+
+	Matrix3 sphereTensor;
+	sphereTensor._data[0] = 2 / 5 * GetMass() * (radius * radius);
+	sphereTensor._data[4] = 2 / 5 * GetMass() * (radius * radius);
+	sphereTensor._data[8] = 2 / 5 * GetMass() * (radius * radius);
+
+	SetInertiaTensor(sphereTensor);
+}
+
 void RigidbodyComponent::AddForce(const Vector3& force)
 {
 	PhysicsModelComponent::AddForce(force);

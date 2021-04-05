@@ -45,10 +45,6 @@ void Level0::DrawUI()
 	ImGui::Text("Test 6 showcases a sphere which falls onto a cube and generates a proper response. ");
 	ImGui::Text("This is to showcase the inclusion of additional collider types in the physics engine.");
 	ImGui::End();
-
-	ImGui::Begin("Test 7 Information");
-	ImGui::Text("Level 7 features a controllable sphere (using WASD) which can move around a scene and collide with objects in a interactive way");
-	ImGui::End();
 }
 
 void Level0::Update(float dt)

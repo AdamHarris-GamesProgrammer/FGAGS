@@ -184,7 +184,8 @@ public:
 		_isAwake = true;
 	}
 
-
+	void SetCubeInertiaTensor();
+	void SetSphereInertiaTensor();
 
 
 	//Add Forces
