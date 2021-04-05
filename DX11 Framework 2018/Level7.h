@@ -1,9 +1,10 @@
 #pragma once
 #include "Level.h"
-#include "Particle.h"
-#include "ParticleBungee.h"
 #include <memory>
+#include "Rigidbody.h"
+#include "GravityForceGenerator.h"
 
+#define MAX_CONTACTS 40
 class Level7 : public Level
 {
 public:
@@ -15,14 +16,24 @@ public:
 
 
 	void Update(float dt) override;
-
+	void PollInput(float dt) override;
 private:
 	void DrawUI() override;
 
-	std::unique_ptr<ParticleComponent> _pParticleAnchor = nullptr;
-	std::unique_ptr<ParticleComponent> _pParticleA = nullptr;
-	std::unique_ptr<ParticleBungee> _pParticleBungee = nullptr;
+	Contact _contactsArray[MAX_CONTACTS];
+	CollisionData _contactData;
+	ContactResolver* _pContactResolver;
 
+	CollisionPlane* _pGroundCollider;
+	Sphere* _pSphereCollider;
+	Box* _pBoxCollider;
+
+	RigidbodyComponent* _pPlayerRb;
+	RigidbodyComponent* _pCubeRb;
+	GravityForceGenerator* _pGravityGenerator;
+
+	float _movementPower = 10.0f;
+	Vector3 _cameraOffset = Vector3(0.0f, 5.0f, -15.0f);
 
 };
 

@@ -1,16 +1,16 @@
 {
   "meshedObjects": [
     {
-      "name": "AnchorPoint",
-      "position": [ 0.0, 8.0, 1 ],
-      "meshPath": "cube.obj",
+      "name": "Player",
+      "position": [ -3.0, 1.0, 1 ],
+      "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",
       "specularTexture": "Crate_SPEC.dds",
       "normalTexture": "Crate_NRM.dds",
       "ambient": [ 0.2, 0.2, 0.2, 1.0 ]
     },
     {
-      "name": "Particle",
+      "name": "cube",
       "position": [ 0.0, 1.0, 1 ],
       "meshPath": "sphere.obj",
       "diffuseTexture": "Crate_COLOR.dds",

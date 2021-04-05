@@ -56,13 +56,6 @@ void Level6::Update(float dt)
 
 
 
-void Level6::PollInput(float dt)
-{
-	if (GetAsyncKeyState('A')) {
-		Debug::Print("A is pressed");
-		_pSphereRb->AddForce(Vector3(-10.0f, 0.0f, 0.0f));
-	}
-}
 
 void Level6::DrawUI()
 {

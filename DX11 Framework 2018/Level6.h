@@ -16,11 +16,11 @@ public:
 
 	void Update(float dt) override;
 
-	void PollInput(float dt) override;
-
 	void LoadLevel() override;
 
 private:
+	void DrawUI() override;
+
 	Contact _contactsArray[MAX_CONTACTS];
 	CollisionData _contactData;
 	ContactResolver* _pContactResolver;
@@ -29,13 +29,8 @@ private:
 	Sphere* _pSphereCollider;
 	Box* _pBoxCollider;
 
-
-	void DrawUI() override;
-
 	RigidbodyComponent* _pSphereRb;
 	RigidbodyComponent* _pCubeRb;
 	GravityForceGenerator* _pGravityGenerator;
-
-
 };
 
