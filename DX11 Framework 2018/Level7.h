@@ -1,8 +1,8 @@
 #pragma once
 #include "Level.h"
 #include "Particle.h"
-#include "ParticleBuoyancy.h"
-#include "ParticleGravity.h"
+#include "BuoyancyForceGenerator.h"
+#include "GravityForceGenerator.h"
 #include "RestingForceGenerator.h"
 #include <memory>
 
@@ -19,8 +19,8 @@ public:
 
 private:
 	std::unique_ptr<ParticleComponent> _pParticleComponent = nullptr;
-	std::unique_ptr<ParticleBuoyancy> _pBuoyancyForce = nullptr;
-	std::unique_ptr<ParticleGravity> _pGravityForce = nullptr;
+	std::unique_ptr<BuoyancyForceGenerator> _pBuoyancyForce = nullptr;
+	std::unique_ptr<GravityForceGenerator> _pGravityForce = nullptr;
 	std::unique_ptr<RestingForceGenerator> _pRestingForce = nullptr;
 
 	void DrawUI() override;

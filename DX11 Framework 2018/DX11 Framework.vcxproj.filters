@@ -33,23 +33,20 @@
     <Filter Include="Engine\Physics\ParticleModel">
       <UniqueIdentifier>{e391cd58-1f7a-46e3-b7f5-970d19a1bb4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Physics\ParticleModel\Force Generators">
-      <UniqueIdentifier>{224ba795-79a7-4f52-8ba5-3894324b39d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Physics\Rigidbody">
       <UniqueIdentifier>{a8b38e53-b1fc-42b3-a253-8cc39782231f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Physics\Rigidbody\Force Generators">
-      <UniqueIdentifier>{80e08c53-0b79-4b43-828e-9031cbe6d106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Physics\Collision">
-      <UniqueIdentifier>{4b9f9e5e-927e-487c-aa53-f73f33178ae4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Levels">
       <UniqueIdentifier>{79bc7358-e579-4080-84b6-fd9c7e6e81e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="ECS">
       <UniqueIdentifier>{125dcf8a-03b6-49dc-a12b-9e44343ec23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\Rigidbody Collision">
+      <UniqueIdentifier>{4b9f9e5e-927e-487c-aa53-f73f33178ae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics\Force Generators">
+      <UniqueIdentifier>{1e0f545f-49aa-418c-b95c-f94c5ea1e8fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,15 +137,6 @@
       <Filter>Engine\Physics\ParticleModel</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="ParticleGravity.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleDrag.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleBuoyancy.h">
-      <Filter>Engine\Physics\ParticleModel\Force Generators</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix3.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
@@ -161,38 +149,26 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Engine\Physics\Rigidbody</Filter>
     </ClInclude>
-    <ClInclude Include="ForceGenerator.h">
-      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="GravityForceGenerator.h">
-      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="SpringForceGenerator.h">
-      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="BoundingVolumeHierarchy.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="BoundingSphere.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionData.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionPrimitives.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionDetector.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="IntersectionTests.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="ContactResolver.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="Contact.h">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsModel.h">
       <Filter>Engine\Physics</Filter>
@@ -200,9 +176,6 @@
     <ClInclude Include="TerrainPlane.h" />
     <ClInclude Include="Object.h">
       <Filter>Engine\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="RestingForceGenerator.h">
-      <Filter>Engine\Physics\Rigidbody\Force Generators</Filter>
     </ClInclude>
     <ClInclude Include="Level1.h">
       <Filter>Levels</Filter>
@@ -234,7 +207,21 @@
     <ClInclude Include="Component.h">
       <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="Level7.h" />
+    <ClInclude Include="Level7.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>Engine\Physics\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="RestingForceGenerator.h">
+      <Filter>Engine\Physics\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="DragForceGenerator.h">
+      <Filter>Engine\Physics\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="BuoyancyForceGenerator.h">
+      <Filter>Engine\Physics\Force Generators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -299,16 +286,16 @@
       <Filter>Engine\Physics\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="CollisionDetector.cpp">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClCompile>
     <ClCompile Include="IntersectionTests.cpp">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClCompile>
     <ClCompile Include="ContactResolver.cpp">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClCompile>
     <ClCompile Include="Contact.cpp">
-      <Filter>Engine\Physics\Collision</Filter>
+      <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsModel.cpp">
       <Filter>Engine\Physics</Filter>
@@ -344,7 +331,9 @@
     <ClCompile Include="Component.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
-    <ClCompile Include="Level7.cpp" />
+    <ClCompile Include="Level7.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

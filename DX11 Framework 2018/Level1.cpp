@@ -20,7 +20,7 @@ void Level1::LoadLevel()
 
 
 	if (_pParticalDrag == nullptr) {
-		_pParticalDrag = std::make_unique<ParticleDrag>(1.05f, 1.05f);
+		_pParticalDrag = std::make_unique<DragForceGenerator>(1.05f, 1.05f);
 	}
 }
 

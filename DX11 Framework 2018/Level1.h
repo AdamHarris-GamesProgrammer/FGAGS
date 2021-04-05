@@ -1,7 +1,7 @@
 #pragma once
 #include "Level.h"
 #include "Particle.h"
-#include "ParticleDrag.h"
+#include "DragForceGenerator.h"
 
 class Level1 : public Level
 {
@@ -18,7 +18,7 @@ public:
 
 private:
 	std::unique_ptr<ParticleComponent> _pParticleComponent;
-	std::unique_ptr<ParticleDrag> _pParticalDrag;
+	std::unique_ptr<DragForceGenerator> _pParticalDrag;
 
 	void DrawUI() override;
 

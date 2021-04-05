@@ -1,7 +1,7 @@
 #pragma once
-#include "Particle.h"
+#include "PhysicsModel.h"
 
-class ParticleDrag {
+class DragForceGenerator {
 	//Velocity drag coefficient
 	float _dragCoefficient;
 
@@ -9,12 +9,12 @@ class ParticleDrag {
 	float _squaredDragCoefficient;
 
 public:
-	ParticleDrag(float coefficient, float squaredCoefficient) {
+	DragForceGenerator(float coefficient, float squaredCoefficient) {
 		_dragCoefficient = coefficient;
 		_squaredDragCoefficient = squaredCoefficient;
 	}
 
-	virtual void Update(ParticleComponent* particle, float duration) {
+	virtual void Update(PhysicsModelComponent* particle, float duration) {
 		Vector3 totalDrag;
 		totalDrag = particle->GetVelocity();
 

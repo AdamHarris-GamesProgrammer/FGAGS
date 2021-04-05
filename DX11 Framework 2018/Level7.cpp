@@ -14,8 +14,8 @@ void Level7::LoadLevel()
 		_pParticleComponent->SetOwner(_pGameObjects[0]);
 	}
 
-	_pGravityForce = std::make_unique<ParticleGravity>(Vector3(0.0f, -9.81f, 0.0f));
-	_pBuoyancyForce = std::make_unique<ParticleBuoyancy>(7.0f, 1.0f, 7.0f, 1000.0f);
+	_pGravityForce = std::make_unique<GravityForceGenerator>(Vector3(0.0f, -9.81f, 0.0f));
+	_pBuoyancyForce = std::make_unique<BuoyancyForceGenerator>(7.0f, 1.0f, 7.0f, 1000.0f);
 	_pRestingForce = std::make_unique<RestingForceGenerator>(1.0f);
 
 	LoadGround();

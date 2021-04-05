@@ -1,13 +1,13 @@
 #pragma once
 #include "ForceGenerator.h"
 
-class GravityForceGenerator : public ForceGenerator {
+class GravityForceGenerator {
 public:
 	GravityForceGenerator(const Vector3& gravity) {
 		_gravity = gravity;
 	}
 
-	virtual void Update(RigidbodyComponent* body, float dt) {
+	virtual void Update(PhysicsModelComponent* body, float dt) {
 		if (!body->HasFiniteMass()) return;
 
 		body->AddForce(_gravity * body->GetMass());

@@ -1,7 +1,7 @@
 #pragma once
-#include "Particle.h"
+#include "PhysicsModel.h"
 
-class ParticleBuoyancy {
+class BuoyancyForceGenerator {
 public:
 
 
@@ -19,14 +19,14 @@ private:
 	float _liquidDensity;
 
 public:
-	ParticleBuoyancy(float maxDepth, float volume, float waterHeight, float liquidDensity = 1000.0) {
+	BuoyancyForceGenerator(float maxDepth, float volume, float waterHeight, float liquidDensity = 1000.0) {
 		_maxDepth = maxDepth;
 		_volume = volume;
 		_waterHeight = waterHeight;
 		_liquidDensity = liquidDensity;
 	}
 
-	virtual void Update(ParticleComponent* particle, float duration) {
+	virtual void Update(PhysicsModelComponent* particle, float duration) {
 		//Calculate the submersion depth
 		float submersionDepth = particle->GetPosition().y;
 

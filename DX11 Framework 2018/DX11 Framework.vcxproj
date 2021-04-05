@@ -418,7 +418,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableHeaders.h" />
-    <ClInclude Include="BoundingVolumeHierarchy.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="CollisionData.h" />
@@ -430,7 +429,6 @@
     <ClInclude Include="Contact.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GravityForceGenerator.h" />
@@ -462,9 +460,8 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleBuoyancy.h" />
-    <ClInclude Include="ParticleDrag.h" />
-    <ClInclude Include="ParticleGravity.h" />
+    <ClInclude Include="BuoyancyForceGenerator.h" />
+    <ClInclude Include="DragForceGenerator.h" />
     <ClInclude Include="PhysicsModel.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
@@ -473,7 +470,6 @@
     <ClInclude Include="RestingForceGenerator.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SkySphere.h" />
-    <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="TerrainPlane.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
