@@ -50,6 +50,15 @@ void RigidbodyComponent::CalculateDerivedData()
 	CalculateInertiaTensor(_inverseInertiaTensorWorld, _orientation, _inverseInertiaTensor, _transformMatrix);
 }
 
+void RigidbodyComponent::EndUpdate(float currMot, float dt)
+{
+	//Normalize the orientation and update the transform matrix
+	CalculateDerivedData();
+
+	PhysicsModelComponent::EndUpdate(currMot, dt);
+	_pTransformComponent->SetOrientation(_orientation);
+}
+
 void RigidbodyComponent::SetCubeInertiaTensor()
 {
 	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
@@ -115,7 +124,7 @@ void RigidbodyComponent::ClearAccumulator()
 
 void RigidbodyComponent::Update(float dt)
 {
-	if (!_isAwake) return;
+	if (!BeginUpdate(dt)) return;
 
 	//Calculate linear acceleration from the force inputs
 	_previousAcceleration = _acceleration;
@@ -125,10 +134,10 @@ void RigidbodyComponent::Update(float dt)
 	Vector3 angularAcceleration = _inverseInertiaTensorWorld.Transform(_torqueAccumulator);
 
 	//Calculate Velocity and rotation changes
-	_velocity.AddScaledVector(_previousAcceleration, dt);
-	_rotation.AddScaledVector(angularAcceleration, dt);
+	_velocity += _previousAcceleration * dt;
+	_rotation += angularAcceleration * dt;
 
-	//Applies damping to velocity a
+	//Applies damping to velocity and rotation
 	_velocity *= powf(_linearDamping, dt);
 	_rotation *= powf(_angularDamping, dt);
 
@@ -138,17 +147,8 @@ void RigidbodyComponent::Update(float dt)
 	//Updates Orientation
 	_orientation.AddScaledVector(_rotation, dt);
 
-	//Normalize the orientation and update the transform matrix
-	CalculateDerivedData();
-
 	//Clear the force accumulators
-	ClearAccumulator();
-
-	_pTransformComponent->SetPosition(_position);
-	_pTransformComponent->SetOrientation(_orientation);
-
-	CheckSleep(_velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation), dt);
-
+	EndUpdate(_velocity.ScalarProduct(_velocity) + _rotation.ScalarProduct(_rotation), dt);
 }
 
 void RigidbodyComponent::Initialize()

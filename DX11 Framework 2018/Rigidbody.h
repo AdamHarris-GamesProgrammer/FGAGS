@@ -20,6 +20,7 @@ public:
 
 	void CalculateDerivedData();
 
+	void EndUpdate(float currMot, float dt) override;
 
 	void SetInertiaTensor(const Matrix3& inertiaTensor) { _inverseInertiaTensor.SetInverse(inertiaTensor); }
 

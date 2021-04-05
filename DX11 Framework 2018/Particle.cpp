@@ -7,17 +7,7 @@
 
 void ParticleComponent::Update(float dt)
 {
-	_position = _pTransformComponent->GetPosition();
-
-	//Immovable object check
-	if (GetInverseMass() <= 0.0) return;
-
-	assert(dt > 0.0);
-
-	//Update position
-	if (_velocity > 0.05) {
-		_position += _velocity * dt;
-	}
+	if (!BeginUpdate(dt)) return;
 
 	Vector3 resultingAcceleration = _acceleration;
 
@@ -32,11 +22,8 @@ void ParticleComponent::Update(float dt)
 
 	_position.AddScaledVector(_velocity, dt);
 
-	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
-	ClearAccumulator();
+	
 
-	_pTransformComponent->SetPosition(_position);
-
-	CheckSleep(_velocity.ScalarProduct(_velocity), dt);
+	EndUpdate(_velocity.ScalarProduct(_velocity), dt);
 }
 

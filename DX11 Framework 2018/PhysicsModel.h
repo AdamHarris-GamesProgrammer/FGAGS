@@ -23,7 +23,13 @@ public:
 	}
 
 	virtual void AddForce(const Vector3& force);
+
+
+	bool BeginUpdate(float dt);
 	virtual void Update(float dt) = 0;
+	virtual void EndUpdate(float currMot, float dt);
+
+
 	virtual void ClearAccumulator();
 
 	float GetMass() const;

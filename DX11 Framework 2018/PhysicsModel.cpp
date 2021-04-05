@@ -5,6 +5,29 @@ void PhysicsModelComponent::AddForce(const Vector3& force)
 	_forceAccumulator += force;
 }
 
+bool PhysicsModelComponent::BeginUpdate(float dt)
+{
+	_position = _pTransformComponent->GetPosition();
+
+	//Immovable object check
+	if (GetInverseMass() <= 0.0) return false;
+
+	assert(dt > 0.0);
+
+	if (!_isAwake) return false;
+
+	return true;
+}
+
+void PhysicsModelComponent::EndUpdate(float currMot, float dt)
+{
+	//Clears accumulated forces at the end of each cycle in case a force is no longer being applied from a generator
+	ClearAccumulator();
+	CheckSleep(currMot, dt);
+
+	_pTransformComponent->SetPosition(_position);
+}
+
 void PhysicsModelComponent::ClearAccumulator()
 {
 	_forceAccumulator.Zero();
