@@ -1,11 +1,11 @@
 #pragma once
 #include "Level.h"
+#include <memory>
+
 class Level3 : public Level
 {
 public:
-	Level3(Graphics* gfx, const char* filename) : Level(gfx, filename) {
-		LoadLevel();
-	}
+	Level3(Graphics* gfx, const char* filename) : Level(gfx, filename) {}
 
 	void LoadLevel() override;
 
@@ -21,7 +21,7 @@ private:
 	float _rotationPower = 10.0f;
 	float _normalizedCoords[2];
 
-	RigidbodyComponent* _pRb;
+	std::unique_ptr<RigidbodyComponent> _pRb;
 
 };
 

@@ -31,20 +31,30 @@ Component* Object::GetComponent(ComponentID id)
 	}
 }
 
+//Sorts the update priority of components in ascending order.
 bool sortByUpdate(std::pair<ComponentID, Component*> a, std::pair<ComponentID, Component*> b) {
 	return a.second->GetUpdatePriority() < b.second->GetUpdatePriority();
 }
 
 void Object::AddComponent(Component* component)
 {
+	//inserts the new component into the map
 	_components.insert({ component->GetID(), component });
 
+	//creates a vector and clones the map into the vector using references
 	std::vector<std::pair<ComponentID, Component*>> comp;
 	for (auto& it : _components) {
 		comp.push_back(it);
 	}
 
+	//sorts the vector, as this is a reference to the map it sorts the map as well
 	std::sort(comp.begin(), comp.end(), sortByUpdate);
+}
+
+void Object::RemoveComponent(ComponentID id)
+{
+	//Searches for the id and removes it from the map
+	_components.erase(id);
 }
 
 TransformComponent& Object::GetTransform()

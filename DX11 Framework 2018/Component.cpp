@@ -7,6 +7,11 @@ Component::Component(Object* owner, ComponentID id, float updatePriority)
 	_pOwner->AddComponent(this);
 }
 
+Component::~Component()
+{
+	_pOwner->RemoveComponent(_id);
+}
+
 ComponentID Component::GetID() const
 {
 	return _id;

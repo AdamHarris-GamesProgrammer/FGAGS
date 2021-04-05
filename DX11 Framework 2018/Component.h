@@ -10,6 +10,7 @@ class Object;
 class Component {
 public:
 	Component(Object* owner, ComponentID id, float updatePriority);
+	~Component();
 
 	virtual void Update(float dt) = 0;
 

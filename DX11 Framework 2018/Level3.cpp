@@ -4,14 +4,21 @@ void Level3::LoadLevel()
 {
 	Level::LoadLevel();
 
-	_pRb = new RigidbodyComponent(_pGameObjects[0]);
+	if (_pRb == nullptr) {
+		_pRb = std::make_unique<RigidbodyComponent>(_pGameObjects[0]);
+		_pRb->SetAngularDamping(0.9);
+		_pRb->SetLinearDamping(1.0);
+		_pRb->SetAwake();
+		_pRb->SetCanSleep(false);
+		_pRb->SetCubeInertiaTensor();
+		_pRb->SetInverseMass(5.0f);
+	}
+	else
+	{
+		_pRb->SetOwner(_pGameObjects[0]);
+	}
 
-	_pRb->SetAngularDamping(0.9);
-	_pRb->SetLinearDamping(1.0);
-	_pRb->SetInverseMass(0.0);
-	_pRb->SetAwake();
-	_pRb->SetCanSleep(false);
-	_pRb->SetCubeInertiaTensor();
+	_pRb->ClearAccumulator();
 
 	_rotationPower = 100.0f;
 

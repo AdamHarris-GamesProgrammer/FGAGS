@@ -6,10 +6,7 @@
 class Level1 : public Level
 {
 public:
-	Level1(Graphics* gfx, const char* levelName) : Level(gfx, levelName)
-	{
-		LoadLevel();
-	}
+	Level1(Graphics* gfx, const char* levelName) : Level(gfx, levelName) {}
 
 	void LoadLevel() override;
 
