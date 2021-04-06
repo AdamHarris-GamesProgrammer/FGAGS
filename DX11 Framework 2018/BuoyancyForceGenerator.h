@@ -36,7 +36,7 @@ public:
 		Vector3 force = Vector3();
 
 		//We are fully submerged
-		if (submersionDepth <= _waterHeight) {
+		if (submersionDepth <= _waterHeight - _maxDepth) {
 			force.y = _liquidDensity * _volume;
 			particle->AddForce(force);
 			return;
@@ -47,4 +47,11 @@ public:
 			(submersionDepth - _maxDepth - _waterHeight) / (2 * _maxDepth);
 		particle->AddForce(force);
 	}
+
+	void SetWaterHeight(float val) {
+		_waterHeight = val;
+		_maxDepth = val;
+	}
+
+
 };

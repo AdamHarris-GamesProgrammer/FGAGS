@@ -62,9 +62,9 @@ HRESULT Graphics::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	//Sets point light properties
 	_pointLight.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	_pointLight.Diffuse = XMFLOAT4(0.7f, 0.0f, 0.0f, 1.0f);
+	_pointLight.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	_pointLight.Specular = XMFLOAT4(0.7f, 0.7f, 0.7f, 0.6f);
-	_pointLight.Position = XMFLOAT3(0.0f, 3.0f, 0.0f);
+	_pointLight.Position = XMFLOAT3(30.0f, 3.0f, 0.0f);
 	_pointLight.Attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
 	_pointLight.Range = 8.0f;
 

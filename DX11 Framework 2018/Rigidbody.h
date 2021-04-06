@@ -201,7 +201,7 @@ public:
 private:
 	void Initialize() override;
 
-protected:
+private:
 	Vector3 _torqueAccumulator;
 
 	float _angularDamping;
@@ -216,10 +216,5 @@ protected:
 
 	Matrix3 _inverseInertiaTensor;
 	Matrix3 _inverseInertiaTensorWorld;
-
-
-private:
-
-
 };
 

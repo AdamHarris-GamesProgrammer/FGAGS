@@ -57,21 +57,22 @@ public:
 
 private:
 	void PollInput(float dt);
-	void ChangeLevel(Level* newLevel);
+	void ChangeLevel(std::shared_ptr<Level> newLevel);
 
 private:
 	//Stores the current level we are in so we only draw and update this scene
-	Level* _pCurrentLevel = nullptr;
+	std::shared_ptr<Level> _pCurrentLevel;
 	//Stores all of our levels we have
-	Level0* _pLevel0 = nullptr;
-	Level1* _pLevel1 = nullptr;
-	Level2* _pLevel2 = nullptr;
-	Level3* _pLevel3 = nullptr;
-	Level4* _pLevel4 = nullptr;
-	Level5* _pLevel5 = nullptr;
-	Level6* _pLevel6 = nullptr;
-	Level7* _pLevel7 = nullptr;
+	std::shared_ptr<Level0> _pLevel0 = nullptr;
+	std::shared_ptr<Level1> _pLevel1 = nullptr;
+	std::shared_ptr<Level2> _pLevel2 = nullptr;
+	std::shared_ptr<Level3> _pLevel3 = nullptr;
+	std::shared_ptr<Level4> _pLevel4 = nullptr;
+	std::shared_ptr<Level5> _pLevel5 = nullptr;
+	std::shared_ptr<Level6> _pLevel6 = nullptr;
+	std::shared_ptr<Level7> _pLevel7 = nullptr;
 	
+
 
 	//Time object used to track delta time for object translations
 	Time _time;
