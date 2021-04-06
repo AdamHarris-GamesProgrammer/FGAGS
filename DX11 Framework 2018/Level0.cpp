@@ -3,9 +3,8 @@
 void Level0::DrawUI()
 {
 	ImGui::Begin("Physics Assignment - Adam Harris");
-
 	ImGui::Text("Controls");
-	ImGui::Text("Use Keys 1 - 6 to load each level");
+	ImGui::Text("Use Keys 1 - 7 to load each level");
 	ImGui::Text("Use Key 0 to return to this screen at any time");
 	ImGui::Text("Use Key R to restart a level \nor press the \"Reset Simulation\" button in the ImGUI windows");
 	ImGui::End();
@@ -43,6 +42,12 @@ void Level0::DrawUI()
 	ImGui::Begin("Test 6 Information");
 	ImGui::Text("Test 6 showcases a sphere which falls onto a cube and generates a proper response. ");
 	ImGui::Text("This is to showcase the inclusion of additional collider types in the physics engine.");
+	ImGui::End();
+
+	ImGui::Begin("Test 7 Information");
+	ImGui::Text("Test 7 showcases a buoyancy force generator being applied to a particle model object");
+	ImGui::Text("The \"water\" is represented by a scaled up blue cube that goes up and down at 0.2 second intervals");
+	ImGui::Text("The floating cube then bobs up and down as the wave increases and decreases in size");
 	ImGui::End();
 }
 
