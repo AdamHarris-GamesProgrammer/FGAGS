@@ -59,6 +59,9 @@ void Scene::PollInput(float dt)
 
 void Scene::BeginUpdate(float dt)
 {
+	//Begins our frame (mainly ImGUI prep)
+	_pGfx->BeginFrame();
+
 	//Updates the scene camera
 	_pCurrentCamera->Update(dt);
 
@@ -66,13 +69,15 @@ void Scene::BeginUpdate(float dt)
 	for (auto& object : _pGameObjects) {
 		object->Update(dt);
 	}
+
+	if (_GroundPlane != nullptr) {
+		_GroundPlane->Update(dt);
+	}
 }
 
 void Scene::Render()
 {
-	//Begins our frame (mainly ImGUI prep)
-	_pGfx->BeginFrame();
-
+	
 	//Draws each object
 	for (auto& object : _pGameObjects) {
 		object->Draw();
@@ -136,12 +141,17 @@ void Scene::LoadGround()
 	if (_pGroundPlane != nullptr) delete _pGroundPlane;
 
 	//Creates a new ground plane object
-	_pGroundPlane = new Plane(_pGfx);
-	_pGroundPlane->Make(20.f, 20.0f, 7, 7);
+	_pGroundPlane = new Plane();
 
-	_pGroundPlane->CreateTexture(L"Assets/Textures/stone.dds");
+	_GroundPlane = new Object();
+	_GroundPlaneRenderer = new RendererComponent(_GroundPlane, _pGfx);
 
-	_pGameObjects.push_back(_pGroundPlane);
+	_pGroundPlane->Make(20.f, 20.0f, 7, 7, _GroundPlaneRenderer);
+
+	_GroundPlaneRenderer->CreateTexture(L"Assets/Textures/stone.dds");
+
+	//_pGameObjects.push_back(_GroundPlane);
+
 }
 
 void Scene::Initialize()

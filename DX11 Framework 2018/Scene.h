@@ -73,6 +73,9 @@ protected:
 
 	//Pointer to our ground plane
 	Plane* _pGroundPlane = nullptr;
+
+	Object* _GroundPlane = nullptr;
+	RendererComponent* _GroundPlaneRenderer = nullptr;
 private:
 	//Abstract method for levels to implement their own UI
 	virtual void DrawUI() = 0;

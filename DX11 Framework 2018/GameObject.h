@@ -24,14 +24,6 @@ public:
 	//Creates a texture based off the designated path and adds it to the textures vector
 	void CreateTexture(const wchar_t* path);
 
-	void SetPosition(float x, float y, float z) {
-		_pTransform->SetPosition(x, y, z);
-	}
-
-	void SetRotation(float x, float y, float z) {
-		_pTransform->SetRotation(x, y, z);
-	}
-
 	//Setters
 	//Set Shader function calls the loading logic for the shader
 	void SetShader(WCHAR* path);
@@ -39,8 +31,6 @@ public:
 	Material& GetMaterial();
 	
 private:
-	void Initialize();
-
 	
 protected:
 	VertexShader* pVertexShader;

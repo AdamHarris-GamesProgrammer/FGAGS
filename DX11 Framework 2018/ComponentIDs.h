@@ -4,5 +4,7 @@ enum ComponentID {
 	PhysicsModel,
 	ParticleModel,
 	Rigidbody,
-	Transform
+	Transform,
+	Renderer,
+	MeshRenderer
 };

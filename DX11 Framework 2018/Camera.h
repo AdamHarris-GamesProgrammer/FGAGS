@@ -10,10 +10,6 @@ class Camera : public Object {
 public:
 	Camera();
 
-	void Initialize() override {
-
-	}
-
 	//Get Camera basis vectors
 	XMVECTOR GetRightXM() const;
 	XMFLOAT3 GetRight() const;

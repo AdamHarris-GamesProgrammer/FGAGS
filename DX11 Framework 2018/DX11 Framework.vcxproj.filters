@@ -223,6 +223,7 @@
     <ClInclude Include="Scene.h">
       <Filter>Levels</Filter>
     </ClInclude>
+    <ClInclude Include="RendererComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -336,6 +337,7 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
+    <ClCompile Include="RendererComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">

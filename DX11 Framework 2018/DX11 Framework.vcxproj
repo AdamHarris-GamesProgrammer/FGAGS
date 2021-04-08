@@ -393,6 +393,7 @@
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="IntersectionTests.cpp" />
     <ClCompile Include="JSONLevelLoader.cpp" />
+    <ClCompile Include="RendererComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Level0.cpp" />
     <ClCompile Include="Level1.cpp" />
@@ -443,6 +444,7 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="IntersectionTests.h" />
     <ClInclude Include="JSONLevelLoader.h" />
+    <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Level0.h" />
     <ClInclude Include="Level1.h" />

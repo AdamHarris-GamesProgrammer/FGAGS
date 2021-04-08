@@ -2,7 +2,6 @@
 
 GameObject::GameObject() 
 {
-	Initialize();
 }
 
 
@@ -13,7 +12,7 @@ GameObject::GameObject(Graphics* gfx)
 
 	_name = "GameObject";
 
-	Initialize();
+	pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
 }
 
 GameObject::~GameObject()
@@ -67,12 +66,6 @@ void GameObject::CreateTexture(const wchar_t* path)
 }
 
 
-void GameObject::Initialize()
-{
-	//Sets the vertex shader
-	pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
-}
-
 #pragma region Getters
 Material& GameObject::GetMaterial() 
 {
@@ -83,6 +76,10 @@ Material& GameObject::GetMaterial()
 #pragma region Setters
 void GameObject::SetShader(WCHAR* path)
 {
+	if (pVertexShader == nullptr) {
+		pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
+	}
+
 	pPixelShader = new PixelShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), path);
 }
 

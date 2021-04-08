@@ -72,7 +72,3 @@ void Object::SetName(std::string& name)
 	_name = name;
 }
 
-void Object::Initialize()
-{
-
-}
