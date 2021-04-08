@@ -3,23 +3,28 @@
 SkySphere::SkySphere(Graphics* gfx, std::string& texturePath)
 	: MeshedObject(gfx, "Assets/Models/sphere.obj")
 {
+	//Makes the SkySphere large
 	_pTransform->SetScale(500.0f, 500.0f, 500.0f);
-	CreateTexture(ConvertString(texturePath));
-	SetShader(L"Skybox.fx");
-	_name = "SkySphere";
-}
 
-void SkySphere::Update(float dt)
-{
-	MeshedObject::Update(dt);
+	//Creates the texture from the provided path
+	CreateTexture(ConvertString(texturePath));
+
+	//Sets the shader for the skysphere
+	SetShader(L"Skybox.fx");
+
+	//Names the SkySphere
+	_name = "SkySphere";
 }
 
 void SkySphere::Draw()
 {
+	//Sets front face culling for this frame
 	_pGfx->SetFrontFaceCulling();
 
+	//Draws our object
 	MeshedObject::Draw();
 
+	//Sets back to default draw state
 	_pGfx->SetCurrentRSState();
 }
 

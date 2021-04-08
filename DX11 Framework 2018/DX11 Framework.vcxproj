@@ -393,7 +393,7 @@
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="IntersectionTests.cpp" />
     <ClCompile Include="JSONLevelLoader.cpp" />
-    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Level0.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Level2.cpp" />
@@ -410,7 +410,6 @@
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SkySphere.cpp" />
-    <ClCompile Include="TerrainPlane.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -444,7 +443,7 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="IntersectionTests.h" />
     <ClInclude Include="JSONLevelLoader.h" />
-    <ClInclude Include="Level.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Level0.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Level2.h" />
@@ -470,7 +469,6 @@
     <ClInclude Include="RestingForceGenerator.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SkySphere.h" />
-    <ClInclude Include="TerrainPlane.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
@@ -479,7 +477,6 @@
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Levels\level.json" />
     <None Include="PhongDif.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <FileType>Document</FileType>

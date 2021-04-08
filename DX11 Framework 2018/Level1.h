@@ -1,12 +1,12 @@
 #pragma once
-#include "Level.h"
+#include "Scene.h"
 #include "Particle.h"
 #include "DragForceGenerator.h"
 
-class Level1 : public Level
+class Level1 : public Scene
 {
 public:
-	Level1(Graphics* gfx, const char* levelName) : Level(gfx, levelName) {}
+	Level1(Graphics* gfx, const char* levelName) : Scene(gfx, levelName) {}
 
 	void LoadLevel() override;
 

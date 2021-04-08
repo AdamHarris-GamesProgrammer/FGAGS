@@ -1,11 +1,11 @@
 #pragma once
-#include "Level.h"
+#include "Scene.h"
 #include <memory>
 
-class Level3 : public Level
+class Level3 : public Scene
 {
 public:
-	Level3(Graphics* gfx, const char* filename) : Level(gfx, filename) {}
+	Level3(Graphics* gfx, const char* filename) : Scene(gfx, filename) {}
 
 	void LoadLevel() override;
 

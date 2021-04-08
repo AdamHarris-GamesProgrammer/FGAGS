@@ -1,13 +1,19 @@
 #pragma once
-#include "Level.h"
-#include "GravityForceGenerator.h"
 #include <memory>
 
+#include "Scene.h"
+#include "GravityForceGenerator.h"
+
+#include "ContactResolver.h"
+#include "CollisionPrimitives.h"
+#include "CollisionDetector.h"
+#include "CollisionData.h"
+
 #define MAX_CONTACTS 10
-class Level4 : public Level
+class Level4 : public Scene
 {
 public:
-	Level4(Graphics* gfx, const char* filename) : Level(gfx, filename) {}
+	Level4(Graphics* gfx, const char* filename) : Scene(gfx, filename) {}
 
 	void LoadLevel() override;
 

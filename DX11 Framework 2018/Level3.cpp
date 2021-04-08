@@ -2,7 +2,7 @@
 
 void Level3::LoadLevel()
 {
-	Level::LoadLevel();
+	Scene::LoadLevel();
 
 	if (_pRb == nullptr) {
 		_pRb = std::make_unique<RigidbodyComponent>(_pGameObjects[0]);

@@ -126,7 +126,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="SkySphere.h" />
     <ClInclude Include="Vector3.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
@@ -173,7 +172,6 @@
     <ClInclude Include="PhysicsModel.h">
       <Filter>Engine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainPlane.h" />
     <ClInclude Include="Object.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
@@ -193,9 +191,6 @@
       <Filter>Levels</Filter>
     </ClInclude>
     <ClInclude Include="Level6.h">
-      <Filter>Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
       <Filter>Levels</Filter>
     </ClInclude>
     <ClInclude Include="Level0.h">
@@ -221,6 +216,12 @@
     </ClInclude>
     <ClInclude Include="BuoyancyForceGenerator.h">
       <Filter>Engine\Physics\Force Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="SkySphere.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,7 +275,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SkySphere.cpp" />
     <ClCompile Include="Transform.cpp">
       <Filter>Engine\Core</Filter>
     </ClCompile>
@@ -300,7 +300,6 @@
     <ClCompile Include="PhysicsModel.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainPlane.cpp" />
     <ClCompile Include="Object.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
@@ -322,9 +321,6 @@
     <ClCompile Include="Level6.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Levels</Filter>
-    </ClCompile>
     <ClCompile Include="Level0.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
@@ -332,6 +328,12 @@
       <Filter>ECS</Filter>
     </ClCompile>
     <ClCompile Include="Level7.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="SkySphere.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
   </ItemGroup>
@@ -364,9 +366,6 @@
     </None>
     <None Include="ConstantBuffers.fx">
       <Filter>Shaders</Filter>
-    </None>
-    <None Include="Assets\Levels\level.json">
-      <Filter>Levels</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

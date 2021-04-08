@@ -1,34 +1,12 @@
 #pragma once
 
 #include <windows.h>
-#include <d3d11_1.h>
-#include <d3dcompiler.h>
-#include <directxmath.h>
-#include <directxcolors.h>
-#include "resource.h"
-
-#include "Graphics.h"
-
-#include <vector>
-
-#include "ImGUIManager.h"
-#include "JSONLevelLoader.h"
-
-#include "Time.h"
-#include "Camera.h"
-#include "Plane.h"
-#include "TerrainPlane.h"
-#include "SkySphere.h"
-
 #include <memory>
 
-#include "CollisionPrimitives.h"
-#include "CollisionData.h"
-#include "CollisionDetector.h"
-#include "Contact.h"
-#include "ContactResolver.h"
+#include "Graphics.h"
+#include "Time.h"
 
-#include "Level.h"
+#include "Scene.h"
 #include "Level0.h"
 #include "Level1.h"
 #include "Level2.h"
@@ -38,31 +16,34 @@
 #include "Level6.h"
 #include "Level7.h"
 
-
-using namespace DirectX;
-
-#define MAX_CONTACTS 10
-
 class Application
 {
 public:
 	Application() = default;
 	~Application();
 
+	//Initializes all the data within the engine and initializes all of DirectX
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
+	//Performs per-frame logic
 	void Update();
 
+	//Draws each frame
 	void Draw();
 
 private:
+	//Checks for any input that the engine can deal with
 	void PollInput(float dt);
-	void ChangeLevel(std::shared_ptr<Level> newLevel);
+
+	//Changes our current level
+	void ChangeLevel(std::shared_ptr<Scene> newLevel);
 
 private:
 	//Stores the current level we are in so we only draw and update this scene
-	std::shared_ptr<Level> _pCurrentLevel;
-	//Stores all of our levels we have
+	std::shared_ptr<Scene> _pCurrentLevel;
+
+	//Stores all of our levels we use
+	//Using smart pointers here as they automatically deallocate themselves when needed
 	std::shared_ptr<Level0> _pLevel0 = nullptr;
 	std::shared_ptr<Level1> _pLevel1 = nullptr;
 	std::shared_ptr<Level2> _pLevel2 = nullptr;
@@ -73,14 +54,10 @@ private:
 	std::shared_ptr<Level7> _pLevel7 = nullptr;
 	
 
-
-	//Time object used to track delta time for object translations
+	//Time object used to track delta time for physics simulations
 	Time _time;
 
+	//Stores a pointer to the graphics class which is used by all objects
 	Graphics* _pGfx = nullptr;
-
-
-	//Sets the default clear colour to a sky blue
-	float _clearColor[4] = { 0.583f, 0.639f, 0.743f, 1.0f };
 };
 

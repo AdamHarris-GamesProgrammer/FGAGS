@@ -2,7 +2,7 @@
 
 void Level6::LoadLevel()
 {
-	Level::LoadLevel();
+	Scene::LoadLevel();
 
 	if (_pGravityGenerator == nullptr) {
 		_pGravityGenerator = std::make_unique<GravityForceGenerator>(Vector3(0.0f, -9.81f, 0.0f));

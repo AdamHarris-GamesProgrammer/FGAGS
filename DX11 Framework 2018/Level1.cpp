@@ -2,7 +2,7 @@
 
 void Level1::LoadLevel()
 {
-	Level::LoadLevel();
+	Scene::LoadLevel();
 
 	if (_pParticleComponent == nullptr) {
 		_pParticleComponent = std::make_unique<ParticleComponent>(_pGameObjects[0]);

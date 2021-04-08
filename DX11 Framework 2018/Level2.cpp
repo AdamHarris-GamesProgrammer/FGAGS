@@ -2,7 +2,7 @@
 
 void Level2::LoadLevel()
 {
-	Level::LoadLevel();
+	Scene::LoadLevel();
 
 	LoadGround();
 

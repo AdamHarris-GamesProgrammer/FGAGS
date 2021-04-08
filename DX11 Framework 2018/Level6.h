@@ -1,15 +1,20 @@
 #pragma once
-#include "Level.h"
-#include "CollisionPrimitives.h"
+#include "Scene.h"
 #include "Plane.h"
 #include "GravityForceGenerator.h"
 #include <memory>
 
+#include "CollisionData.h"
+#include "CollisionDetector.h"
+#include "CollisionPrimitives.h"
+#include "ContactResolver.h"
+
+
 #define MAX_CONTACTS 20
-class Level6 : public Level
+class Level6 : public Scene
 {
 public:
-	Level6(Graphics* gfx, const char* levelName) : Level(gfx, levelName) {}
+	Level6(Graphics* gfx, const char* levelName) : Scene(gfx, levelName) {}
 
 	void Update(float dt) override;
 
@@ -29,7 +34,5 @@ private:
 	std::unique_ptr<RigidbodyComponent> _pSphereRb;
 	std::unique_ptr<RigidbodyComponent> _pCubeRb;
 	std::unique_ptr<GravityForceGenerator> _pGravityGenerator;
-
-	
 };
 

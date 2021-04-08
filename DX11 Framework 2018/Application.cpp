@@ -19,13 +19,15 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pGfx = new Graphics();
 	_pGfx->Initialise(hInstance, nCmdShow);
 
+	//Sky blue colour
+	_pGfx->SetClearColor(new float[4]{ 0.583f, 0.639f, 0.743f, 1.0f });
+
 
 	//Initializes and resets the Timer object
 	_time = Time();
 	_time.Reset();
 
-	_pGfx->SetClearColor(_clearColor);
-
+	//Initialize all of our levels 
 	_pLevel0 = std::make_shared<Level0>(_pGfx, "Assets/Levels/test0.json");
 	_pLevel1 = std::make_shared<Level1>(_pGfx, "Assets/Levels/test1.json");
 	_pLevel2 = std::make_shared<Level2>(_pGfx, "Assets/Levels/test2.json");
@@ -35,7 +37,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_pLevel6 = std::make_shared<Level6>(_pGfx, "Assets/Levels/test6.json");
 	_pLevel7 = std::make_shared<Level7>(_pGfx, "Assets/Levels/test7.json");
 
-	ChangeLevel(_pLevel7);
+	//Switch t0 level 0 (home screen)
+	ChangeLevel(_pLevel0);
 
 	return S_OK;
 }
@@ -46,16 +49,22 @@ void Application::Update()
 	_time.Tick();
 	float dt = _time.DeltaTime();
 
+	//Polls the input, in this case it is checking if we want to switch levels
 	PollInput(dt);
 
+	//Polls input for the current level
 	_pCurrentLevel->PollInput(dt);
 
+	//Begins the update for the current level, this method updates the objects and their components
 	_pCurrentLevel->BeginUpdate(dt);
+
+	//Updates the current level, this is where any custom logic will take place
 	_pCurrentLevel->Update(dt);
 }
 
 void Application::PollInput(float dt)
 {
+	//This method checks if any of the keys 0 to 7 are done and changes to the required level if we want to
 	if (GetAsyncKeyState('0')) {
 		ChangeLevel(_pLevel0);
 	}
@@ -82,7 +91,7 @@ void Application::PollInput(float dt)
 	}
 }
 
-void Application::ChangeLevel(std::shared_ptr<Level> newLevel)
+void Application::ChangeLevel(std::shared_ptr<Scene> newLevel)
 {
 	//if we have a current level exit it
 	if (_pCurrentLevel != nullptr) _pCurrentLevel->ExitLevel();
@@ -96,5 +105,6 @@ void Application::ChangeLevel(std::shared_ptr<Level> newLevel)
 
 void Application::Draw()
 {
+	//Draws the current level
 	_pCurrentLevel->Render();
 }

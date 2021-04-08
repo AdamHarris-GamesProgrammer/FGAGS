@@ -1,9 +1,9 @@
 #pragma once
-#include "Level.h"
-class Level0 : public Level
+#include "Scene.h"
+class Level0 : public Scene
 {
 public:
-	Level0(Graphics* gfx, const char* levelName) : Level(gfx, levelName) {}
+	Level0(Graphics* gfx, const char* levelName) : Scene(gfx, levelName) {}
 
 	void DrawUI() override;
 
