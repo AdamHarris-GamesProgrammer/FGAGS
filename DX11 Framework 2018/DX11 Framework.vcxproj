@@ -382,7 +382,6 @@
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DX11 Framework.cpp" />
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="ImGUIManager.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
@@ -403,14 +402,12 @@
     <ClCompile Include="Level5.cpp" />
     <ClCompile Include="Level6.cpp" />
     <ClCompile Include="Level7.cpp" />
-    <ClCompile Include="MeshedObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicsModel.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
-    <ClCompile Include="SkySphere.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -429,7 +426,6 @@
     <ClInclude Include="Contact.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="ImGUIManager.h" />
@@ -457,7 +453,6 @@
     <ClInclude Include="LightingStructs.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Matrix4.h" />
-    <ClInclude Include="MeshedObject.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Particle.h" />
@@ -470,7 +465,6 @@
     <CLInclude Include="resource.h" />
     <ClInclude Include="RestingForceGenerator.h" />
     <ClInclude Include="Rigidbody.h" />
-    <ClInclude Include="SkySphere.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />

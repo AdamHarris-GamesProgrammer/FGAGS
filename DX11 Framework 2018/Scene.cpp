@@ -78,10 +78,10 @@ void Scene::BeginUpdate(float dt)
 void Scene::Render()
 {
 	
-	//Draws each object
-	for (auto& object : _pGameObjects) {
-		object->Draw();
-	}
+	////Draws each object
+	//for (auto& object : _pGameObjects) {
+	//	object->Draw();
+	//}
 
 	//Draws the level UI
 	DrawUI();

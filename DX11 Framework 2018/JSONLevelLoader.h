@@ -1,6 +1,6 @@
 #pragma once
 #include "Graphics.h"
-#include "MeshedObject.h"
+#include "Object.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <fstream>
@@ -16,7 +16,7 @@ public:
 
 
 	//Loads the objects from the file
-	std::vector<GameObject*> LoadObjectsFromFile(const char* filename);
+	std::vector<Object*> LoadObjectsFromFile(const char* filename);
 	std::vector<std::shared_ptr<Camera>> LoadCamerasFromFile(const char* filename);
 
 	

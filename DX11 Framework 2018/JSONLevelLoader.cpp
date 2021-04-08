@@ -1,15 +1,15 @@
 #include "JSONLevelLoader.h"
-
+#include "RendererComponent.h"
 
 JSONLevelLoader::JSONLevelLoader(Graphics* gfx) : _pGfx(gfx) {}
 
-std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
+std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
 {
 	//Base Gameobject vector
-	std::vector<GameObject*> gameObjects;
+	std::vector<Object*> objects;
 
 	//Checks the pGfx object has been set
-	if (_pGfx == nullptr) return gameObjects;
+	if (_pGfx == nullptr) return objects;
 
 	//Loads the contents of the file into a JSON object
 	json jsonFile = LoadJSONFile(filename);
@@ -27,7 +27,9 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 		bool hasNrmTexture = false;
 
 		//Creates a meshed object 
-		MeshedObject* go = new MeshedObject(_pGfx);
+		Object* go = new Object();
+
+		RendererComponent* renderer = new RendererComponent(go, _pGfx);
 
 		//Gets the current game object data
 		json jsonGo = gameobjects.at(i);
@@ -61,7 +63,7 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 
 			std::string meshName = jsonGo["meshPath"];
 			std::string meshPath = "Assets/Models/" + meshName;
-			go->Load(meshPath);
+			renderer->Load(meshPath);
 		}
 
 		//Checks for the diffuse texture attribute and loads the texture
@@ -72,58 +74,58 @@ std::vector<GameObject*> JSONLevelLoader::LoadObjectsFromFile(const char* filena
 			std::string textureName = jsonGo["diffuseTexture"];
 
 			//Loads the desired texture
-			go->CreateTexture(ConvertString("Assets/Textures/" + textureName));
+			renderer->CreateTexture(ConvertString("Assets/Textures/" + textureName));
 		}
 
 		//Checks for the specular texture attribute and loads the texture
 		if (HasAttribute(&jsonGo, "specularTexture")) {
 			hasSpcTexture = true;
 			std::string textureName = jsonGo["specularTexture"];
-			go->CreateTexture(ConvertString("Assets/Textures/" + textureName));
+			renderer->CreateTexture(ConvertString("Assets/Textures/" + textureName));
 		}
 
 		//Checks for the normal texture attribute and loads the texture 
 		if (HasAttribute(&jsonGo, "normalTexture")) {
 			hasNrmTexture = true;
 			std::string textureName = jsonGo["normalTexture"];
-			go->CreateTexture(ConvertString("Assets/Textures/" + textureName));
+			renderer->CreateTexture(ConvertString("Assets/Textures/" + textureName));
 		}
 
 		//Checks for the ambient attribute and sets the objects ambient material
 		if (HasAttribute(&jsonGo, "ambient")) {
 			std::vector<float> colorVals = jsonGo["ambient"];
-			go->GetMaterial().SetMaterialAmbient(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+			renderer->GetMaterial().SetMaterialAmbient(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 
 		//Checks for the diffuse attribute and sets the objects diffuse material
 		if (HasAttribute(&jsonGo, "diffuse")) {
 			std::vector<float> colorVals = jsonGo["diffuse"];
-			go->GetMaterial().SetMaterialDiffuse(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+			renderer->GetMaterial().SetMaterialDiffuse(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 
 		//Checks for the specular attribute and sets the objects specular material
 		if (HasAttribute(&jsonGo, "specular")) {
 			std::vector<float> colorVals = jsonGo["specular"];
-			go->GetMaterial().SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
+			renderer->GetMaterial().SetMaterialSpecular(XMFLOAT4(colorVals[0], colorVals[1], colorVals[2], colorVals[3]));
 		}
 		
 		//Loads the required pixel shader based off the texture maps it has
 		if (hasNrmTexture) {
-			go->SetShader(L"PhongDifSpcNrm.fx");
+			renderer->SetShader(L"PhongDifSpcNrm.fx");
 		}
 		else if (hasSpcTexture) {
-			go->SetShader(L"PhongDifSpc.fx");
+			renderer->SetShader(L"PhongDifSpc.fx");
 		}
 		else if (hasDifTexture) {
-			go->SetShader(L"PhongDif.fx");
+			renderer->SetShader(L"PhongDif.fx");
 		}
 
 		//Adds the meshed object to the gameobjects vector
-		gameObjects.push_back(go);
+		objects.push_back(go);
 	}
 
 	//Return the gameobjects vector 
-	return gameObjects;
+	return objects;
 }
 
 std::vector<std::shared_ptr<Camera>> JSONLevelLoader::LoadCamerasFromFile(const char* filename)

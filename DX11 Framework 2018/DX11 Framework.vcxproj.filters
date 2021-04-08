@@ -78,12 +78,6 @@
     <ClInclude Include="ImGUIManager.h">
       <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="MeshedObject.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
@@ -217,9 +211,6 @@
     <ClInclude Include="BuoyancyForceGenerator.h">
       <Filter>Engine\Physics\Force Generators</Filter>
     </ClInclude>
-    <ClInclude Include="SkySphere.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Levels</Filter>
     </ClInclude>
@@ -245,12 +236,6 @@
     </ClCompile>
     <ClCompile Include="ImGUIManager.cpp">
       <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshedObject.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Engine\GameObject</Filter>
@@ -330,9 +315,6 @@
     </ClCompile>
     <ClCompile Include="Level7.cpp">
       <Filter>Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="SkySphere.cpp">
-      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Levels</Filter>

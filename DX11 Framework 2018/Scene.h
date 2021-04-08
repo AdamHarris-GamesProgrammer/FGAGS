@@ -9,7 +9,6 @@
 #include <vector>
 #include <algorithm>
 
-#include "GameObject.h"
 #include "JSONLevelLoader.h"
 #include <memory>
 
@@ -19,7 +18,7 @@ using namespace DirectX;
 
 //typedefs to speed up some code for long data types
 typedef std::vector<std::shared_ptr<Camera>> Cameras;
-typedef std::vector<GameObject*> GameObjects;
+typedef std::vector<Object*> GameObjects;
 
 class Scene
 {
