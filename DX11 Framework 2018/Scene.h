@@ -9,10 +9,10 @@
 #include <vector>
 #include <algorithm>
 
+#include "RendererComponent.h"
+
 #include "JSONLevelLoader.h"
 #include <memory>
-
-#include "Plane.h"
 
 using namespace DirectX;
 
@@ -37,13 +37,13 @@ public:
 	virtual void PollInput(float dt);
 
 	//Updates the objects in the scene, which also updates their components
-	void BeginUpdate(float dt);
+	void BeginFrame(float dt);
 
 	//Pure virtual update method for any custom logic in a level
 	virtual void Update(float dt) = 0;
 
 	//Renders the current scene
-	void Render();
+	void EndFrame();
 
 	//Resets our level by reloading it
 	void Reset();
@@ -70,11 +70,8 @@ protected:
 	//Pointer to our graphics object
 	Graphics* _pGfx = nullptr;
 
-	//Pointer to our ground plane
-	Plane* _pGroundPlane = nullptr;
-
-	Object* _GroundPlane = nullptr;
-	RendererComponent* _GroundPlaneRenderer = nullptr;
+	Object* _pGroundPlane = nullptr;
+	RendererComponent* _pGroundPlaneRenderer = nullptr;
 private:
 	//Abstract method for levels to implement their own UI
 	virtual void DrawUI() = 0;
@@ -88,6 +85,8 @@ private:
 
 	//Loads Cameras from a file
 	void LoadCameraObjectsFromFile(const char* filename);
+
+	void MakePlane(float width, float depth, UINT m, UINT n, RendererComponent* renderer);
 private:
 	//Stores the filepath for this level
 	const char* _pLevelFile;

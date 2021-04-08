@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Rigidbody.h"
 #include <memory>
 
 class Level3 : public Scene

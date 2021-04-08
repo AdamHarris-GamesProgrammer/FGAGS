@@ -78,9 +78,6 @@
     <ClInclude Include="ImGUIManager.h">
       <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Bindable.h">
       <Filter>Engine\Bindables</Filter>
     </ClInclude>
@@ -236,9 +233,6 @@
     </ClCompile>
     <ClCompile Include="ImGUIManager.cpp">
       <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\imgui_demo.cpp">
       <Filter>Imgui</Filter>

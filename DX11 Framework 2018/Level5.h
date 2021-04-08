@@ -1,6 +1,5 @@
 #pragma once
 #include "Scene.h"
-#include "Plane.h"
 #include "GravityForceGenerator.h"
 
 #include "ContactResolver.h"

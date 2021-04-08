@@ -17,7 +17,7 @@ Scene::~Scene()
 
 	//Deletes our ground plane
 	delete _pGroundPlane;
-	_pGroundPlane = nullptr;
+	delete _pGroundPlaneRenderer;
 
 	//Clears the Camera and Object vectors
 	_pCameras.clear();
@@ -57,9 +57,9 @@ void Scene::PollInput(float dt)
 	}
 }
 
-void Scene::BeginUpdate(float dt)
+void Scene::BeginFrame(float dt)
 {
-	//Begins our frame (mainly ImGUI prep)
+	//Begins our frame (mainly ImGUI prep) and wiping buffers
 	_pGfx->BeginFrame();
 
 	//Updates the scene camera
@@ -70,22 +70,12 @@ void Scene::BeginUpdate(float dt)
 		object->Update(dt);
 	}
 
-	if (_GroundPlane != nullptr) {
-		_GroundPlane->Update(dt);
-	}
-}
-
-void Scene::Render()
-{
-	
-	////Draws each object
-	//for (auto& object : _pGameObjects) {
-	//	object->Draw();
-	//}
-
 	//Draws the level UI
 	DrawUI();
+}
 
+void Scene::EndFrame()
+{
 	//Ends our frame (swaps framebuffers etc)
 	_pGfx->EndFrame();
 }
@@ -137,20 +127,16 @@ void Scene::OutputVector3(std::string label, Vector3 vec)
 
 void Scene::LoadGround()
 {
-	//Deletes memory associated with the old ground plane
-	if (_pGroundPlane != nullptr) delete _pGroundPlane;
+	_pGroundPlane = new Object();
+	_pGroundPlaneRenderer = new RendererComponent(_pGroundPlane, _pGfx);
 
-	//Creates a new ground plane object
-	_pGroundPlane = new Plane();
 
-	_GroundPlane = new Object();
-	_GroundPlaneRenderer = new RendererComponent(_GroundPlane, _pGfx);
+	MakePlane(20.0f, 20.0f, 7, 7, _pGroundPlaneRenderer);
 
-	_pGroundPlane->Make(20.f, 20.0f, 7, 7, _GroundPlaneRenderer);
+	_pGroundPlaneRenderer->CreateTexture(L"Assets/Textures/stone.dds");
 
-	_GroundPlaneRenderer->CreateTexture(L"Assets/Textures/stone.dds");
+	_pGameObjects.push_back(_pGroundPlane);
 
-	//_pGameObjects.push_back(_GroundPlane);
 
 }
 
@@ -168,4 +154,80 @@ void Scene::LoadObjectsFromFile(const char* filename)
 void Scene::LoadCameraObjectsFromFile(const char* filename)
 {
 	_pCameras = _pLevelLoader->LoadCamerasFromFile(filename);
+}
+
+void Scene::MakePlane(float width, float depth, UINT m, UINT n, RendererComponent* renderer)
+{
+	//Calculates the amount of vertices and faces required for the plane
+	UINT vertexCount = m * n;
+	UINT faceCount = (m - 1) * (n - 1) * 2;
+
+	//Creates vectors for both of the vertices and the indices
+	std::vector<SimpleVertex> Vertices;
+	std::vector<WORD> Indices;
+
+	//Calculates half of the width and depth
+	float halfWidth = 0.5f * width;
+	float halfDepth = 0.5f * depth;
+
+	//Calculates the delta between each row
+	float dx = width / (n - 1);
+	//Calculates the delta between each column
+	float dz = depth / (m - 1);
+
+	//Calculates the delta between each row and column of tex coords
+	float du = 1.0f / (n - 1);
+	float dv = 1.0f / (m - 1);
+
+	//Resizes the vertices vector reducing overhead from not calling copy constructor
+	Vertices.resize(vertexCount);
+
+	//Loops through the amount of rows
+	for (UINT i = 0; i < m; ++i)
+	{
+		//Calculates the z position value
+		float z = halfDepth - i * dz;
+		//Loops through the amount of columns
+		for (UINT j = 0; j < n; ++j)
+		{
+			//Calculates the X position value
+			float x = -halfWidth + j * dx;
+
+			//Sets the normals and positions of the vertex
+			Vertices[i * n + j].Pos = XMFLOAT3(x, 0.0f, z);
+			Vertices[i * n + j].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
+
+			// Stretch texture over grid.
+			Vertices[i * n + j].TexC.x = j * du;
+			Vertices[i * n + j].TexC.y = i * dv;
+		}
+	}
+
+	renderer->CreateVertexBuffer(Vertices);
+
+	//Resizes the indices vector to avoid calling the copy constructor for every new index
+	Indices.resize(faceCount * 3); // 3 indices per face
+
+	// Iterate over each quad and compute indices.
+	UINT k = 0;
+	for (UINT i = 0; i < m - 1; ++i)
+	{
+		for (UINT j = 0; j < n - 1; ++j)
+		{
+			Indices[k] = i * n + j;
+			Indices[k + 1] = i * n + j + 1;
+			Indices[k + 2] = (i + 1) * n + j;
+
+			Indices[k + 3] = (i + 1) * n + j;
+			Indices[k + 4] = i * n + j + 1;
+			Indices[k + 5] = (i + 1) * n + j + 1;
+
+			k += 6; // next quad
+		}
+	}
+	//Creates the index buffer
+	renderer->CreateIndexBuffer(Indices);
+
+	//Sets the shader
+	renderer->SetShader(L"PhongDif.fx");
 }

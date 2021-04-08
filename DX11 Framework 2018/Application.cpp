@@ -56,7 +56,7 @@ void Application::Update()
 	_pCurrentLevel->PollInput(dt);
 
 	//Begins the update for the current level, this method updates the objects and their components
-	_pCurrentLevel->BeginUpdate(dt);
+	_pCurrentLevel->BeginFrame(dt);
 
 	//Updates the current level, this is where any custom logic will take place
 	_pCurrentLevel->Update(dt);
@@ -106,5 +106,5 @@ void Application::ChangeLevel(std::shared_ptr<Scene> newLevel)
 void Application::Draw()
 {
 	//Draws the current level
-	_pCurrentLevel->Render();
+	_pCurrentLevel->EndFrame();
 }
