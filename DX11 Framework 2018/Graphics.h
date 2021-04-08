@@ -156,8 +156,8 @@ private:
 	std::shared_ptr<Camera> _pCurrentCamera;
 
 	//Window Size
-	UINT _windowHeight;
-	UINT _windowWidth;
+	UINT _windowHeight = 0;
+	UINT _windowWidth = 0;
 
 	//Mouse Position
 	int _mouseX = 0;

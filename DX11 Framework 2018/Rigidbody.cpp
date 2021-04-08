@@ -164,9 +164,9 @@ void RigidbodyComponent::Initialize()
 
 	Matrix3 tensor;
 
-	float coeff = 0.4 * GetMass() * 1.0 * 1.0;
+	float coeff = 0.4f * GetMass() * 1.0f * 1.0f;
 	tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
-	tensor.SetBlockInertiaTensor(Vector3(1.0, 1.0, 1.0), 5.0);
+	tensor.SetBlockInertiaTensor(Vector3(1.0f, 1.0f, 1.0f), 5.0f);
 	SetInertiaTensor(tensor);
 
 	ClearAccumulator();

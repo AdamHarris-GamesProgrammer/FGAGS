@@ -1,6 +1,5 @@
 #include "Application.h"
 #include <iostream>
-#include <DirectXMath.h>
 
 #include "Imgui/imgui.h"
 
@@ -60,6 +59,9 @@ void Application::Update()
 
 	//Updates the current level, this is where any custom logic will take place
 	_pCurrentLevel->Update(dt);
+
+	//Draws the current level
+	_pCurrentLevel->EndFrame();
 }
 
 void Application::PollInput(float dt)
@@ -103,8 +105,3 @@ void Application::ChangeLevel(std::shared_ptr<Scene> newLevel)
 	_pCurrentLevel->Reset();
 }
 
-void Application::Draw()
-{
-	//Draws the current level
-	_pCurrentLevel->EndFrame();
-}

@@ -14,7 +14,7 @@ public:
 		_squaredDragCoefficient = squaredCoefficient;
 	}
 
-	virtual void Update(PhysicsModelComponent* particle, float duration) {
+	virtual void Update(PhysicsModelComponent* particle, float dt) {
 		Vector3 totalDrag;
 		totalDrag = particle->GetVelocity();
 

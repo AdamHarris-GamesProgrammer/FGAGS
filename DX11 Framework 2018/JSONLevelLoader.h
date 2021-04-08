@@ -12,15 +12,11 @@ class JSONLevelLoader
 {
 public:
 	JSONLevelLoader() = default;
-	JSONLevelLoader(Graphics* gfx);
-
 
 	//Loads the objects from the file
-	std::vector<Object*> LoadObjectsFromFile(const char* filename);
+	std::vector<Object*> LoadObjectsFromFile(const char* filename, Graphics* _pGfx);
 	std::vector<std::shared_ptr<Camera>> LoadCamerasFromFile(const char* filename);
 private:
-	Graphics* _pGfx;
-
 	wchar_t* ConvertString(std::string& str);
 	json LoadJSONFile(const char* filename);
 	bool HasAttribute(json* file, std::string key);

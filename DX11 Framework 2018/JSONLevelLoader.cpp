@@ -1,9 +1,7 @@
 #include "JSONLevelLoader.h"
 #include "RendererComponent.h"
 
-JSONLevelLoader::JSONLevelLoader(Graphics* gfx) : _pGfx(gfx) {}
-
-std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
+std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, Graphics* _pGfx)
 {
 	//Base Gameobject vector
 	std::vector<Object*> objects;
@@ -20,7 +18,7 @@ std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
 	int size = gameobjects.size();
 
 
-	for (unsigned int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++) {
 		//These bool values are used to see which shader should be used
 		bool hasDifTexture = false;
 		bool hasSpcTexture = false;
@@ -74,21 +72,24 @@ std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename)
 			std::string textureName = jsonGo["diffuseTexture"];
 
 			//Loads the desired texture
-			renderer->CreateTexture(ConvertString("Assets/Textures/" + textureName));
+			wchar_t* texturePath = ConvertString("Assets/Textures/" + textureName);
+			renderer->CreateTexture(texturePath);
 		}
 
 		//Checks for the specular texture attribute and loads the texture
 		if (HasAttribute(&jsonGo, "specularTexture")) {
 			hasSpcTexture = true;
 			std::string textureName = jsonGo["specularTexture"];
-			renderer->CreateTexture(ConvertString("Assets/Textures/" + textureName));
+			wchar_t* texturePath = ConvertString("Assets/Textures/" + textureName);
+			renderer->CreateTexture(texturePath);
 		}
 
 		//Checks for the normal texture attribute and loads the texture 
 		if (HasAttribute(&jsonGo, "normalTexture")) {
 			hasNrmTexture = true;
 			std::string textureName = jsonGo["normalTexture"];
-			renderer->CreateTexture(ConvertString("Assets/Textures/" + textureName));
+			wchar_t* texturePath = ConvertString("Assets/Textures/" + textureName);
+			renderer->CreateTexture(texturePath);
 		}
 
 		//Checks for the ambient attribute and sets the objects ambient material

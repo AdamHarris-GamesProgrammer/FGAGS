@@ -27,10 +27,10 @@ public:
 	void CreateIndexBuffer(std::vector<unsigned short>& indices);
 
 private:
-	VertexShader* pVertexShader;
-	PixelShader* pPixelShader;
-	VertexBuffer* pVertexBuffer;
-	IndexBuffer* pIndexBuffer;
+	VertexShader* pVertexShader = nullptr;
+	PixelShader* pPixelShader = nullptr;
+	VertexBuffer* pVertexBuffer = nullptr;
+	IndexBuffer* pIndexBuffer = nullptr;
 
 	Graphics* _pGfx;
 

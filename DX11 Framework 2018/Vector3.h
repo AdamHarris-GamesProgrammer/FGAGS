@@ -151,20 +151,16 @@ public:
 		return XMFLOAT3(x, y, z);
 	}
 
-	operator XMFLOAT3&() const {
-		return XMFLOAT3(x, y, z);
-	}
-
 	void Zero() {
 		x = 0.0;
 		y = 0.0;
 		z = 0.0;
 	}
 
-	void Set(float x, float y, float z) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
+	void Set(float newX, float newY, float newZ) {
+		this->x = newX;
+		this->y = newY;
+		this->z = newZ;
 	}
 
 	void Print(std::string name) {

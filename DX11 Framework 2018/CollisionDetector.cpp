@@ -318,14 +318,14 @@ unsigned CollisionDetector::BoxAndPoint(const Box& box, const Vector3& point, Co
 	// penetration is least deep.
 	float min_depth = box._halfSize.x - fabsf(relPt.x);
 	if (min_depth < 0) return 0;
-	normal = box.GetAxis(0) * ((relPt.x < 0) ? -1 : 1);
+	normal = box.GetAxis(0) * ((relPt.x < 0.0f) ? -1 : 1);
 
 	float depth = box._halfSize.y - fabsf(relPt.y);
 	if (depth < 0) return 0;
 	else if (depth < min_depth)
 	{
 		min_depth = depth;
-		normal = box.GetAxis(1) * ((relPt.y < 0) ? -1 : 1);
+		normal = box.GetAxis(1) * ((relPt.y < 0.0f) ? -1 : 1);
 	}
 
 	depth = box._halfSize.z - fabsf(relPt.z);
@@ -333,7 +333,7 @@ unsigned CollisionDetector::BoxAndPoint(const Box& box, const Vector3& point, Co
 	else if (depth < min_depth)
 	{
 		min_depth = depth;
-		normal = box.GetAxis(2) * ((relPt.z < 0) ? -1 : 1);
+		normal = box.GetAxis(2) * ((relPt.z < 0.0f) ? -1 : 1);
 	}
 
 	// Compile the contact

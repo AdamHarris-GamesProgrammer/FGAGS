@@ -20,12 +20,12 @@ private:
 	std::unique_ptr<GravityForceGenerator> _pGravityForce = nullptr;
 
 	float _variance = 0.05f;
-	float _currentWaveHeight;
+	float _currentWaveHeight = 0.0f;
 	float _maxHeight = 4.0f;
 	float _minHeight = -4.0f;
 
 	float _timeBetweenHeightChanges = 0.2f;
-	float _timer;
+	float _timer = 0.0f;
 
 	void DrawUI() override;
 

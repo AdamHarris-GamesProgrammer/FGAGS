@@ -3,18 +3,10 @@
 
 class Quaternion {
 public:
-	union 
-	{
-		struct 
-		{
-			float _r;
-			float _i;
-			float _j;
-			float _k;
-		};
-
-		float _data[4];
-	};
+	float _r;
+	float _i;
+	float _j;
+	float _k;
 
 	Quaternion() : _r(0), _i(0), _j(0), _k(0) {}
 

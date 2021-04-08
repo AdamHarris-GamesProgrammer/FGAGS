@@ -13,6 +13,8 @@ class Object;
 class RigidbodyComponent : public PhysicsModelComponent
 {
 public:
+	RigidbodyComponent() = default;
+
 	RigidbodyComponent(Object* owner) : PhysicsModelComponent(owner, Rigidbody, 50.0f)
 	{
 		Initialize();

@@ -28,9 +28,6 @@ public:
 	//Performs per-frame logic
 	void Update();
 
-	//Draws each frame
-	void Draw();
-
 private:
 	//Checks for any input that the engine can deal with
 	void PollInput(float dt);

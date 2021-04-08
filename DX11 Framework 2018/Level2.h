@@ -23,6 +23,6 @@ private:
 	void DrawUI() override;
 
 
-	RigidbodyComponent* _pRb;
+	RigidbodyComponent* _pRb = nullptr;
 };
 

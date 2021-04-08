@@ -6,5 +6,4 @@ enum ComponentID {
 	Rigidbody,
 	Transform,
 	Renderer,
-	MeshRenderer
 };

@@ -49,7 +49,7 @@ void Level4::LoadLevel()
 	}
 
 	if (_pContactResolver == nullptr) {
-		_pContactResolver = std::make_unique<ContactResolver>(MAX_CONTACTS);
+		_pContactResolver = std::make_unique<ContactResolver>(LEVEL_4_MAX_CONTACTS);
 	}
 
 	_contactData._contactArray = _contactsArray;
@@ -73,7 +73,7 @@ void Level4::Update(float dt)
 	_pTopCube->CalculateInternals();
 	_pBottomCube->CalculateInternals();
 
-	_contactData.Reset(MAX_CONTACTS);
+	_contactData.Reset(LEVEL_4_MAX_CONTACTS);
 
 	if (_contactData.HasMoreContacts()) {
 		CollisionDetector::BoxAndHalfSpace(*_pTopCube, *_pGround, &_contactData);

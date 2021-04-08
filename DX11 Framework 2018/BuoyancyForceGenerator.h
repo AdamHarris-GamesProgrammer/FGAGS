@@ -26,7 +26,7 @@ public:
 		_liquidDensity = liquidDensity;
 	}
 
-	virtual void Update(PhysicsModelComponent* particle, float duration) {
+	virtual void Update(PhysicsModelComponent* particle, float dt) {
 		//Calculate the submersion depth
 		float submersionDepth = particle->GetPosition().y;
 

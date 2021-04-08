@@ -10,7 +10,7 @@
 class Contact {
 	friend class ContactResolver;
 public:
-	RigidbodyComponent* _bodies[2];
+	RigidbodyComponent* _bodies[2] = { nullptr, nullptr };
 
 	float _friction;
 	float _restitution;

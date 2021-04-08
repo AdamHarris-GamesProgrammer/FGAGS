@@ -309,6 +309,8 @@ HRESULT Graphics::InitRenderTarget()
 
 	// Set primitive topology
 	_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return hr;
 }
 
 //C4
@@ -384,6 +386,8 @@ HRESULT Graphics::InitSwapChain()
 
 	if (FAILED(hr))
 		return hr;
+
+	return hr;
 }
 
 HRESULT Graphics::InitWireframeView()

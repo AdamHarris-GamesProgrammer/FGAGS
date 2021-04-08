@@ -143,12 +143,12 @@ void Scene::LoadGround()
 void Scene::Initialize()
 {
 	//Create memory for the level loader
-	_pLevelLoader = std::make_unique<JSONLevelLoader>(_pGfx);
+	_pLevelLoader = std::make_unique<JSONLevelLoader>();
 }
 
 void Scene::LoadObjectsFromFile(const char* filename)
 {
-	_pGameObjects = _pLevelLoader->LoadObjectsFromFile(filename);
+	_pGameObjects = _pLevelLoader->LoadObjectsFromFile(filename, _pGfx);
 }
 
 void Scene::LoadCameraObjectsFromFile(const char* filename)

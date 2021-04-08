@@ -9,7 +9,7 @@
 #include "ContactResolver.h"
 
 
-#define MAX_CONTACTS 20
+#define LEVEL_6_MAX_CONTACTS 20
 class Level6 : public Scene
 {
 public:
@@ -22,7 +22,7 @@ public:
 private:
 	void DrawUI() override;
 
-	Contact _contactsArray[MAX_CONTACTS];
+	Contact _contactsArray[LEVEL_6_MAX_CONTACTS];
 	CollisionData _contactData;
 	std::unique_ptr<ContactResolver> _pContactResolver;
 

@@ -20,7 +20,7 @@ private:
 
 private:
 	float _rotationPower = 10.0f;
-	float _normalizedCoords[2];
+	float _normalizedCoords[2] = { 0.0f, 0.0f };
 
 	std::unique_ptr<RigidbodyComponent> _pRb;
 

@@ -9,7 +9,7 @@
 #include "CollisionDetector.h"
 #include "CollisionData.h"
 
-#define MAX_CONTACTS 10
+#define LEVEL_4_MAX_CONTACTS 10
 class Level4 : public Scene
 {
 public:
@@ -28,7 +28,7 @@ private:
 private:
 	std::unique_ptr<GravityForceGenerator> _pGravityGenerator;
 
-	Contact _contactsArray[MAX_CONTACTS];
+	Contact _contactsArray[LEVEL_4_MAX_CONTACTS];
 	CollisionData _contactData;
 	std::unique_ptr<ContactResolver> _pContactResolver;
 

@@ -52,7 +52,7 @@ void Level6::LoadLevel()
 	}
 
 	if (_pContactResolver == nullptr) {
-		_pContactResolver = std::make_unique<ContactResolver>(MAX_CONTACTS);
+		_pContactResolver = std::make_unique<ContactResolver>(LEVEL_6_MAX_CONTACTS);
 	}
 
 	_contactData._contactArray = _contactsArray;
@@ -71,7 +71,7 @@ void Level6::Update(float dt)
 	_pSphereCollider->CalculateInternals();
 	_pBoxCollider->CalculateInternals();
 
-	_contactData.Reset(MAX_CONTACTS);
+	_contactData.Reset(LEVEL_6_MAX_CONTACTS);
 
 	if (_contactData.HasMoreContacts()) {
 		CollisionDetector::BoxAndSphere(*_pBoxCollider, *_pSphereCollider, &_contactData);

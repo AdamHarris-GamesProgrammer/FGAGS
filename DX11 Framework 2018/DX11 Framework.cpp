@@ -28,7 +28,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         {
             //Game loop
 			app->Update();
-            app->Draw();
         }
     }
 
