@@ -17,7 +17,8 @@ std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, 
 	//Gets the size
 	int size = gameobjects.size();
 
-
+	//Sets the capacity for the vector
+	objects.reserve(size);
 	for (int i = 0; i < size; i++) {
 		//These bool values are used to see which shader should be used
 		bool hasDifTexture = false;
@@ -122,7 +123,7 @@ std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, 
 		}
 
 		//Adds the meshed object to the gameobjects vector
-		objects.push_back(go);
+		objects.emplace_back(go);
 	}
 
 	//Return the gameobjects vector 
@@ -138,7 +139,7 @@ std::vector<std::shared_ptr<Camera>> JSONLevelLoader::LoadCamerasFromFile(const 
 	json cameraGroup = jsonFile["cameras"];
 
 	int size = cameraGroup.size();
-	cameras.resize(size);
+	cameras.reserve(size);
 
 	for (int i = 0; i < size; i++) {
 		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
@@ -153,13 +154,9 @@ std::vector<std::shared_ptr<Camera>> JSONLevelLoader::LoadCamerasFromFile(const 
 			{
 				camera->LookAt(XMFLOAT3(lookatVals[0], lookatVals[1], lookatVals[2]), XMFLOAT3(0.0f, 0.0f, 0.0f));
 			}
-			else
-			{
-				//TODO: Implement debug class
-			}
 		}
 
-		cameras[i] = camera;
+		cameras.emplace_back(camera);
 	}
 
 	return cameras;

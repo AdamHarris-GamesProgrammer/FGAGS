@@ -3,15 +3,18 @@
 RendererComponent::RendererComponent(Object* owner, Graphics* gfx) :
 	Component(owner, ComponentID::Renderer, 150.0f), _pGfx(gfx)
 {
-	pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
+	//Reserve 4 slots for bindables
+	_pBindables.reserve(3);
+
+	_pBindables.emplace_back(std::make_unique<VertexShader>(_pGfx->GetDevice(), _pGfx->GetDeviceContext()));
 }
 
 void RendererComponent::Update(float dt)
 {
-	//Binds the shaders and buffers
-	pVertexShader->Bind();
-	pPixelShader->Bind();
-	pVertexBuffer->Bind();
+	//Binds all bindables
+	for (auto& bindable : _pBindables) {
+		bindable->Bind();
+	}
 	pIndexBuffer->Bind();
 
 	//Sets the textures for the shaders
@@ -42,11 +45,7 @@ void RendererComponent::CreateTexture(const wchar_t* path)
 
 void RendererComponent::SetShader(WCHAR* path)
 {
-	if (pVertexShader == nullptr) {
-		pVertexShader = new VertexShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext());
-	}
-
-	pPixelShader = new PixelShader(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), path);
+	_pBindables.emplace_back(std::make_unique<PixelShader>(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), path));
 }
 
 Material& RendererComponent::GetMaterial()
@@ -75,10 +74,10 @@ void RendererComponent::Load(std::string& filepath)
 
 void RendererComponent::CreateVertexBuffer(std::vector<SimpleVertex>& vertices)
 {
-	pVertexBuffer = new VertexBuffer(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), vertices);
+	_pBindables.emplace_back(std::make_unique<VertexBuffer>(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), vertices));
 }
 
 void RendererComponent::CreateIndexBuffer(std::vector<unsigned short>& indices)
 {
-	pIndexBuffer = new IndexBuffer(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), indices);
+	pIndexBuffer = std::make_unique<IndexBuffer>(_pGfx->GetDevice(), _pGfx->GetDeviceContext(), indices);
 }

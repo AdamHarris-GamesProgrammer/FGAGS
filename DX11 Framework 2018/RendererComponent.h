@@ -1,10 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "Graphics.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
+#include "BindableHeaders.h"
+#include <vector>
 
 class RendererComponent : public Component
 {
@@ -27,10 +25,8 @@ public:
 	void CreateIndexBuffer(std::vector<unsigned short>& indices);
 
 private:
-	VertexShader* pVertexShader = nullptr;
-	PixelShader* pPixelShader = nullptr;
-	VertexBuffer* pVertexBuffer = nullptr;
-	IndexBuffer* pIndexBuffer = nullptr;
+	std::unique_ptr<IndexBuffer> pIndexBuffer;
+	std::vector<std::unique_ptr<Bindable>> _pBindables;
 
 	Graphics* _pGfx;
 
