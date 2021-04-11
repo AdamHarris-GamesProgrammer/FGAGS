@@ -70,8 +70,8 @@ protected:
 	//Pointer to our graphics object
 	Graphics* _pGfx = nullptr;
 
-	Object* _pGroundPlane = nullptr;
-	RendererComponent* _pGroundPlaneRenderer = nullptr;
+	std::unique_ptr<Object> _pGroundPlane = nullptr;
+	std::unique_ptr<RendererComponent> _pGroundPlaneRenderer = nullptr;
 private:
 	//Abstract method for levels to implement their own UI
 	virtual void DrawUI() = 0;

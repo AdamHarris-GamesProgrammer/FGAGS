@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Bindable">
+    <Position X="32.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAABAAAAAAAAAAEAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bindable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IndexBuffer">
+    <Position X="29.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAQAAQAAAAEAABAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>IndexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PixelShader">
+    <Position X="31.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgCAAAAAAACAAAAAAABAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PixelShader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBuffer">
+    <Position X="34" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAAgAAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAAEAA=</HashCode>
+      <FileName>VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexShader">
+    <Position X="36.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAgCAAQAAAAAAAAMAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>VertexShader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Object">
+    <Position X="27.25" Y="11.75" Width="1.5" />
+    <Members>
+      <Method Name="SetPosition" Hidden="true" />
+      <Method Name="SetRotation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAAQAIIAAgEABABAAAAAAAAggEAAAAQAAABAA=</HashCode>
+      <FileName>Object.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera">
+    <Position X="27.25" Y="16" Width="1.5" />
+    <Members>
+      <Method Name="GetAspect" Hidden="true" />
+      <Method Name="GetFarWindowHeight" Hidden="true" />
+      <Method Name="GetFarWindowWidth" Hidden="true" />
+      <Method Name="GetFarZ" Hidden="true" />
+      <Method Name="GetFovX" Hidden="true" />
+      <Method Name="GetFovY" Hidden="true" />
+      <Method Name="GetLook" Hidden="true" />
+      <Method Name="GetLookXM" Hidden="true" />
+      <Method Name="GetNearWindowHeight" Hidden="true" />
+      <Method Name="GetNearWindowWidth" Hidden="true" />
+      <Method Name="GetNearZ" Hidden="true" />
+      <Method Name="GetRight" Hidden="true" />
+      <Method Name="GetRightXM" Hidden="true" />
+      <Method Name="GetUp" Hidden="true" />
+      <Method Name="GetUpXM" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQQCicAABgAAAJEABAAAAQAEwAIBogBggAFEAMAgAAI=</HashCode>
+      <FileName>Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JSONLevelLoader" Collapsed="true">
+    <Position X="11.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAJAAAAABAAAAAIAAAAAAAAACAAAAAAAEAAAAA=</HashCode>
+      <FileName>JSONLevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix3" Collapsed="true">
+    <Position X="28.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAABAAAAGBAAAIAIQQAAAIAAAEAAAAgAggAAgA=</HashCode>
+      <FileName>Matrix3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix4" Collapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAABIAAAiIAAAIABAwAIAAAAAAgAAAgAKIJAAA=</HashCode>
+      <FileName>Matrix4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Quaternion" Collapsed="true">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEABAAQAAEAAgAAAEAWAAAAAQAAA=</HashCode>
+      <FileName>Quaternion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Time" Collapsed="true">
+    <Position X="30" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAwAACAARAAJAAAIAgAAgAAAAAQAIAAAAAAAQQA=</HashCode>
+      <FileName>Time.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TransformComponent">
+    <Position X="25.25" Y="6.5" Width="1.5" />
+    <Members>
+      <Method Name="GetDirectXTransform" Hidden="true" />
+      <Method Name="GetOrientation" Hidden="true" />
+      <Method Name="GetPosition" Hidden="true" />
+      <Method Name="GetRotation" Hidden="true" />
+      <Method Name="GetScale" Hidden="true" />
+      <Method Name="SetDirectXTransform" Hidden="true" />
+      <Method Name="SetOrientation" Hidden="true" />
+      <Method Name="SetPosition" Hidden="true" />
+      <Method Name="SetRotation" Hidden="true" />
+      <Method Name="SetScale" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ARQAAAAAAGCAIAAQAQAAAAAAAAAQAgkAIAAAgggAACA=</HashCode>
+      <FileName>Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vector3" Collapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEACCIAAhEAAEAAAAUAAAwEAAAhEAABwAQEEAAA=</HashCode>
+      <FileName>Vector3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics" Collapsed="true">
+    <Position X="39" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KAC0EIIiIwJRCxIEAAlSAEBQLBIOBKowLhgAZGAgIUE=</HashCode>
+      <FileName>Graphics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RendererComponent">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <Members>
+      <Method Name="GetMaterial" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Component" FixedToPoint="true">
+      <Path>
+        <Point X="23.75" Y="5.151" />
+        <Point X="23.75" Y="5.625" />
+        <Point X="21.5" Y="5.625" />
+        <Point X="21.5" Y="6.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQAgkAAAIACQAIBAAAAAAgAAAABAgAAJQAAAAAAAAA=</HashCode>
+      <FileName>RendererComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PhysicsModelComponent">
+    <Position X="23" Y="6.5" Width="1.5" />
+    <Members>
+      <Method Name="GetAcceleration" Hidden="true" />
+      <Method Name="GetAwake" Hidden="true" />
+      <Method Name="GetDamping" Hidden="true" />
+      <Method Name="GetInverseMass" Hidden="true" />
+      <Method Name="GetMass" Hidden="true" />
+      <Method Name="GetPosition" Hidden="true" />
+      <Method Name="GetSleepEpsilon" Hidden="true" />
+      <Method Name="GetVelocity" Hidden="true" />
+      <Method Name="HasFiniteMass" Hidden="true" />
+      <Method Name="SetAcceleration" Hidden="true" />
+      <Method Name="SetAwake" Hidden="true" />
+      <Method Name="SetCanSleep" Hidden="true" />
+      <Method Name="SetDamping" Hidden="true" />
+      <Method Name="SetInverseMass" Hidden="true" />
+      <Method Name="SetMass" Hidden="true" />
+      <Method Name="SetOwner" Hidden="true" />
+      <Method Name="SetPosition" Hidden="true" />
+      <Method Name="SetSleepEpsilon" Hidden="true" />
+      <Method Name="SetVelocity" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Component" FixedFromPoint="true">
+      <Path>
+        <Point X="23.75" Y="5.151" />
+        <Point X="23.75" Y="6.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAIsIKIAAUgRAAIQAAGAAEAAA0ACAEQCwWQAEYM=</HashCode>
+      <FileName>PhysicsModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParticleComponent">
+    <Position X="21.25" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Particle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RigidbodyComponent">
+    <Position X="24.5" Y="12.25" Width="1.5" />
+    <Members>
+      <Method Name="GetAngularDamping" Hidden="true" />
+      <Method Name="GetDirectionInLocalSpace" Hidden="true" />
+      <Method Name="GetDirectionInWorldSpace" Hidden="true" />
+      <Method Name="GetInertiaTensor" Hidden="true" />
+      <Method Name="GetInverseInertiaTensor" Hidden="true" />
+      <Method Name="GetInverseInertiaTensorWorld" Hidden="true" />
+      <Method Name="GetOrientation" Hidden="true" />
+      <Method Name="GetRotation" Hidden="true" />
+      <Method Name="GetTransform" Hidden="true" />
+      <Method Name="SetAngularDamping" Hidden="true" />
+      <Method Name="SetAwake" Hidden="true" />
+      <Method Name="SetCubeInertiaTensor" Hidden="true" />
+      <Method Name="SetDamping" Hidden="true" />
+      <Method Name="SetInertiaTensor" Hidden="true" />
+      <Method Name="SetInverseInertiaTensor" Hidden="true" />
+      <Method Name="SetLinearDamping" Hidden="true" />
+      <Method Name="SetOrientation" Hidden="true" />
+      <Method Name="SetRotation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ogQAEKZgAoCAqRAYAAJgAgABAEEQBQlAgBQAAAAQAJE=</HashCode>
+      <FileName>Rigidbody.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollisionDetector" Collapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgACAAAAAAIAAAAAAAgQAAAAAAACAAABAA=</HashCode>
+      <FileName>CollisionDetector.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollisionPrimitive">
+    <Position X="17.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAQAAIQBAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>CollisionPrimitives.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sphere">
+    <Position X="18.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CollisionPrimitives.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollisionPlane" Collapsed="true">
+    <Position X="28.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQIAAAAAAA=</HashCode>
+      <FileName>CollisionPrimitives.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Box">
+    <Position X="16.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>CollisionPrimitives.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ContactResolver" Collapsed="true">
+    <Position X="30" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAEAAAAAABAAgAgAAAAABEAgAEAQAAAAAACAIAA=</HashCode>
+      <FileName>ContactResolver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Contact" Collapsed="true">
+    <Position X="29.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAAAAAACgIAAAAAQQCAQIBggAAgAAAEAAAAEAqCA=</HashCode>
+      <FileName>Contact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IntersectionTests" Collapsed="true">
+    <Position X="26.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgACAAAAAAAAAAAAAAAQAAAAAAACAAAAAA=</HashCode>
+      <FileName>IntersectionTests.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GravityForceGenerator" Collapsed="true">
+    <Position X="35.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAACAAAAAAAAAAAABAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GravityForceGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuoyancyForceGenerator" Collapsed="true">
+    <Position X="34" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAAAAAAAAgQAAAAAAAAAAAAEAAAAAAAACAAgA=</HashCode>
+      <FileName>BuoyancyForceGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DragForceGenerator" Collapsed="true">
+    <Position X="34" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAAAQASAAAAAAASAAAAAAAAABAQAAAAAAAAAA=</HashCode>
+      <FileName>DragForceGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RestingForceGenerator" Collapsed="true">
+    <Position X="34" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RestingForceGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImGUIManager" Collapsed="true">
+    <Position X="37.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAEAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>ImGUIManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgSEEAIgAAAABQAAgQYABAgEQAAAACJAAASEAEAAAAI=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level0">
+    <Position X="1.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Level0.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level1">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAAAAAAQAAAAAEAAAAAAABBAAAAAAAAAA=</HashCode>
+      <FileName>Level1.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level2">
+    <Position X="4.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAAAAAAAAAAwAAAAAEAAAAAAEBAAAAAEAAAAA=</HashCode>
+      <FileName>Level2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level3">
+    <Position X="6.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAQwAAAAAEAAAAAAABAAAAAEAAAAA=</HashCode>
+      <FileName>Level3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level4">
+    <Position X="8.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAACAAAAAECAAAQAAACAEAREAAAABAAAAAEAAAQA=</HashCode>
+      <FileName>Level4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level5">
+    <Position X="10.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAACAAAAAECAAAQAAACAEAREAAAABAAAAAAAAAQA=</HashCode>
+      <FileName>Level5.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level6">
+    <Position X="12.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEDAABAAAAAAAQAAACEEAAEAAAAFAAAAAAAAAQA=</HashCode>
+      <FileName>Level6.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Level7">
+    <Position X="14.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAAAQgEAAADQAAAAAEAAAAAAABAIAAAEAAAAA=</HashCode>
+      <FileName>Level7.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Component">
+    <Position X="23" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAIAABAAAAAAABAgAAAAAAAQAAACABAAAAAAAA=</HashCode>
+      <FileName>Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application" Collapsed="true">
+    <Position X="28.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIBAAABAgAQgAAACAIAgAAQBCAACAAACAAABAAAA=</HashCode>
+      <FileName>Application.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Debug" Collapsed="true">
+    <Position X="35.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Debug.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="MeshData">
+    <Position X="35" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAEAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>OBJLoader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ConstantBuffer" Collapsed="true">
+    <Position X="38" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAgQAAAQBAAAAAAAAAAAAAAAAAAAAAACAAIBAAAAA=</HashCode>
+      <FileName>Graphics.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Light">
+    <Position X="46" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAACAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>LightingStructs.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectionalLight">
+    <Position X="44.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAACAAAAAAAAAAAAAAAAIgAAAAAAA=</HashCode>
+      <FileName>LightingStructs.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PointLight">
+    <Position X="46" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAgAAAAAAAAAAAAAAAAAAIgIQAAAAA=</HashCode>
+      <FileName>LightingStructs.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SpotLight">
+    <Position X="48" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABACAAgACAAAAAAAAAAAAAAAAogAQAAAAA=</HashCode>
+      <FileName>LightingStructs.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Material">
+    <Position X="49.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAIAAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAA=</HashCode>
+      <FileName>LightingStructs.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CollisionData" Collapsed="true">
+    <Position X="30" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAABCBAACAAAAAAAggAEAEAAQAAAAAAAAA=</HashCode>
+      <FileName>CollisionData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="Cameras" Collapsed="true">
+    <Position X="11.5" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="GameObjects" Collapsed="true">
+    <Position X="11.5" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

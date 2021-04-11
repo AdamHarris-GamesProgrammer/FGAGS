@@ -15,10 +15,6 @@ Scene::~Scene()
 	//Application class handles deleting the Graphics object pointer
 	_pGfx = nullptr;
 
-	//Deletes our ground plane
-	delete _pGroundPlane;
-	delete _pGroundPlaneRenderer;
-
 	//Clears the Camera and Object vectors
 	_pCameras.clear();
 	_pGameObjects.clear();
@@ -127,15 +123,20 @@ void Scene::OutputVector3(std::string label, Vector3 vec)
 
 void Scene::LoadGround()
 {
-	_pGroundPlane = new Object();
-	_pGroundPlaneRenderer = new RendererComponent(_pGroundPlane, _pGfx);
+	if (_pGroundPlane == nullptr) {
+		_pGroundPlane = std::make_unique<Object>();
+	}
 
+	if (_pGroundPlaneRenderer == nullptr) {
+		_pGroundPlaneRenderer = std::make_unique<RendererComponent>(_pGroundPlane.get(), _pGfx);
 
-	MakePlane(20.0f, 20.0f, 7, 7, _pGroundPlaneRenderer);
+	}
+
+	MakePlane(20.0f, 20.0f, 7, 7, _pGroundPlaneRenderer.get());
 
 	_pGroundPlaneRenderer->CreateTexture(L"Assets/Textures/stone.dds");
 
-	_pGameObjects.push_back(_pGroundPlane);
+	_pGameObjects.push_back(_pGroundPlane.get());
 
 
 }
@@ -163,8 +164,8 @@ void Scene::MakePlane(float width, float depth, UINT m, UINT n, RendererComponen
 	UINT faceCount = (m - 1) * (n - 1) * 2;
 
 	//Creates vectors for both of the vertices and the indices
-	std::vector<SimpleVertex> Vertices;
-	std::vector<WORD> Indices;
+	std::vector<SimpleVertex> verts;
+	std::vector<WORD> indices;
 
 	//Calculates half of the width and depth
 	float halfWidth = 0.5f * width;
@@ -180,7 +181,7 @@ void Scene::MakePlane(float width, float depth, UINT m, UINT n, RendererComponen
 	float dv = 1.0f / (m - 1);
 
 	//Resizes the vertices vector reducing overhead from not calling copy constructor
-	Vertices.resize(vertexCount);
+	verts.resize(vertexCount);
 
 	//Loops through the amount of rows
 	for (UINT i = 0; i < m; ++i)
@@ -194,19 +195,20 @@ void Scene::MakePlane(float width, float depth, UINT m, UINT n, RendererComponen
 			float x = -halfWidth + j * dx;
 
 			//Sets the normals and positions of the vertex
-			Vertices[i * n + j].Pos = XMFLOAT3(x, 0.0f, z);
-			Vertices[i * n + j].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
+			verts[i * n + j].Pos = XMFLOAT3(x, 0.0f, z);
+			verts[i * n + j].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
 			// Stretch texture over grid.
-			Vertices[i * n + j].TexC.x = j * du;
-			Vertices[i * n + j].TexC.y = i * dv;
+			verts[i * n + j].TexC.x = j * du;
+			verts[i * n + j].TexC.y = i * dv;
 		}
 	}
 
-	renderer->CreateVertexBuffer(Vertices);
+	renderer->CreateVertexBuffer(verts);
+	verts.clear();
 
 	//Resizes the indices vector to avoid calling the copy constructor for every new index
-	Indices.resize(faceCount * 3); // 3 indices per face
+	indices.resize(faceCount * 3); // 3 indices per face
 
 	// Iterate over each quad and compute indices.
 	UINT k = 0;
@@ -214,19 +216,20 @@ void Scene::MakePlane(float width, float depth, UINT m, UINT n, RendererComponen
 	{
 		for (UINT j = 0; j < n - 1; ++j)
 		{
-			Indices[k] = i * n + j;
-			Indices[k + 1] = i * n + j + 1;
-			Indices[k + 2] = (i + 1) * n + j;
+			indices[k] = i * n + j;
+			indices[k + 1] = i * n + j + 1;
+			indices[k + 2] = (i + 1) * n + j;
 
-			Indices[k + 3] = (i + 1) * n + j;
-			Indices[k + 4] = i * n + j + 1;
-			Indices[k + 5] = (i + 1) * n + j + 1;
+			indices[k + 3] = (i + 1) * n + j;
+			indices[k + 4] = i * n + j + 1;
+			indices[k + 5] = (i + 1) * n + j + 1;
 
 			k += 6; // next quad
 		}
 	}
 	//Creates the index buffer
-	renderer->CreateIndexBuffer(Indices);
+	renderer->CreateIndexBuffer(indices);
+	indices.clear();
 
 	//Sets the shader
 	renderer->SetShader(L"PhongDif.fx");
