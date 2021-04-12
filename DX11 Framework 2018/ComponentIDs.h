@@ -2,7 +2,7 @@
 
 enum ComponentID {
 	PhysicsModel,
-	ParticleModel,
+	Particle,
 	Rigidbody,
 	Transform,
 	Renderer,

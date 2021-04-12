@@ -445,7 +445,7 @@
   <Class Name="Level1">
     <Position X="2.25" Y="7.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAQAAAAAAQAAAAAEAAAAAAABBAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAQAAAAAAQAAAAAEAAAAAAABBACAAAAAAAA=</HashCode>
       <FileName>Level1.h</FileName>
     </TypeIdentifier>
   </Class>

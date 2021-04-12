@@ -10,10 +10,13 @@ public:
 
 	void LoadLevel() override;
 
+	void PollInput(float dt) override;
 
 	void Update(float dt) override;
 
 private:
+	bool _shouldMove = false;
+
 	std::unique_ptr<ParticleComponent> _pParticleComponent;
 	std::unique_ptr<DragForceGenerator> _pParticalDrag;
 

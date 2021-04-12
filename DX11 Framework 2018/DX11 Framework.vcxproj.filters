@@ -139,9 +139,6 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Engine\Physics\Rigidbody</Filter>
     </ClInclude>
-    <ClInclude Include="BoundingSphere.h">
-      <Filter>Engine\Physics\Rigidbody Collision</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionData.h">
       <Filter>Engine\Physics\Rigidbody Collision</Filter>
     </ClInclude>
@@ -349,6 +346,7 @@
     <None Include="ConstantBuffers.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="UML Diagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX11 Framework.rc">

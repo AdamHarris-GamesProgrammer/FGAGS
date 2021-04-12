@@ -415,7 +415,6 @@
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableHeaders.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="CollisionPrimitives.h" />
@@ -490,6 +489,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="UML Diagram.cd" />
     <None Include="VertexShaderUtilities.fx">
       <FileType>Document</FileType>
     </None>

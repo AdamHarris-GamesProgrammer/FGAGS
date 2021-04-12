@@ -8,7 +8,7 @@
 class ParticleComponent : public PhysicsModelComponent
 {
 public:
-	ParticleComponent(Object* owner) : PhysicsModelComponent(owner, ParticleModel, 50.0f) 
+	ParticleComponent(Object* owner) : PhysicsModelComponent(owner, Particle, 50.0f) 
 	{
 		Initialize();
 	}

@@ -19,9 +19,12 @@ ComponentID Component::GetID() const
 
 void Component::SetOwner(Object* newOwner)
 {
-	//TODO: Make a remove component method
-
+	//Removes this component from the current owner
+	_pOwner->RemoveComponent(_id);
+	//switches to new owner
 	_pOwner = newOwner;
+
+	//Adds this component to the new owner
 	_pOwner->AddComponent(this);
 }
 

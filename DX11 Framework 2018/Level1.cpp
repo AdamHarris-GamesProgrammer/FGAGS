@@ -8,7 +8,7 @@ void Level1::LoadLevel()
 		_pParticleComponent = std::make_unique<ParticleComponent>(_pGameObjects[0]);
 		_pParticleComponent->SetInverseMass(3.0f);
 		_pParticleComponent->SetDamping(0.9f);
-		_pParticleComponent->SetAcceleration(Vector3(5.0f, 0.0f, 0.0f));
+		
 	}
 	else
 	{
@@ -17,10 +17,21 @@ void Level1::LoadLevel()
 
 	//Sets velocity to 0. This is needed as the same particle component is used for each reset and the velocity will be carried over
 	_pParticleComponent->SetVelocity(Vector3());
-
+	_pParticleComponent->SetAcceleration(Vector3());
 
 	if (_pParticalDrag == nullptr) {
 		_pParticalDrag = std::make_unique<DragForceGenerator>(1.05f, 1.05f);
+	}
+
+	_shouldMove = true;
+}
+
+void Level1::PollInput(float dt)
+{
+	if (GetAsyncKeyState('F')) {
+		_shouldMove = true;
+		_pParticleComponent->SetAcceleration(Vector3(5.0, 0.0, 0.0));
+		_pParticleComponent->SetAwake(true);
 	}
 }
 
@@ -32,7 +43,7 @@ void Level1::Update(float dt)
 void Level1::DrawUI()
 {
 	ImGui::Begin("Test 1");
-
+	ImGui::Text("Press F to apply acceleration");
 	//Print Movement Information about our cube.
 	OutputVector3("Object Position: ", _pGameObjects[0]->GetTransform().GetPosition());
 	OutputVector3("Object Velocity: ", _pParticleComponent->GetVelocity());
