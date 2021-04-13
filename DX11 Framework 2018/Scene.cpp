@@ -9,9 +9,6 @@ Scene::Scene(Graphics* gfx, const char* filename) : _pGfx(gfx), _pLevelFile(file
 
 Scene::~Scene()
 {
-	delete _pLevelFile;
-	_pLevelFile = nullptr;
-
 	//Application class handles deleting the Graphics object pointer
 	_pGfx = nullptr;
 

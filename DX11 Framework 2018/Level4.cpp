@@ -76,8 +76,8 @@ void Level4::Update(float dt)
 	_contactData.Reset(LEVEL_4_MAX_CONTACTS);
 
 	if (_contactData.HasMoreContacts()) {
-		CollisionDetector::BoxAndHalfSpace(*_pTopCube, *_pGround, &_contactData);
-		CollisionDetector::BoxAndHalfSpace(*_pBottomCube, *_pGround, &_contactData);
+		CollisionDetector::BoxAndPlane(*_pTopCube, *_pGround, &_contactData);
+		CollisionDetector::BoxAndPlane(*_pBottomCube, *_pGround, &_contactData);
 		CollisionDetector::BoxAndBox(*_pTopCube, *_pBottomCube, &_contactData);
 
 		_pContactResolver->ResolveContacts(_contactData._contactArray, _contactData._contactCount, dt);

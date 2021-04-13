@@ -40,15 +40,9 @@ protected:
 
 	void AdjustVelocities(Contact* contacts, unsigned numContacts, float dt);
 
-
-
 	void AdjustPositions(Contact* contacts, unsigned numContacts, float dt);
 
-
-
 	void PrepareContacts(Contact* contacts, unsigned numContacts, float dt);
-
-
 };
 
 #endif

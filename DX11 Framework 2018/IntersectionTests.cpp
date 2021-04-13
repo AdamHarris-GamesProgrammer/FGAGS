@@ -8,7 +8,7 @@ static inline float TransfromToAxis(
 		box._halfSize.z * fabsf(axis * box.GetAxis(2));
 }
 
-bool IntersectionTests::SphereAndHalfSpace(const Sphere& sphere, const CollisionPlane& plane)
+bool IntersectionTests::SphereAndPlane(const Sphere& sphere, const CollisionPlane& plane)
 {
 	float ballDistance = plane._direction * sphere.GetAxis(3) - sphere._radius;
 
@@ -59,7 +59,7 @@ bool IntersectionTests::BoxAndBox(const Box& a, const Box& b)
 		);
 }
 
-bool IntersectionTests::BoxAndHalfSpace(const Box& box, const CollisionPlane& plane)
+bool IntersectionTests::BoxAndPlane(const Box& box, const CollisionPlane& plane)
 {
 	float projectedRadius = TransfromToAxis(box, plane._direction);
 

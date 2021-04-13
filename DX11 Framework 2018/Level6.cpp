@@ -76,7 +76,7 @@ void Level6::Update(float dt)
 	if (_contactData.HasMoreContacts()) {
 		CollisionDetector::BoxAndSphere(*_pBoxCollider, *_pSphereCollider, &_contactData);
 		CollisionDetector::SphereAndTruePlane(*_pSphereCollider, *_pGroundCollider, &_contactData);
-		CollisionDetector::BoxAndHalfSpace(*_pBoxCollider, *_pGroundCollider, &_contactData);
+		CollisionDetector::BoxAndPlane(*_pBoxCollider, *_pGroundCollider, &_contactData);
 
 		_pContactResolver->ResolveContacts(_contactData._contactArray, _contactData._contactCount, dt);
 	}

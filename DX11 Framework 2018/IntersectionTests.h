@@ -4,7 +4,7 @@
 
 class IntersectionTests {
 public:
-	static bool SphereAndHalfSpace(
+	static bool SphereAndPlane(
 		const Sphere& sphere,
 		const CollisionPlane& plane);
 
@@ -16,7 +16,7 @@ public:
 		const Box& a,
 		const Box& b);
 
-	static bool BoxAndHalfSpace(
+	static bool BoxAndPlane(
 		const Box& box,
 		const CollisionPlane& plane);
 };
