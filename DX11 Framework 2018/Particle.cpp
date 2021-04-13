@@ -20,8 +20,8 @@ void ParticleComponent::Update(float dt)
 	//Apply damping force, basic version of drag
 	_velocity *= powf(_linearDamping, dt);
 
-	_position.AddScaledVector(_velocity, dt);
-
+	//Calculates position
+	_position += _velocity * dt;
 	
 
 	EndUpdate(_velocity.ScalarProduct(_velocity), dt);

@@ -13,6 +13,7 @@ Object::~Object()
 
 void Object::Update(float dt)
 {
+	//updates our components
 	for (auto& component : _components) {
 		component.second->Update(dt);
 	}
@@ -20,9 +21,12 @@ void Object::Update(float dt)
 
 Component* Object::GetComponent(ComponentID id)
 {
+	//performs a search for our desired id
 	auto search = _components.find(id);
 
+	//checks if we have the component
 	if (search != _components.end()) {
+		//returns the component
 		return search->second;
 	}
 	else

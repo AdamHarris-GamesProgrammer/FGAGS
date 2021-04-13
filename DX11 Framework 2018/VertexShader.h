@@ -25,7 +25,7 @@ public:
 		}
 
 		// Create the vertex shader
-		hr = _pDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &pVertexShader);
+		hr = _pDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &_pVertexShader);
 
 		if (FAILED(hr))
 		{
@@ -42,25 +42,28 @@ public:
 
 		//Creates the Input layout 
 		_pDevice->CreateInputLayout(layout, 3, pVSBlob->GetBufferPointer(),
-			pVSBlob->GetBufferSize(), &pLayout);
+			pVSBlob->GetBufferSize(), &_pLayout);
 		pVSBlob->Release();
 	}
 
 	//Binds the input layout and the vertex shader
 	void Bind() override
 	{
-		_pDeviceContext->IASetInputLayout(pLayout);
-		_pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
+		_pDeviceContext->IASetInputLayout(_pLayout);
+		_pDeviceContext->VSSetShader(_pVertexShader, nullptr, 0);
 	}
 
 	~VertexShader() {
-		if (pVertexShader) pVertexShader->Release();
-		if (pLayout) pLayout->Release();
+		if (_pVertexShader) _pVertexShader->Release();
+		if (_pLayout) _pLayout->Release();
+
+		_pLayout = nullptr;
+		_pVertexShader = nullptr;
 	}
 
 private:
-	ID3D11VertexShader* pVertexShader;
-	ID3D11InputLayout* pLayout;
+	ID3D11VertexShader* _pVertexShader;
+	ID3D11InputLayout* _pLayout;
 
 	UINT mLayoutSize;
 

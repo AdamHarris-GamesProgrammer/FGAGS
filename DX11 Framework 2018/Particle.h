@@ -14,7 +14,5 @@ public:
 	}
 
 	void Update(float dt) override;
-
-
 };
 

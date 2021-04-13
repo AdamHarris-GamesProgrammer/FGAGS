@@ -3,17 +3,21 @@
 
 class Quaternion {
 public:
+	//Stores the data for the quaternion
 	float _r;
 	float _i;
 	float _j;
 	float _k;
 
+	//Initializes all values to 0
 	Quaternion() : _r(0), _i(0), _j(0), _k(0) {}
 
+	//Initializes all values to the given values
 	Quaternion(const float r, const float i, const float j, const float k) : _r(r), _i(i), _j(j), _k(k) {}
 
-
+	//Normalizes the quaternion 
 	void Normalize() {
+		//Calculates the magnitude/length
 		float d = _r * _r + _i * _i + _j * _j + _k * _k;
 
 		//Check for 0 length
@@ -29,6 +33,7 @@ public:
 		_k *= d;
 	}
 
+	//multiplies this quaternion by another
 	void operator*=(const Quaternion& multiplier) {
 		Quaternion q = *this;
 		_r = q._r * multiplier._r - q._i * multiplier._i -
@@ -41,11 +46,13 @@ public:
 			q._i * multiplier._j - q._j * multiplier._i;
 	}
 
+	//Rotates this quaternion by a vector
 	void RotateByVector(const Vector3& vector) {
 		Quaternion q(0, vector.x, vector.y, vector.z);
 		(*this) *= q;
 	}
 
+	//Adds a scaled vector to this quaternion
 	void AddScaledVector(const Vector3& vector, float scale) {
 		Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
 		q *= *this;
@@ -56,6 +63,7 @@ public:
 		_k += q._k * ((float)0.5);
 	}
 
+	//Returns the identity of this quaternion 
 	Vector3 Identity() {
 		return Vector3(_i, _j, _k);
 	}

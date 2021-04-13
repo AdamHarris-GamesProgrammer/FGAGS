@@ -1,24 +1,6 @@
 #include "Rigidbody.h"
 #include "Object.h"
 
-static inline void CalculateTransformMatrix(
-	Matrix4& transformMatrix, const Vector3& position, const Quaternion& orientation)
-{
-	transformMatrix._data[0] = 1 - 2 * orientation._j * orientation._j - 2 * orientation._k * orientation._k;
-	transformMatrix._data[1] = 2 * orientation._i * orientation._j - 2 * orientation._r * orientation._k;
-	transformMatrix._data[2] = 2 * orientation._i * orientation._k + 2 * orientation._r * orientation._j;
-	transformMatrix._data[3] = position.x;
-	transformMatrix._data[4] = 2 * orientation._i * orientation._j + 2 * orientation._r * orientation._k;
-	transformMatrix._data[5] = 1 - 2 * orientation._i * orientation._i - 2 * orientation._k * orientation._k;
-	transformMatrix._data[6] = 2 * orientation._j * orientation._k - 2 * orientation._r * orientation._i;
-	transformMatrix._data[7] = position.y;
-	transformMatrix._data[8] = 2 * orientation._i * orientation._k - 2 * orientation._r * orientation._j;
-	transformMatrix._data[9] = 2 * orientation._j * orientation._k + 2 * orientation._r * orientation._i;
-	transformMatrix._data[10] = 1 - 2 * orientation._i * orientation._i - 2 * orientation._j * orientation._j;
-	transformMatrix._data[11] = position.z;
-
-}
-
 static inline void CalculateInertiaTensor(Matrix3& iitWorld, const Quaternion& q, const Matrix3& iitBody, const Matrix4& rotmat) {
 	float t4 = rotmat._data[0] * iitBody._data[0] + rotmat._data[1] * iitBody._data[3] + rotmat._data[2] * iitBody._data[6];
 	float t9 = rotmat._data[0] * iitBody._data[1] + rotmat._data[1] * iitBody._data[4] + rotmat._data[2] * iitBody._data[7];
@@ -44,9 +26,10 @@ static inline void CalculateInertiaTensor(Matrix3& iitWorld, const Quaternion& q
 
 void RigidbodyComponent::CalculateDerivedData()
 {
+	//normalizes our orientation, needed for calculations
 	_orientation.Normalize();
 
-	CalculateTransformMatrix(_transformMatrix, _position, _orientation);
+	_transformMatrix.SetOrientationAndPosition(_orientation, _position);
 	CalculateInertiaTensor(_inverseInertiaTensorWorld, _orientation, _inverseInertiaTensor, _transformMatrix);
 }
 
@@ -56,6 +39,7 @@ void RigidbodyComponent::EndUpdate(float currMot, float dt)
 	CalculateDerivedData();
 
 	PhysicsModelComponent::EndUpdate(currMot, dt);
+	//Sets the orientation for our transform component
 	_pTransformComponent->SetOrientation(_orientation);
 }
 
@@ -71,31 +55,23 @@ void RigidbodyComponent::SetCubeInertiaTensor()
 	scale.z /= 2.0f;
 
 	Matrix3 cubeTensor;
-	cubeTensor._data[0] = 1 / 12 * GetMass() * (scale.y * scale.y + scale.z * scale.z);
-	cubeTensor._data[4] = 1 / 12 * GetMass() * (scale.x * scale.x + scale.z * scale.z);
-	cubeTensor._data[8] = 1 / 12 * GetMass() * (scale.x * scale.x + scale.y * scale.y);
+	cubeTensor.SetBlockInertiaTensor(scale, GetMass());
 	
 	SetInertiaTensor(cubeTensor);
 }
 
 void RigidbodyComponent::SetSphereInertiaTensor()
 {
-	TransformComponent* pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(Transform));
+	//Gets the scale of our object
+	float radius = _pTransformComponent->GetScale().x;
 
-	float radius = pTransformComponent->GetScale().x;
-
+	//Calculates the tensor for a sphere
 	Matrix3 sphereTensor;
 	sphereTensor._data[0] = 2 / 5 * GetMass() * (radius * radius);
 	sphereTensor._data[4] = 2 / 5 * GetMass() * (radius * radius);
 	sphereTensor._data[8] = 2 / 5 * GetMass() * (radius * radius);
 
 	SetInertiaTensor(sphereTensor);
-}
-
-void RigidbodyComponent::AddForce(const Vector3& force)
-{
-	PhysicsModelComponent::AddForce(force);
-	_isAwake = true;
 }
 
 void RigidbodyComponent::AddForceAtPoint(const Vector3& force, const Vector3& point)
@@ -110,6 +86,7 @@ void RigidbodyComponent::AddForceAtPoint(const Vector3& force, const Vector3& po
 
 void RigidbodyComponent::AddForceAtBodyPoint(const Vector3& force, const Vector3& point)
 {
+	//Adds a force to a specific point on the Rigidbody
 	Vector3 pt = GetPointInWorldSpace(point);
 	AddForceAtPoint(force, pt);
 
@@ -118,6 +95,7 @@ void RigidbodyComponent::AddForceAtBodyPoint(const Vector3& force, const Vector3
 
 void RigidbodyComponent::ClearAccumulator()
 {
+	//clears our force accumulator and our torque accumulator
 	PhysicsModelComponent::ClearAccumulator();
 	_torqueAccumulator.Zero();
 }
@@ -155,21 +133,23 @@ void RigidbodyComponent::Initialize()
 {
 	PhysicsModelComponent::Initialize();
 
+	//Sets the position and rotation for the rigidbody based on our transform components
 	SetPosition(_pTransformComponent->GetPosition());
 	SetRotation(_pTransformComponent->GetRotation());
+
+	//Sets the Rigidbody to being able to sleep and not being awake by default
 	SetCanSleep(true);
 	SetAwake(false);
 	SetAngularDamping(0.8f);
 	SetLinearDamping(0.95f);
 
-	Matrix3 tensor;
-
-	float coeff = 0.4f * GetMass() * 1.0f * 1.0f;
-	tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
-	tensor.SetBlockInertiaTensor(Vector3(1.0f, 1.0f, 1.0f), 5.0f);
-	SetInertiaTensor(tensor);
-
+	//Assumes this is a cube by default
+	SetCubeInertiaTensor();
+	
+	//Clears accumulator
 	ClearAccumulator();
+
+	//Calculates the transform, orientation etc to make sure there will be no first frame glitches
 	CalculateDerivedData();
 }
 

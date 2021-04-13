@@ -7,18 +7,7 @@ void TransformComponent::Update(float dt)
 	_orientation.Normalize();
 
 	//Calculate the transform matrix with position and orientation
-	_transform._data[0] = 1 - 2 * _orientation._j * _orientation._j - 2 * _orientation._k * _orientation._k;
-	_transform._data[1] = 2 * _orientation._i * _orientation._j - 2 * _orientation._r * _orientation._k;
-	_transform._data[2] = 2 * _orientation._i * _orientation._k + 2 * _orientation._r * _orientation._j;
-	_transform._data[3] = _position.x;
-	_transform._data[4] = 2 * _orientation._i * _orientation._j + 2 * _orientation._r * _orientation._k;
-	_transform._data[5] = 1 - 2 * _orientation._i * _orientation._i - 2 * _orientation._k * _orientation._k;
-	_transform._data[6] = 2 * _orientation._j * _orientation._k - 2 * _orientation._r * _orientation._i;
-	_transform._data[7] = _position.y;
-	_transform._data[8] = 2 * _orientation._i * _orientation._k - 2 * _orientation._r * _orientation._j;
-	_transform._data[9] = 2 * _orientation._j * _orientation._k + 2 * _orientation._r * _orientation._i;
-	_transform._data[10] = 1 - 2 * _orientation._i * _orientation._i - 2 * _orientation._j * _orientation._j;
-	_transform._data[11] = _position.z;
+	_transform.SetOrientationAndPosition(_orientation, _position);
 
 	float transform[16];
 	_transform.DirectXArray(transform);

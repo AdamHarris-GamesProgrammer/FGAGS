@@ -1,13 +1,13 @@
 #include "JSONLevelLoader.h"
 #include "RendererComponent.h"
 
-std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, Graphics* _pGfx)
+std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, Graphics* pGfx)
 {
 	//Base Gameobject vector
 	std::vector<Object*> objects;
 
 	//Checks the pGfx object has been set
-	if (_pGfx == nullptr) return objects;
+	if (pGfx == nullptr) return objects;
 
 	//Loads the contents of the file into a JSON object
 	json jsonFile = LoadJSONFile(filename);
@@ -28,7 +28,7 @@ std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, 
 		//Creates a meshed object 
 		Object* go = new Object();
 
-		RendererComponent* renderer = new RendererComponent(go, _pGfx);
+		RendererComponent* renderer = new RendererComponent(go, pGfx);
 
 		//Gets the current game object data
 		json jsonGo = gameobjects.at(i);

@@ -8,6 +8,7 @@ public:
 	//Holds the data for the matrix in array form
 	float _data[12];
 
+	//Multiplies a vector by this matrix
 	Vector3 operator*(const Vector3& vector) const {
 		return Vector3(
 			vector.x * _data[0] + vector.y * _data[1] + vector.z * _data[2] + _data[3],
@@ -16,19 +17,23 @@ public:
 		);
 	}
 
+	//Sets the matrix to an identity matrix 
 	Matrix4() {
 		_data[1] = _data[2] = _data[3] = _data[4] = _data[6] = _data[7] = _data[8] = _data[9] = _data[11] = 0;
 		_data[0] = _data[5] = _data[10] = 1;
 	}
 
+	//Transforms a vector by this matrix
 	Vector3 Transform(const Vector3& vector) const {
 		return (*this) * vector;
 	}
 
+	//Gets a vector representing a particular axis
 	Vector3 GetAxisVector(int i) const {
 		return Vector3(_data[i], _data[i + 4], _data[i + 8]);
 	}
 
+	//Multiplies this Matrix by another matrix
 	Matrix4 operator*(const Matrix4& o) const {
 		Matrix4 result;
 		result._data[0] = o._data[0] * _data[0] + o._data[4] * _data[1] +
@@ -59,7 +64,7 @@ public:
 		return result;
 	}
 
-
+	//Gets the determinant of this matrix
 	float GetDeterminant() const {
 		return _data[8] * _data[5] * _data[2] +
 			_data[4] * _data[9] * _data[2] +
@@ -69,6 +74,7 @@ public:
 			_data[0] * _data[5] * _data[10];
 	}
 
+	//Calculates the inverse of a matrix
 	void SetInverse(const Matrix4& m) {
 		float det = GetDeterminant();
 		if (det == 0) return;
@@ -102,39 +108,45 @@ public:
 			- m._data[0] * m._data[5] * m._data[11]) * det;
 	}
 
+	//Returns the inverse of this matrix
 	Matrix4 Inverse() const {
 		Matrix4 result;
 		result.SetInverse(*this);
 		return result;
 	}
 
+	//Inverts the matrix
 	void Invert() {
 		SetInverse(*this);
 	}
 
-	void SetOrientationAndPosition(const Quaternion& q, const Vector3& pos) {
-		_data[0] = 1 - (2 * q._j * q._j + 2 * q._k * q._k);
-		_data[1] = 2 * q._i * q._j + 2 * q._k * q._r;
-		_data[2] = 2 * q._i * q._k - 2 * q._j * q._r;
+	//Sets this matrix based on the orientation and position of this matrix
+	void SetOrientationAndPosition(const Quaternion& orientation, const Vector3& pos) {
+		_data[0] = 1 - 2 * orientation._j * orientation._j - 2 * orientation._k * orientation._k;
+		_data[1] = 2 * orientation._i * orientation._j - 2 * orientation._r * orientation._k;
+		_data[2] = 2 * orientation._i * orientation._k + 2 * orientation._r * orientation._j;
 		_data[3] = pos.x;
-		_data[4] = 2 * q._i * q._j - 2 * q._k * q._r;
-		_data[5] = 1 - (2 * q._i * q._i + 2 * q._k * q._k);
-		_data[6] = 2 * q._j * q._k + 2 * q._i * q._r;
+		_data[4] = 2 * orientation._i * orientation._j + 2 * orientation._r * orientation._k;
+		_data[5] = 1 - 2 * orientation._i * orientation._i - 2 * orientation._k * orientation._k;
+		_data[6] = 2 * orientation._j * orientation._k - 2 * orientation._r * orientation._i;
 		_data[7] = pos.y;
-		_data[8] = 2 * q._i * q._k + 2 * q._j * q._r;
-		_data[9] = 2 * q._j * q._k - 2 * q._i * q._r;
-		_data[10] = 1 - (2 * q._i * q._i + 2 * q._j * q._j);
+		_data[8] = 2 * orientation._i * orientation._k - 2 * orientation._r * orientation._j;
+		_data[9] = 2 * orientation._j * orientation._k + 2 * orientation._r * orientation._i;
+		_data[10] = 1 - 2 * orientation._i * orientation._i - 2 * orientation._j * orientation._j;
 		_data[11] = pos.z;
 	}
 
+	//Returns a Vector3 by converting a vector to world space
 	Vector3 localToWorld(const Vector3& local, const Matrix4& transform) {
 		return transform.Transform(local);
 	}
 
+	//Returns a vector by converting it to local space
 	Vector3 WorldToLocal(const Vector3& world, const Matrix4& transform) {
 		return transform.TransformInverse(world);
 	}
 
+	//Transforms a given vector by the inverse of this matrix
 	Vector3 TransformInverse(const Vector3& vector) const {
 		Vector3 tmp = vector;
 		tmp.x -= _data[3];
@@ -148,6 +160,7 @@ public:
 		);
 	}
 
+	//Transforms the given direction vector by this matrix
 	Vector3 TransformDirection(const Vector3& vector) const {
 		return Vector3(
 			vector.x * _data[0] + vector.y * _data[1] + vector.z * _data[2],
@@ -156,7 +169,8 @@ public:
 		);
 	}
 
-	Vector3 TransformInverDirection(const Vector3& vector) const {
+	//Transforms the given direction vector by this matrix inverse 
+	Vector3 TransformInverseDirection(const Vector3& vector) const {
 		return Vector3(
 			vector.x * _data[0] + vector.y * _data[4] + vector.z * _data[8],
 			vector.x * _data[1] + vector.y * _data[5] + vector.z * _data[9],
@@ -164,14 +178,7 @@ public:
 		);
 	}
 
-	Vector3 LocalToWorldDirection(const Vector3& local, const Matrix4& transform) {
-		return transform.TransformDirection(local);
-	}
-
-	Vector3 WorldToLocalDirection(const Vector3& world, const Matrix4& transform) {
-		return transform.TransformInverDirection(world);
-	}
-
+	//Takes the given matrix (in the form of an array) and fills it with the DirectX equivalent of the matrix
 	void DirectXArray(float array[16]) const {
 		array[0] = (float)_data[0];
 		array[1] = (float)_data[4];

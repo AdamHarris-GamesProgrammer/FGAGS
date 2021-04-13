@@ -49,11 +49,18 @@ public:
 
 private:
 	//Transform Properties
+	//Used for rendering
 	XMFLOAT4X4 _DirectXTransform;
+
+	//Stores the position, rotation and scale
 	Vector3 _position;
 	Vector3 _rotation;
 	Vector3 _scale;
+
+	//Stores our orientation
 	Quaternion _orientation;
+
+	//Stores our transform matrix used for physics calculation
 	Matrix4 _transform;
 };
 

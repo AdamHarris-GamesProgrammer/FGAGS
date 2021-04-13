@@ -21,22 +21,25 @@ public:
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = vertices.data();
 
-		_pDevice->CreateBuffer(&bd, &InitData, &pVertexBuffer);
+		_pDevice->CreateBuffer(&bd, &InitData, &_pVertexBuffer);
 	}
 
 	~VertexBuffer() {
-		if (pVertexBuffer)pVertexBuffer->Release();
+		//Handle memory
+		if (_pVertexBuffer)_pVertexBuffer->Release();
+
+		_pVertexBuffer = nullptr;
 	}
 
 	//Overrides the base Bind function  to set the Vertex Buffer for the current object
 	void Bind() override
 	{
-		_pDeviceContext->IASetVertexBuffers(0, 1, &pVertexBuffer, &mStride, &mOffset);
+		_pDeviceContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &_stride, &_offset);
 	}
 
 private:
-	ID3D11Buffer* pVertexBuffer = nullptr;
+	ID3D11Buffer* _pVertexBuffer = nullptr;
 
-	UINT mStride = sizeof(SimpleVertex);
-	UINT mOffset = 0;
+	UINT _stride = sizeof(SimpleVertex);
+	UINT _offset = 0;
 };

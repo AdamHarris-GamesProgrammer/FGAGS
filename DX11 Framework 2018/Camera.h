@@ -55,17 +55,17 @@ public:
 	void Update(float dt) override;
 
 private:
-	XMFLOAT3 mRight;
-	XMFLOAT3 mUp;
-	XMFLOAT3 mLook;
+	XMFLOAT3 _right;
+	XMFLOAT3 _up;
+	XMFLOAT3 _look;
 
-	float mNearZ;
-	float mFarZ;
-	float mAspect;
-	float mFovY;
-	float mNearWindowHeight;
-	float mFarWindowHeight;
+	float _nearZ;
+	float _farZ;
+	float _aspect;
+	float _fovY;
+	float _nearWindowHeight;
+	float _farWindowHeight;
 
-	XMFLOAT4X4 mView;
-	XMFLOAT4X4 mProj;
+	XMFLOAT4X4 _view;
+	XMFLOAT4X4 _proj;
 };

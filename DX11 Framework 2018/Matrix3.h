@@ -8,10 +8,14 @@ public:
 	//Holds the matrix data in array form
 	float _data[9];
 
+	/// <summary>
+	/// Sets all of the array to 0
+	/// </summary>
 	Matrix3() {
 		_data[0] = _data[1] = _data[2] = _data[3] = _data[4] = _data[5] = _data[6] = _data[7] = _data[8] = 0;
 	}
 
+	//Sets the data to 9 given values
 	Matrix3(float e0, float e1, float e2, float e3, float e4, float e5, float e6, float e7, float e8) {
 		_data[0] = e0;
 		_data[1] = e1;
@@ -24,12 +28,18 @@ public:
 		_data[8] = e8;
 	}
 
+	/// <summary>
+	/// Sets the value of the matrix as an inertia tensor for a cuboid based on it's size and mass. 
+	/// </summary>
+	/// <param name="halfSizes">The extents of the cuboid. A 2m cube would have a half size of (1,1,1)</param>
+	/// <param name="mass">The mass of the object</param>
 	void SetBlockInertiaTensor(const Vector3& halfSizes, float mass) {
 		Vector3 squares = halfSizes.ComponentProduct(halfSizes);
 		SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z),
 			0.3f * mass * (squares.x + squares.y));
 	}
 
+	//Sets the values of the matrix based on a inertia tensor
 	void SetInertiaTensorCoeffs(float ix, float iy, float iz,
 		float ixy = 0, float ixz = 0, float iyz = 0)
 	{
@@ -41,6 +51,7 @@ public:
 		_data[8] = iz;
 	}
 
+	//Sets the matrix values based on 3 vectors
 	void SetComponents(const Vector3& a, const Vector3& b, const Vector3& c) {
 		_data[0] = a.x;
 		_data[1] = b.x;
@@ -53,6 +64,7 @@ public:
 		_data[8] = c.z;
 	}
 
+	//Sets the matrix to be a skew symmetric based on the vector passed in
 	void SetSkewSymmetric(const Vector3 vector) {
 		_data[0] = _data[4] = _data[8] = 0;
 		_data[1] = -vector.z;
@@ -63,6 +75,7 @@ public:
 		_data[7] = vector.x;
 	}
 
+	//Adds a matrix to this matrix
 	void operator+=(const Matrix3& o)
 	{
 		_data[0] += o._data[0];
@@ -76,6 +89,7 @@ public:
 		_data[8] += o._data[8];
 	}
 
+	//Multiplies the values in this matrix by a scalar
 	void operator*=(const float scalar) {
 		_data[0] *= scalar;
 		_data[1] *= scalar;
@@ -102,6 +116,7 @@ public:
 		return (*this) * vector;
 	}
 
+	//Transforms the given vector by the transpose of this matrix
 	Vector3 TransformTranspose(const Vector3& vector) const {
 		return Vector3(
 			vector.x * _data[0] + vector.y * _data[3] + vector.z * _data[6],
@@ -110,6 +125,7 @@ public:
 		);
 	}
 
+	//Multiplies  this matrix by another matrix
 	Matrix3 operator*(const Matrix3& o) const {
 		return Matrix3(
 			_data[0] * o._data[0] + _data[1] * o._data[3] + _data[2] * o._data[6],
@@ -124,6 +140,7 @@ public:
 		);
 	}
 
+	//Multiplies this matrix by another matrix
 	void operator*=(const Matrix3& o) {
 		float t1;
 		float t2;
@@ -148,6 +165,7 @@ public:
 		_data[8] = t3;
 	}
 
+	//Sets this matrix to be the inverse of another matrix
 	void SetInverse(const Matrix3& m) {
 		float e1 = m._data[0] * m._data[4];
 		float e2 = m._data[0] * m._data[5];
@@ -174,16 +192,19 @@ public:
 		_data[8] = (e1 - e3) * inverseDet;
 	}
 
+	//Gets the inverse of this matrix
 	Matrix3 Inverse() const {
 		Matrix3 result;
 		result.SetInverse(*this);
 		return result;
 	}
 
+	//Inverts this matrix
 	void Invert() {
 		SetInverse(*this);
 	}
 
+	//Sets this matrix to another one
 	void SetTranspose(const Matrix3& m) {
 		_data[0] = m._data[0];
 		_data[1] = m._data[3];
@@ -196,12 +217,14 @@ public:
 		_data[8] = m._data[8];
 	}
 
+	//Returns a transpose of this matrix
 	Matrix3 Transpose() const {
 		Matrix3 result;
 		result.SetTranspose(*this);
 		return result;
 	}
 
+	//Calculates this matrix in relation to a quaternion
 	void SetOrientation(const Quaternion& q) {
 		_data[0] = 1 - (2 * q._j * q._j + 2 * q._k * q._k);
 		_data[1] = 2 * q._i * q._j + 2 * q._k * q._r;

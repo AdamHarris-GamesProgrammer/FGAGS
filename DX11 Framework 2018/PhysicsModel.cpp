@@ -3,6 +3,7 @@
 void PhysicsModelComponent::AddForce(const Vector3& force)
 {
 	_forceAccumulator += force;
+	_isAwake = true;
 }
 
 bool PhysicsModelComponent::BeginUpdate(float dt)

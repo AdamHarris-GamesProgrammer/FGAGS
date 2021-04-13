@@ -135,7 +135,7 @@ public:
 	}
 
 	Vector3 GetDirectionInLocalSpace(const Vector3& point) const {
-		return _transformMatrix.TransformInverDirection(point);
+		return _transformMatrix.TransformInverseDirection(point);
 	}
 
 	void AddVelocity(const Vector3& deltaVelocity) {
@@ -192,7 +192,6 @@ public:
 
 
 	//Add Forces
-	void AddForce(const Vector3& force) override;
 	void AddForceAtPoint(const Vector3& force, const Vector3& point);
 	void AddForceAtBodyPoint(const Vector3& force, const Vector3& point);
 

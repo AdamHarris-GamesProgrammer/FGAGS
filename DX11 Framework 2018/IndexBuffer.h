@@ -10,7 +10,7 @@ class IndexBuffer : public Bindable {
 public:
 	//Creates the Index Buffer
 	IndexBuffer(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<unsigned short>& indices)
-		: Bindable(device, context), mIndexCount(indices.size())
+		: Bindable(device, context), _indexCount(indices.size())
 	{
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
@@ -22,26 +22,28 @@ public:
 		D3D11_SUBRESOURCE_DATA InitData;
 		ZeroMemory(&InitData, sizeof(InitData));
 		InitData.pSysMem = indices.data();
-		_pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer);
+		_pDevice->CreateBuffer(&bd, &InitData, &_pIndexBuffer);
 	}
 
 	~IndexBuffer() {
-		if (pIndexBuffer)pIndexBuffer->Release();
+		if (_pIndexBuffer)_pIndexBuffer->Release();
+
+		_pIndexBuffer = nullptr;
 	}
 
 	//Overrides the base Bind method so the index buffer can be bound to the pipeline
 	void Bind() override
 	{
-		_pDeviceContext->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+		_pDeviceContext->IASetIndexBuffer(_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 	}
 
 	//Returns the index count, needed for rendering the object
 	UINT GetIndexCount() {
-		return mIndexCount;
+		return _indexCount;
 	}
 
 private:
 	//Stores the index buffer and the index count 
-	ID3D11Buffer* pIndexBuffer;
-	UINT mIndexCount;
+	ID3D11Buffer* _pIndexBuffer;
+	UINT _indexCount;
 };

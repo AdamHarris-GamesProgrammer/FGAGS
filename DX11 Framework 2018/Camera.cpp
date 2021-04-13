@@ -3,9 +3,9 @@
 //Initializes all variables to sensible values and sets the lens
 Camera::Camera()
 	: 
-	mRight(1.0f,0.0f,0.0f),
-	mUp(0.0,1.0f,0.0f),
-	mLook(0.0f,0.0f,1.0f)
+	_right(1.0f,0.0f,0.0f),
+	_up(0.0,1.0f,0.0f),
+	_look(0.0f,0.0f,1.0f)
 {
 	SetLens(0.25f * 3.1452, 1.0f, 1.0f, 1000.0f);
 }
@@ -28,9 +28,9 @@ void Camera::LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp)
 	//Stores the position, look, right and up vectors
 	XMStoreFloat3(&fPos, pos);
 	_pTransform->SetPosition(fPos);
-	XMStoreFloat3(&mLook, l);
-	XMStoreFloat3(&mRight, r);
-	XMStoreFloat3(&mUp, u);
+	XMStoreFloat3(&_look, l);
+	XMStoreFloat3(&_right, r);
+	XMStoreFloat3(&_up, u);
 }
 
 //Looks at a point in space and moves the camera to a designated area
@@ -47,7 +47,7 @@ void Camera::LookAt(const XMFLOAT3& pos, const XMFLOAT3& target, const XMFLOAT3&
 void Camera::Strafe(float d)
 {
 	XMVECTOR s = XMVectorReplicate(d);
-	XMVECTOR r = XMLoadFloat3(&mRight);
+	XMVECTOR r = XMLoadFloat3(&_right);
 
 	Vector3 vPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = vPos;
@@ -61,7 +61,7 @@ void Camera::Strafe(float d)
 void Camera::Walk(float d)
 {
 	XMVECTOR s = XMVectorReplicate(d);
-	XMVECTOR i = XMLoadFloat3(&mLook);
+	XMVECTOR i = XMLoadFloat3(&_look);
 
 	Vector3 vPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = vPos;
@@ -74,10 +74,10 @@ void Camera::Walk(float d)
 //Pitches the camera up and down
 void Camera::Pitch(float angle)
 {
-	XMMATRIX r = XMMatrixRotationAxis(XMLoadFloat3(&mRight), angle);
+	XMMATRIX r = XMMatrixRotationAxis(XMLoadFloat3(&_right), angle);
 
-	XMStoreFloat3(&mUp, XMVector3TransformNormal(XMLoadFloat3(&mUp), r));
-	XMStoreFloat3(&mLook, XMVector3TransformNormal(XMLoadFloat3(&mLook), r));
+	XMStoreFloat3(&_up, XMVector3TransformNormal(XMLoadFloat3(&_up), r));
+	XMStoreFloat3(&_look, XMVector3TransformNormal(XMLoadFloat3(&_look), r));
 }
 
 //Rotates the camera on the Y axis allowing it to turn
@@ -85,18 +85,18 @@ void Camera::RotateY(float angle)
 {
 	XMMATRIX r = XMMatrixRotationY(angle);
 
-	XMStoreFloat3(&mRight, XMVector3TransformNormal(XMLoadFloat3(&mRight), r));
-	XMStoreFloat3(&mUp, XMVector3TransformNormal(XMLoadFloat3(&mUp), r));
-	XMStoreFloat3(&mLook, XMVector3TransformNormal(XMLoadFloat3(&mLook), r));
+	XMStoreFloat3(&_right, XMVector3TransformNormal(XMLoadFloat3(&_right), r));
+	XMStoreFloat3(&_up, XMVector3TransformNormal(XMLoadFloat3(&_up), r));
+	XMStoreFloat3(&_look, XMVector3TransformNormal(XMLoadFloat3(&_look), r));
 }
 
 //Updates the cameras view matrix 
 void Camera::Update(float dt)
 {
 	//Loads all the needed vectors
-	XMVECTOR r = XMLoadFloat3(&mRight);
-	XMVECTOR u = XMLoadFloat3(&mUp);
-	XMVECTOR l = XMLoadFloat3(&mLook);
+	XMVECTOR r = XMLoadFloat3(&_right);
+	XMVECTOR u = XMLoadFloat3(&_up);
+	XMVECTOR l = XMLoadFloat3(&_look);
 
 	Vector3 vPos = _pTransform->GetPosition();
 	XMFLOAT3 fPos = vPos;
@@ -118,118 +118,118 @@ void Camera::Update(float dt)
 	float z = -XMVectorGetX(XMVector3Dot(p, l));
 
 	//Stores the right, up, and look vectors
-	XMStoreFloat3(&mRight, r);
-	XMStoreFloat3(&mUp, u);
-	XMStoreFloat3(&mLook, l);
+	XMStoreFloat3(&_right, r);
+	XMStoreFloat3(&_up, u);
+	XMStoreFloat3(&_look, l);
 
 	//Sets the view matrix properties
-	mView(0, 0) = mRight.x;
-	mView(1, 0) = mRight.y;
-	mView(2, 0) = mRight.z;
-	mView(3, 0) = x;
+	_view(0, 0) = _right.x;
+	_view(1, 0) = _right.y;
+	_view(2, 0) = _right.z;
+	_view(3, 0) = x;
 
-	mView(0, 1) = mUp.x;
-	mView(1, 1) = mUp.y;
-	mView(2, 1) = mUp.z;
-	mView(3, 1) = y;
+	_view(0, 1) = _up.x;
+	_view(1, 1) = _up.y;
+	_view(2, 1) = _up.z;
+	_view(3, 1) = y;
 
-	mView(0, 2) = mLook.x;
-	mView(1, 2) = mLook.y;
-	mView(2, 2) = mLook.z;
-	mView(3, 2) = z;
+	_view(0, 2) = _look.x;
+	_view(1, 2) = _look.y;
+	_view(2, 2) = _look.z;
+	_view(3, 2) = z;
 
-	mView(0, 3) = 0.0f;
-	mView(1, 3) = 0.0f;
-	mView(2, 3) = 0.0f;
-	mView(3, 3) = 1.0f;
+	_view(0, 3) = 0.0f;
+	_view(1, 3) = 0.0f;
+	_view(2, 3) = 0.0f;
+	_view(3, 3) = 1.0f;
 
 }
 
 #pragma region Getters
 DirectX::XMVECTOR Camera::GetRightXM() const
 {
-	return XMLoadFloat3(&mRight);
+	return XMLoadFloat3(&_right);
 }
 
 DirectX::XMFLOAT3 Camera::GetRight() const
 {
-	return mRight;
+	return _right;
 }
 
 DirectX::XMVECTOR Camera::GetUpXM() const
 {
-	return XMLoadFloat3(&mUp);
+	return XMLoadFloat3(&_up);
 }
 
 DirectX::XMFLOAT3 Camera::GetUp() const
 {
-	return mUp;
+	return _up;
 }
 
 DirectX::XMVECTOR Camera::GetLookXM() const
 {
-	return XMLoadFloat3(&mLook);
+	return XMLoadFloat3(&_look);
 }
 
 DirectX::XMFLOAT3 Camera::GetLook() const
 {
-	return mLook;
+	return _look;
 }
 
 float Camera::GetNearZ() const
 {
-	return mNearZ;
+	return _nearZ;
 }
 
 float Camera::GetFarZ() const
 {
-	return mFarZ;
+	return _farZ;
 }
 
 float Camera::GetAspect() const
 {
-	return mAspect;
+	return _aspect;
 }
 
 float Camera::GetFovY() const
 {
-	return mFovY;
+	return _fovY;
 }
 
 float Camera::GetFovX() const
 {
 	float halfWidth = 0.5f * GetNearWindowWidth();
-	return 2.0f * atan(halfWidth / mNearZ);
+	return 2.0f * atan(halfWidth / _nearZ);
 }
 
 float Camera::GetNearWindowHeight() const
 {
-	return mNearWindowHeight;
+	return _nearWindowHeight;
 }
 
 float Camera::GetNearWindowWidth() const
 {
-	return mAspect * mNearWindowHeight;
+	return _aspect * _nearWindowHeight;
 }
 
 float Camera::GetFarWindowHeight() const
 {
-	return mFarWindowHeight;
+	return _farWindowHeight;
 }
 
 float Camera::GetFarWindowWidth() const
 {
-	return mAspect * mFarWindowHeight;
+	return _aspect * _farWindowHeight;
 }
 
 DirectX::XMMATRIX Camera::View() const
 {
-	return XMLoadFloat4x4(&mView);
+	return XMLoadFloat4x4(&_view);
 }
 
 DirectX::XMMATRIX Camera::Proj() const
 {
-	return XMLoadFloat4x4(&mProj);
+	return XMLoadFloat4x4(&_proj);
 }
 
 DirectX::XMMATRIX Camera::ViewProj() const
@@ -242,17 +242,17 @@ DirectX::XMMATRIX Camera::ViewProj() const
 #pragma region Setters
 void Camera::SetLens(float fovY, float aspect, float zn, float zf)
 {
-	mFovY = fovY;
-	mAspect = aspect;
+	_fovY = fovY;
+	_aspect = aspect;
 
-	mNearZ = zn;
-	mFarZ = zf;
+	_nearZ = zn;
+	_farZ = zf;
 
-	mNearWindowHeight = 2.0f * mNearZ * tanf(0.5f * mFovY);
-	mFarWindowHeight = 2.0f * mFarZ * tanf(0.5f * mFovY);
+	_nearWindowHeight = 2.0f * _nearZ * tanf(0.5f * _fovY);
+	_farWindowHeight = 2.0f * _farZ * tanf(0.5f * _fovY);
 
-	XMMATRIX projection = XMMatrixPerspectiveFovLH(mFovY, mAspect, mNearZ, mFarZ);
+	XMMATRIX projection = XMMatrixPerspectiveFovLH(_fovY, _aspect, _nearZ, _farZ);
 
-	XMStoreFloat4x4(&mProj, projection);
+	XMStoreFloat4x4(&_proj, projection);
 }
 #pragma endregion
