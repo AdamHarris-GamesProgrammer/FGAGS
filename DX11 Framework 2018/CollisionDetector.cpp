@@ -180,43 +180,47 @@ void FillPointFaceBoxBox(const Box& a, const Box& b, const Vector3& centre, Coll
 }
 
 static inline Vector3 ContactPoint(
-	const Vector3& pOne, const Vector3& dOne, float oneSize, const Vector3& pTwo, const Vector3& dTwo, float twoSize, bool useOne) {
+	const Vector3& pointA, const Vector3& axisA, float aSize, const Vector3& pointB, const Vector3& axisB, float bSize, bool useOne) {
 
-	float smOne = dOne.SquareMagnitude();
-	float smTwo = dTwo.SquareMagnitude();
-	float dpOneTwo = dTwo * dOne;
+	float axisAMagnitude = axisA.SquareMagnitude();
+	float axisBMagnitude = axisB.SquareMagnitude();
+	float axisProduct = axisB * axisA;
 
-	Vector3 toSt = pOne - pTwo;
-	float dpStaOne = dOne * toSt;
-	float dpStaTwo = dTwo * toSt;
-
-	float denominator = smOne * smTwo - dpOneTwo * dpOneTwo;
+	float denominator = axisAMagnitude * axisBMagnitude - axisProduct * axisProduct;
 
 	// Zero denominator indicates parallel lines
 	if (fabsf(denominator) < 0.0001f) {
-		return useOne ? pOne : pTwo;
+		return useOne ? pointA : pointB;
 	}
 
-	float mua = (dpOneTwo * dpStaTwo - smTwo * dpStaOne) / denominator;
-	float mub = (smOne * dpStaTwo - dpOneTwo * dpStaOne) / denominator;
+	Vector3 direction = pointA - pointB;
+	float axisADirectionProduct = axisA * direction;
+	float axisBDirectionProduct = axisB * direction;
+
+	float edgaA = (axisProduct * axisBDirectionProduct - axisBMagnitude * axisADirectionProduct) / denominator;
+	float edgeB = (axisAMagnitude * axisBDirectionProduct - axisProduct * axisADirectionProduct) / denominator;
 
 	// If either of the edges has the nearest point out
 	// of bounds, then the edges aren't crossed, we have
 	// an edge-face contact. Our point is on the edge, which
 	// we know from the useOne parameter.
-	if (mua > oneSize ||
-		mua < -oneSize ||
-		mub > twoSize ||
-		mub < -twoSize)
+	//if our edge a is greater than a size or less than the inverted a size 
+	//or our edge b is greater than b size or less than the inverted b size
+	if (edgaA > aSize ||
+		edgaA < -aSize ||
+		edgeB > bSize ||
+		edgeB < -bSize)
 	{
-		return useOne ? pOne : pTwo;
+		//return point a if we are only using one collision point, or point b if we 
+		return useOne ? pointA : pointB;
 	}
 	else
 	{
-		Vector3 cOne = pOne + dOne * mua;
-		Vector3 cTwo = pTwo + dTwo * mub;
+		//Calculate the new contact point
+		Vector3 contactA = pointA + axisA * edgaA;
+		Vector3 contactB = pointB + axisB * edgeB;
 
-		return cOne * 0.5 + cTwo * 0.5;
+		return contactA * 0.5 + contactB * 0.5;
 	}
 }
 
@@ -226,22 +230,30 @@ static inline Vector3 ContactPoint(
 
 unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData* data)
 {
+	//Gets the direction of the center from the box positions
 	Vector3 toCentre = b.GetAxis(3) - a.GetAxis(3);
 
+	//sets this to max by default
 	float pen = FLT_MAX;
 	unsigned best = 0xffffff;
 
+	//Using a macro to make this code more readable
+	//This is passing the desired axis to the TryAxis method
+	//After this block of code the lowest contact point is saved 
 
+	//Checks box A axis
 	OVERLAPPING(a.GetAxis(0), 0);
 	OVERLAPPING(a.GetAxis(1), 1);
 	OVERLAPPING(a.GetAxis(2), 2);
 
+	//Checks box B axis
 	OVERLAPPING(b.GetAxis(0), 3);
 	OVERLAPPING(b.GetAxis(1), 4);
 	OVERLAPPING(b.GetAxis(2), 5);
 
 	unsigned bestSingleAxis = best;
 
+	//Checks the cross products of the axis
 	OVERLAPPING(a.GetAxis(0) % b.GetAxis(0), 6);
 	OVERLAPPING(a.GetAxis(0) % b.GetAxis(1), 7);
 	OVERLAPPING(a.GetAxis(0) % b.GetAxis(2), 8);
@@ -252,21 +264,30 @@ unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData*
 	OVERLAPPING(a.GetAxis(2) % b.GetAxis(1), 13);
 	OVERLAPPING(a.GetAxis(2) % b.GetAxis(2), 14);
 
-
+	//Quick assert to make sure that a best has been found
 	assert(best != 0xffffff);
 
+	//at this point a collision has definitely occurred
+	//based on the best which is based on the smallest penetration value, we can choose a collision response
+	//that we need
 	if (best < 3) {
+		//A vertex of box B is on a face of box A 
 		FillPointFaceBoxBox(a, b, toCentre, data, best, pen);
 		data->AddContacts(1);
 		return 1;
 	}
 	else if (best < 6) {
+		//A vertex of box A is on a face of box B
+		//Same data as above but swapping a and b around and inverting the center vector
 		FillPointFaceBoxBox(a, b, toCentre * -1.0f, data, best - 3, pen);
 		data->AddContacts(1);
 		return 1;
 	}
 	else
 	{
+		//Edge on edge collision
+		
+
 		best -= 6;
 		unsigned aAxisIndex = best / 3;
 		unsigned bAxisIndex = best % 3;
@@ -275,36 +296,36 @@ unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData*
 		Vector3 axis = aAxis % bAxis;
 		axis.Normalize();
 
+		//points the axis from box a to box b
 		if (axis * toCentre > 0) axis = axis * -1.0f;
 
-		Vector3 ptOnOneEdge = a._halfSize;
-		Vector3 ptOnTwoEdge = b._halfSize;
+
+		//To get the edges from the axis we find a point in the center of the edge
+		Vector3 ptOnAEdge = a._halfSize;
+		Vector3 ptOnBEdge = b._halfSize;
 		for (unsigned i = 0; i < 3; i++)
 		{
-			if (i == aAxisIndex) ptOnOneEdge[i] = 0;
-			else if (a.GetAxis(i) * axis > 0) ptOnOneEdge[i] = -ptOnOneEdge[i];
+			//Decide which edge is closest to the axis
+			if (i == aAxisIndex) ptOnAEdge[i] = 0;
+			else if (a.GetAxis(i) * axis > 0) ptOnAEdge[i] = -ptOnAEdge[i];
 
-			if (i == bAxisIndex) ptOnTwoEdge[i] = 0;
-			else if (b.GetAxis(i) * axis < 0) ptOnTwoEdge[i] = -ptOnTwoEdge[i];
+			if (i == bAxisIndex) ptOnBEdge[i] = 0;
+			else if (b.GetAxis(i) * axis < 0) ptOnBEdge[i] = -ptOnBEdge[i];
 		}
 
-		// Move them into world coordinates (they are already oriented
-		// correctly, since they have been derived from the axes).
-		ptOnOneEdge = a.GetTransform() * ptOnOneEdge;
-		ptOnTwoEdge = b.GetTransform() * ptOnTwoEdge;
+		// Move the points into world space
+		ptOnAEdge = a.GetTransform() * ptOnAEdge;
+		ptOnBEdge = b.GetTransform() * ptOnBEdge;
 
-		// So we have a point and a direction for the colliding edges.
-		// We need to find out point of closest approach of the two
-		// line-segments.
+		//We now find out the closest point of contact between the boxes
 		Vector3 vertex = ContactPoint(
-			ptOnOneEdge, aAxis, a._halfSize[aAxisIndex],
-			ptOnTwoEdge, bAxis, b._halfSize[bAxisIndex],
+			ptOnAEdge, aAxis, a._halfSize[aAxisIndex],
+			ptOnBEdge, bAxis, b._halfSize[bAxisIndex],
 			bestSingleAxis > 2
 		);
 
-		// We can fill the contact.
+		//Setting the contact information
 		Contact* contact = data->_contacts;
-
 		contact->_penetration = pen;
 		contact->_contactNormal = axis;
 		contact->_contactPoint = vertex;
@@ -318,11 +339,13 @@ unsigned CollisionDetector::BoxAndBox(const Box& a, const Box& b, CollisionData*
 
 unsigned CollisionDetector::BoxAndSphere(const Box& box, const Sphere& sphere, CollisionData* data)
 {
-	// Transform the centre of the sphere into box coordinates
+	// Gets the position of the sphere
 	Vector3 centre = sphere.GetAxis(3);
+	//converts the spheres position into the boxes local coordinates
 	Vector3 relCentre = box.GetTransform().TransformInverse(centre);
 
-	// Early out check to see if we can exclude the contact
+	//Check if we actually need to do a collision check
+	//Checking if the position of the sphere - the radius is greater than the corresponding box scale
 	if (fabsf(relCentre.x) - sphere._radius > box._halfSize.x ||
 		fabsf(relCentre.y) - sphere._radius > box._halfSize.y ||
 		fabsf(relCentre.z) - sphere._radius > box._halfSize.z)
@@ -330,37 +353,37 @@ unsigned CollisionDetector::BoxAndSphere(const Box& box, const Sphere& sphere, C
 		return 0;
 	}
 
-	Vector3 closestPt(0, 0, 0);
-	float dist;
+	Vector3 closestPoint(0, 0, 0);
+	float distance;
 
-	// Clamp each coordinate to the box.
-	dist = relCentre.x;
-	if (dist > box._halfSize.x) dist = box._halfSize.x;
-	if (dist < -box._halfSize.x) dist = -box._halfSize.x;
-	closestPt.x = dist;
+	// Clamps each coordinate to the boxes extents
+	distance = relCentre.x;
+	if (distance > box._halfSize.x) distance = box._halfSize.x;
+	if (distance < -box._halfSize.x) distance = -box._halfSize.x;
+	closestPoint.x = distance;
 
-	dist = relCentre.y;
-	if (dist > box._halfSize.y) dist = box._halfSize.y;
-	if (dist < -box._halfSize.y) dist = -box._halfSize.y;
-	closestPt.y = dist;
+	distance = relCentre.y;
+	if (distance > box._halfSize.y) distance = box._halfSize.y;
+	if (distance < -box._halfSize.y) distance = -box._halfSize.y;
+	closestPoint.y = distance;
 
-	dist = relCentre.z;
-	if (dist > box._halfSize.z) dist = box._halfSize.z;
-	if (dist < -box._halfSize.z) dist = -box._halfSize.z;
-	closestPt.z = dist;
+	distance = relCentre.z;
+	if (distance > box._halfSize.z) distance = box._halfSize.z;
+	if (distance < -box._halfSize.z) distance = -box._halfSize.z;
+	closestPoint.z = distance;
 
-	// Check we're in contact
-	dist = (closestPt - relCentre).SquareMagnitude();
-	if (dist > sphere._radius * sphere._radius) return 0;
+	// Check if there is a contact
+	distance = (closestPoint - relCentre).SquareMagnitude();
+	if (distance > sphere._radius * sphere._radius) return 0;
 
-	// Compile the contact
-	Vector3 closestPtWorld = box.GetTransform().Transform(closestPt);
+	// Add the contact 
+	Vector3 closestPtWorld = box.GetTransform().Transform(closestPoint);
 
 	Contact* contact = data->_contacts;
 	contact->_contactNormal = (closestPtWorld - centre);
 	contact->_contactNormal.Normalize();
 	contact->_contactPoint = closestPtWorld;
-	contact->_penetration = sphere._radius - sqrtf(dist);
+	contact->_penetration = sphere._radius - sqrtf(distance);
 	contact->SetBodyData(box._body, sphere._body,
 		data->_friction, data->_restitution);
 

@@ -50,6 +50,11 @@ void PhysicsModelComponent::SetMass(const float mass)
 	_inverseMass = ((float)1.0) / mass;
 }
 
+bool PhysicsModelComponent::HasFiniteMass() const
+{
+	return _inverseMass >= 0.0f;
+}
+
 float PhysicsModelComponent::GetInverseMass() const
 {
 	return _inverseMass;
@@ -115,6 +120,36 @@ void PhysicsModelComponent::SetPosition(float x, float y, float z)
 	_position = Vector3(x, y, z);
 }
 
+bool PhysicsModelComponent::GetAwake() const
+{
+	return _isAwake;
+}
+
+float PhysicsModelComponent::GetSleepEpsilon()
+{
+	return _sleepEpsilon;
+}
+
+void PhysicsModelComponent::SetAwake(const bool awake /*= true*/)
+{
+	if (awake) {
+		_isAwake = true;
+		_motion = _sleepEpsilon * 2.0f;
+	}
+	else
+	{
+		_isAwake = false;
+		_velocity.Zero();
+	}
+}
+
+void PhysicsModelComponent::SetCanSleep(const bool canSleep)
+{
+	_canSleep = canSleep;
+
+	if (!canSleep && !_isAwake) SetAwake();
+}
+
 void PhysicsModelComponent::Initialize()
 {
 	_pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(ComponentID::Transform));
@@ -123,4 +158,17 @@ void PhysicsModelComponent::Initialize()
 	SetAwake(true);
 	SetMass(5.0);
 	SetVelocity(0, 0, 0);
+}
+
+void PhysicsModelComponent::CheckSleep(float currMot, float dt)
+{
+	if (_canSleep) {
+		float currentMotion = currMot;
+		float bias = powf(0.5, dt);
+
+		_motion = bias * _motion + (1 - bias) * currentMotion;
+
+		if (_motion < _sleepEpsilon) SetAwake(false);
+		else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
+	}
 }
