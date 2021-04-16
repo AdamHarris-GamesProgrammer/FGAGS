@@ -22,6 +22,10 @@ void Level1::PollInput(float dt)
 		_pParticleComponent->SetAcceleration(Vector3(5.0, 0.0, 0.0));
 		_pParticleComponent->SetAwake(true);
 	}
+	//Overriding the base poll input method so just adding this to re enable R to reset level
+	if (GetAsyncKeyState('R')) {
+		Reset();
+	}
 }
 
 void Level1::Update(float dt)
@@ -33,7 +37,7 @@ void Level1::Update(float dt)
 void Level1::DrawUI()
 {
 	ImGui::Begin("Test 1");
-	ImGui::Text("This test showcases the inclusion of a particle model with a drag force generator being applied to it add drag");
+	ImGui::Text("This test showcases the inclusion of a particle model with a drag force generator being applied to it to add drag");
 	ImGui::Text("Press F to apply acceleration");
 	//Print Movement Information about our cube.
 	OutputVector3("Object Position: ", _pGameObjects[0]->GetTransform().GetPosition());

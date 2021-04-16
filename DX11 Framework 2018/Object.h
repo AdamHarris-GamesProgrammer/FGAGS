@@ -26,14 +26,6 @@ public:
 	TransformComponent& GetTransform();
 	std::string GetName() const;
 	void SetName(std::string& name);
-
-	void SetPosition(float x, float y, float z) {
-		_pTransform->SetPosition(x, y, z);
-	}
-
-	void SetRotation(float x, float y, float z) {
-		_pTransform->SetRotation(x, y, z);
-	}
 private:
 	std::map<ComponentID, Component*> _components;
 

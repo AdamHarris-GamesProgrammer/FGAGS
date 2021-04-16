@@ -120,14 +120,10 @@ void Scene::OutputVector3(std::string label, Vector3 vec)
 
 void Scene::LoadGround()
 {
-	if (_pGroundPlane == nullptr) {
-		_pGroundPlane = std::make_unique<Object>();
-	}
+	if (_pGroundPlane == nullptr) _pGroundPlane = std::make_unique<Object>();
+	
 
-	if (_pGroundPlaneRenderer == nullptr) {
-		_pGroundPlaneRenderer = std::make_unique<RendererComponent>(_pGroundPlane.get(), _pGfx);
-
-	}
+	if (_pGroundPlaneRenderer == nullptr) _pGroundPlaneRenderer = std::make_unique<RendererComponent>(_pGroundPlane.get(), _pGfx);
 
 	MakePlane(20.0f, 20.0f, 7, 7, _pGroundPlaneRenderer.get());
 
