@@ -26,6 +26,7 @@ void PhysicsModelComponent::EndUpdate(float currMot, float dt)
 	ClearAccumulator();
 	CheckSleep(currMot, dt);
 
+	//Sets the transforms position
 	_pTransformComponent->SetPosition(_position);
 }
 
@@ -147,28 +148,36 @@ void PhysicsModelComponent::SetCanSleep(const bool canSleep)
 {
 	_canSleep = canSleep;
 
+	//Makes the object wake up if it is asleep and we can no longer sleep
 	if (!canSleep && !_isAwake) SetAwake();
 }
 
 void PhysicsModelComponent::Initialize()
 {
+	//gets the transform component
 	_pTransformComponent = dynamic_cast<TransformComponent*>(_pOwner->GetComponent(ComponentID::Transform));
 
 	SetCanSleep(true);
 	SetAwake(true);
 	SetMass(5.0);
 	SetVelocity(0, 0, 0);
+	SetDamping(0.9f);
 }
 
 void PhysicsModelComponent::CheckSleep(float currMot, float dt)
 {
+	//if we can sleep
 	if (_canSleep) {
+		//Get the current motion
 		float currentMotion = currMot;
 		float bias = powf(0.5, dt);
 
 		_motion = bias * _motion + (1 - bias) * currentMotion;
 
+		//object can sleep
 		if (_motion < _sleepEpsilon) SetAwake(false);
+
+		//object dosent need to sleep
 		else if (_motion > 10 * _sleepEpsilon) _motion = 10 * _sleepEpsilon;
 	}
 }

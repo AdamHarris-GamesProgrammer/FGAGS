@@ -134,8 +134,6 @@ void Scene::LoadGround()
 	_pGroundPlaneRenderer->CreateTexture(L"Assets/Textures/stone.dds");
 
 	_pGameObjects.push_back(_pGroundPlane.get());
-
-
 }
 
 void Scene::Initialize()

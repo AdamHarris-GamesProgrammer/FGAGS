@@ -24,9 +24,13 @@ public:
 
 	virtual void AddForce(const Vector3& force);
 
-
+	//Used for checking if we need to update physics
 	bool BeginUpdate(float dt);
+
+	//Updates our physics system
 	virtual void Update(float dt) = 0;
+
+	//Ends the update and decides if objects need to sleep
 	virtual void EndUpdate(float currMot, float dt);
 
 
@@ -63,21 +67,32 @@ protected:
 	Vector3 _velocity;
 	Vector3 _acceleration;
 
+	//force accumulator acts as a implementation of dAlembert's principle
 	Vector3 _forceAccumulator;
 
+	//Holds the mass
 	float _inverseMass;
+
+	//Damping, acts as a simplistic drag
 	float _linearDamping;
 
+	//Stores the physics systems sleep values
 	bool _isAwake;
-	float _motion;
 	bool _canSleep;
 
-	float _sleepEpsilon = 0.1;
+	//Motion is used to decide if a object should sleep
+	float _motion;
 
+	//Epsilon for sleeping
+	float _sleepEpsilon = 0.1f;
+
+	//Initialization method for setting up initial values
 	virtual void Initialize();
 
+	//Checks if the physics can sleep based on a motion vector which is passed in
 	void CheckSleep(float currMot, float dt);
 
+	//All physics models need a pointer to the objects transform component in order to manipulate positional data
 	TransformComponent* _pTransformComponent;
 };
 

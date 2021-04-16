@@ -2,6 +2,8 @@
 
 void Level0::DrawUI()
 {
+	//This level is just for displaying information about the project. 
+
 	ImGui::Begin("Physics Assignment - Adam Harris");
 	ImGui::Text("Controls");
 	ImGui::Text("Use Keys 1 - 7 to load each level");

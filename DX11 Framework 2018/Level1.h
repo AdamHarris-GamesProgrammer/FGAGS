@@ -15,8 +15,7 @@ public:
 	void Update(float dt) override;
 
 private:
-	bool _shouldMove = false;
-
+	//Holds the particle component and the drag force generator
 	std::unique_ptr<ParticleComponent> _pParticleComponent;
 	std::unique_ptr<DragForceGenerator> _pParticalDrag;
 

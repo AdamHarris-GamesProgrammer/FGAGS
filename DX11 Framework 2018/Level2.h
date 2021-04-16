@@ -12,17 +12,17 @@ public:
 	void LoadLevel() override;
 
 
-	void ExitLevel() override;
-
 	void Update(float dt) override;
 
 private:
+	//This level needs to generate gravity and a resting force to an object
 	std::unique_ptr<GravityForceGenerator> _pGravityGenerator = nullptr;
 	std::unique_ptr<RestingForceGenerator> _pRestingGenerator = nullptr;
 
+	//Stores the rigidbody component for this level
+	std::unique_ptr<RigidbodyComponent> _pRb = nullptr;
+
 	void DrawUI() override;
 
-
-	RigidbodyComponent* _pRb = nullptr;
 };
 

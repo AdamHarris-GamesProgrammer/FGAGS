@@ -118,7 +118,7 @@ void Contact::CalculateContactBasis()
 	//Check if the Z axis is nearer to the x or y axis
 	if (fabsf(_contactNormal.x) > fabsf(_contactNormal.y)) {
 		//Scaling factor used to normalize our results
-		const float s = (float)1.0f / sqrtf(_contactNormal.x * _contactNormal.x);
+		const float s = 1.0f / sqrtf(_contactNormal.x * _contactNormal.x);
 
 		//The new x axis is at right angles to the world Y axis
 		contactTangent[0].x = _contactNormal.z * s;
@@ -132,7 +132,7 @@ void Contact::CalculateContactBasis()
 	}
 	else {
 		//Scaling factor used to normalize our results
-		const float s = (float)1.0 / sqrtf(_contactNormal.z * _contactNormal.z + _contactNormal.y * _contactNormal.y);
+		const float s = 1.0f / sqrtf(_contactNormal.z * _contactNormal.z + _contactNormal.y * _contactNormal.y);
 
 		//The new x axis is at a right angle to the world X axis
 		contactTangent[0].x = 0;

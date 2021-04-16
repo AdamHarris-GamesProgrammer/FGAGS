@@ -6,22 +6,19 @@ void Level3::LoadLevel()
 
 	if (_pRb == nullptr) {
 		_pRb = std::make_unique<RigidbodyComponent>(_pGameObjects[0]);
-		_pRb->SetAngularDamping(0.9);
-		_pRb->SetLinearDamping(1.0);
-		_pRb->SetAwake();
+		_pRb->SetAngularDamping(0.9f);
+		_pRb->SetLinearDamping(1.0f);
 		_pRb->SetCanSleep(false);
-		_pRb->SetCubeInertiaTensor();
-		_pRb->SetInverseMass(5.0f);
 	}
-	else
-	{
-		_pRb->SetOwner(_pGameObjects[0]);
-	}
+	else _pRb->SetOwner(_pGameObjects[0]);
 
+	//Clears any rotational power
 	_pRb->ClearAccumulator();
 
+	//Sets a default rotation power
 	_rotationPower = 100.0f;
 
+	//resets the coordinates back to 0. Stops them from showing up as random numbers in the ui
 	_normalizedCoords[0] = 0.0f;
 	_normalizedCoords[1] = 0.0f;
 }
@@ -36,7 +33,7 @@ void Level3::Update(float dt)
 	_pRb->SetVelocity(Vector3());
 
 
-	if (_pGfx->IsLeftMouseDown()) {
+	if (!_inMenus && _pGfx->IsLeftMouseDown()) {
 		//Get the mouse positions
 		int mouseX = _pGfx->GetMouseX();
 		int mouseY = _pGfx->GetMouseY();
@@ -67,7 +64,14 @@ void Level3::Update(float dt)
 
 void Level3::DrawUI()
 {
+	_inMenus = false;
+
 	ImGui::Begin("Test 3");
+	_inMenus = ImGui::IsWindowFocused();
+
+	ImGui::Text("This test showcases the feature of adding forces to an object from different sides");
+	ImGui::Text("Clicking on the left side of the screen will spin the cube right, vice versa for the right side of the screen");
+	ImGui::Text("It does this by applying torque to a rigidbody object");
 
 	ImGui::Text("NDC: %.2f %.2f", _normalizedCoords[0], _normalizedCoords[1]);
 	ImGui::SliderFloat("Rotation Power: ", &_rotationPower, 0.0f, 100.0f, "%.2f", 1.0f);
