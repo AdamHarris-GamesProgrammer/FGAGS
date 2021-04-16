@@ -15,17 +15,17 @@ public:
 	RigidbodyComponent* _bodies[2] = { nullptr, nullptr };
 
 	//The friction and restitution factors for this collision, passed in through collision data array
-	float _friction;
-	float _restitution;
+	float _friction = 0.0f;
+	float _restitution = 0.0f;
 
 	//Stores the point of contact for the collision
-	Vector3 _contactPoint;
+	Vector3 _contactPoint = Vector3();
 
 	//Stores the normal for the collision
-	Vector3 _contactNormal;
+	Vector3 _contactNormal = Vector3();
 
 	//Stores the penetration value of the collision
-	float _penetration;
+	float _penetration = 0.0f;
 
 	/// <summary>
 	/// Sets the data for a contact

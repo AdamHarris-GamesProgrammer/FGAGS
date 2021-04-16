@@ -1,7 +1,8 @@
 #include "JSONLevelLoader.h"
 #include "RendererComponent.h"
+#include <memory>
 
-std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, Graphics* pGfx)
+std::vector<Object*> JSONLevelLoader::LoadObjectsFromFile(const char* filename, std::shared_ptr<Graphics> pGfx)
 {
 	//Base Gameobject vector
 	std::vector<Object*> objects;

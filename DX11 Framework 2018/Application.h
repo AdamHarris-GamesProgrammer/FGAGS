@@ -55,6 +55,6 @@ private:
 	Time _time;
 
 	//Stores a pointer to the graphics class which is used by all objects
-	Graphics* _pGfx = nullptr;
+	std::shared_ptr<Graphics> _pGfx = nullptr;
 };
 

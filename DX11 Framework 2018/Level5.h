@@ -12,7 +12,7 @@
 class Level5 :  public Scene
 {
 public:
-	Level5(Graphics* gfx, const char* levelName) : Scene(gfx, levelName) {}
+	Level5(std::shared_ptr<Graphics> gfx, const char* levelName) : Scene(gfx, levelName) {}
 
 
 	void Update(float dt) override;

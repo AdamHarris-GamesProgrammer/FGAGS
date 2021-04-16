@@ -41,7 +41,7 @@ public:
 	void Normalize() {
 		float mag = Magnitude();
 		if (mag > 0) {
-			(*this) *= ((float)1) / mag;
+			(*this) *= 1.0f / mag;
 		}
 	}
 

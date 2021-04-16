@@ -8,7 +8,7 @@
 class Level7 : public Scene
 {
 public:
-	Level7(Graphics* gfx, const char* levelName) : Scene(gfx, levelName) {}
+	Level7(std::shared_ptr<Graphics> gfx, const char* levelName) : Scene(gfx, levelName) {}
 
 	void LoadLevel() override;
 

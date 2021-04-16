@@ -14,7 +14,7 @@ public:
 	JSONLevelLoader() = default;
 
 	//Loads the objects from the file
-	std::vector<Object*> LoadObjectsFromFile(const char* filename, Graphics* pGfx);
+	std::vector<Object*> LoadObjectsFromFile(const char* filename, std::shared_ptr<Graphics> pGfx);
 	std::vector<std::shared_ptr<Camera>> LoadCamerasFromFile(const char* filename);
 private:
 	wchar_t* ConvertString(std::string& str);

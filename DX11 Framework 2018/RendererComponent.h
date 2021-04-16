@@ -7,7 +7,7 @@
 class RendererComponent : public Component
 {
 public:
-	RendererComponent(Object* owner, Graphics* gfx);
+	RendererComponent(Object* owner, std::shared_ptr<Graphics> gfx);
 
 	void Update(float dt) override;
 
@@ -32,7 +32,7 @@ private:
 	std::unique_ptr<IndexBuffer> _pIndexBuffer;
 	std::vector<std::unique_ptr<Bindable>> _pBindables;
 
-	Graphics* _pGfx;
+	std::shared_ptr<Graphics> _pGfx;
 
 	std::vector<ID3D11ShaderResourceView*> _pTextures;
 

@@ -24,7 +24,7 @@ class Scene
 {
 public:
 	//Initializes data for the scene
-	Scene(Graphics* gfx, const char* filename);
+	Scene(std::shared_ptr<Graphics> gfx, const char* filename);
 
 	//Deallocate memory
 	~Scene();
@@ -68,7 +68,7 @@ protected:
 	GameObjects _pGameObjects;
 	
 	//Pointer to our graphics object
-	Graphics* _pGfx = nullptr;
+	std::shared_ptr<Graphics> _pGfx = nullptr;
 
 	std::unique_ptr<Object> _pGroundPlane = nullptr;
 	std::unique_ptr<RendererComponent> _pGroundPlaneRenderer = nullptr;

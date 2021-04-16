@@ -26,7 +26,7 @@ public:
 			return;
 		}
 
-		d = ((float)1.0) / sqrtf(d);
+		d = 1.0f / sqrtf(d);
 		_r *= d;
 		_i *= d;
 		_j *= d;
@@ -57,10 +57,10 @@ public:
 		Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
 		q *= *this;
 
-		_r += q._r * ((float)0.5);
-		_i += q._i * ((float)0.5);
-		_j += q._j * ((float)0.5);
-		_k += q._k * ((float)0.5);
+		_r += q._r * 0.5f;
+		_i += q._i * 0.5f;
+		_j += q._j * 0.5f;
+		_k += q._k * 0.5f;
 	}
 
 	//Returns the identity of this quaternion 

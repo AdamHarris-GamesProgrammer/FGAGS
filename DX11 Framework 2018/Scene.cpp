@@ -2,7 +2,7 @@
 #include <thread>
 #include <sstream>
 
-Scene::Scene(Graphics* gfx, const char* filename) : _pGfx(gfx), _pLevelFile(filename)
+Scene::Scene(std::shared_ptr<Graphics> gfx, const char* filename) : _pGfx(gfx), _pLevelFile(filename)
 {
 	Initialize();
 }

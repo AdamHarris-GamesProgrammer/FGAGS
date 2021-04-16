@@ -41,14 +41,14 @@ float PhysicsModelComponent::GetMass() const
 		return FLT_MAX;
 	}
 	else {
-		return ((float)1.0) / _inverseMass;
+		return 1.0f / _inverseMass;
 	}
 }
 
 void PhysicsModelComponent::SetMass(const float mass)
 {
 	assert(mass != 0);
-	_inverseMass = ((float)1.0) / mass;
+	_inverseMass = 1.0f / mass;
 }
 
 bool PhysicsModelComponent::HasFiniteMass() const

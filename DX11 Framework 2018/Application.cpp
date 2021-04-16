@@ -8,14 +8,12 @@
 
 Application::~Application()
 {
-	delete _pGfx;
-	_pGfx = nullptr;
 }
 
 HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 {
 	//Initializes the Graphics object
-	_pGfx = new Graphics();
+	_pGfx = std::make_shared<Graphics>();
 	_pGfx->Initialise(hInstance, nCmdShow);
 
 	//Sky blue colour

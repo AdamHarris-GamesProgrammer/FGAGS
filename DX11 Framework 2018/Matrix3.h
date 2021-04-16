@@ -178,8 +178,8 @@ public:
 		float det = (e1 * m._data[8] - e2 * m._data[7] - e3 * m._data[8] + 
 					e4 * m._data[7] + e5 * m._data[5] - e6 * m._data[4]);
 
-		if (det == (float)0.0f) return;
-		float inverseDet = (float)1.0f / det;
+		if (det == 0.0f) return;
+		float inverseDet = 1.0f / det;
 
 		_data[0] = (m._data[4] * m._data[8] - m._data[5] * m._data[7]) * inverseDet;
 		_data[1] = -(m._data[1] * m._data[8] - m._data[2] * m._data[7]) * inverseDet;

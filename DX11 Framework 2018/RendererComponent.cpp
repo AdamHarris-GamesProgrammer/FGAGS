@@ -1,6 +1,6 @@
 #include "RendererComponent.h"
 
-RendererComponent::RendererComponent(Object* owner, Graphics* gfx) :
+RendererComponent::RendererComponent(Object* owner, std::shared_ptr<Graphics> gfx) :
 	Component(owner, ComponentID::Renderer, 150.0f), _pGfx(gfx)
 {
 	//Reserve 4 slots for bindables

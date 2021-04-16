@@ -78,7 +78,7 @@ public:
 	void SetInverse(const Matrix4& m) {
 		float det = GetDeterminant();
 		if (det == 0) return;
-		det = ((float)1.0f) / det;
+		det = 1.0f / det;
 		_data[0] = (-m._data[9] * m._data[6] + m._data[5] * m._data[10]) * det;
 		_data[4] = (m._data[8] * m._data[6] - m._data[4] * m._data[10]) * det;
 		_data[8] = (-m._data[8] * m._data[5] + m._data[4] * m._data[9] * m._data[15]) * det;
@@ -180,24 +180,24 @@ public:
 
 	//Takes the given matrix (in the form of an array) and fills it with the DirectX equivalent of the matrix
 	void DirectXArray(float array[16]) const {
-		array[0] = (float)_data[0];
-		array[1] = (float)_data[4];
-		array[2] = (float)_data[8];
-		array[3] = (float)0;
+		array[0] = _data[0];
+		array[1] = _data[4];
+		array[2] = _data[8];
+		array[3] = 0.0f;
 
-		array[4] = (float)_data[1];
-		array[5] = (float)_data[5];
-		array[6] = (float)_data[9];
-		array[7] = (float)0;
+		array[4] = _data[1];
+		array[5] = _data[5];
+		array[6] = _data[9];
+		array[7] = 0.0f;
 
-		array[8] = (float)_data[2];
-		array[9] = (float)_data[6];
-		array[10] = (float)_data[10];
-		array[11] = (float)0;
+		array[8] = _data[2];
+		array[9] = _data[6];
+		array[10] = _data[10];
+		array[11] = 0.0f;
 
-		array[12] = (float)_data[3];
-		array[13] = (float)_data[7];
-		array[14] = (float)_data[11];
-		array[15] = (float)1;
+		array[12] = _data[3];
+		array[13] = _data[7];
+		array[14] = _data[11];
+		array[15] = 1.0f;
 	}
 };
